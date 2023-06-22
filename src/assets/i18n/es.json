@@ -1,0 +1,70 @@
+{
+  "MENUITEMS": {
+    "MAIN": {
+      "TEXT": "Principal"
+    },
+    "DASHBOARD": {
+      "TEXT": "Tablero de mandos",
+      "LIST": {
+        "DASHBOARD1": "Tablero de mandos 1",
+        "DASHBOARD2": "Tablero de mandos 2"
+      }
+    },
+
+    "EMPLOYEE": {    
+        "DASHBOARD": "Tablero"
+    },
+    "CLIENT": {    
+      "TEXT": "Cliente",
+      "DASHBOARD": "Tablero"
+    }
+  },
+  "primeng": {
+    "firstDayOfWeek": 0,
+    "dayNames": ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado" ],
+    "dayNamesShort": ["Do","Lu", "Ma", "Mi", "Ju", "Vi", "Sá"],
+    "dayNamesMin": ["Do","Lu", "Ma", "Mi", "Ju", "Vi", "Sá"],
+    "monthNames": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre",
+      "Noviembre", "Diciembre"],
+    "monthNamesShort": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+    "today": "Hoy",
+    "clear": "Reiniciar",
+    "dateFormat": "dd/mm/yy",
+    "weekHeader": "Semana",
+    "startsWith": "Comienza con",
+    "contains": "Contiene",
+    "notContains": "No contiene",
+    "endsWith": "Termina con",
+    "equals": "Igual",
+    "notEquals": "No igual",
+    "noFilter": "No filtrar",
+    "lt": "Menor que",
+    "lte": "Menor o igual a",
+    "gt": "Mayor que",
+    "gte": "Mayor o igual a",
+    "is": "Es",
+    "isNot": "No es",
+    "before": "Antes",
+    "after": "Despues",
+    "dateIs": "La fecha es",
+    "dateIsNot": "La fecha no es",
+    "dateBefore": "La fecha es anterior",
+    "dateAfter": "La fecha es despues",
+    "apply": "Aplicar",
+    "matchAll": "Coincidir con todos",
+    "matchAny": "Coincidir con cualquiera",
+    "addRule": "Adicionar regla",
+    "removeRule": "Eliminar regla",
+    "accept": "Si",
+    "reject": "No",
+    "choose": "Seleccionar",
+    "upload": "Subir",
+    "cancel": "Cancelar",
+    "weak": "Débil",
+    "medium": "Medio",
+    "strong": "Fuerte",
+    "passwordPrompt": "Ingrese una contraseña",
+    "emptyMessage": "No se encontraron resultados",
+    "emptyFilterMessage": "No se encontraron resultados"
+  }
+}

@@ -2,6 +2,6 @@
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";
-@import "src/assets/pages/_auth.scss";
+@import "src/assets/scss/pages/_auth.scss";
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,0 +1,125 @@
+<div class="auth-container">
+    <div class="row auth-main">
+      <div class="col-sm-5 px-0 d-none d-sm-block">
+        <div class="left-img" style="background-image: url(assets/images/login_banner.png);">
+        </div>
+      </div>
+      <div class="col-sm-7 auth-form-section">
+        <div class="form-section">
+          <div class="auth-wrapper">
+            <h4 class="text-center fw-light">Bienvenida/o al</h4>
+            <h3 class="align-center">
+              {{'Sistema De Planilla Virtual' | uppercase}}
+              <span class="text-gold"></span>
+            </h3>
+            <hr class="mb-4">
+            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+            <h4 class="login-title mt-2">Registro de información</h4>
+            <div class="row">
+              <mat-stepper #stepper>
+                <mat-step [stepControl]="firstFormGroup" errorMessage="Campos de la empresa obligatorios.">
+                  <form [formGroup]="firstFormGroup">
+                    <ng-template matStepLabel>Datos de la empresa</ng-template>
+                    <div class="row">
+                      <div class="col">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>NIT</mat-label>
+                          <input matInput placeholder="NIT" formControlName="nit" mask="0000-000000-000-0" [showMaskTyped]="false" required>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>NRC</mat-label>
+                          <input matInput placeholder="NRC" formControlName="nrc" required>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>Razón social</mat-label>
+                          <input matInput placeholder="Razón social" formControlName="RazonSocialPersonaJuridica" required>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>Nombre comercial</mat-label>
+                          <input matInput placeholder="Nombre comercial" formControlName="NombreComercialPersonaJuridica" required>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div>
+                      <p>Continuar a datos del representante legal</p>
+                      <button mat-button matStepperNext>Siguiente</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <mat-step [stepControl]="secondFormGroup" errorMessage="Datos representante obligatorios.">
+                  <form [formGroup]="secondFormGroup">
+                    <ng-template matStepLabel>Datos del representante legal</ng-template>
+                    <div class="row">
+                      <div class="col">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>Nombre</mat-label>
+                          <input matInput placeholder="Nombres" formControlName="NombresPersonaNatural"
+                                 required>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>Apellido</mat-label>
+                          <input matInput placeholder="Apellidos" formControlName="ApellidosPersonaNatural"
+                                 required>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>Fecha de nacimiento</mat-label>
+                          <input matInput [matDatepicker]="picker" formControlName="FechaNacimientoPersonaNatural">
+                          <mat-hint>MM/DD/YYYY</mat-hint>
+                          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-select placeholder="Sexo" formControlName="SexoPersonalNatural">
+                            <mat-option *ngFor="let sexo of sexos" [value]="sexo.value">
+                              {{sexo.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div>
+                      <button mat-button matStepperPrevious>Atrás</button>
+                      <button mat-button matStepperNext>Siguiente</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <mat-step>
+                  <ng-template matStepLabel>Finalizar</ng-template>
+                  <p>Todo Listo</p>
+                  <div>
+                    <button mat-button matStepperPrevious>Atras</button>
+                    <button mat-button (click)="onSubmit()">Guardar</button>
+                  </div>
+                </mat-step>
+              </mat-stepper>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>

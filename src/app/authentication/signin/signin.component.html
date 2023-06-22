@@ -1,0 +1,69 @@
+<div class="auth-container">
+    <div class="row auth-main">
+      <div class="col-sm-6 px-0 d-none d-sm-block">
+        <div class="left-img" style="background-image: url(assets/images/login_banner.png);">
+        </div>
+      </div>
+      <div class="col-sm-6 auth-form-section">
+        <div class="form-section">
+          <div class="auth-wrapper">
+            <h4 class="text-center fw-light">Bienvenida/o al</h4>
+            <h3 class="align-center">
+              {{'Sistema Planilla Virtual' | uppercase}}
+              <span class="text-gold"></span>
+            </h3>
+            <hr class="mb-4">
+            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+            <h4 class="login-title mt-2">Inicio de sesión</h4>
+            <form class="validate-form" [formGroup]="authForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Usuario(a)</mat-label>
+                    <input matInput formControlName="username" oninput="this.value = this.value.toUpperCase()" maxlength="10"/>
+                    <mat-icon matSuffix>face</mat-icon>
+                    <mat-error *ngIf="authForm.get('username')?.hasError('required')">
+                      Usuario(a) es requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Clave</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" maxlength="10">
+                    <a class="show-pwd-icon" href="#" onClick="return false;" matSuffix (click)="hide = !hide"
+                      [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </a>
+                    <mat-error *ngIf="authForm.get('password')?.hasError('required')">
+                      Clave es requerida
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end align-items-center mb-3">
+                <a class="txt1" routerLink="/authentication/forgot-password">¿Ha olvidado su clave?</a>
+              </div>
+              <hr>
+  
+              <div class="mt-2">
+                <div style="text-align:center">
+                  <button mat-raised-button color="primary" [class.auth-spinner]="loading"
+                    class="auth-form-btn" [disabled]="loading || !authForm.valid " type="submit">Ingresar</button>
+                </div>
+              </div>
+              <div class="row mt-2 text-center">
+                <p class="auth-signup-text text-muted pb-0">
+                  ¿Necesita una cuenta?
+                  <a routerLink="/authentication/signup" class="sign-up-link">Registrarse</a>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>

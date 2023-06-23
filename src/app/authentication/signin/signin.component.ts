@@ -38,6 +38,7 @@ export class SigninComponent implements OnInit {
     this.authForm = this.formBuilder.group({
       username: ["", Validators.required],
       password: ["", Validators.required],
+      sucursal: ["", Validators.required],
     });
     // prevent sign in again when a token exist
     if (localStorage.getItem('PlanillaUser') !== null){

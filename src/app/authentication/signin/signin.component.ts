@@ -5,6 +5,7 @@ import { ILogin } from 'src/app/core/models/login.interface';
 import { endpoint } from "src/environments/endpoint";
 import { HttpClient } from "@angular/common/http";
 import { Router, ActivatedRoute } from "@angular/router";
+import { ICredencial } from 'src/app/core/models/credencial';
 
 import { AuthenticationService } from 'src/app/core/service/authentication.service';
 @Component({
@@ -18,6 +19,7 @@ export class SigninComponent implements OnInit {
   error = "";
   submitted = false;
   hide = true;
+  datosUsuario: ICredencial;
   authForm!: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
@@ -60,6 +62,16 @@ export class SigninComponent implements OnInit {
         username_or_email: this.f.username.value,
         password: this.f.password.value
       };
+      this.datosUsuario = {
+        id: 1,
+        fullname:"Usuario de prueba",
+        username: "usuario",
+        email: "usuario@corre.com",
+        uuid: "ghghgfhfgh",
+        token: "fgdfgdfgdfgfddf",
+      };
+      localStorage.setItem('PlanillaUser', JSON.stringify(this.datosUsuario));
+      this.router.navigate(['/dashboard']);
       this.authenticationService.validate(login).subscribe((res) => {
         console.log(res)
         if (res.success) {

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
-
+import { ICredencial } from 'src/app/core/models/credencial';
+import { IconOptions } from '@angular/material/icon';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -18,11 +20,14 @@ export class SignupComponent implements OnInit {
   registerForm: FormGroup;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
+  datosUsuario: ICredencial;
+  hide = true;
   sexos = [
     {value:'F', name:'Femenino'},
     {value:'M', name:'Masculino'},
   ];
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
 
@@ -52,6 +57,10 @@ export class SignupComponent implements OnInit {
       FechaNacimientoPersonaNatural: ['', Validators.required],
       SexoPersonalNatural: ['', Validators.required],
     });
+    this.thirdFormGroup = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+    });
   }
 
   onSubmit(){
@@ -59,7 +68,18 @@ export class SignupComponent implements OnInit {
       const data = {
         ...this.firstFormGroup.value,
         ...this.secondFormGroup.value,
+        ...this.thirdFormGroup.value,
       };
+      this.datosUsuario = {
+        id: 1,
+        fullname:"Usuario de prueba",
+        username: "usuario",
+        email: "usuario@corre.com",
+        uuid: "ghghgfhfgh",
+        token: "fgdfgdfgdfgfddf",
+      };
+      localStorage.setItem('PlanillaUser', JSON.stringify(this.datosUsuario));
+      this.router.navigate(['/dashboard']);
 
       console.log(data)
     }

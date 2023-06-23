@@ -96,6 +96,7 @@ export class HeaderComponent
     this.config = this.configService.configData;
     this.usuario = JSON.parse(localStorage.getItem("PlanillaUser"));
     console.log('inicia signalr en el navbar');
+    console.log(this.usuario)
 
     this.homePage = "dashboard";
   }

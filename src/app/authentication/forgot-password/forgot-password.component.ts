@@ -27,7 +27,7 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   onSubmit(){
-
+    this.router.navigate(['authentication/recover-password'])
   }
 
   redirect(){

@@ -1,5 +1,5 @@
 export interface ICredencial {
-    id: BigInteger;
+    id: any;
     fullname: string;
     username: string;
     email: string;

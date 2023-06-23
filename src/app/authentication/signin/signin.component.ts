@@ -21,6 +21,9 @@ export class SigninComponent implements OnInit {
   hide = true;
   datosUsuario: ICredencial;
   authForm!: FormGroup;
+  sucursales = [
+    {value:'1', name:'Central'},
+  ];
   constructor(
     private formBuilder: FormBuilder,
     private snack: MatSnackBar,

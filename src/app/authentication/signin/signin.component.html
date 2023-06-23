@@ -29,6 +29,21 @@
                 </div>
               </div>
               <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Sucursal</mat-label>
+                    <mat-select placeholder="Sucursal" formControlName="sucursal">
+                      <mat-option *ngFor="let sucursal of sucursales" [value]="sucursal.value">
+                        {{sucursal.name}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="authForm.get('username')?.hasError('required')">
+                      Usuario(a) es requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-xl-12col-lg-12 col-md-12 col-sm-12 mb-2">
                   <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Clave</mat-label>

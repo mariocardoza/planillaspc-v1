@@ -19,7 +19,7 @@ import { MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatSortModule } from "@angular/material/sort";
 import { MatStepperModule } from "@angular/material/stepper";
-
+import {MatCardModule} from '@angular/material/card';
 const materialModules = [
   MatButtonModule,
   MatInputModule,
@@ -27,6 +27,7 @@ const materialModules = [
   MatCheckboxModule,
   MatIconModule,
   MatTooltipModule,
+  MatCardModule,
   MatNativeDateModule,
   NgxMaskModule.forRoot(),
   MatButtonToggleModule,

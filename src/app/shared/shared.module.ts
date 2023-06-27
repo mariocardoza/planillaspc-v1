@@ -6,7 +6,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { MaterialModule } from "./material.module";
 import { FeatherIconsModule } from "./components/feather-icons/feather-icons.module";
-
+import { ComponentsModule } from "./components/components.module";
 import {MatRadioModule} from "@angular/material/radio";
 
 @NgModule({
@@ -16,6 +16,7 @@ import {MatRadioModule} from "@angular/material/radio";
         CommonModule,
         FormsModule,
         FeatherIconsModule,
+        ComponentsModule,
         ReactiveFormsModule,
         RouterModule,
         NgbModule,
@@ -30,6 +31,7 @@ import {MatRadioModule} from "@angular/material/radio";
     NgbModule,
     MaterialModule,
     FeatherIconsModule,
+    ComponentsModule
 
   ],
   providers: [CurrencyPipe]

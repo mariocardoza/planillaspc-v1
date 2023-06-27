@@ -1,0 +1,7 @@
+<div>
+    <input type ="file" accept="image/jpg,image/jpeg,image/gif,image/png,application/pdf" #file placeholder="Seleccionar Archivo" (change)="uploadFile(file.files)" style="display: none;">
+    <button type="button" mat-button (click)="file.click()">
+        <i class="fas fa-file"></i>
+        <div class="upload" *ngIf="progress >0">{{progress}}%</div>
+    </button>
+</div>

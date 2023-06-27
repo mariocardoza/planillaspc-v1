@@ -9,6 +9,7 @@ export const endpoint = {
     api: {
         empty: ws.api + '/',
         auth: ws.api + '/auth',
+        upload: ws.api + "/Upload",
     },
     current: {
         images: ws.me + '/assets/images/'

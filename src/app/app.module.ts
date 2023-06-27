@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -9,22 +9,32 @@ import { MainLayoutComponent } from './layout/app-layout/main-layout/main-layout
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './layout/header/header.component';
 import { SharedModule } from "./shared/shared.module";
+import { SidebarComponent } from './layout/sidebar/sidebar.component';
+import { MatIconModule } from '@angular/material/icon';
+//import { UploadComponent } from './shared/components/upload/upload.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
-    HeaderComponent
+    HeaderComponent,
+    SidebarComponent,
+    //UploadComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    MatIconModule
+  ],
+  entryComponents: [
+   // UploadComponent
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

@@ -1,4 +1,4 @@
-export interface InConfiguration {
+export interface IConfiguration {
     layout: {
       rtl: boolean;
       variant: string;

@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
-import { InConfiguration } from "../core/models/config.interface";
+import { IConfiguration } from "../core/models/config.interface";
 
 @Injectable({
   providedIn: "root",
 })
 export class ConfigService {
-  public configData: InConfiguration;
+  public configData: IConfiguration;
 
   constructor() {
     this.setConfigData();

@@ -1,0 +1,38 @@
+<div>
+    <!-- Left Sidebar -->
+    <aside id="leftsidebar" class="sidebar" (mouseenter)="mouseHover($event)" (mouseleave)="mouseOut($event)">
+      <!-- Menu -->
+      <div class="menu">
+        <ul class="list"
+          [ngStyle]="{'position' : 'relative', 'max-height' : listMaxHeight+'px', 'max-width' : listMaxWidth+'px'}"
+          >
+          <li class="sidebar-user-panel my-3 pe-none">
+            <div class="profile-usertitle">
+              <div class="sidebar-userpic-name">{{usuario.email}} </div>
+              <div class="profile-usertitle-job mt-2 text-secondary">{{usuario.fullname}}</div>
+            </div>
+          </li>
+          <li class="sidebar-user-panel mt-5 mb-1 pe-none">
+            <div class="profile-usertitle">
+              <div class="text-gold">Opciones</div>
+            </div>
+            <hr class="mt-2 mb-0">
+          </li>
+          <li>
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label style="color: white">Buscar</mat-label>
+              <input matInput autocomplete="off" style="color: white">
+            </mat-form-field>
+          </li>
+          <li>
+            <a class="" class="menu-top">
+              <i>No se han encontrado coincidencias</i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- #Menu -->
+    </aside>
+    <!-- #END# Left Sidebar -->
+  </div>
+  

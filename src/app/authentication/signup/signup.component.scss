@@ -1,3 +1,15 @@
 .auth-wrapper{
     width: 85%;
 }
+mat-datepicker-toggle{
+    float: right;
+    margin-top: -2.5rem;
+}
+app-upload{
+    float: right;
+    margin-top: -2.5rem;
+}
+
+::ng-deep .mat-horizontal-stepper-header{
+    pointer-events: none !important;
+}

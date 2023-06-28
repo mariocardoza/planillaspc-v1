@@ -1,14 +1,21 @@
 import { NgModule } from '@angular/core';
-import {MAT_DATE_LOCALE} from "@angular/material/core";
-import { ComponentsModule } from '../shared/components/components.module';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from "@angular/forms";
+
+import { DashboardRoutingModule } from './dashboard-routing.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { PlanillaComponent } from './planilla/planilla.component';
+
+
 @NgModule({
   declarations: [
+    DashboardComponent,
+    PlanillaComponent
   ],
   imports: [
-    ComponentsModule
-  ],
-    providers: [
-        { provide: MAT_DATE_LOCALE, useValue: 'es-SV'}
-    ]
+    CommonModule,
+    FormsModule,
+    DashboardRoutingModule
+  ]
 })
 export class DashboardModule { }

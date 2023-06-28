@@ -33,8 +33,8 @@
                     <button class="btn btn-primary" mat-button matStepperNext>Siguiente</button>
                   </div>
                 </mat-step>
-                <mat-step [stepControl]="firstFormGroup" errorMessage="Campos de la empresa obligatorios.">
-                  <form [formGroup]="firstFormGroup">
+                <mat-step [stepControl]="personaJuridica" errorMessage="Campos de la empresa obligatorios.">
+                  <form [formGroup]="personaJuridica">
                     <ng-template matStepLabel>Datos de la empresa</ng-template>
                     <mat-card>
                       Colocar la información de la empresa
@@ -43,30 +43,30 @@
                     <div class="row">
                       <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
-                          <mat-label>NIT</mat-label>
-                          <input matInput placeholder="NIT" formControlName="nit" mask="0000-000000-000-0" [showMaskTyped]="false" required>
-                        </mat-form-field>
-                      </div>
-                   
-                      <div class="col-12 col-md-6">
-                        <mat-form-field class="full-width" appearance="fill">
-                          <mat-label>NRC</mat-label>
-                          <input matInput placeholder="NRC" mask="000000-0" [showMaskTyped]="false" formControlName="nrc" required>
-                        </mat-form-field>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12 col-md-6">
-                        <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Razón social</mat-label>
-                          <input matInput placeholder="Razón social" formControlName="RazonSocialPersonaJuridica" required>
+                          <input matInput placeholder="Razón social" formControlName="RazonSocial" required>
                         </mat-form-field>
                       </div>
                     
                       <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Nombre comercial</mat-label>
-                          <input matInput placeholder="Nombre comercial" formControlName="NombreComercialPersonaJuridica" required>
+                          <input matInput placeholder="Nombre comercial" formControlName="NombreComercial" required>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12 col-md-6">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>NIT</mat-label>
+                          <input matInput placeholder="NIT" formControlName="NIT" mask="0000-000000-000-0" [showMaskTyped]="false" required>
+                        </mat-form-field>
+                      </div>
+                   
+                      <div class="col-12 col-md-6">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>NRC</mat-label>
+                          <input matInput placeholder="NRC" mask="000000-0" [showMaskTyped]="false" formControlName="NRC" required>
                         </mat-form-field>
                       </div>
                     </div>
@@ -74,7 +74,7 @@
                       <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Tipo de Empresa</mat-label>
-                          <mat-select formControlName="CodigoTipoEmpresa" required placeholder="Tipo de Empresa">
+                          <mat-select formControlName="TipoEmpresa" required placeholder="Tipo de Empresa">
                               <mat-option value="P">Privada</mat-option>
                               <mat-option value="G">Gobierno</mat-option>
                           </mat-select>
@@ -82,60 +82,31 @@
                       </div>
                       <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
-                          <mat-label>Ubicación Geográfica (Municipio - Departamento)</mat-label>
-                          <mat-select placeholder="Ubicación Geográfica" formControlName="CodigoUbicacionGeografica" #singleSelect1 required>
-                              <mat-option>
-                                  <ngx-mat-select-search formControlName="itemFilterCtrl1" 
-                                  placeholderLabel="Buscar"
-                                  noEntriesFoundLabel="No hay resultados"></ngx-mat-select-search>
-                              </mat-option>
-                          
-                              <mat-option *ngFor="let item of departments" [value]="item.tcampo1">
-                                  {{item.tcampo2}}
-                              </mat-option>
-                          </mat-select>
-                      </mat-form-field>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12 col-md-6">
-                        <mat-form-field class="full-width" appearance="fill">
-                          <mat-label>Correo Electrónico</mat-label>
-                          <input matInput placeholder="Correo electrónico" formControlName="CorreoPersonaJuridica" required>
-
-                        </mat-form-field>
-                      </div>
-                      <div class="col-12 col-md-6">
-                        <mat-form-field class="full-width" appearance="fill">
-                          <mat-label>Teléfono fijo</mat-label>
-                          <input matInput mask="00000000" placeholder="Teléfono" formControlName="NoTelefonoFijo" required>
-
-                        </mat-form-field>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12 col-md-6">
-                        <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Imagen del NIT</mat-label>
-                          <input matInput formControlName="ImagenNIT" required placeholder="Imagen NIT" readonly>
+                          <input matInput formControlName="ImagenNIT"  placeholder="Imagen NIT" readonly>
                           <app-upload (onUploadFinished)=uploadFinishedNITEmp($event)></app-upload>
                         </mat-form-field>
                       </div>
+                    </div>
+                    <div class="row">
                       <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Imagen del NRC</mat-label>
-                          <input matInput formControlName="ImagenNRC" required placeholder="Imagen NRC" readonly>
+                          <input matInput formControlName="ImagenNRC"  placeholder="Imagen NRC" readonly>
                           <app-upload (onUploadFinished)=uploadFinishedNRCEmp($event)></app-upload>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-12 col-md-6">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>Imagen de la escritura de propiedad</mat-label>
+                          <input matInput formControlName="ImagenEscritura"  placeholder="Imagen Escritura" readonly>
+                          <app-upload (onUploadFinished)=uploadFinishedEscrituraEmp($event)></app-upload>
                         </mat-form-field>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-12 col-md-6">
-                        <mat-form-field class="full-width" appearance="fill">
-                          <mat-label>Imagen de la escritura de propiedad</mat-label>
-                          <input matInput formControlName="ImagenEscritura" required placeholder="Imagen Escritura" readonly>
-                          <app-upload (onUploadFinished)=uploadFinishedEscrituraEmp($event)></app-upload>
-                        </mat-form-field>
+                        
                       </div>
                       <div class="col-12 col-md-6">
                         
@@ -144,46 +115,73 @@
                     <div>
                       <p>Continuar a datos del representante legal</p>
                       <button class="btn btn-primary" mat-button matStepperPrevious>Atras</button>
-                      <button class="btn btn-primary" mat-button matStepperNext>Siguiente</button>
+                      <button class="btn btn-primary" *ngIf="this.personaJuridica.valid" mat-button matStepperNext>Siguiente</button>
                     </div>
                   </form>
                 </mat-step>
-                <mat-step [stepControl]="secondFormGroup" errorMessage="Datos representante obligatorios.">
-                  <form [formGroup]="secondFormGroup">
+                <mat-step [stepControl]="personaNatural" completed="false" errorMessage="Datos representante obligatorios.">
+                  <form [formGroup]="personaNatural">
                     <ng-template matStepLabel>Datos del representante legal</ng-template>
                     <div class="row">
-                      <div class="col">
+                      <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
-                          <mat-label>Nombre</mat-label>
-                          <input matInput placeholder="Nombres" formControlName="NombresPersonaNatural"
+                          <mat-label>Primer nombre</mat-label>
+                          <input matInput placeholder="Nombres" formControlName="Nombre1"
                                  required>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>Segundo nombre</mat-label>
+                          <input matInput placeholder="Nombres" formControlName="Nombre2"
+                                 >
+                        </mat-form-field>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>Tercer nombre</mat-label>
+                          <input matInput placeholder="Nombres" formControlName="Nombre2"
+                                 >
                         </mat-form-field>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col">
+                      <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
-                          <mat-label>Apellido</mat-label>
-                          <input matInput placeholder="Apellidos" formControlName="ApellidosPersonaNatural"
+                          <mat-label>Primer apellido</mat-label>
+                          <input matInput placeholder="Apellidos" formControlName="Apellido1"
                                  required>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>Segundo apellido</mat-label>
+                          <input matInput placeholder="Apellidos" formControlName="Apellido2"
+                                 >
+                        </mat-form-field>
+                      </div>
+                      <div class="col-12 col-md-4">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>Apellido de casada</mat-label>
+                          <input matInput placeholder="Apellidos" formControlName="ApellidoCasada"
+                                 >
                         </mat-form-field>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col">
+                      <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Fecha de nacimiento</mat-label>
-                          <input matInput [matDatepicker]="picker" formControlName="FechaNacimientoPersonaNatural">
+                          <input matInput [matDatepicker]="picker" formControlName="FechaNacimiento">
                           <mat-hint>MM/DD/YYYY</mat-hint>
                           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                           <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
+                  
+                      <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
-                          <mat-select placeholder="Sexo" formControlName="SexoPersonalNatural">
+                          <mat-select placeholder="Sexo" formControlName="Sexo">
                             <mat-option *ngFor="let sexo of sexos" [value]="sexo.value">
                               {{sexo.name}}
                             </mat-option>
@@ -193,22 +191,38 @@
                     </div>
                     <div>
                       <button class="btn btn-primary" mat-button matStepperPrevious>Atrás</button>
-                      <button class="btn btn-primary" mat-button matStepperNext>Siguiente</button>
+                      <button class="btn btn-primary" *ngIf="this.personaNatural.valid" mat-button matStepperNext>Siguiente</button>
                     </div>
                   </form>
                 </mat-step>
-                <mat-step [stepControl]="thirdFormGroup" errorMessage="Datos de inicio se sesión">
-                  <form [formGroup]="thirdFormGroup">
+                <mat-step [stepControl]="userFormGroup" errorMessage="Datos de inicio se sesión">
+                  <form [formGroup]="userFormGroup">
                     <ng-template matStepLabel>Datos para inicio de sesión</ng-template>
                     <mat-card>
                       Colocar la información que utilizará para iniciar sesión
+                    </mat-card>
+                    <p>Ingrese datos solicitados, la clave debe ser segura</p>
+                    <br>
+                    <mat-card>
+                      <b>Una clave segura debe contener:</b>
+                      <br>
+                      <mat-card-content>
+                        <ol>
+                          <li>Al menos 6 caracteres de longitud, máximo 10 caracteres</li>
+                          <li>Al menos una letra minúscula</li>
+                          <li>Al menos una letra mayúscula</li>
+                          <li>Al menos un número</li>
+                          <li>Al menos un caracter especial: *[$@$!%*?&]</li>
+                        </ol>
+                      </mat-card-content>  
+                      <br>  
                     </mat-card>
                     <br>
                     <div class="row">
                       <div class="col">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Nombre de usuario</mat-label>
-                          <input matInput placeholder="Nombre de usuario" formControlName="username"
+                          <input matInput placeholder="Nombre de usuario" formControlName="Username"
                                  required>
                         </mat-form-field>
                       </div>
@@ -217,12 +231,21 @@
                       <div class="col">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Clave</mat-label>
-                          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" maxlength="30">
+                          <input matInput [type]="hide ? 'password' : 'text'" formControlName="Password" maxlength="30">
                           <a class="show-pwd-icon" href="#" onClick="return false;" matSuffix (click)="hide = !hide"
                             [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                           </a>
                         </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <mat-form-field class="full-width">
+                          <mat-label>Confirme la Clave de su Usuario</mat-label>
+                          <input matInput placeholder="Confirme Clave" [type]="hide ? 'password' : 'text'" formControlName="ConfirmPassword" maxlength="30" required>
+                          <mat-error *ngIf="userFormGroup.controls['ConfirmPassword'].pristine || userFormGroup.controls['ConfirmPassword'].errors?.MatchPassword">La clave confirmada no es igual</mat-error>
+                      </mat-form-field>
                       </div>
                     </div>
                     <div>
@@ -254,8 +277,8 @@
                   <ng-template matStepLabel>Finalizar</ng-template>
                   <p>Todo Listo</p>
                   <div>
-                    <button mat-button matStepperPrevious>Atras</button>
-                    <button mat-button (click)="onSubmit()">Guardar</button>
+                    <button class="btn btn-primary" mat-button matStepperPrevious>Atras</button>
+                    <button class="btn btn-primary" mat-button (click)="onSubmit()">Guardar</button>
                   </div>
                 </mat-step>
               </mat-stepper>

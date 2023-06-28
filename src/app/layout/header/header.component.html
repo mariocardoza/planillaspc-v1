@@ -1,73 +1,75 @@
 <nav #navbar class="navbar active">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a href="#" onClick="return false;" class="navbar-toggle collapsed"
-          (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-expanded="false"></a>
-        <a href="#" onClick="return false;" class="bars" (click)="mobileMenuSidebarOpen($event,'overlay-open')"></a>
-        <a class="navbar-brand" routerLink={{homePage}} (click)="restartMenu()">
-          <img src="assets/images/logo.svg" alt="" width="33px" height="33px"/>
-          <span class="logo-name">Planilla Digital</span>
-        </a>
-      </div>
-      <div class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed">
-        <ul class="float-start collapse-menu-icon">
-          <li>
-            <button mat-icon-button (click)="callSidemenuCollapse()" class="sidemenu-collapse">
-              <app-feather-icons [icon]="'menu'" [class]="'header-icon'"></app-feather-icons>
-            </button>
-          </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <!-- #START# Notifications-->
-          <li class="nav-item btnNotification" ngbDropdown>
-            
-            <div ngbDropdownMenu class="notification-dropdown pullDown">
-              <div class="noti-list" style="position: relative; max-width: 600px; max-height: 350px;">
-                <ul class="menu">
-                  <li class="nfc-header">
-                    <h5 class="mb-0">Notificaciones</h5>
-                  </li>
-                  <li>
-                    
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <!-- #END# Notifications-->
-          <li class="nav-item user_profile btnUserDropdown" ngbDropdown>
-            <span *ngIf="usuario">{{usuario.fullname}}</span>
-            <button mat-icon-button ngbDropdownToggle class="nav-notification-icons">
-              <app-feather-icons [icon]="'user'" [class]="'header-icon'"></app-feather-icons>
-            </button>
-            <div ngbDropdownMenu class="notification-dropdown pullDown">
-              <div class="noti-list" style="position: relative; max-width: 600px; max-height: 300px;">
-                <ul class="menu">
-                  <li class="body">
-                    <ul class="user_dw_menu">
-                      <li>
-                        <a routerLink={{homePage}}>
-                          <app-feather-icons [icon]="'settings'" [class]="'user-menu-icons'"></app-feather-icons>Tablero Principal
-                        </a>
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="#" onClick="return false;" class="navbar-toggle collapsed"
+            (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-expanded="false"></a>
+          <a href="#" onClick="return false;" class="bars" (click)="mobileMenuSidebarOpen($event,'overlay-open')"></a>
+          <a class="navbar-brand" routerLink={{homePage}} (click)="restartMenu()">
+            <img src="assets/images/logo.svg" alt="" width="33px" height="33px"/>
+            <span class="logo-name">Planilla Digital</span>
+          </a>
+        </div>
+        <section>
+          <div class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed">
+            <ul class="float-start collapse-menu-icon">
+              <li>
+                <button mat-icon-button (click)="callSidemenuCollapse()" class="sidemenu-collapse">
+                  <app-feather-icons [icon]="'menu'" [class]="'header-icon'"></app-feather-icons>
+                </button>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <!-- #START# Notifications-->
+              <li class="nav-item btnNotification" ngbDropdown>
+                
+                <div ngbDropdownMenu class="notification-dropdown pullDown">
+                  <div class="noti-list" style="position: relative; max-width: 600px; max-height: 350px;">
+                    <ul class="menu">
+                      <li class="nfc-header">
+                        <h5 class="mb-0">Notificaciones</h5>
                       </li>
                       <li>
-                        <a href="#" onClick="return false;">
-                          <app-feather-icons [icon]="'mail'" [class]="'user-menu-icons'"></app-feather-icons>Mensajes
-                        </a>
-                      </li>  
-                      <li>
-                        <a href="#" (click)="logout()">
-                          <app-feather-icons [icon]="'log-out'" [class]="'user-menu-icons'"></app-feather-icons>Salir
-                        </a>
+                        
                       </li>
                     </ul>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <!-- #END# Tasks -->
-        </ul>
+                  </div>
+                </div>
+              </li>
+              <!-- #END# Notifications-->
+              <li class="nav-item user_profile btnUserDropdown" ngbDropdown>
+                <span *ngIf="usuario">{{usuario.fullname}}</span>
+                <button mat-icon-button ngbDropdownToggle class="nav-notification-icons">
+                  <app-feather-icons [icon]="'user'" [class]="'header-icon'"></app-feather-icons>
+                </button>
+                <div ngbDropdownMenu class="notification-dropdown pullDown">
+                  <div class="noti-list" style="position: relative; max-width: 600px; max-height: 300px;">
+                    <ul class="menu">
+                      <li class="body">
+                        <ul class="user_dw_menu">
+                          <li>
+                            <a routerLink={{homePage}}>
+                              <app-feather-icons [icon]="'settings'" [class]="'user-menu-icons'"></app-feather-icons>Tablero Principal
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#" onClick="return false;">
+                              <app-feather-icons [icon]="'mail'" [class]="'user-menu-icons'"></app-feather-icons>Mensajes
+                            </a>
+                          </li>  
+                          <li>
+                            <a href="#" (click)="logout()">
+                              <app-feather-icons [icon]="'log-out'" [class]="'user-menu-icons'"></app-feather-icons>Salir
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <!-- #END# Tasks -->
+            </ul>
+          </div>
+        </section>
       </div>
-    </div>
-  </nav>  
+</nav>  

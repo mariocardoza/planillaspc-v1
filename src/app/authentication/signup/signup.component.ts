@@ -24,9 +24,9 @@ export class SignupComponent implements OnInit {
   error= '';
   accepted: boolean = false;
   registerForm: FormGroup;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  thirdFormGroup: FormGroup;
+  personaJuridica: FormGroup;
+  personaNatural: FormGroup;
+  userFormGroup: FormGroup;
   fourthFormGroup: FormGroup;
   datosUsuario: ICredencial;
   public itemFilterCtrl1: FormControl = new FormControl();
@@ -61,29 +61,31 @@ export class SignupComponent implements OnInit {
       })
     });*/
 
-    this.firstFormGroup = this.formBuilder.group({
-      nit: ['', Validators.required],
-      nrc: ['', Validators.required],
-      RazonSocialPersonaJuridica: ['',Validators.required],
-      itemFilterCtrl1: ['',Validators.required],
-      CorreoPersonaJuridica: ['',Validators.required, Validators.email],
-      NoTelefonoFijo: [''],
-      ImagenNIT: ['',Validators.required],
-      ImagenNRC: ['',Validators.required],
-      ImagenEscritura: ['',Validators.required],
-      CodigoTipoEmpresa: ['',Validators.required],
-      CodigoUbicacionGeografica: ['',Validators.required],
-      NombreComercialPersonaJuridica: ['',Validators.required]
+    this.personaJuridica = this.formBuilder.group({
+      NIT: ['', Validators.required],
+      NRC: ['', Validators.required],
+      RazonSocial: ['',Validators.required],
+      ImagenNIT: ['',''],
+      ImagenNRC: ['',''],
+      ImagenEscritura: ['',''],
+      TipoEmpresa: ['',Validators.required],
+      NombreComercial: ['',Validators.required]
     });
-    this.secondFormGroup = this.formBuilder.group({
-      ApellidosPersonaNatural: ['', Validators.required],
-      NombresPersonaNatural: ['', Validators.required],
-      FechaNacimientoPersonaNatural: ['', Validators.required],
-      SexoPersonalNatural: ['', Validators.required],
+    this.personaNatural = this.formBuilder.group({
+      Nombre1: ['', Validators.required],
+      Nombre2: ['', ''],
+      Nombre3: ['', ''],
+      Apellido1: ['', Validators.required],
+      Apellido2: ['', ''],
+      ApellidoCasada: ['', ''],
+      FechaNacimiento: ['', Validators.required],
+      Sexo: ['', Validators.required],
+      CodigoNombreDui: ['', ],
     });
-    this.thirdFormGroup = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
+    this.userFormGroup = this.formBuilder.group({
+      Username: ['', Validators.required],
+      Password: ['', Validators.required],
+      ConfirmPassword: ['', Validators.required]
     });
     this.fourthFormGroup = this.formBuilder.group({
       aceptado: [0,'']
@@ -100,21 +102,21 @@ export class SignupComponent implements OnInit {
 
   public uploadFinishedNITEmp = (event) => {
     this.response = event;
-    this.firstFormGroup.patchValue({
+    this.personaJuridica.patchValue({
       ImagenNIT:  this.response.dbPath
     });     
   }
 
   public uploadFinishedNRCEmp = (event) => {
     this.response = event;
-    this.firstFormGroup.patchValue({
+    this.personaJuridica.patchValue({
       ImagenNIT:  this.response.dbPath
     });     
   }
 
   public uploadFinishedEscrituraEmp = (event) => {
     this.response = event;
-    this.firstFormGroup.patchValue({
+    this.personaJuridica.patchValue({
       ImagenNIT:  this.response.dbPath
     });     
   }
@@ -166,11 +168,11 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit(){
-    if (this.firstFormGroup.valid && this.secondFormGroup.valid) {
+    if (this.personaJuridica.valid && this.personaNatural.valid) {
       const data = {
-        ...this.firstFormGroup.value,
-        ...this.secondFormGroup.value,
-        ...this.thirdFormGroup.value,
+        ...this.personaJuridica.value,
+        ...this.personaNatural.value,
+        ...this.userFormGroup.value,
       };
       this.datosUsuario = {
         id: 1,

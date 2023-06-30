@@ -12,8 +12,8 @@ export const environment = {
       prefix: ''
     },
     api:{
-      host: 'https://dev.apitest.iw.sv',
-      port: '80',
+      host: 'https://localhost',
+      port: '7149',
       prefix: 'api'
     }
   },

@@ -12,7 +12,8 @@ import { SharedModule } from "./shared/shared.module";
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { MatIconModule } from '@angular/material/icon';
 //import { UploadComponent } from './shared/components/upload/upload.component';
-
+import { ToastrModule } from 'ngx-toastr';
+import { PageLoaderComponent } from './layout/page-loader/page-loader.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
     MainLayoutComponent,
     HeaderComponent,
     SidebarComponent,
+    PageLoaderComponent,
     //UploadComponent
   ],
   imports: [
@@ -28,7 +30,8 @@ import { MatIconModule } from '@angular/material/icon';
     BrowserAnimationsModule,
     SharedModule,
     HttpClientModule,
-    MatIconModule
+    MatIconModule,
+    ToastrModule.forRoot()
   ],
   entryComponents: [
    // UploadComponent

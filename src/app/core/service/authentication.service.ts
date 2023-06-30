@@ -36,6 +36,28 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
    }
 
+   validateDUI(dui): Observable<any>{
+    const url = endpoint.api.naturales+"/"+dui;
+    return this.http.get(url).pipe(tap((result : any) => {
+      if(result.success){
+        return result
+      }
+    }))
+   }
+
+   validateNIT(nit): Observable<any>{
+    const url = endpoint.api.juridicas+"/"+nit;
+    return this.http.get(url).pipe(tap((result : any) => {
+      if(result.success){
+        return result
+      }else{
+        return result;
+      }
+    }),
+    catchError(this.handleError)
+    );
+   }
+
    validate(credenciales: ILogin): Observable<any> {
     const url = endpoint.api.auth+'/login';
     const headers = { 'Accept': 'application/json'};

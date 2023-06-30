@@ -7,7 +7,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MaterialModule } from "./material.module";
 import { FeatherIconsModule } from "./components/feather-icons/feather-icons.module";
 import { ComponentsModule } from "./components/components.module";
-import {MatRadioModule} from "@angular/material/radio";
+import { MatRadioModule } from "@angular/material/radio";
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {MatRadioModule} from "@angular/material/radio";
         NgbModule,
         MaterialModule,
         MatRadioModule,
+        NgxSpinnerModule
     ],
   exports: [
     CommonModule,
@@ -31,7 +33,8 @@ import {MatRadioModule} from "@angular/material/radio";
     NgbModule,
     MaterialModule,
     FeatherIconsModule,
-    ComponentsModule
+    ComponentsModule,
+    NgxSpinnerModule
 
   ],
   providers: [CurrencyPipe]

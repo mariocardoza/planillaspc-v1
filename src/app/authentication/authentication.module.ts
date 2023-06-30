@@ -17,6 +17,7 @@ import { MaterialModule } from 'src/app/shared/material.module';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { RecoverPasswordComponent } from './recover-password/recover-password.component';
 import { ComponentsModule } from "../shared/components/components.module";
+import { SignupCompleteComponent } from './signup-complete/signup-complete.component';
 //import { UploadComponent } from "../shared/components/upload/upload.component";
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ComponentsModule } from "../shared/components/components.module";
     SigninComponent,
     SignupComponent,
     ForgotPasswordComponent,
-    RecoverPasswordComponent
+    RecoverPasswordComponent,
+    SignupCompleteComponent
   ],
   imports: [
     CommonModule,

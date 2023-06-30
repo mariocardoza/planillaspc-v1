@@ -5,3 +5,11 @@
 @import "src/assets/scss/pages/_auth.scss";
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.bg-danger{
+    background-color: red;
+}
+
+.text-light{
+    color: white;
+}

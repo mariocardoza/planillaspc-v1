@@ -1,4 +1,38 @@
+<ng-template #buscarnit let-modal>
+  <div class="modal-header">
+    <h4 class="text-center">Digite NIT para buscar empresa</h4>
+    <button class="close" aria-label="close" type="button" (click)="modal.dismiss()"><span>&times;</span></button>
+  </div>
+  <div class="modal-body">
+    <form class="validate-form" [formGroup]="nitForm" (ngSubmit)="onNit()">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>NIT</mat-label>
+            <input matInput formControlName="NIT" [dropSpecialCharacters]="false" mask="0000-000000-000-0" maxlength="20"/>
+            <mat-icon matSuffix>face</mat-icon>
+            <mat-error *ngIf="nitForm.get('NIT')?.hasError('required')">
+              NIT es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="mt-2">
+        <div style="text-align:center">
+          <button mat-raised-button color="primary" [class.auth-spinner]="loading"
+            class="auth-form-btn" [disabled]="loading || !nitForm.valid " type="submit">Buscar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer"></div>
+</ng-template>
 <div class="auth-container">
+  <nav class="navbar navbar-light dark" color="dark">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1"><img width="250" src="/assets/images/logo.png" alt=""></span>
+    </div>
+  </nav>
     <div class="row auth-main">
       <div class="col-sm-6 px-0 d-none d-sm-block">
         <div class="left-img" style="background-image: url(assets/images/login_banner.png);">
@@ -28,7 +62,7 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div class="row">
+              <!--div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                   <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Sucursal</mat-label>
@@ -42,7 +76,7 @@
                     </mat-error>
                   </mat-form-field>
                 </div>
-              </div>
+              </div-->
               <div class="row">
                 <div class="col-xl-12col-lg-12 col-md-12 col-sm-12 mb-2">
                   <mat-form-field class="full-width" appearance="outline">
@@ -72,7 +106,7 @@
               <div class="row mt-2 text-center">
                 <p class="auth-signup-text text-muted pb-0">
                   ¿Necesita una cuenta?
-                  <a routerLink="/authentication/signup" class="sign-up-link">Registrarse</a>
+                  <a href="javascript:void(0)" (click)="modal.open(buscarnit)" class="sign-up-link">Registrarse</a>
                 </p>
               </div>
             </form>
@@ -81,4 +115,4 @@
       </div>
   
     </div>
-  </div>
+</div>

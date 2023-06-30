@@ -76,6 +76,7 @@
     "ngx-mat-select-search": "^4.2.1",
     "ngx-perfect-scrollbar": "^10.1.1",
     "ngx-spinner": "^11.0.1",
+    "ngx-toastr": "^14.3.0",
     "pdfmake": "^0.2.7",
     "pdfmake-wrapper": "^2.1.2",
     "primeicons": "^5.0.0",

@@ -1,9 +1,10 @@
 <div class="auth-container">
+  <nav class="navbar navbar-light dark" color="dark">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1"><img width="250" src="/assets/images/logo.png" alt=""></span>
+    </div>
+  </nav>
     <div class="row auth-main">
-      <div class="col-sm-12 px-0 d-none d-sm-block">
-        <div class="left-img" style="background-image: url(assets/images/login_banner.png);">
-        </div>
-      </div>
       <div class="col-sm-12 auth-form-section">
         <div class="form-section">
           <div class="auth-wrapper">
@@ -14,7 +15,7 @@
             </h3>
             <hr class="mb-4">
             <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-            <h4 class="login-title mt-2">Registro de información</h4>
+            <h4 class="login-title mt-2">Registro de datos de empresas PGR</h4>
             <p class="text-center">Registre la información que se le pide en cada paso</p>
             <div class="row">
               <mat-stepper #stepper>
@@ -23,18 +24,16 @@
                   <p>Requerirá de información de la empresa como del representante legal </p>
                   <div>Datos que que serán necesarios
                     <ul>
-                      <li>NIT de la empresa</li>
-                      <li>Registro de IVA (NRC)</li>
-                      <li>Foto del iva</li>
-                      <li>Foto o documento de la escritura pública de la empresa</li>
+                      <li>NIT de la empresa (150%)</li>
+                      <li>Foto del DUI de representante legal (150%)</li>
                     </ul>
                   </div>
                   <div>
                     <button class="btn btn-primary" mat-button matStepperNext>Siguiente</button>
                   </div>
                 </mat-step>
-                <mat-step [stepControl]="personaJuridica" errorMessage="Campos de la empresa obligatorios.">
-                  <form [formGroup]="personaJuridica">
+                <mat-step [stepControl]="personaJuridicaFormGroup" errorMessage="Campos de la empresa obligatorios.">
+                  <form [formGroup]="personaJuridicaFormGroup">
                     <ng-template matStepLabel>Datos de la empresa</ng-template>
                     <mat-card>
                       Colocar la información de la empresa
@@ -43,8 +42,8 @@
                     <div class="row">
                       <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
-                          <mat-label>Razón social</mat-label>
-                          <input matInput placeholder="Razón social" formControlName="RazonSocial" required>
+                          <mat-label>NIT</mat-label>
+                          <input matInput placeholder="NIT" (blur)="findNIT()" formControlName="NIT" [dropSpecialCharacters]="false" mask="0000-000000-000-0" [showMaskTyped]="true" required>
                         </mat-form-field>
                       </div>
                     
@@ -58,15 +57,15 @@
                     <div class="row">
                       <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
-                          <mat-label>NIT</mat-label>
-                          <input matInput placeholder="NIT" formControlName="NIT" mask="0000-000000-000-0" [showMaskTyped]="false" required>
+                          <mat-label>Razón social</mat-label>
+                          <input matInput placeholder="Razón social" formControlName="RazonSocial" required>
                         </mat-form-field>
                       </div>
                    
                       <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
-                          <mat-label>NRC</mat-label>
-                          <input matInput placeholder="NRC" mask="000000-0" [showMaskTyped]="false" formControlName="NRC" required>
+                          <mat-label>Código PGR</mat-label>
+                          <input matInput placeholder="NRC" mask="000000" [showMaskTyped]="false" formControlName="codigoPGR" required>
                         </mat-form-field>
                       </div>
                     </div>
@@ -76,7 +75,7 @@
                           <mat-label>Tipo de Empresa</mat-label>
                           <mat-select formControlName="TipoEmpresa" required placeholder="Tipo de Empresa">
                               <mat-option value="P">Privada</mat-option>
-                              <mat-option value="G">Gobierno</mat-option>
+                              <mat-option value="R">Gobierno</mat-option>
                           </mat-select>
                         </mat-form-field>
                       </div>
@@ -88,7 +87,7 @@
                         </mat-form-field>
                       </div>
                     </div>
-                    <div class="row">
+                    <!--div class="row">
                       <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Imagen del NRC</mat-label>
@@ -103,7 +102,7 @@
                           <app-upload (onUploadFinished)=uploadFinishedEscrituraEmp($event)></app-upload>
                         </mat-form-field>
                       </div>
-                    </div>
+                    </div-->
                     <div class="row">
                       <div class="col-12 col-md-6">
                         
@@ -115,13 +114,21 @@
                     <div>
                       <p>Continuar a datos del representante legal</p>
                       <button class="btn btn-primary" mat-button matStepperPrevious>Atras</button>
-                      <button class="btn btn-primary" *ngIf="this.personaJuridica.valid" mat-button matStepperNext>Siguiente</button>
+                      <button class="btn btn-primary" mat-button matStepperNext>Siguiente</button>
                     </div>
                   </form>
                 </mat-step>
-                <mat-step [stepControl]="personaNatural" completed="false" errorMessage="Datos representante obligatorios.">
-                  <form [formGroup]="personaNatural">
+                <mat-step [stepControl]="personaNaturalFormGroup" completed="false" errorMessage="Datos representante obligatorios.">
+                  <form [formGroup]="personaNaturalFormGroup">
                     <ng-template matStepLabel>Datos del representante legal</ng-template>
+                    <div class="row mt-4">
+                      <div class="col-md-4 col-12">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>Número de DUI</mat-label>
+                          <input matInput (blur)="findDUI()" placeholder="Número de DUI" mask="00000000-0" [dropSpecialCharacters]="false" [showMaskTyped]="true" formControlName="CodigoNumeroDui">
+                        </mat-form-field>
+                      </div>
+                    </div>
                     <div class="row">
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
@@ -140,7 +147,7 @@
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Tercer nombre</mat-label>
-                          <input matInput placeholder="Nombres" formControlName="Nombre2"
+                          <input matInput placeholder="Nombres" formControlName="Nombre3"
                                  >
                         </mat-form-field>
                       </div>
@@ -169,7 +176,7 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-12 col-md-6">
+                      <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Fecha de nacimiento</mat-label>
                           <input matInput [matDatepicker]="picker" formControlName="FechaNacimiento">
@@ -179,8 +186,9 @@
                         </mat-form-field>
                       </div>
                   
-                      <div class="col-12 col-md-6">
+                      <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>Sexo</mat-label>
                           <mat-select placeholder="Sexo" formControlName="Sexo">
                             <mat-option *ngFor="let sexo of sexos" [value]="sexo.value">
                               {{sexo.name}}
@@ -188,10 +196,17 @@
                           </mat-select>
                         </mat-form-field>
                       </div>
+
+                      <div class="col-12 col-md-4">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>Correo electrónico institucional</mat-label>
+                          <input matInput placeholder="Correo electrónico institucional" formControlName="MedioContactoPersona" required>
+                        </mat-form-field>
+                      </div>
                     </div>
                     <div>
                       <button class="btn btn-primary" mat-button matStepperPrevious>Atrás</button>
-                      <button class="btn btn-primary" *ngIf="this.personaNatural.valid" mat-button matStepperNext>Siguiente</button>
+                      <button class="btn btn-primary" mat-button matStepperNext>Siguiente</button>
                     </div>
                   </form>
                 </mat-step>
@@ -208,7 +223,7 @@
                       <br>
                       <mat-card-content>
                         <ol>
-                          <li>Al menos 6 caracteres de longitud, máximo 10 caracteres</li>
+                          <li>Al menos 8 caracteres de longitud, máximo 12 caracteres</li>
                           <li>Al menos una letra minúscula</li>
                           <li>Al menos una letra mayúscula</li>
                           <li>Al menos un número</li>
@@ -231,7 +246,7 @@
                       <div class="col">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Clave</mat-label>
-                          <input matInput [type]="hide ? 'password' : 'text'" formControlName="Password" maxlength="30">
+                          <input matInput [type]="hide ? 'password' : 'text'" formControlName="Password" maxlength="12">
                           <a class="show-pwd-icon" href="#" onClick="return false;" matSuffix (click)="hide = !hide"
                             [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -241,9 +256,13 @@
                     </div>
                     <div class="row">
                       <div class="col">
-                        <mat-form-field class="full-width">
+                        <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Confirme la Clave de su Usuario</mat-label>
-                          <input matInput placeholder="Confirme Clave" [type]="hide ? 'password' : 'text'" formControlName="ConfirmPassword" maxlength="30" required>
+                          <input matInput placeholder="Confirme Clave" [type]="hider ? 'password' : 'text'" formControlName="ConfirmPassword" maxlength="12" required>
+                          <a class="show-pwd-icon" href="#" onClick="return false;" matSuffix (click)="hider = !hider"
+                            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hider">
+                            <mat-icon>{{hider ? 'visibility_off' : 'visibility'}}</mat-icon>
+                          </a>
                           <mat-error *ngIf="userFormGroup.controls['ConfirmPassword'].pristine || userFormGroup.controls['ConfirmPassword'].errors?.MatchPassword">La clave confirmada no es igual</mat-error>
                       </mat-form-field>
                       </div>
@@ -285,7 +304,7 @@
               <div class="w-full p-t-25 text-center">
                 <div>
                   <a routerLink="/authentication/signin" class="txt1">
-                    Ingresar
+                    Regresar al inicio se sesión
                   </a>
                 </div>
               </div>
@@ -295,4 +314,7 @@
       </div>
   
     </div>
+    <footer class="dark">
+      <p class="text-center my-4">Procuraduría General de la República</p>
+    </footer>
   </div>

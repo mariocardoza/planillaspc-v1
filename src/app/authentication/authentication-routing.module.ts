@@ -6,6 +6,7 @@ import { Page500Component } from "./page500/page500.component";
 import { SignupComponent } from "./signup/signup.component";
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 import { RecoverPasswordComponent } from "./recover-password/recover-password.component";
+import { SignupCompleteComponent } from "./signup-complete/signup-complete.component";
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path:'recover-password',
     component: RecoverPasswordComponent
+  },
+  {
+    path: 'signup-complete',
+    component: SignupCompleteComponent
   },
   {
     path: "page404",

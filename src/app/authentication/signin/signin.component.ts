@@ -6,7 +6,8 @@ import { endpoint } from "src/environments/endpoint";
 import { HttpClient } from "@angular/common/http";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ICredencial } from 'src/app/core/models/credencial';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastService } from 'src/app/shared/toast/toast.service';
 import { AuthenticationService } from 'src/app/core/service/authentication.service';
 @Component({
   selector: 'app-signin',
@@ -21,6 +22,7 @@ export class SigninComponent implements OnInit {
   hide = true;
   datosUsuario: ICredencial;
   authForm!: FormGroup;
+  nitForm: FormGroup;
   sucursales = [
     {value:'1', name:'Central'},
   ];
@@ -30,16 +32,21 @@ export class SigninComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    public modal: NgbModal,
+    private toast: ToastService
 
   ) { }
 
   ngOnInit(): void {
     this.authForm = this.formBuilder.group({
       username: ["", Validators.required],
-      password: ["", Validators.required],
-      sucursal: ["", Validators.required],
+      password: ["", Validators.required]
     });
+
+    this.nitForm = this.formBuilder.group({
+      NIT: ['',Validators.required]
+    })
     // prevent sign in again when a token exist
     if (localStorage.getItem('PlanillaUser') !== null){
       this.router.navigate(['/dashboard']);
@@ -52,6 +59,28 @@ export class SigninComponent implements OnInit {
 
   get f() {
     return this.authForm.controls;
+  }
+
+  get n(){
+    return this.nitForm.controls;
+  }
+
+  onNit(){
+    let nit = this.n.NIT.value
+    this.authenticationService.validateNIT(nit).subscribe((res) => {
+    console.log(res)
+      if (res.success) {
+        this.toast.showSuccess("Continuar al login","La empresa ya se encuentra registrada");
+        this.modal.dismissAll();
+        this.f.username.setValue(nit)
+      } else {
+        this.toast.showError("La empresa no se encuentra registrada","Continuar con el registro")
+        setTimeout(() => {
+          this.router.navigate(['authentication/signup']);
+          this.modal.dismissAll();
+        }, 2000);
+      }
+    })
   }
 
   onSubmit() {

@@ -6,6 +6,7 @@ import { BehaviorSubject, ReplaySubject, catchError, Observable, tap, throwError
 import { endpoint } from 'src/environments/endpoint';
 import { ICredencial } from '../models/credencial';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -56,6 +57,13 @@ export class AuthenticationService {
     }),
     catchError(this.handleError)
     );
+   }
+
+   register(data):Observable<any>{
+    const url = endpoint.api.auth+"/Register";
+    return this.http.post(url,data).pipe(tap((result: any) => {
+
+    }))
    }
 
    validate(credenciales: ILogin): Observable<any> {

@@ -1,16 +1,18 @@
-<div class="auth-container">
+<header>
   <nav class="navbar navbar-light dark" color="dark">
     <div class="container-fluid">
       <span class="navbar-brand mb-0 h1"><img width="250" src="/assets/images/logo.png" alt=""></span>
     </div>
   </nav>
+</header>
+<div class="auth-container">
     <div class="row auth-main">
       <div class="col-sm-12 auth-form-section">
         <div class="form-section">
           <div class="auth-wrapper">
             <h4 class="text-center fw-light">Bienvenida/o al</h4>
             <h3 class="align-center">
-              {{'Sistema De Planilla Digital' | uppercase}}
+              {{'Sistema De Planilla Digital - EPlanilla' | uppercase}}
               <span class="text-gold"></span>
             </h3>
             <hr class="mb-4">
@@ -21,12 +23,14 @@
               <mat-stepper #stepper>
                 <mat-step>
                   <ng-template matStepLabel>Introducción</ng-template>
+                  <p>IMPORTANTE: En el proceso de creación del usuario será necesario que agregue las imágenes de los documentos que son requisitos para la creación del usuario.</p>
                   <p>Requerirá de información de la empresa como del representante legal </p>
-                  <div>Datos que que serán necesarios
-                    <ul>
-                      <li>NIT de la empresa (150%)</li>
+                  <div>
+                    <p>Datos que que serán necesarios</p>
+                    <ol>
+                      <li>Foto del NIT de la empresa (150%)</li>
                       <li>Foto del DUI de representante legal (150%)</li>
-                    </ul>
+                    </ol>
                   </div>
                   <div>
                     <button class="btn btn-primary" mat-button matStepperNext>Siguiente</button>
@@ -74,8 +78,8 @@
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Tipo de Empresa</mat-label>
                           <mat-select formControlName="TipoEmpresa" required placeholder="Tipo de Empresa">
-                              <mat-option value="P">Privada</mat-option>
-                              <mat-option value="R">Gobierno</mat-option>
+                              <mat-option value="R">Privada</mat-option>
+                              <mat-option value="U">Pública</mat-option>
                           </mat-select>
                         </mat-form-field>
                       </div>
@@ -118,7 +122,7 @@
                     </div>
                   </form>
                 </mat-step>
-                <mat-step [stepControl]="personaNaturalFormGroup" completed="false" errorMessage="Datos representante obligatorios.">
+                <mat-step [stepControl]="personaNaturalFormGroup" errorMessage="Datos representante obligatorios.">
                   <form [formGroup]="personaNaturalFormGroup">
                     <ng-template matStepLabel>Datos del representante legal</ng-template>
                     <div class="row mt-4">
@@ -200,9 +204,11 @@
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Correo electrónico institucional</mat-label>
-                          <input matInput placeholder="Correo electrónico institucional" formControlName="MedioContactoPersona" required>
+                          <input matInput placeholder="Correo electrónico institucional" formControlName="MedioContactoPersona">
                         </mat-form-field>
                       </div>
+                      <input type="hidden" formControlName="ConDui">
+                      <input type="hidden" formControlName="CodigoTipoMedioContacto">
                     </div>
                     <div>
                       <button class="btn btn-primary" mat-button matStepperPrevious>Atrás</button>
@@ -251,6 +257,12 @@
                             [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                           </a>
+                          <mat-error *ngIf="userFormGroup.get('Password')?.hasError('required')">
+                            Ingrese una clave
+                          </mat-error>
+                          <mat-error *ngIf="userFormGroup.get('Password')?.hasError('passwordStrength')">
+                            {{userFormGroup.get('Password')?.errors['passwordStrength']}}
+                          </mat-error>
                         </mat-form-field>
                       </div>
                     </div>
@@ -314,7 +326,7 @@
       </div>
   
     </div>
-    <footer class="dark">
+    <!--footer class="dark">
       <p class="text-center my-4">Procuraduría General de la República</p>
-    </footer>
-  </div>
+    </footer-->
+</div>

@@ -16,3 +16,24 @@ app-upload{
 .navbar-brand{
     height: 100px;
 }
+.mat-step-text-label{
+    font-family: 'poppins-regular' !important;
+    font-weight: default;
+}
+p, h4, a, button{
+    font-family: 'poppins-regular';
+    font-weight: default;
+}
+.mat-form-field{
+    font-family: 'poppins-regular' !important;
+}
+ol{
+    font-family: 'poppins-regular';
+    font-weight: default; 
+}
+mat-card{
+    font-family: 'poppins-regular'; 
+}
+.auth-container{
+    position: relative;
+}

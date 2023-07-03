@@ -69,7 +69,7 @@
 @import "pages/_inbox.scss";
 @import "pages/_pricing.scss";
 @import "pages/_profile.scss";
-@import "pages/_timeline.scss";
+//@import "pages/_timeline.scss";
 @import "pages/_projects.scss";
 // @import "pages/_extra_pages.scss";
 @import "pages/_auth.scss";
@@ -119,3 +119,7 @@ $app-warn: mat-palette($mat-red);
 $theme: mat-light-theme($app-primary, $app-accent, $app-warn);
 @include mat-datetimepicker-theme($theme);
 
+@font-face{
+    font-family: 'poppins-regular';
+    src: url('../fonts/poppins/poppins-v5-latin-regular.ttf');
+}

@@ -13,3 +13,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .text-light{
     color: white;
 }
+
+@media(min-width: 1200px){
+  html {
+    min-height: 100%;
+    position: relative;
+  }
+  footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+}
+  

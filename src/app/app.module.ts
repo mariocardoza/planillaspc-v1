@@ -8,6 +8,7 @@ import { AuthLayoutComponent } from './layout/app-layout/auth-layout/auth-layout
 import { MainLayoutComponent } from './layout/app-layout/main-layout/main-layout.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './layout/header/header.component';
+import { FooterComponent } from './layout/footer/footer.component';
 import { SharedModule } from "./shared/shared.module";
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,6 +21,7 @@ import { PageLoaderComponent } from './layout/page-loader/page-loader.component'
     AuthLayoutComponent,
     MainLayoutComponent,
     HeaderComponent,
+    FooterComponent,
     SidebarComponent,
     PageLoaderComponent,
     //UploadComponent

@@ -10,7 +10,8 @@ import { Item } from 'src/app/core/models/field.interface';
 import { MatSelect } from '@angular/material/select';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import { AuthenticationService } from 'src/app/core/service/authentication.service';
-
+import { PasswordStrengthValidator } from 'src/app/core/validators/password-strength.validator';
+import { PasswordValidation } from 'src/app/core/validators/password-validator';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -67,7 +68,7 @@ export class SignupComponent implements OnInit {
 
     this.personaJuridicaFormGroup = this.formBuilder.group({
       NIT: ['', Validators.required],
-      codigoPGR: ['0', Validators.required],
+      codigoPGR: ['0'],
       RazonSocial: ['',Validators.required],
       ImagenNIT: ['',''],
       //ImagenNRC: ['',''],
@@ -77,24 +78,35 @@ export class SignupComponent implements OnInit {
     });
     this.personaNaturalFormGroup = this.formBuilder.group({
       Nombre1: ['', Validators.required],
-      Nombre2: ['', ''],
-      Nombre3: ['', ''],
-      ConDui: ['S',''],
-      CodigoTipoMedioContacto: ['1',''],
+      Nombre2: [''],
+      Nombre3: [''],
+      ConDui: ['S'],
+      CodigoTipoMedioContacto: ['1'],
       Apellido1: ['', Validators.required],
-      Apellido2: ['', ''],
-      ApellidoCasada: ['', ''],
-      MedioContactoPersona: ['',Validators.required,Validators.email],
+      Apellido2: [''],
+      ApellidoCasada: [''],
+      MedioContactoPersona: ['',Validators.required],
       FechaNacimiento: ['', Validators.required],
       Sexo: ['', Validators.required],
       CodigoNumeroDui: ['',Validators.required],
-      CodigoPersona: ['','']
+      CodigoPersona: ['0']
     });
-    this.userFormGroup = this.formBuilder.group({
+    /*this.userFormGroup = this.formBuilder.group({
       Username: ['', Validators.required],
       Password: ['', Validators.required],
       ConfirmPassword: ['', Validators.required]
+    });*/
+
+    this.userFormGroup = this.formBuilder.group({
+      // idRegistro: [{value: '0', disabled: true}, [Validators.required, Validators.min(1)]],
+      Username: ['', Validators.required],
+      Password: ['', [Validators.required, PasswordStrengthValidator]],
+      ConfirmPassword: ['', Validators.required]
+    }, 
+    {
+      validator: PasswordValidation.MatchPassword
     });
+
     this.fourthFormGroup = this.formBuilder.group({
       aceptado: [0,'']
     });
@@ -209,12 +221,17 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit(){
-    if (this.personaJuridicaFormGroup.valid && this.personaNaturalFormGroup.valid) {
+    //if (this.personaJuridicaFormGroup.valid && this.personaNaturalFormGroup.valid) {
+      console.log(this.personaNaturalFormGroup.valid)
       const data = {
         ...this.personaJuridicaFormGroup.value,
         ...this.personaNaturalFormGroup.value,
         ...this.userFormGroup.value,
       };
+
+      this.authenticationService.register(data).subscribe((res) => {
+        console.log(res)
+      });
       this.datosUsuario = {
         id: 1,
         fullname:"Usuario de prueba",
@@ -224,12 +241,12 @@ export class SignupComponent implements OnInit {
         token: "fgdfgdfgdfgfddf",
       };
       /*localStorage.setItem('PlanillaUser', JSON.stringify(this.datosUsuario));*/
-      this.router.navigate(['/authentication/signup-complete']);
+      //this.router.navigate(['/authentication/signup-complete']);
 
       console.log(data)
-    }else{
+    /*}else{
       
-    }
+    }*/
   }
 
 }

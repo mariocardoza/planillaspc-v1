@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ILogin } from '../models/login.interface';
 import { BehaviorSubject, ReplaySubject, catchError, Observable, tap, throwError, of } from 'rxjs';
 import { endpoint } from 'src/environments/endpoint';
 import { ICredencial } from '../models/credencial';
-
+import { ILoginUser } from '../models/login-user-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,8 @@ export class AuthenticationService {
 
   public usuarioActual: Observable<ICredencial>;
   public datosUsuario: ICredencial;
+  EmpleadoUser :any;
+  token: string;
 
   constructor(
     http: HttpClient,
@@ -37,9 +39,11 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
    }
 
-   validateDUI(dui): Observable<any>{
+   validateDUI(dui,token): Observable<any>{
     const url = endpoint.api.naturales+"/"+dui;
-    return this.http.get(url).pipe(tap((result : any) => {
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    headers = headers.append('Authorization', 'Bearer ' + `${token}`);
+    return this.http.get(url,{headers}).pipe(tap((result : any) => {
       if(result.success){
         return result
       }
@@ -65,6 +69,34 @@ export class AuthenticationService {
 
     }))
    }
+
+   public validateLoginUser(credenciales: ILoginUser)
+  {
+    const url = endpoint.api.empty +"AuthenticateEP";
+      let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      return this.http.post<any>(url, credenciales, { headers: headers })
+          .pipe(tap(data => {
+               console.log(data.token);
+
+              if (data.token != null) {
+                  localStorage.setItem('EmpleadoUser', JSON.stringify(
+                    {   usercodigo: credenciales.codigoUsuario,
+                        usernombre: data.NombreCompletoUsuario,
+                        userperfil: data.Perfil,
+                        userunidad: data.UnidadOrganizacional,
+                        userpa: data.ProcuraduriaAuxiliar,
+                        usernperfil: data.PerfilUsuario,
+                        token: data.token
+                    }));
+                    console.log(JSON.parse(localStorage.getItem("EmpleadoUser")))
+                  return data;
+            } else {
+                return null;
+            }
+          }),
+              catchError(this.handleError)
+          );
+  }
 
    validate(credenciales: ILogin): Observable<any> {
     const url = endpoint.api.auth+'/login';

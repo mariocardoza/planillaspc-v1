@@ -12,6 +12,8 @@ import { ToastService } from 'src/app/shared/toast/toast.service';
 import { AuthenticationService } from 'src/app/core/service/authentication.service';
 import { PasswordStrengthValidator } from 'src/app/core/validators/password-strength.validator';
 import { PasswordValidation } from 'src/app/core/validators/password-validator';
+import { ILoginUser } from 'src/app/core/models/login-user-interface';
+import * as moment from 'moment';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -26,6 +28,8 @@ import { PasswordValidation } from 'src/app/core/validators/password-validator';
 })
 export class SignupComponent implements OnInit {
   error= '';
+  a = moment().subtract(18, 'year');
+  
   accepted: boolean = false;
   registerForm: FormGroup;
   personaJuridicaFormGroup: FormGroup;
@@ -33,6 +37,7 @@ export class SignupComponent implements OnInit {
   userFormGroup: FormGroup;
   fourthFormGroup: FormGroup;
   datosUsuario: ICredencial;
+  EmpleadoUser: any;
   public itemFilterCtrl1: FormControl = new FormControl();
   public filteredItems1: ReplaySubject<Item[]> = new ReplaySubject<Item[]>(1);
   @ViewChild('singleSelect1', { static: true }) singleSelect1: MatSelect;
@@ -46,10 +51,33 @@ export class SignupComponent implements OnInit {
     {value:'M', name:'Masculino'},
   ];
   departments = [];
+  private data: any;
+  token: any;
 
-  constructor(private formBuilder: FormBuilder, private router: Router,public toastService: ToastService,private authenticationService: AuthenticationService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router,public toastService: ToastService,private authenticationService: AuthenticationService) {
+    this.data = JSON.parse(localStorage.getItem('EmpleadoUser'));
+    this.token = this.data.token;
+   }
 
   ngOnInit(): void {
+    console.log(this.a)
+    const login: ILoginUser = {
+      codigoUsuario: 'PGRPERSONA',
+      claveUsuario: '51APP6R'
+    };
+    if(this.EmpleadoUser == null){
+      this.authenticationService.validateLoginUser(login).subscribe(
+        response => {
+            console.log(response)
+            this.personaNaturalFormGroup.patchValue({CodigoPersona: response.codigoUsuario});
+      });
+    }else{
+      this.token = this.EmpleadoUser.token;
+      this.personaNaturalFormGroup.patchValue({CodigoPersona: this.EmpleadoUser.codigoUsuario});
+    }
+
+    
+
     
 
     /*this.registerForm = this.formBuilder.group({
@@ -110,6 +138,8 @@ export class SignupComponent implements OnInit {
     this.fourthFormGroup = this.formBuilder.group({
       aceptado: [0,'']
     });
+
+    
   }
 
   checkValue(event){
@@ -122,7 +152,7 @@ export class SignupComponent implements OnInit {
 
  findDUI(){
   let dui: string = (this.personaNaturalFormGroup.value.CodigoNumeroDui)
-  this.authenticationService.validateDUI(dui).subscribe((res) => {
+  this.authenticationService.validateDUI(dui,this.token).subscribe((res) => {
     console.log(res)
     if (res.success) {
       this.personaNaturalFormGroup.patchValue({Nombre1: res.data.nombre1});
@@ -138,6 +168,7 @@ export class SignupComponent implements OnInit {
       this.error = res.message;
     }
   })
+  this.userFormGroup.patchValue({Username: dui});
  }
 
  findNIT(){

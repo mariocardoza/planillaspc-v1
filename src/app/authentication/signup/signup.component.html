@@ -290,6 +290,7 @@
                     <ng-template matStepLabel>Términos y condiciones</ng-template>
                     <mat-card>
                       Aqui va el texto de los términos y condiciones
+                      que se deberá redactar
                     </mat-card>
                     <mat-card style="text-align: justify;">
                       <b>Aceptación de la autorización.</b> Declaro haber leído, entendido y aceptado la totalidad de los términos y condiciones contenidos en el presente documento, sobre la autorización de notificación de todos los actos administrativos que realice la PGR y me comprometo a estar pendiente de cualquier notificación que sea realizada.
@@ -306,7 +307,10 @@
                 </mat-step>
                 <mat-step>
                   <ng-template matStepLabel>Finalizar</ng-template>
-                  <p>Todo Listo</p>
+                  <h3>Todo Listo</h3>
+                  <p>Pasos completados por favor hacer clic sobre "Guardar" para enviar los datos a la PGR<br>
+                    para continuar con el proceso de registro
+                  </p>
                   <div>
                     <button class="btn btn-primary" mat-button matStepperPrevious>Atras</button>
                     <button class="btn btn-primary" mat-button (click)="onSubmit()">Guardar</button>

@@ -64,9 +64,9 @@ export class AuthenticationService {
    }
 
    register(data):Observable<any>{
-    const url = endpoint.api.auth+"/Register";
+    const url = endpoint.api.empty+"Register";
     return this.http.post(url,data).pipe(tap((result: any) => {
-
+      
     }))
    }
 

@@ -14,6 +14,7 @@ import { PasswordStrengthValidator } from 'src/app/core/validators/password-stre
 import { PasswordValidation } from 'src/app/core/validators/password-validator';
 import { ILoginUser } from 'src/app/core/models/login-user-interface';
 import * as moment from 'moment';
+import { IRegister } from 'src/app/core/models/register.interface';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -29,7 +30,6 @@ import * as moment from 'moment';
 export class SignupComponent implements OnInit {
   error= '';
   a = moment().subtract(18, 'year');
-  
   accepted: boolean = false;
   registerForm: FormGroup;
   personaJuridicaFormGroup: FormGroup;
@@ -56,7 +56,8 @@ export class SignupComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private router: Router,public toastService: ToastService,private authenticationService: AuthenticationService) {
     this.data = JSON.parse(localStorage.getItem('EmpleadoUser'));
-    this.token = this.data.token;
+    if(this.data != null)
+      this.token = this.data.token;
    }
 
   ngOnInit(): void {
@@ -75,10 +76,6 @@ export class SignupComponent implements OnInit {
       this.token = this.EmpleadoUser.token;
       this.personaNaturalFormGroup.patchValue({CodigoPersona: this.EmpleadoUser.codigoUsuario});
     }
-
-    
-
-    
 
     /*this.registerForm = this.formBuilder.group({
       'firstFormGroup': new FormGroup({
@@ -254,7 +251,7 @@ export class SignupComponent implements OnInit {
   onSubmit(){
     //if (this.personaJuridicaFormGroup.valid && this.personaNaturalFormGroup.valid) {
       console.log(this.personaNaturalFormGroup.valid)
-      const data = {
+      const data: IRegister = {
         ...this.personaJuridicaFormGroup.value,
         ...this.personaNaturalFormGroup.value,
         ...this.userFormGroup.value,

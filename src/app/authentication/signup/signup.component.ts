@@ -29,8 +29,9 @@ import { IRegister } from 'src/app/core/models/register.interface';
 })
 export class SignupComponent implements OnInit {
   error= '';
-  a = moment().subtract(18, 'year');
+  a = moment().subtract(18, 'year').format("YYYY-MM-DD");
   accepted: boolean = false;
+  nitExiste: boolean;
   registerForm: FormGroup;
   personaJuridicaFormGroup: FormGroup;
   personaNaturalFormGroup: FormGroup;
@@ -56,6 +57,7 @@ export class SignupComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private router: Router,public toastService: ToastService,private authenticationService: AuthenticationService) {
     this.data = JSON.parse(localStorage.getItem('EmpleadoUser'));
+    this.nitExiste = false;
     if(this.data != null)
       this.token = this.data.token;
    }
@@ -173,7 +175,10 @@ export class SignupComponent implements OnInit {
   this.authenticationService.validateNIT(nit).subscribe((res) => {
     console.log(res)
     if (res.success) {
-      alert("Ya esta registrada la empresa")
+      this.nitExiste = true;
+      console.log(this.nitExiste)
+      this.toastService.showError("La empresa ya se encuentra registrada","Puede probar con recuperar usuario o clave")
+        
     } else {
       console.log(res)
       this.error = res.message;
@@ -258,20 +263,21 @@ export class SignupComponent implements OnInit {
       };
 
       this.authenticationService.register(data).subscribe((res) => {
-        console.log(res)
+        if(res.success){
+          this.router.navigate(['/authentication/signup-complete']);
+        }
       });
-      this.datosUsuario = {
+      /*this.datosUsuario = {
         id: 1,
         fullname:"Usuario de prueba",
         username: "usuario",
         email: "usuario@corre.com",
         uuid: "ghghgfhfgh",
         token: "fgdfgdfgdfgfddf",
-      };
+      };*/
       /*localStorage.setItem('PlanillaUser', JSON.stringify(this.datosUsuario));*/
-      //this.router.navigate(['/authentication/signup-complete']);
 
-      console.log(data)
+      //console.log(data)
     /*}else{
       
     }*/

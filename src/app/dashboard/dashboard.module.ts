@@ -5,17 +5,21 @@ import { FormsModule } from "@angular/forms";
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PlanillaComponent } from './planilla/planilla.component';
+import { PerfilComponent } from './perfil/perfil.component';
+import { MaterialModule } from '../shared/material.module';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    PlanillaComponent
+    PlanillaComponent,
+    PerfilComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    MaterialModule
   ]
 })
 export class DashboardModule { }

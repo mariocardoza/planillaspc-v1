@@ -92,10 +92,10 @@ export class SigninComponent implements OnInit {
       return;
     }else{
       const login: ILogin = {
-        username_or_email: this.f.username.value,
-        password: this.f.password.value
+        Username: this.f.username.value,
+        Password: this.f.password.value
       };
-      this.datosUsuario = {
+      /*this.datosUsuario = {
         id: 1,
         fullname:"Usuario de prueba",
         username: "usuario",
@@ -103,10 +103,10 @@ export class SigninComponent implements OnInit {
         uuid: "ghghgfhfgh",
         token: "fgdfgdfgdfgfddf",
       };
-      localStorage.setItem('PlanillaUser', JSON.stringify(this.datosUsuario));
-      this.router.navigate(['/dashboard']);
+      localStorage.setItem('PlanillaUser', JSON.stringify(this.datosUsuario));*/
+      //this.router.navigate(['/dashboard']);
       this.authenticationService.validate(login).subscribe((res) => {
-        console.log(res)
+        console.log(res.success)
         if (res.success) {
           this.router.navigate(['/dashboard']);
         } else {

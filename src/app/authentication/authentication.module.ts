@@ -17,6 +17,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { RecoverPasswordComponent } from './recover-password/recover-password.component';
 import { ComponentsModule } from "../shared/components/components.module";
 import { SignupCompleteComponent } from './signup-complete/signup-complete.component';
+import { ForgotUserComponent } from './forgot-user/forgot-user.component';
 //import { UploadComponent } from "../shared/components/upload/upload.component";
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SignupCompleteComponent } from './signup-complete/signup-complete.compo
     SignupComponent,
     ForgotPasswordComponent,
     RecoverPasswordComponent,
-    SignupCompleteComponent
+    SignupCompleteComponent,
+    ForgotUserComponent
   ],
   imports: [
     CommonModule,

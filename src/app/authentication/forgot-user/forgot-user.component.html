@@ -7,10 +7,11 @@
       <div class="col-sm-6 auth-form-section">
         <div class="form-section" *ngIf="!isSended">
           <div class="auth-wrapper">
-            <h2 class="welcome-msg"> Recuperar Contraseña </h2>
+            <h2 class="welcome-msg"> Recuperar Usuario </h2>
             
             <form class="validate-form" [formGroup]="authForm" (ngSubmit)="onSubmit()">
               <div class="row">
+                <div *ngIf="isSended" class="alert alert-success">{{isSended}}</div>
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                  
                   <mat-form-field class="full-width" appearance="outline">
@@ -25,11 +26,11 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                  
                   <mat-form-field class="full-width" appearance="outline">
-                    <mat-label>Usuario</mat-label>
-                    <input matInput formControlName="dui" required mask="00000000-0" [dropSpecialCharacters]="false" [showMaskTyped]="false">
+                    <mat-label>NIT</mat-label>
+                    <input matInput formControlName="nit" required mask="0000-000000-000-0" [dropSpecialCharacters]="false" [showMaskTyped]="false">
                     <mat-icon matSuffix>card_membership</mat-icon>
-                    <mat-error *ngIf="authForm.get('dui').hasError('required') || authForm.get('dui').touched">
-                      Ingrese su DUI
+                    <mat-error *ngIf="authForm.get('nit').hasError('required') || authForm.get('nit').touched">
+                      Ingrese una NIT
                     </mat-error>
                   </mat-form-field>
                 </div>

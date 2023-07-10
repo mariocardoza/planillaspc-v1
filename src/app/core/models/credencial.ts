@@ -1,8 +1,11 @@
 export interface ICredencial {
-    id: any;
-    fullname: string;
-    username: string;
-    email: string;
-    uuid: string;
-    token: string;
+    CodigoEmpresa: string;
+    NombreCompletoUsuario: string;
+    NombreEmpresa: string;
+    CodigoPGR: number;
+    CodigoRol: string;
+    NIT: string;
+    Usuario: string;
+    Email: string;
+    Token: string;
 }

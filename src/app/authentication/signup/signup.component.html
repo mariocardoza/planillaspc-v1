@@ -115,10 +115,16 @@
                         
                       </div>
                     </div>
-                    <div>
+                    <div class="d-grid gap-2 d-md-block" *ngIf="!nitExiste">
                       <p>Continuar a datos del representante legal</p>
                       <button class="btn btn-primary" mat-button matStepperPrevious>Atras</button>
                       <button class="btn btn-primary" mat-button matStepperNext>Siguiente</button>
+                    </div>
+                    <div class="row mt-2 text-center" *ngIf="nitExiste">
+                      <p class="auth-signup-text text-muted pb-0">
+                        ¡Ya posee una cuenta!<br>
+                        <a href="authentication/signin" class="sign-up-link">Inicia sesión o recupera tu usuario</a>
+                      </p>
                     </div>
                   </form>
                 </mat-step>
@@ -183,7 +189,7 @@
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Fecha de nacimiento</mat-label>
-                          <input matInput [matDatepicker]="picker" formControlName="FechaNacimiento">
+                          <input matInput [matDatepicker]="picker" [max]="a" formControlName="FechaNacimiento">
                           <mat-hint>MM/DD/YYYY</mat-hint>
                           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                           <mat-datepicker #picker></mat-datepicker>

@@ -66,7 +66,11 @@ export class AuthenticationService {
    register(data):Observable<any>{
     const url = endpoint.api.empty+"Register";
     return this.http.post(url,data).pipe(tap((result: any) => {
-      
+      if(result.success){
+        return result;
+      }else{
+        return result;
+      }
     }))
    }
 
@@ -99,20 +103,25 @@ export class AuthenticationService {
   }
 
    validate(credenciales: ILogin): Observable<any> {
-    const url = endpoint.api.auth+'/login';
+    const url = endpoint.api.empty+'Authenticate';
     const headers = { 'Accept': 'application/json'};
     return this.http.post(url, credenciales,{headers}).pipe(tap((result: any) => {
       if(result.success){
-        var data = result.data;
-        if (data.user != null) {
+        var data = result;
+        if (data != null) {
+          console.log(data.codigoEmpresa);
           this.datosUsuario = {
-            id: data.id,
-            fullname: data.user.fullname,
-            username: data.user.username,
-            email: data.user.email,
-            uuid: data.user.uuid,
-            token: data.access_token,
+            CodigoEmpresa: data.codigoEmpresa,
+            NombreCompletoUsuario: data.nombreCompletoUsuario,
+            NombreEmpresa: data.nombreEmpresa,
+            CodigoPGR: data.codigoPGR,
+            NIT: data.nit,
+            CodigoRol: data.codigoRol,
+            Usuario: data.usuario,
+            Email: data.email,
+            Token: data.token,
           };
+          console.log(this.datosUsuario);
           localStorage.setItem('PlanillaUser', JSON.stringify(this.datosUsuario));
           this.usuarioSubject.next(this.datosUsuario);
           this.currentUserSubject.next(this.datosUsuario);

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { Page404Component } from '../authentication/page404/page404.component';
 import { PlanillaComponent } from './planilla/planilla.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: 'home',
     component: DashboardComponent
+  },
+  {
+    path: 'perfil',
+    component: PerfilComponent
   },
   {
     path: 'planilla',

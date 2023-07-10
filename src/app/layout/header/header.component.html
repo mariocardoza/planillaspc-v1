@@ -37,7 +37,7 @@
               </li>
               <!-- #END# Notifications-->
               <li class="nav-item user_profile btnUserDropdown" ngbDropdown>
-                <span *ngIf="usuario">{{usuario.fullname}}</span>
+                <span *ngIf="usuario">{{usuario.NombreCompletoUsuario}}</span>
                 <button mat-icon-button ngbDropdownToggle class="nav-notification-icons">
                   <app-feather-icons [icon]="'user'" [class]="'header-icon'"></app-feather-icons>
                 </button>
@@ -49,6 +49,11 @@
                           <li>
                             <a routerLink={{homePage}}>
                               <app-feather-icons [icon]="'settings'" [class]="'user-menu-icons'"></app-feather-icons>Tablero Principal
+                            </a>
+                          </li>
+                          <li>
+                            <a routerLink="dashboard/perfil" href="#" onClick="return false;">
+                              <app-feather-icons [icon]="'user'" [class]="'user-menu-icons'"></app-feather-icons>Perfil
                             </a>
                           </li>
                           <li>

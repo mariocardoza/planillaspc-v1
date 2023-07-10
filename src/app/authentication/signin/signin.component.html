@@ -54,7 +54,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
                   <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Usuario(a)</mat-label>
-                    <input matInput formControlName="username" oninput="this.value = this.value.toLowerCase()" maxlength="20"/>
+                    <input matInput formControlName="username" oninput="this.value = this.value.toLowerCase()" mask="00000000-0" [dropSpecialCharacters]="false" [showMaskTyped]="false" maxlength="20"/>
                     <mat-icon matSuffix>face</mat-icon>
                     <mat-error *ngIf="authForm.get('username')?.hasError('required')">
                       Usuario(a) es requerido
@@ -93,7 +93,10 @@
                 </div>
               </div>
               <div class="d-flex justify-content-end align-items-center mb-3">
-                <a class="txt1" routerLink="/authentication/forgot-password">¿Ha olvidado su clave?</a>
+                <a class="txt1" routerLink="/authentication/forgot-user">¿Ha olvidado su usuario?</a><br>
+              </div>
+              <div class="d-flex justify-content-end align-items-center mb-3">
+                <a class="txt1" routerLink="/authentication/forgot-password">¿Ha olvidado su contraseña?</a>
               </div>
               <hr>
   

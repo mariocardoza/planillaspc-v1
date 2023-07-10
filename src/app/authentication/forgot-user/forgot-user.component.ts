@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
-
 @Component({
-  selector: 'app-forgot-password',
-  templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss']
+  selector: 'app-forgot-user',
+  templateUrl: './forgot-user.component.html',
+  styleUrls: ['./forgot-user.component.scss']
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotUserComponent implements OnInit {
   authForm!: FormGroup;
   isSended: boolean = false;
   phrase: string = '';
@@ -23,16 +22,18 @@ export class ForgotPasswordComponent implements OnInit {
         "",
         [Validators.required, Validators.email, Validators.minLength(5)],
       ],
-      dui: ["",Validators.required]
+      nit: ["",Validators.required]
     });
   }
 
   onSubmit(){
-    this.router.navigate(['authentication/recover-password'])
+    this.isSended = true;
+    this.phrase ="Si los datos coinciden con nuestros registros, recibirá en su correo su usuario del sistema"
   }
 
   redirect(){
     this.router.navigate(['authentication/signin'])
   }
+  
 
 }

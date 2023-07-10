@@ -7,6 +7,7 @@ import { SignupComponent } from "./signup/signup.component";
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 import { RecoverPasswordComponent } from "./recover-password/recover-password.component";
 import { SignupCompleteComponent } from "./signup-complete/signup-complete.component";
+import { ForgotUserComponent } from "./forgot-user/forgot-user.component";
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path:'forgot-password',
     component: ForgotPasswordComponent
+  },
+  {
+    path:'forgot-user',
+    component: ForgotUserComponent
   },
   {
     path:'recover-password',

@@ -102,6 +102,13 @@ export class AuthenticationService {
           );
   }
 
+  findUser(credenciales): Observable<any> {
+    const url = endpoint.api.empty+"Authenticate/forgot-user";
+    return this.http.post(url,credenciales).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
    validate(credenciales: ILogin): Observable<any> {
     const url = endpoint.api.empty+'Authenticate';
     const headers = { 'Accept': 'application/json'};

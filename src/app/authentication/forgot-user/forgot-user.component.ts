@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
+import { AuthenticationService } from 'src/app/core/service/authentication.service';
+
 @Component({
   selector: 'app-forgot-user',
   templateUrl: './forgot-user.component.html',
@@ -13,7 +15,8 @@ export class ForgotUserComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authenticationService: AuthenticationService,
   ) { }
 
   ngOnInit(): void {
@@ -26,9 +29,20 @@ export class ForgotUserComponent implements OnInit {
     });
   }
 
+  get f() {
+    return this.authForm.controls;
+  }
+
   onSubmit(){
-    this.isSended = true;
-    this.phrase ="Si los datos coinciden con nuestros registros, recibirá en su correo su usuario del sistema"
+    
+    const data ={
+      Email: this.f.email.value,
+      NIT : this.f.nit.value
+    }
+    this.authenticationService.findUser(data).subscribe((res) => {
+      this.isSended = true;
+      this.phrase ="Si los datos coinciden con nuestros registros, recibirá en su correo su usuario del sistema";
+    });
   }
 
   redirect(){

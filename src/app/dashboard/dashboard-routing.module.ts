@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { Page404Component } from '../authentication/page404/page404.component';
 import { PlanillaComponent } from './planilla/planilla.component';
 import { PerfilComponent } from './perfil/perfil.component';
+import { UsuariosPendientesComponent } from './usuarios-pendientes/usuarios-pendientes.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'planilla',
     component: PlanillaComponent
+  },
+  {
+    path: 'usuarios-pendientes',
+    component: UsuariosPendientesComponent
   },
   {
     path: "**",

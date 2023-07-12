@@ -100,19 +100,21 @@ export class SignupComponent implements OnInit {
       ImagenNIT: ['',''],
       //ImagenNRC: ['',''],
       //ImagenEscritura: ['',''],
+      MedioContactoPersona: ['',Validators.required],
+      TelefonoContactoPersona: ['',''],
       TipoEmpresa: ['',Validators.required],
-      NombreComercial: ['',Validators.required]
+      NombreComercial: ['',Validators.required],
+      CodigoTipoMedioContacto: ['1'],
+
     });
     this.personaNaturalFormGroup = this.formBuilder.group({
       Nombre1: ['', Validators.required],
       Nombre2: [''],
       Nombre3: [''],
       ConDui: ['S'],
-      CodigoTipoMedioContacto: ['1'],
       Apellido1: ['', Validators.required],
       Apellido2: [''],
       ApellidoCasada: [''],
-      MedioContactoPersona: ['',Validators.required],
       FechaNacimiento: ['', Validators.required],
       Sexo: ['', Validators.required],
       CodigoNumeroDui: ['',Validators.required],
@@ -167,7 +169,7 @@ export class SignupComponent implements OnInit {
       this.error = res.message;
     }
   })
-  this.userFormGroup.patchValue({Username: dui});
+  //this.userFormGroup.patchValue({Username: dui});
  }
 
  findNIT(){

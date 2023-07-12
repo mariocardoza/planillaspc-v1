@@ -21,10 +21,6 @@ export class ForgotUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.authForm = this.formBuilder.group({
-      email: [
-        "",
-        [Validators.required, Validators.email, Validators.minLength(5)],
-      ],
       nit: ["",Validators.required]
     });
   }
@@ -36,7 +32,7 @@ export class ForgotUserComponent implements OnInit {
   onSubmit(){
     
     const data ={
-      Email: this.f.email.value,
+      //Email: this.f.email.value,
       NIT : this.f.nit.value
     }
     this.authenticationService.findUser(data).subscribe((res) => {

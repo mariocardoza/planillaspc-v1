@@ -18,14 +18,19 @@
             </div>
             <hr class="mt-2 mb-0">
           </li>
-          <li class="sidebar-user-panel">
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U'">
             <a routerLink="/dashboard/home" class="menu-top">
               Inicio
             </a>
           </li>
-          <li class="sidebar-user-panel">
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U'">
             <a routerLink="/dashboard/planilla" class="menu-top">
               Planilla
+            </a>
+          </li>
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'A'">
+            <a routerLink="/dashboard/usuarios-pendientes" class="menu-top">
+              Verificación de usuarios
             </a>
           </li>
           <li>

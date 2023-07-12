@@ -1,0 +1,38 @@
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="text-center">Listado de usuarios pendientes de revisión de información</h3>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Codigo de la persona</th>
+                            <th>Usuario (acceso al sistema)</th>
+                            <th>NIT</th>
+                            <th>Imagen NIT</th>
+                            <th>Nombre de la empresa</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                
+                    <tbody>
+                        <tr *ngFor="let usuario of usuarios">
+                            <td>{{ usuario.codigoEmpresa }}</td>
+                            <td>{{ usuario.usuario }}</td>
+                            <td>{{ usuario.nit }}</td>
+                            <td><img src="{{ getBackground('C:/'+usuario.imagenNIT) }}"></td>
+                            <td>{{ usuario.nombreComercial }}</td>
+                            <td>
+                                <button class="btn btn-warning">Activar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

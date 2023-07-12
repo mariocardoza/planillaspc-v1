@@ -109,6 +109,13 @@ export class AuthenticationService {
     }))
   }
 
+  users(): Observable<any> {
+    const url = endpoint.api.empty+"usuarios/usuarios-pendientes";
+    return this.http.get(url).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
    validate(credenciales: ILogin): Observable<any> {
     const url = endpoint.api.empty+'Authenticate';
     const headers = { 'Accept': 'application/json'};

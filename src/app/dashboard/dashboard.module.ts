@@ -7,13 +7,15 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PlanillaComponent } from './planilla/planilla.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { MaterialModule } from '../shared/material.module';
+import { UsuariosPendientesComponent } from './usuarios-pendientes/usuarios-pendientes.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     PlanillaComponent,
-    PerfilComponent
+    PerfilComponent,
+    UsuariosPendientesComponent
   ],
   imports: [
     CommonModule,

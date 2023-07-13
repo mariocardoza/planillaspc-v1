@@ -12,6 +12,7 @@ export const endpoint = {
         naturales: ws.api + '/PersonasNaturales',
         juridicas: ws.api + '/PersonasJuridicas',
         upload: ws.api + "/Upload",
+        download: ws.api + '/Download/',
     },
     current: {
         images: ws.me + '/assets/images/'

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders,HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ILogin } from '../models/login.interface';
 import { BehaviorSubject, ReplaySubject, catchError, Observable, tap, throwError, of } from 'rxjs';
@@ -109,11 +109,11 @@ export class AuthenticationService {
     }))
   }
 
-  users(): Observable<any> {
-    const url = endpoint.api.empty+"usuarios/usuarios-pendientes";
-    return this.http.get(url).pipe(tap((result) => {
-      return result;
-    }))
+  downloadFile(fileUrl: string): Observable<Blob> {
+    const url = `${endpoint.api.download}`;
+    let params = new HttpParams().set("filename", fileUrl);
+
+    return this.http.get(url, { params: params,  responseType: 'blob'})
   }
 
    validate(credenciales: ILogin): Observable<any> {

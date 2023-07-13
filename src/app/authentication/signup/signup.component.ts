@@ -60,7 +60,7 @@ export class SignupComponent implements OnInit {
     this.nitExiste = false;
     if(this.data != null)
       this.token = this.data.token;
-   }
+    }
 
   ngOnInit(): void {
     console.log(this.a)

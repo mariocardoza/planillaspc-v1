@@ -61,7 +61,7 @@ dl {
 section {
   &.content {
     margin: 35px 27px 0 260px;
-    min-height: calc(100vh - 76px);
+    /*min-height: calc(100vh - 76px);*/
     @include transition(0.5s);
     .content-block {
       padding: 25px 0px 0px 25px;

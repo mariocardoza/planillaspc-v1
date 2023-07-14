@@ -107,6 +107,7 @@ export class SignupComponent implements OnInit {
       CodigoTipoMedioContacto: ['1'],
 
     });
+    
     this.personaNaturalFormGroup = this.formBuilder.group({
       Nombre1: ['', Validators.required],
       Nombre2: [''],

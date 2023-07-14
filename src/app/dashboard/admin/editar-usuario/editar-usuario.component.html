@@ -1,0 +1,170 @@
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h4>Editar información de la empresa: <strong>{{ persona.nombreComercial }}</strong></h4>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <form [formGroup]="editFormGroup">
+                    <mat-card>
+                        <mat-card-header><h3>Datos de la empresa</h3></mat-card-header>
+                        <mat-card-content>
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                  <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>NIT</mat-label>
+                                    <input matInput placeholder="NIT" formControlName="NIT" [dropSpecialCharacters]="false" mask="0000-000000-000-0" [showMaskTyped]="false" required>
+                                  </mat-form-field>
+                                </div>
+                              
+                                <div class="col-12 col-md-6">
+                                  <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Nombre comercial</mat-label>
+                                    <input matInput placeholder="Nombre comercial" formControlName="NombreComercial" required>
+                                  </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Razón social</mat-label>
+                                    <input matInput placeholder="Razón social" formControlName="RazonSocial" required>
+                                    </mat-form-field>
+                                </div>
+                            
+                                <div class="col-12 col-md-6">
+                                    <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Código PGR</mat-label>
+                                    <input matInput placeholder="NRC" mask="000000" [showMaskTyped]="false" formControlName="codigoPGR">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Tipo de Empresa</mat-label>
+                                    <mat-select formControlName="TipoEmpresa" required placeholder="Tipo de Empresa">
+                                        <mat-option value="R">Privada</mat-option>
+                                        <mat-option value="U">Pública</mat-option>
+                                    </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Imagen del NIT</mat-label>
+                                    <input matInput formControlName="ImagenNIT"  placeholder="Imagen NIT" readonly>
+                                    <app-upload (onUploadFinished)=uploadFinishedNITEmp($event)></app-upload>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <mat-form-field class="full-width" appearance="fill">
+                                      <mat-label>Correo electrónico institucional</mat-label>
+                                      <input matInput placeholder="Correo electrónico institucional" formControlName="MedioContactoPersona">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                  <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Teléfono institucional</mat-label>
+                                    <input type="hidden" formControlName="CodigoTipoMedioContacto">
+                                    <input matInput placeholder="Número de teléfono institucional" formControlName="TelefonoContactoPersona" mask="0000-0000" [dropSpecialCharacters]="false" [showMaskTyped]="false">
+                                  </mat-form-field>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card class="mt-4">
+                        <mat-card-header><h3>Datos del representante legal</h3></mat-card-header>
+                        <mat-card-content>
+                              <div class="row mt-4">
+                                <div class="col-12 col-md-4">
+                                  <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Primer nombre</mat-label>
+                                    <input matInput placeholder="Nombres" formControlName="Nombre1"
+                                           required>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                  <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Segundo nombre</mat-label>
+                                    <input matInput placeholder="Nombres" formControlName="Nombre2"
+                                           >
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                  <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Tercer nombre</mat-label>
+                                    <input matInput placeholder="Nombres" formControlName="Nombre3"
+                                           >
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-12 col-md-4">
+                                  <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Primer apellido</mat-label>
+                                    <input matInput placeholder="Apellidos" formControlName="Apellido1"
+                                           required>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                  <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Segundo apellido</mat-label>
+                                    <input matInput placeholder="Apellidos" formControlName="Apellido2"
+                                           >
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                  <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Apellido de casada</mat-label>
+                                    <input matInput placeholder="Apellidos" formControlName="ApellidoCasada"
+                                           >
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-4 col-12">
+                                    <mat-form-field class="full-width" appearance="fill">
+                                      <mat-label>Número de DUI</mat-label>
+                                      <input matInput placeholder="Número de DUI" mask="00000000-0" [dropSpecialCharacters]="false" [showMaskTyped]="true" formControlName="CodigoNumeroDui">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                  <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Fecha de nacimiento</mat-label>
+                                    <input matInput [matDatepicker]="picker" [max]="a" formControlName="FechaNacimiento">
+                                    <mat-hint>DD/MM/YYYY</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                  </mat-form-field>
+                                </div>
+                            
+                                <div class="col-12 col-md-4">
+                                  <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Sexo</mat-label>
+                                    <mat-select placeholder="Sexo" formControlName="Sexo">
+                                      <mat-option *ngFor="let sexo of sexos" [value]="sexo.value">
+                                        {{sexo.name}}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div>
+          
+                                
+                                <input type="hidden" formControlName="ConDui">
+                                
+                              </div>
+                              <div>
+                                <button class="btn btn-primary" mat-button (click)="onSubmit()">Guardar</button>
+                              </div>
+                        </mat-card-content>
+                    </mat-card>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+

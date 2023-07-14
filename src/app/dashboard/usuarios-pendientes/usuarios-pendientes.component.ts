@@ -7,8 +7,8 @@ import { saveAs } from 'file-saver';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import {Observable, Subject} from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 import Swal from "sweetalert2";
+
 @Component({
   selector: 'app-usuarios-pendientes',
   templateUrl: './usuarios-pendientes.component.html',

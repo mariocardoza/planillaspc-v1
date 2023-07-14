@@ -5,6 +5,7 @@ import { Page404Component } from '../authentication/page404/page404.component';
 import { PlanillaComponent } from './planilla/planilla.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { UsuariosPendientesComponent } from './usuarios-pendientes/usuarios-pendientes.component';
+import { EditarUsuarioComponent } from './admin/editar-usuario/editar-usuario.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'usuarios-pendientes',
     component: UsuariosPendientesComponent
+  },
+  {
+    path: 'editar-usuario/:codigopersona',
+    component: EditarUsuarioComponent
   },
   {
     path: "**",

@@ -52,8 +52,8 @@
                             <td>{{ usuario.nombreComercial }}</td>
                             <td>{{ usuario.fechaRegistro | date }}</td>
                             <td>
-                                <a href="/dashboard/editar-usuario/{{ usuario.codigoEmpresa}}" class="btn btn-warning btn-sm"><mat-icon>edit</mat-icon></a>
-                                <button (click)="verUsuario(usuario)" class="btn btn-primary btn-sm"><mat-icon>remove_red_eye</mat-icon></button>
+                                <a href="/dashboard/editar-usuario/{{ usuario.codigoEmpresa}}" class="btn btn-warning btn-sm"><mat-icon>edit</mat-icon></a> | 
+                                <button (click)="activarUsuario(usuario.codigoEmpresa)" class="btn btn-primary btn-sm"><mat-icon>check</mat-icon></button>
                             </td>
                         </tr>
                     </tbody>

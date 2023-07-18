@@ -5,7 +5,10 @@
                 <h4>Editar información de la empresa: <strong>{{ persona.nombreComercial }}</strong></h4>
             </div>
         </div>
-        <div class="row mt-4">
+        <div class="row justify-content-center mt-4">
+            <div class="col-5">
+              <div *ngIf="isSuccess" class="alert alert-success">Cambios realizados con éxito</div>
+            </div>
             <div class="col-12">
                 <form [formGroup]="editFormGroup">
                     <mat-card>
@@ -56,6 +59,7 @@
                                     <mat-label>Imagen del NIT</mat-label>
                                     <input matInput formControlName="ImagenNIT"  placeholder="Imagen NIT" readonly>
                                     <app-upload (onUploadFinished)=uploadFinishedNITEmp($event)></app-upload>
+                                    <a href="#" (click)="descargarArchivo(persona.imagenNIT)">Ver documento</a>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -67,11 +71,11 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="col-12 col-md-6">
-                                  <mat-form-field class="full-width" appearance="fill">
+                                  <!--mat-form-field class="full-width" appearance="fill">
                                     <mat-label>Teléfono institucional</mat-label>
                                     <input type="hidden" formControlName="CodigoTipoMedioContacto">
                                     <input matInput placeholder="Número de teléfono institucional" formControlName="TelefonoContactoPersona" mask="0000-0000" [dropSpecialCharacters]="false" [showMaskTyped]="false">
-                                  </mat-form-field>
+                                  </mat-form-field-->
                                 </div>
                             </div>
                         </mat-card-content>
@@ -157,8 +161,11 @@
                                 <input type="hidden" formControlName="ConDui">
                                 
                               </div>
-                              <div>
-                                <button class="btn btn-primary" mat-button (click)="onSubmit()">Guardar</button>
+                              <div class="row justify-content-center">
+                                <div class="col-12">
+                                  <button class="btn btn-primary" mat-button (click)="onSubmit()">Guardar</button> | 
+                                  <a href="/dashboard" class="btn btn-primary" mat-button >Atrás</a>
+                                </div>
                               </div>
                         </mat-card-content>
                     </mat-card>

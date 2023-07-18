@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DashboardService } from 'src/app/core/service/dashboard.service';
-import {FormBuilder, FormGroup, Validators,NG_VALUE_ACCESSOR, FormControl} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators,NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
 import * as moment from 'moment';
-
+import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
+import { saveAs} from 'file-saver';
 @Component({
   selector: 'app-editar-usuario',
   templateUrl: './editar-usuario.component.html',
@@ -12,6 +13,7 @@ import * as moment from 'moment';
 export class EditarUsuarioComponent implements OnInit {
   private data: any;
   error= '';
+  isSuccess: boolean = false;
   a = moment().subtract(18, 'year').format("YYYY-MM-DD");
   token: any;
   persona: any = [];
@@ -24,7 +26,8 @@ export class EditarUsuarioComponent implements OnInit {
   constructor(
     private route: ActivatedRoute, 
     private dashboardService: DashboardService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private fileService: FileDownloadService
     ) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
@@ -54,7 +57,9 @@ export class EditarUsuarioComponent implements OnInit {
       FechaNacimiento: ['', Validators.required],
       Sexo: ['', Validators.required],
       CodigoNumeroDui: ['',Validators.required],
-      CodigoPersona: ['0']
+      CodigoPersona: ['0'],
+      CodigoRepresentante: ['0'],
+      CodigoMedioContacto: ['0'],
 
     });
     let id = this.route.snapshot.params.codigopersona;
@@ -76,19 +81,39 @@ export class EditarUsuarioComponent implements OnInit {
         this.editFormGroup.patchValue({ApellidoCasada: res.data.apellidoCasada});
         this.editFormGroup.patchValue({Sexo: res.data.sexo});
         this.editFormGroup.patchValue({FechaNacimiento: res.data.fechaNacimiento});
+        this.editFormGroup.patchValue({CodigoPersona:res.data.codigoPersona});
+        this.editFormGroup.patchValue({CodigoRepresentante:res.data.codigoRepresentante});
+        this.editFormGroup.patchValue({ImagenNIT:res.data.imagenNIT});
+        this.editFormGroup.patchValue({CodigoMedioContacto:res.data.codigoMedioContacto});
         //this.editFormGroup.patchValue({TelefonoContactoPersona: res.data.telefonoContactoPersona});
       }
     })
+  }
+
+  descargarArchivo(urlImagen) {
+    console.log(urlImagen)
+    let filename = urlImagen.substring(urlImagen.lastIndexOf('\\')+1);
+    this.fileService.downloadFile(urlImagen).subscribe(response => {
+			saveAs(response, filename);
+		}), error => console.log('error'), () => console.info('Archivo descargado correctamente');
   }
 
   onSubmit(){
     const data = {
       ...this.editFormGroup.value,
     };
+    if(this.editFormGroup.valid){
+      this.dashboardService.editUser(data,this.token).subscribe((res) => {
+        console.log(res)
+        if(res.success){
+          this.isSuccess = true;
+        }
+      })
+    }else{
 
-    this.dashboardService.editUser(data,this.token).subscribe((res) => {
-      console.log(res)
-    })
+    }
+
+    
   }
 
   public uploadFinishedNITEmp = (event) => {

@@ -257,8 +257,8 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit(){
-    //if (this.personaJuridicaFormGroup.valid && this.personaNaturalFormGroup.valid) {
-      console.log(this.personaNaturalFormGroup.valid)
+    if (this.personaNaturalFormGroup.valid && this.userFormGroup) {
+
       const data: IRegister = {
         ...this.personaJuridicaFormGroup.value,
         ...this.personaNaturalFormGroup.value,
@@ -268,22 +268,18 @@ export class SignupComponent implements OnInit {
       this.authenticationService.register(data).subscribe((res) => {
         if(res.success){
           this.router.navigate(['/authentication/signup-complete']);
+        }else{
+          this.error ="Ocurrió un error al registrar la informacion, revise nuevamente."
         }
-      });
-      /*this.datosUsuario = {
-        id: 1,
-        fullname:"Usuario de prueba",
-        username: "usuario",
-        email: "usuario@corre.com",
-        uuid: "ghghgfhfgh",
-        token: "fgdfgdfgdfgfddf",
-      };*/
-      /*localStorage.setItem('PlanillaUser', JSON.stringify(this.datosUsuario));*/
-
-      //console.log(data)
-    /*}else{
+      },(error) => {
+        console.log(error.error.errors)
+        this.error ="Ocurrieron uno o más errores de validación al registrar la informacion, revise nuevamente."
+      },
+      );
       
-    }*/
+    }else{
+      this.error ="Revise las validaciones e intente nuevamente."
+    }
   }
 
 }

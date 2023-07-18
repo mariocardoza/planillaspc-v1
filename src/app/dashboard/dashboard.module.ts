@@ -10,6 +10,8 @@ import { MaterialModule } from '../shared/material.module';
 import { UsuariosPendientesComponent } from './usuarios-pendientes/usuarios-pendientes.component';
 import { EditarUsuarioComponent } from './admin/editar-usuario/editar-usuario.component';
 import { ComponentsModule } from "../shared/components/components.module";
+import { NgbAlertModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -24,7 +26,9 @@ import { ComponentsModule } from "../shared/components/components.module";
     ReactiveFormsModule,
     DashboardRoutingModule,
     MaterialModule,
-    ComponentsModule
+    ComponentsModule,
+    NgbAlertModule,
+    NgbNavModule
   ]
 })
 export class DashboardModule { }

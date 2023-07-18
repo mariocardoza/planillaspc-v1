@@ -59,7 +59,7 @@ verUsuario(usuario){
   activarUsuario(codigoEmpresa){
     Swal.fire({
       title: '¿Esta seguro?',
-      text: "Esta acción habilitará el acceso a sistema EPlanilla",
+      text: "Esta acción habilitará el acceso a sistema EPlanilla al usuario",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

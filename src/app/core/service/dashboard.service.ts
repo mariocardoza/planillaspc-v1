@@ -13,7 +13,7 @@ export class DashboardService {
   }
 
   users(token): Observable<any> {
-    const url = endpoint.api.empty+"usuarios/usuarios-pendientes";
+    const url = endpoint.api.usuarios+"/usuarios-pendientes";
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     headers = headers.append('Authorization', 'Bearer ' + `${token}`);
     return this.http.get(url,{headers}).pipe(tap((result) => {
@@ -22,7 +22,7 @@ export class DashboardService {
   }
 
   searchUser(codigoPersona: number, token: string): Observable<any>{
-    const url = endpoint.api.empty+"usuarios/buscar-usuario/"+codigoPersona;
+    const url = endpoint.api.usuarios+"/buscar-usuario/"+codigoPersona;
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     headers = headers.append('Authorization', 'Bearer ' + `${token}`);
     return this.http.get(url,{headers}).pipe(tap((result) => {
@@ -31,7 +31,7 @@ export class DashboardService {
   }
 
   editUser(data:any,token:string): Observable<any>{
-    const url = endpoint.api.empty+"usuarios/update";
+    const url = endpoint.api.usuarios+"/actualizar";
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     headers = headers.append('Authorization', 'Bearer ' + `${token}`);
     return this.http.post(url,data,{headers}).pipe(tap((result) => {
@@ -40,10 +40,19 @@ export class DashboardService {
   }
 
   activeUser(codigoPersona :number, token: string): Observable<any>{
-    const url = endpoint.api.empty+"usuarios/activar-usuario/"+codigoPersona
+    const url = endpoint.api.usuarios+"/activar-usuario/"+codigoPersona
     let headers = new HttpHeaders({'Content-Type' : 'application/json'})
     headers = headers.append('Authorization', 'Bearer ' + `${token}`);
     return this.http.get(url,{headers: headers}).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
+  updatePassword(data:any,token: string): Observable<any>{
+    const url = endpoint.api.usuarios+"/actualizar-clave";
+    let headers = new HttpHeaders({'Content-Type' : 'application/json'})
+    headers = headers.append('Authorization', 'Bearer ' + `${token}`);
+    return this.http.post(url,data,{headers: headers}).pipe(tap((result) => {
       return result;
     }))
   }

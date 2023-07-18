@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders,HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ILogin } from '../models/login.interface';
@@ -12,7 +12,7 @@ import { ILoginUser } from '../models/login-user-interface';
 })
 export class AuthenticationService {
   http: HttpClient;
-
+  @Output() disparador: EventEmitter<any> = new EventEmitter();
   private usuarioSubject: ReplaySubject<ICredencial>;
   private currentUserSubject: BehaviorSubject<ICredencial>;
 
@@ -105,6 +105,22 @@ export class AuthenticationService {
   findUser(credenciales): Observable<any> {
     const url = endpoint.api.empty+"Authenticate/forgot-user";
     return this.http.post(url,credenciales).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
+  forgotPassword(credenciales): Observable<any>{
+    const url = endpoint.api.usuarios+"/olvide-clave";
+    return this.http.post(url,credenciales).pipe(tap((result)=> {
+      return result;
+    }))
+  }
+
+  updatePassword(data:any): Observable<any>{
+    const url = endpoint.api.usuarios+"/actualizar-clave";
+    let headers = new HttpHeaders({'Content-Type' : 'application/json'})
+    //headers = headers.append('Authorization', 'Bearer ' + `${token}`);
+    return this.http.post(url,data,{headers: headers}).pipe(tap((result) => {
       return result;
     }))
   }

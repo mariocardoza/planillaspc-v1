@@ -116,7 +116,14 @@ export class SigninComponent implements OnInit {
           this.submitted = false;
           this.loading = false;
         }
-      })
+      },
+      (error) => {
+        console.log(error)
+        this.error = "No se pudo establecer conexión con el servidor";
+        this.submitted = false;
+        this.loading = false;
+      }
+      )
     }
     
   }

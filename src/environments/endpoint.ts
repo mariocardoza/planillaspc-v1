@@ -11,6 +11,7 @@ export const endpoint = {
         auth: ws.api + '/auth',
         naturales: ws.api + '/PersonasNaturales',
         juridicas: ws.api + '/PersonasJuridicas',
+        usuarios: ws.api + '/usuarios',
         upload: ws.api + "/Upload",
         download: ws.api + '/Download/',
     },

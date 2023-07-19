@@ -1,3 +1,39 @@
 <section class="content">
-    <p>planilla works!</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-center">Seleccione una opción</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-3">
+                <mat-card class="l-bg-green-dark">
+                    <mat-card-header>
+                        <h3>Cargar <br>planilla</h3>
+                    </mat-card-header>
+                </mat-card>
+            </div>
+            <div class="col-12 col-md-3">
+                <mat-card class="l-bg-cyan-dark">
+                    <mat-card-header>
+                        <h3 class="text-center">Clonar <br>planilla</h3>
+                    </mat-card-header>
+                </mat-card>
+            </div>
+            <div class="col-12 col-md-3">
+                <mat-card class="l-bg-orange-dark">
+                    <mat-card-header>
+                        <h3>Cargar planilla<br> vía csv</h3>
+                    </mat-card-header>
+                </mat-card>
+            </div>
+            <div class="col-12 col-md-3" (click)="historial()">
+                <mat-card class="l-bg-teal">
+                    <mat-card-header>
+                        <h3>Historial de<br>planillas</h3>
+                    </mat-card-header>
+                </mat-card>
+            </div>
+        </div>
+    </div>
 </section>

@@ -11,6 +11,7 @@ import { UsuariosPendientesComponent } from './usuarios-pendientes/usuarios-pend
 import { EditarUsuarioComponent } from './admin/editar-usuario/editar-usuario.component';
 import { ComponentsModule } from "../shared/components/components.module";
 import { NgbAlertModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { HistorialComponent } from './planillas/historial/historial.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { NgbAlertModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
     PlanillaComponent,
     PerfilComponent,
     UsuariosPendientesComponent,
-    EditarUsuarioComponent
+    EditarUsuarioComponent,
+    HistorialComponent
   ],
   imports: [
     CommonModule,

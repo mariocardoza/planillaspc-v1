@@ -6,6 +6,7 @@ import { PlanillaComponent } from './planilla/planilla.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { UsuariosPendientesComponent } from './usuarios-pendientes/usuarios-pendientes.component';
 import { EditarUsuarioComponent } from './admin/editar-usuario/editar-usuario.component';
+import { HistorialComponent } from './planillas/historial/historial.component';
 
 const routes: Routes = [
   {
@@ -22,8 +23,12 @@ const routes: Routes = [
     component: PerfilComponent
   },
   {
-    path: 'planilla',
+    path: 'planillas',
     component: PlanillaComponent
+  },
+  {
+    path: 'planillas/historial',
+    component: HistorialComponent
   },
   {
     path: 'usuarios-pendientes',

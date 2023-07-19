@@ -41,6 +41,7 @@ const materialModules = [
   MatDatepickerModule,
   MatTableModule,
   MatPaginatorModule,
+  MatInputModule,
   MatStepperModule,
   MatSortModule,
   MatProgressBarModule,

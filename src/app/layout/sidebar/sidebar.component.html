@@ -24,8 +24,13 @@
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U'">
-            <a routerLink="/dashboard/planilla" class="menu-top">
-              Planilla
+            <a routerLink="/dashboard/planillas" class="menu-top">
+              Planillas
+            </a>
+          </li>
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U'">
+            <a routerLink="/dashboard/planillas" class="menu-top">
+              Reportes
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'A'">
@@ -38,11 +43,6 @@
               <mat-label style="color: white">Buscar</mat-label>
               <input matInput autocomplete="off" style="color: white">
             </mat-form-field>
-          </li>
-          <li>
-            <a class="" class="menu-top">
-              <i>No se han encontrado coincidencias</i>
-            </a>
           </li>
         </ul>
       </div>

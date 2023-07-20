@@ -8,7 +8,27 @@
         <div class="row justify-content-center mt-4">
             <form>
                 <div class="col-12">
-                    <mat-label>Seleccione el mes</mat-label>
+                    <div class="row">
+                        <div class="col-4">
+                            <mat-form-field>
+                                <mat-label>Seleccione el mes</mat-label>
+                                <mat-select placeholder="Seleccione un mes">
+                                    <mat-option *ngFor="let mes of meses" [value]="mes.value">
+                                        {{mes.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field>
+                                <mat-label>Código de la empresa</mat-label>
+                                <input matInput name="hola">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <button mat-button color="primary">Primary</button>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

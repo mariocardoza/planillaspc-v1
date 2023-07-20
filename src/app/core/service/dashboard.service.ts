@@ -21,6 +21,15 @@ export class DashboardService {
     }))
   }
 
+  usersActive(token): Observable<any> {
+    const url = endpoint.api.usuarios+"/usuarios-activos";
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    headers = headers.append('Authorization', 'Bearer ' + `${token}`);
+    return this.http.get(url,{headers}).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
   searchUser(codigoPersona: number, token: string): Observable<any>{
     const url = endpoint.api.usuarios+"/buscar-usuario/"+codigoPersona;
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });

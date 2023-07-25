@@ -13,7 +13,9 @@ import { ComponentsModule } from "../shared/components/components.module";
 import { NgbAlertModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { HistorialComponent } from './planillas/historial/historial.component';
 import { UsuarioActivosComponent } from './admin/usuario-activos/usuario-activos.component';
-
+import { BitacorapjComponent } from './admin/bitacorapj/bitacorapj.component';
+import { PrimeNgModule } from '../shared/prime-ng/prime-ng.module';
+import { CrearComponent } from './planillas/crear/crear.component';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -22,7 +24,9 @@ import { UsuarioActivosComponent } from './admin/usuario-activos/usuario-activos
     UsuariosPendientesComponent,
     EditarUsuarioComponent,
     HistorialComponent,
-    UsuarioActivosComponent
+    UsuarioActivosComponent,
+    BitacorapjComponent,
+    CrearComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +36,8 @@ import { UsuarioActivosComponent } from './admin/usuario-activos/usuario-activos
     MaterialModule,
     ComponentsModule,
     NgbAlertModule,
-    NgbNavModule
+    NgbNavModule,
+    PrimeNgModule
   ]
 })
 export class DashboardModule { }

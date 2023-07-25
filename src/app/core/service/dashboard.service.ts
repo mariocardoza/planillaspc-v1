@@ -12,20 +12,38 @@ export class DashboardService {
     this.http = http;
   }
 
-  users(token): Observable<any> {
-    const url = endpoint.api.usuarios+"/usuarios-pendientes";
+  bitacoraJuridicas(token,page:number,limit: number): Observable<any> {
+    const url = endpoint.api.juridicas+"/bitacoras";
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let params = new HttpParams();
+    params = params.append("skip", page);
+    params = params.append("limit", limit);
     headers = headers.append('Authorization', 'Bearer ' + `${token}`);
-    return this.http.get(url,{headers}).pipe(tap((result) => {
+    return this.http.get(url,{params,headers}).pipe(tap((result) => {
       return result;
     }))
   }
 
-  usersActive(token): Observable<any> {
+  users(token,page:number,limit: number): Observable<any> {
+    const url = endpoint.api.usuarios+"/usuarios-pendientes";
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let params = new HttpParams();
+    params = params.append("skip", page);
+    params = params.append("limit", limit);
+    headers = headers.append('Authorization', 'Bearer ' + `${token}`);
+    return this.http.get(url,{params,headers}).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
+  usersActive(token, page:number, limit: number): Observable<any> {
     const url = endpoint.api.usuarios+"/usuarios-activos";
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     headers = headers.append('Authorization', 'Bearer ' + `${token}`);
-    return this.http.get(url,{headers}).pipe(tap((result) => {
+    let params = new HttpParams();
+    params = params.append("skip", page);
+    params = params.append("limit", limit);
+    return this.http.get(url,{params,headers}).pipe(tap((result) => {
       return result;
     }))
   }
@@ -44,6 +62,15 @@ export class DashboardService {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     headers = headers.append('Authorization', 'Bearer ' + `${token}`);
     return this.http.post(url,data,{headers}).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
+  deactiveUser(codigoPersona :number, token: string): Observable<any>{
+    const url = endpoint.api.usuarios+"/desactivar-usuario/"+codigoPersona
+    let headers = new HttpHeaders({'Content-Type' : 'application/json'})
+    headers = headers.append('Authorization', 'Bearer ' + `${token}`);
+    return this.http.get(url,{headers: headers}).pipe(tap((result) => {
       return result;
     }))
   }

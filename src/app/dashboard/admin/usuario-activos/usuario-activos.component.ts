@@ -9,13 +9,14 @@ import {Observable, Subject} from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from "sweetalert2";
 import { Router } from '@angular/router';
+import { LazyLoadEvent } from 'primeng/api';
 @Component({
   selector: 'app-usuario-activos',
   templateUrl: './usuario-activos.component.html',
   styleUrls: ['./usuario-activos.component.scss']
 })
 export class UsuarioActivosComponent implements OnInit {
-
+  private lastTableLazyLoadEvent: LazyLoadEvent;
   http: HttpClient;
   private data: any;
   token: any;
@@ -25,10 +26,11 @@ export class UsuarioActivosComponent implements OnInit {
       this.token = this.data.Token;
     }
    }
+   totalRecords: number = 0;
   usuarios: any = [];
 
   ngOnInit(): void {
-    this.buscarUsuarios();
+    //this.buscarUsuarios();
   }
 
   descargarArchivo(urlImagen) {
@@ -39,10 +41,12 @@ export class UsuarioActivosComponent implements OnInit {
 		}), error => console.log('error'), () => console.info('Archivo descargado correctamente');
   }
 
-  buscarUsuarios(){
-    this.dashboardService.usersActive(this.token).subscribe((res) => {
+  buscarUsuarios(event: LazyLoadEvent){
+    this.lastTableLazyLoadEvent = event;
+    this.dashboardService.usersActive(this.token,event.first || 0,event.rows || 10).subscribe((res) => {
       if (res.success) {
         this.usuarios = res.data
+        this.totalRecords = res.registros
       } else {
         this.toastService.showError("No se pudo obtener la información","Recargue nuevamente")
       }
@@ -53,10 +57,10 @@ export class UsuarioActivosComponent implements OnInit {
     this.router.navigate(["dashboard/editar-usuario/"+codigoPersona])
   }
 
-  activarUsuario(codigoEmpresa){
+  desactivarUsuario(codigoEmpresa){
     Swal.fire({
       title: '¿Esta seguro?',
-      text: "Esta acción habilitará el acceso a sistema EPlanilla al usuario",
+      text: "Esta acción deshabilitará el acceso a sistema EPlanilla al usuario",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -65,10 +69,10 @@ export class UsuarioActivosComponent implements OnInit {
       cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.dashboardService.activeUser(codigoEmpresa,this.token).subscribe((res) => {
+        this.dashboardService.deactiveUser(codigoEmpresa,this.token).subscribe((res) => {
           if(res){
             this.toastService.showSuccess("Actualización realizada con éxito","Se envió correctamente el correo electrónico de notificación")
-            this.buscarUsuarios();
+            this.buscarUsuarios(this.lastTableLazyLoadEvent);
           }
         });
       }

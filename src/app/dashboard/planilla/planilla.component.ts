@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
+
 @Component({
   selector: 'app-planilla',
   templateUrl: './planilla.component.html',
@@ -13,7 +14,11 @@ export class PlanillaComponent implements OnInit {
   }
 
   historial(){
-    this.router.navigate(['dashboard/planillas/historial']);
+    this.router.navigate(['/dashboard/planillas/historial']);
+  }
+
+  crear(){
+    this.router.navigate(['/dashboard/planillas/create']);
   }
 
 }

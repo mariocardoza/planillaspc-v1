@@ -8,6 +8,8 @@ import { ToastService } from 'src/app/shared/toast/toast.service';
 import {Observable, Subject} from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from "sweetalert2";
+import { LazyLoadEvent } from 'primeng/api';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-usuarios-pendientes',
@@ -16,18 +18,21 @@ import Swal from "sweetalert2";
 })
 export class UsuariosPendientesComponent implements OnInit {
   http: HttpClient;
+  private lastTableLazyLoadEvent: LazyLoadEvent;
   private data: any;
   token: any;
-  constructor(http: HttpClient,private dashboardService: DashboardService,private _sanitizer: DomSanitizer,private fileService: FileDownloadService,public toastService: ToastService,public modal: NgbModal) {
+  constructor(http: HttpClient,private primengConfig: PrimeNGConfig,private dashboardService: DashboardService,private _sanitizer: DomSanitizer,private fileService: FileDownloadService,public toastService: ToastService,public modal: NgbModal) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
     }
    }
   usuarios: any = [];
+  totalRecords: number = 0;
     
   ngOnInit(): void {
-    this.buscarUsuarios();
+    this.primengConfig.ripple = true;
+    //this.buscarUsuarios();
   }
 
   descargarArchivo(urlImagen) {
@@ -38,10 +43,12 @@ export class UsuariosPendientesComponent implements OnInit {
 		}), error => console.log('error'), () => console.info('Archivo descargado correctamente');
   }
 
-  buscarUsuarios(){
-    this.dashboardService.users(this.token).subscribe((res) => {
+  buscarUsuarios(event: LazyLoadEvent){
+    this.lastTableLazyLoadEvent = event;
+    this.dashboardService.users(this.token,event.first || 0,event.rows || 10).subscribe((res) => {
       if (res.success) {
         this.usuarios = res.data
+        this.totalRecords = res.registros
       } else {
         this.toastService.showError("No se pudo obtener la información","Recargue nuevamente")
       }
@@ -71,7 +78,7 @@ verUsuario(usuario){
         this.dashboardService.activeUser(codigoEmpresa,this.token).subscribe((res) => {
           if(res){
             this.toastService.showSuccess("Actualización realizada con éxito","Se envió correctamente el correo electrónico de notificación")
-            this.buscarUsuarios();
+            this.buscarUsuarios(this.lastTableLazyLoadEvent);
           }
         });
       }

@@ -1,0 +1,24 @@
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Crear planilla</h2>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12 col-md-3">
+                <form>
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>Fecha de registro</mat-label>
+                        <input matInput [matDatepicker]="picker">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </form>
+            </div>
+            <div class="col-12 col-md-6">
+
+            </div>
+        </div>
+    </div>
+</section>

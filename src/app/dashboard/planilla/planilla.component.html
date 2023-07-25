@@ -6,33 +6,37 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-12 col-md-3">
-                <mat-card class="l-bg-green-dark pointer">
-                    <mat-card-header>
-                        <h4 class="text-center text-white">Cargar <br>planilla</h4>
-                    </mat-card-header>
-                </mat-card>
+            <div class="col-12 col-md-3" (click)="crear()">
+                <p-card class="pointer text-center">
+                    <h3 class="m-0 text-center">
+                        Crear planilla
+                    </h3>
+                    <mat-icon class="mt-2">add</mat-icon>
+                </p-card>
             </div>
             <div class="col-12 col-md-3 ">
-                <mat-card class="l-bg-cyan-dark pointer">
-                    <mat-card-header>
-                        <h4 class="text-center text-white">Clonar <br>planilla</h4>
-                    </mat-card-header>
-                </mat-card>
+                <p-card class="pointer text-center">
+                    <h3 class="m-0 text-center">
+                        Clonar planilla
+                    </h3>
+                    <mat-icon class="mt-2">file_copy</mat-icon>
+                </p-card>
             </div>
             <div class="col-12 col-md-3">
-                <mat-card class="l-bg-orange-dark pointer">
-                    <mat-card-header>
-                        <h4 class="text-white">Cargar planilla<br> vía csv</h4>
-                    </mat-card-header>
-                </mat-card>
+                <p-card class="pointer text-center">
+                    <h3 class="m-0 text-center">
+                        Cargar planilla csv
+                    </h3>
+                    <mat-icon class="mt-2">cloud_upload</mat-icon>
+                </p-card>
             </div>
             <div class="col-12 col-md-3" (click)="historial()">
-                <mat-card class="l-bg-teal-dark pointer">
-                    <mat-card-header>
-                        <h4 class="text-white">Historial de<br>planillas</h4>
-                    </mat-card-header>
-                </mat-card>
+                <p-card class="pointer text-center">
+                    <h3 class="m-0 text-center">
+                        Historico de planillas
+                    </h3>
+                    <mat-icon class="mt-2">history</mat-icon>
+                </p-card>
             </div>
         </div>
     </div>

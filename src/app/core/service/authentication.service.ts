@@ -149,6 +149,7 @@ export class AuthenticationService {
             CodigoRol: data.codigoRol,
             Usuario: data.usuario,
             Email: data.email,
+            Estado: data.estado,
             Token: data.token,
           };
           console.log(this.datosUsuario);

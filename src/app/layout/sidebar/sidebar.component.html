@@ -18,19 +18,29 @@
             </div>
             <hr class="mt-2 mb-0">
           </li>
-          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U'">
+          <li class="sidebar-user-panel">
             <a routerLink="/dashboard/home" class="menu-top">
               Inicio
             </a>
           </li>
-          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U'">
+          <li class="sidebar-user-panel">
+            <a routerLink="/dashboard/perfil" class="menu-top">
+              Editar mi perfil
+            </a>
+          </li>
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
             <a routerLink="/dashboard/planillas" class="menu-top">
               Planillas
             </a>
           </li>
-          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U'">
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
             <a routerLink="/dashboard/planillas" class="menu-top">
               Reportes
+            </a>
+          </li>
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'A'">
+            <a routerLink="/dashboard/bitacora-juridicas" class="menu-top">
+              Bitácora
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'A'">

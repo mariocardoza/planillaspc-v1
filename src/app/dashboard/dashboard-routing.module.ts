@@ -8,6 +8,8 @@ import { UsuariosPendientesComponent } from './usuarios-pendientes/usuarios-pend
 import { EditarUsuarioComponent } from './admin/editar-usuario/editar-usuario.component';
 import { HistorialComponent } from './planillas/historial/historial.component';
 import { UsuarioActivosComponent } from './admin/usuario-activos/usuario-activos.component';
+import { BitacorapjComponent } from './admin/bitacorapj/bitacorapj.component';
+import { CrearComponent } from './planillas/crear/crear.component';
 
 const routes: Routes = [
   {
@@ -32,12 +34,20 @@ const routes: Routes = [
     component: HistorialComponent
   },
   {
+    path: 'planillas/create',
+    component: CrearComponent
+  },
+  {
     path: 'usuarios-pendientes',
     component: UsuariosPendientesComponent
   },
   {
     path: 'usuarios-activos',
     component: UsuarioActivosComponent
+  },
+  {
+    path: 'bitacora-juridicas',
+    component: BitacorapjComponent
   },
   {
     path: 'editar-usuario/:codigopersona',

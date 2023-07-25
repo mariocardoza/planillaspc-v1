@@ -57,7 +57,23 @@ export class PerfilComponent implements OnInit {
   }
 
   onSubmit(){
-
+    if(this.perfilFormGroup.valid){
+      const postData = {
+        ...this.perfilFormGroup.value
+      }
+      this.dashboardService.editUser(postData,this.token).subscribe((result) => {
+        if(result.success){
+          this.isSuccess = true;
+          this.message = result.message
+        }else{
+          this.isSuccess = false;
+          this.message = result.message
+        }
+      })
+    }else{
+      this.isSuccess = false;
+      this.message = "No se puede actualizar, intente más tarde."
+    }
   }
 
   ngOnInit(): void {

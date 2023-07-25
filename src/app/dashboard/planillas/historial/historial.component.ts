@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-
+import { PlanillaService } from 'src/app/core/service/planilla.service';
 @Component({
   selector: 'app-historial',
   templateUrl: './historial.component.html',
   styleUrls: ['./historial.component.scss']
 })
 export class HistorialComponent implements OnInit {
+  products: any = [];
   meses = [
     {value:'01', name:'Enero'},
     {value:'02', name:'Febrero'},
@@ -20,9 +21,12 @@ export class HistorialComponent implements OnInit {
     {value:'11', name:'Noviembre'},
     {value:'12', name:'Diciembre'},
   ];
-  constructor() { }
+  constructor(private planillaService: PlanillaService) { }
 
   ngOnInit(): void {
+    this.planillaService.getProductsMini().then((data) => {
+      this.products = data;
+    });
   }
 
 }

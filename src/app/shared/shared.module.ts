@@ -9,6 +9,7 @@ import { FeatherIconsModule } from "./components/feather-icons/feather-icons.mod
 import { ComponentsModule } from "./components/components.module";
 import { MatRadioModule } from "@angular/material/radio";
 import { NgxSpinnerModule } from "ngx-spinner";
+import { PrimeNgModule } from "./prime-ng/prime-ng.module";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
         NgbModule,
         MaterialModule,
         MatRadioModule,
-        NgxSpinnerModule
+        NgxSpinnerModule,
+        PrimeNgModule
     ],
   exports: [
     CommonModule,

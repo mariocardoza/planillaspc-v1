@@ -38,19 +38,24 @@
               Reportes
             </a>
           </li>
-          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'A'">
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol != 'U'">
             <a routerLink="/dashboard/bitacora-juridicas" class="menu-top">
               Bitácora
             </a>
           </li>
-          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'A'">
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol != 'U'">
             <a routerLink="/dashboard/usuarios-activos" class="menu-top">
               Usuarios activos
             </a>
           </li>
-          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'A'">
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol != 'U'">
             <a routerLink="/dashboard/usuarios-pendientes" class="menu-top">
-              Verificación de usuarios
+              <span matBadge="{{numeroPendientes}}" matBadgeSize="small">Verificación de usuarios </span>
+            </a>
+          </li>
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'S'">
+            <a routerLink="/dashboard/administradores" class="menu-top">
+              Usuarios administradores
             </a>
           </li>
           <li>

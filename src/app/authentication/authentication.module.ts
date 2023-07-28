@@ -18,6 +18,7 @@ import { RecoverPasswordComponent } from './recover-password/recover-password.co
 import { ComponentsModule } from "../shared/components/components.module";
 import { SignupCompleteComponent } from './signup-complete/signup-complete.component';
 import { ForgotUserComponent } from './forgot-user/forgot-user.component';
+import { PrimeNgModule } from "../shared/prime-ng/prime-ng.module";
 //import { UploadComponent } from "../shared/components/upload/upload.component";
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { ForgotUserComponent } from './forgot-user/forgot-user.component';
     MatSelectModule,
     MatAutocompleteModule,
     MaterialModule,
-    ComponentsModule
+    ComponentsModule,
+    PrimeNgModule
     //UploadComponent
   ],
 })

@@ -10,6 +10,9 @@ import { HistorialComponent } from './planillas/historial/historial.component';
 import { UsuarioActivosComponent } from './admin/usuario-activos/usuario-activos.component';
 import { BitacorapjComponent } from './admin/bitacorapj/bitacorapj.component';
 import { CrearComponent } from './planillas/crear/crear.component';
+import { Page403Component } from './page403/page403.component';
+import { AdministradoresComponent } from './admin/administradores/administradores.component';
+import { CrearAdministradorComponent } from './admin/crear-administrador/crear-administrador.component';
 
 const routes: Routes = [
   {
@@ -52,6 +55,18 @@ const routes: Routes = [
   {
     path: 'editar-usuario/:codigopersona',
     component: EditarUsuarioComponent
+  },
+  {
+    path:'administradores',
+    component: AdministradoresComponent
+  },
+  {
+    path:'administradores/create',
+    component: CrearAdministradorComponent
+  },
+  {
+    path:'403',
+    component: Page403Component
   },
   {
     path: "**",

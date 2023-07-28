@@ -16,6 +16,10 @@ import { UsuarioActivosComponent } from './admin/usuario-activos/usuario-activos
 import { BitacorapjComponent } from './admin/bitacorapj/bitacorapj.component';
 import { PrimeNgModule } from '../shared/prime-ng/prime-ng.module';
 import { CrearComponent } from './planillas/crear/crear.component';
+import { Page403Component } from './page403/page403.component';
+import { AdministradoresComponent } from './admin/administradores/administradores.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { CrearAdministradorComponent } from './admin/crear-administrador/crear-administrador.component';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -26,7 +30,10 @@ import { CrearComponent } from './planillas/crear/crear.component';
     HistorialComponent,
     UsuarioActivosComponent,
     BitacorapjComponent,
-    CrearComponent
+    CrearComponent,
+    Page403Component,
+    AdministradoresComponent,
+    CrearAdministradorComponent
   ],
   imports: [
     CommonModule,
@@ -37,6 +44,7 @@ import { CrearComponent } from './planillas/crear/crear.component';
     ComponentsModule,
     NgbAlertModule,
     NgbNavModule,
+    MatAutocompleteModule,
     PrimeNgModule
   ]
 })

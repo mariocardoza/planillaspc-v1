@@ -207,7 +207,7 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-12 col-md-6">
+                      <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Fecha de nacimiento</mat-label>
                           <input matInput [matDatepicker]="picker" [max]="a" formControlName="FechaNacimiento">
@@ -217,7 +217,7 @@
                         </mat-form-field>
                       </div>
                   
-                      <div class="col-12 col-md-6">
+                      <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Sexo</mat-label>
                           <mat-select placeholder="Sexo" formControlName="Sexo">
@@ -225,6 +225,23 @@
                               {{sexo.name}}
                             </mat-option>
                           </mat-select>
+                        </mat-form-field>
+                      </div>
+                      
+                      <div class="col-12 col-md-4">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>Procuraduría donde realiza el pago</mat-label>
+                          <input type="text"
+                            placeholder="Pick one"
+                            aria-label="Number"
+                            matInput
+                            formControlName="Pagaduria"
+                            [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete">
+                              <mat-option *ngFor="let option of unidades" [value]="option.codigoPagaduria.trim()">
+                                {{option.pagaduria}}
+                              </mat-option>
+                            </mat-autocomplete>
                         </mat-form-field>
                       </div>
 

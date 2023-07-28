@@ -24,7 +24,7 @@ export class DashboardService {
     }))
   }
 
-  users(token,page:number,limit: number): Observable<any> {
+  usersPending(token,page:number,limit: number): Observable<any> {
     const url = endpoint.api.usuarios+"/usuarios-pendientes";
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     let params = new HttpParams();
@@ -86,6 +86,29 @@ export class DashboardService {
 
   updatePassword(data:any,token: string): Observable<any>{
     const url = endpoint.api.usuarios+"/actualizar-clave";
+    let headers = new HttpHeaders({'Content-Type' : 'application/json'})
+    headers = headers.append('Authorization', 'Bearer ' + `${token}`);
+    return this.http.post(url,data,{headers: headers}).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
+
+  /* administradores */
+  adminsList(token: string, page: number, limit: number): Observable<any>{
+    const url = endpoint.api.usuarios+"/administradores"
+    let headers = new HttpHeaders({'Content-Type' : 'application/json'})
+    headers = headers.append('Authorization', 'Bearer ' + `${token}`);
+    let params = new HttpParams();
+    params = params.append("skip", page);
+    params = params.append("limit", limit);
+    return this.http.get(url,{params,headers}).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
+  createAdmin(data:any,token: string): Observable<any>{
+    const url = endpoint.api.usuarios+"/administradores/create";
     let headers = new HttpHeaders({'Content-Type' : 'application/json'})
     headers = headers.append('Authorization', 'Bearer ' + `${token}`);
     return this.http.post(url,data,{headers: headers}).pipe(tap((result) => {

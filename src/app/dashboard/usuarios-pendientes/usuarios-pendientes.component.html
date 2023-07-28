@@ -49,8 +49,8 @@
                     <td>{{ usuario.nombreComercial }}</td>
                     <td>{{ usuario.fechaRegistro | date }}</td>
                     <td>
-                        <a routerLink="/dashboard/editar-usuario/{{ usuario.codigoEmpresa}}" class="btn btn-warning btn-sm"><mat-icon>edit</mat-icon></a> | 
-                        <button (click)="activarUsuario(usuario.codigoEmpresa)" class="btn btn-primary btn-sm"><mat-icon>check</mat-icon></button>
+                        <button (click)="activarUsuario(usuario.codigoEmpresa)" pButton icon="pi pi-check" class="p-button-primary"></button> | 
+                        <a routerLink="/dashboard/editar-usuario/{{ usuario.codigoEmpresa}}" pButton icon="pi pi-user-edit" class="p-button-warning"></a>
                     </td>
                 </tr>
                 </ng-template>

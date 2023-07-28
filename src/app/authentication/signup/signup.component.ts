@@ -51,6 +51,7 @@ export class SignupComponent implements OnInit {
     {value:'F', name:'Femenino'},
     {value:'M', name:'Masculino'},
   ];
+  unidades = [];
   departments = [];
   private data: any;
   token: any;
@@ -64,6 +65,7 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.a)
+    this.buscarUnidades();
     const login: ILoginUser = {
       codigoUsuario: 'PGRPERSONA',
       claveUsuario: '51APP6R'
@@ -113,6 +115,7 @@ export class SignupComponent implements OnInit {
       Nombre2: [''],
       Nombre3: [''],
       ConDui: ['S'],
+      Pagaduria: ['', Validators.required],
       Apellido1: ['', Validators.required],
       Apellido2: [''],
       ApellidoCasada: [''],
@@ -171,6 +174,12 @@ export class SignupComponent implements OnInit {
     }
   })
   //this.userFormGroup.patchValue({Username: dui});
+ }
+
+ buscarUnidades(){
+  this.authenticationService.unidadesOrganizacionales().subscribe((res)=>{
+    this.unidades = res.data;
+  });
  }
 
  findNIT(){

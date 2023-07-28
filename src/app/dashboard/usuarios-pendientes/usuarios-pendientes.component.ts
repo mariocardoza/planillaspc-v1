@@ -10,7 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from "sweetalert2";
 import { LazyLoadEvent } from 'primeng/api';
 import { PrimeNGConfig } from 'primeng/api';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-usuarios-pendientes',
   templateUrl: './usuarios-pendientes.component.html',
@@ -21,7 +21,7 @@ export class UsuariosPendientesComponent implements OnInit {
   private lastTableLazyLoadEvent: LazyLoadEvent;
   private data: any;
   token: any;
-  constructor(http: HttpClient,private primengConfig: PrimeNGConfig,private dashboardService: DashboardService,private _sanitizer: DomSanitizer,private fileService: FileDownloadService,public toastService: ToastService,public modal: NgbModal) {
+  constructor(http: HttpClient,private router: Router,private primengConfig: PrimeNGConfig,private dashboardService: DashboardService,private _sanitizer: DomSanitizer,private fileService: FileDownloadService,public toastService: ToastService,public modal: NgbModal) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
@@ -32,6 +32,9 @@ export class UsuariosPendientesComponent implements OnInit {
     
   ngOnInit(): void {
     this.primengConfig.ripple = true;
+    if(this.data.CodigoRol == 'U'){
+      this.router.navigate(['/dashboard/403'])
+    }
     //this.buscarUsuarios();
   }
 
@@ -45,7 +48,7 @@ export class UsuariosPendientesComponent implements OnInit {
 
   buscarUsuarios(event: LazyLoadEvent){
     this.lastTableLazyLoadEvent = event;
-    this.dashboardService.users(this.token,event.first || 0,event.rows || 10).subscribe((res) => {
+    this.dashboardService.usersPending(this.token,event.first || 0,event.rows || 10).subscribe((res) => {
       if (res.success) {
         this.usuarios = res.data
         this.totalRecords = res.registros

@@ -5,6 +5,7 @@ export interface IRegister {
     NombreComercial: string;
     CodigoPGR: string;
     ImagenNIT: string;
+    Pagaduria: string;
     Nombre1: string;
     Nombre2: string;
     Nombre3: string;

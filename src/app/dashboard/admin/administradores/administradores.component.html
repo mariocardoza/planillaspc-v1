@@ -1,0 +1,40 @@
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="text-center">Listado de usuarios administradores</h3>
+                <a routerLink="/dashboard/administradores/create" class="p-button-primary" pButton label="Nuevo administrador" icon="pi pi-plus-circle"></a>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12">
+              <p-table [value]="usuarios" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="buscarUsuarios($event)" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 25, 50, 100]">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th>Codigo de la persona</th>
+                    <th>Usuario (acceso al sistema)</th>
+                    <th>NIT</th>
+                    <th>Imagen NIT</th>
+                    <th>Nombre de la empresa</th>
+                    <th>Fecha de registro</th>
+                    <th>Pagaduría</th>
+                    <th></th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-usuario>
+                  <tr>
+                    <td>{{ usuario.codigoEmpresa }}</td>
+                    <td>{{ usuario.usuario }}</td>
+                    <td>{{ usuario.nit }}</td>
+                    <td>{{ usuario.pagaduria }}</td>
+                    <td>{{ usuario.fechaRegistro | date }}</td>
+                    <td>
+                        <button (click)="desactivarUsuario(usuario.usuario)" pButton icon="pi pi-check" class="p-button-primary"></button> | 
+                    </td>
+                </tr>
+                </ng-template>
+              </p-table>
+            </div>
+        </div>
+    </div>
+</section>

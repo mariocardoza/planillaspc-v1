@@ -26,11 +26,14 @@ export class UsuarioActivosComponent implements OnInit {
       this.token = this.data.Token;
     }
    }
-   totalRecords: number = 0;
+  totalRecords: number = 0;
   usuarios: any = [];
 
   ngOnInit(): void {
     //this.buscarUsuarios();
+    if(this.data.CodigoRol == 'U'){
+      this.router.navigate(['/dashboard/403'])
+    }
   }
 
   descargarArchivo(urlImagen) {

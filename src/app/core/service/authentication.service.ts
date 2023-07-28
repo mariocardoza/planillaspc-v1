@@ -109,6 +109,13 @@ export class AuthenticationService {
     }))
   }
 
+  unidadesOrganizacionales(): Observable<any> {
+    const url = endpoint.api.usuarios+"/unidades-organizacionales";
+    return this.http.get(url).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
   forgotPassword(credenciales): Observable<any>{
     const url = endpoint.api.usuarios+"/olvide-clave";
     return this.http.post(url,credenciales).pipe(tap((result)=> {

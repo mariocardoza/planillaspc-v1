@@ -2,6 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup,FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/service/authentication.service';
+import { PasswordStrengthValidator } from 'src/app/core/validators/password-strength.validator';
+import { PasswordValidation } from 'src/app/core/validators/password-validator';
+
 @Component({
   selector: 'app-recover-password',
   templateUrl: './recover-password.component.html',
@@ -28,7 +31,7 @@ export class RecoverPasswordComponent implements OnInit {
       
       CodigoEmpresa: ["", Validators.required],
       Username: ["", Validators.required],
-      Password: ["", Validators.required],
+      Password: ["", [Validators.required,PasswordStrengthValidator]],
       ConfirmPassword: ["", Validators.required],
     },{
       validator:((controlName: string, matchingControlName: string)=>{

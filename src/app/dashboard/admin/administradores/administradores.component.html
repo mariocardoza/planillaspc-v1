@@ -13,11 +13,9 @@
                   <tr>
                     <th>Codigo de la persona</th>
                     <th>Usuario (acceso al sistema)</th>
-                    <th>NIT</th>
-                    <th>Imagen NIT</th>
-                    <th>Nombre de la empresa</th>
                     <th>Fecha de registro</th>
                     <th>Pagaduría</th>
+                    <th>Estado</th>
                     <th></th>
                   </tr>
                 </ng-template>
@@ -25,11 +23,12 @@
                   <tr>
                     <td>{{ usuario.codigoEmpresa }}</td>
                     <td>{{ usuario.usuario }}</td>
-                    <td>{{ usuario.nit }}</td>
-                    <td>{{ usuario.pagaduria }}</td>
                     <td>{{ usuario.fechaRegistro | date }}</td>
+                    <td>{{ usuario.pagaduria }}</td>
+                    <td>{{ usuario.estado == 1 ? 'Activo' : 'Inactivo' }}</td>
                     <td>
-                        <button (click)="desactivarUsuario(usuario.usuario)" pButton icon="pi pi-check" class="p-button-primary"></button> | 
+                        <button *ngIf="usuario.estado == 0" (click)="activarUsuario(usuario.idUsuario)" pButton icon="pi pi-check" class="p-button-primary"></button> 
+                        <button *ngIf="usuario.estado == 1" (click)="desactivarUsuario(usuario.idUsuario)" pButton icon="pi pi-times" class="p-button-primary"></button> 
                     </td>
                 </tr>
                 </ng-template>

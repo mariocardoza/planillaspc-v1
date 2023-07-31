@@ -5,6 +5,7 @@ export interface ICredencial {
     CodigoPGR: number;
     CodigoRol: string;
     Estado: number;
+    IdUsuario: number;
     NIT: string;
     Usuario: string;
     Email: string;

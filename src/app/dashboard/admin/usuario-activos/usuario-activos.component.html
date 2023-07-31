@@ -51,7 +51,7 @@
                     <td>{{ usuario.fechaRegistro | date }}</td>
                     <td>{{ usuario.fechaAlta | date }}</td>
                     <td>
-                      <p-button (click)="desactivarUsuario(usuario.codigoEmpresa)" icon="pi pi-times" styleClass="p-button-primary"></p-button> | 
+                      <p-button (click)="desactivarUsuario(usuario.idUsuario)" icon="pi pi-times" styleClass="p-button-primary"></p-button> | 
                       <p-button (click)="editar(usuario.codigoEmpresa)" icon="pi pi-user-edit" styleClass="p-button-warning"></p-button> 
                     </td>
                 </tr>

@@ -49,7 +49,7 @@
                     <td>{{ usuario.nombreComercial }}</td>
                     <td>{{ usuario.fechaRegistro | date }}</td>
                     <td>
-                        <button (click)="activarUsuario(usuario.codigoEmpresa)" pButton icon="pi pi-check" class="p-button-primary"></button> | 
+                        <button (click)="activarUsuario(usuario.idUsuario)" pButton icon="pi pi-check" class="p-button-primary"></button> | 
                         <a routerLink="/dashboard/editar-usuario/{{ usuario.codigoEmpresa}}" pButton icon="pi pi-user-edit" class="p-button-warning"></a>
                     </td>
                 </tr>

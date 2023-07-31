@@ -18,6 +18,9 @@
                                     <input matInput placeholder="Usuario" formControlName="Username" required>
                                     <input formControlName="NIT" type="hidden">
                                     <input formControlName="CodigoEmpresa" type="hidden">
+                                    <mat-error *ngIf="userFormGroup.get('Username')?.hasError('required')">
+                                        Digite el correo electrónico
+                                    </mat-error>
                                   </mat-form-field>
                                 </div>
                                 <div class="col-12 col-md-6">
@@ -34,6 +37,9 @@
                                               {{option.pagaduria}}
                                             </mat-option>
                                           </mat-autocomplete>
+                                          <mat-error *ngIf="userFormGroup.get('CodigoPagaduria')?.hasError('required')">
+                                            Seleccione una pagaduría
+                                        </mat-error>
                                       </mat-form-field>
                                 </div>
                             </div>
@@ -44,6 +50,9 @@
                                         <input matInput placeholder="Clave" formControlName="Password" required type="password">
                                         <mat-error *ngIf="userFormGroup.get('Password')?.hasError('passwordStrength')">
                                             {{userFormGroup.get('Password')?.errors['passwordStrength']}}
+                                        </mat-error>
+                                        <mat-error *ngIf="userFormGroup.get('Password')?.hasError('required')">
+                                            Digite una clave segura
                                         </mat-error>
                                     </mat-form-field>
                                 </div>
@@ -56,10 +65,10 @@
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <div class="row justify-content-center">
+                            <div class="row justify-content-center mt-4">
                                 <div class="col-12">
                                   <button class="btn btn-primary" mat-button (click)="onSubmit()">Guardar</button> | 
-                                  <a href="/dashboard" class="btn btn-primary" mat-button >Atrás</a>
+                                  <a routerLink="/dashboard" class="btn btn-primary" mat-button >Atrás</a>
                                 </div>
                             </div>
                             

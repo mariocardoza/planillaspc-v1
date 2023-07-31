@@ -157,9 +157,10 @@ export class AuthenticationService {
             Usuario: data.usuario,
             Email: data.email,
             Estado: data.estado,
+            IdUsuario: data.idUsuario,
             Token: data.token,
           };
-          console.log(this.datosUsuario);
+          //console.log(this.datosUsuario);
           localStorage.setItem('PlanillaUser', JSON.stringify(this.datosUsuario));
           this.usuarioSubject.next(this.datosUsuario);
           this.currentUserSubject.next(this.datosUsuario);

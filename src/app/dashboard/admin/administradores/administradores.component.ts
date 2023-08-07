@@ -3,6 +3,7 @@ import { DashboardService } from 'src/app/core/service/dashboard.service';
 import { LazyLoadEvent } from 'primeng/api';
 import { ToastService } from 'src/app/shared/toast/toast.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-administradores',
@@ -16,7 +17,7 @@ export class AdministradoresComponent implements OnInit {
   data: any = [];
   private lastTableLazyLoadEvent: LazyLoadEvent;
 
-  constructor(private dashboardService: DashboardService, private toastService: ToastService) {
+  constructor(private dashboardService: DashboardService, private toastService: ToastService, private router: Router) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
@@ -58,6 +59,10 @@ export class AdministradoresComponent implements OnInit {
         });
       }
     })
+  }
+
+  editarUsuario(id){
+    this.router.navigate(["/dashboard/administradores/"+id+"/edit"])
   }
 
   activarUsuario(usuario){

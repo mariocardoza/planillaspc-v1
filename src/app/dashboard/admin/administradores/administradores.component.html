@@ -27,6 +27,7 @@
                     <td>{{ usuario.pagaduria }}</td>
                     <td>{{ usuario.estado == 1 ? 'Activo' : 'Inactivo' }}</td>
                     <td>
+                        <button (click)="editarUsuario(usuario.idUsuario)" pButton icon="pi pi-user-edit" class="p-button-warning"></button> | 
                         <button *ngIf="usuario.estado == 0" (click)="activarUsuario(usuario.idUsuario)" pButton icon="pi pi-check" class="p-button-primary"></button> 
                         <button *ngIf="usuario.estado == 1" (click)="desactivarUsuario(usuario.idUsuario)" pButton icon="pi pi-times" class="p-button-primary"></button> 
                     </td>

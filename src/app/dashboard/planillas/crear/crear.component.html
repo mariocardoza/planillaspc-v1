@@ -2,23 +2,55 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h2>Crear planilla</h2>
+                <h2>Nueva planilla</h2>
             </div>
         </div>
-        <div class="row mt-2">
-            <div class="col-12 col-md-3">
-                <form>
-                    <mat-form-field class="full-width" appearance="fill">
-                        <mat-label>Fecha de registro</mat-label>
-                        <input matInput [matDatepicker]="picker">
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                          <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                </form>
-            </div>
-            <div class="col-12 col-md-6">
+            <form [formGroup]="planillaFormGroup">
+                <input readonly type="hidden" formControlName="CodigoEstado">
+                <input readonly type="hidden" formControlName="CodigoPagaduria">
+                <input readonly type="hidden" formControlName="CodigoEmpresa">
 
+             <div class="row mt-2">
+                <div class="col-12 col-md-3">
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>N° de planilla</mat-label>
+                        <input matInput type="text" readonly formControlName="NoMandamiento">
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-3">
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>Periodo</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="Periodo">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker startView="multi-year"
+                        (monthSelected)="setMonthAndYear($event, picker)"></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-3">
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>Tipo de cuota</mat-label>
+                        <mat-select formControlName="CodigoTipoCuota">
+                            <mat-option selected></mat-option>
+                            <mat-option *ngFor="let tipo of tipoCuotas" [value]="tipo.value">{{ tipo.name }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-9">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label>Observaciones</mat-label>
+                        <textarea matInput formControlName="Observacion"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button (click)="onSubmit()" class="btn btn-primary"><i class="pi pi-save" ></i> Generar planilla</button>
+                </div>
+            </div>
+        </form>
+            
+        
     </div>
 </section>

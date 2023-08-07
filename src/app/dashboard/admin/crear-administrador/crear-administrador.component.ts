@@ -4,6 +4,7 @@ import { PasswordStrengthValidator } from 'src/app/core/validators/password-stre
 import { PasswordValidation } from 'src/app/core/validators/password-validator';
 import { DashboardService } from 'src/app/core/service/dashboard.service';
 import { AuthenticationService } from 'src/app/core/service/authentication.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-crear-administrador',
   templateUrl: './crear-administrador.component.html',
@@ -17,7 +18,7 @@ export class CrearAdministradorComponent implements OnInit {
   data: any = [];
   token: string;
   unidades: any = [];
-  constructor(private formBuilder: FormBuilder,private dashboardService: DashboardService, private authenticationService: AuthenticationService) {
+  constructor(private formBuilder: FormBuilder,private dashboardService: DashboardService, private authenticationService: AuthenticationService, private router: Router) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
@@ -31,6 +32,7 @@ export class CrearAdministradorComponent implements OnInit {
       NIT: ['', Validators.required],
       CodigoPagaduria: ['', Validators.required],
       CodigoEmpresa: ['', ''],
+      Accion: ['', 0],
       Password: ['', [Validators.required, PasswordStrengthValidator]],
       ConfirmPassword: ['', Validators.nullValidator]
     }, 
@@ -57,7 +59,12 @@ export class CrearAdministradorComponent implements OnInit {
       };
 
       this.dashboardService.createAdmin(data,this.token).subscribe((res)=>{
-
+        if(res.success){
+          this.router.navigate(["/dashboard/administradores"])
+        }else{
+          this.isError = true;
+          this.message = "Compruebe los campos"
+        }
       });
     }else{
       this.isError = true;

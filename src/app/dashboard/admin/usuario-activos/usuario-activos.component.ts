@@ -46,7 +46,7 @@ export class UsuarioActivosComponent implements OnInit {
 
   buscarUsuarios(event: LazyLoadEvent){
     this.lastTableLazyLoadEvent = event;
-    this.dashboardService.usersActive(this.token,event.first || 0,event.rows || 10).subscribe((res) => {
+    this.dashboardService.usersActive(this.token,this.data.CodigoRol,this.data.CodigoPagaduria,event.first || 0,event.rows || 10).subscribe((res) => {
       if (res.success) {
         this.usuarios = res.data
         this.totalRecords = res.registros

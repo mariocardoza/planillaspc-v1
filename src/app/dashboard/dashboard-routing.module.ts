@@ -13,6 +13,7 @@ import { CrearComponent } from './planillas/crear/crear.component';
 import { Page403Component } from './page403/page403.component';
 import { AdministradoresComponent } from './admin/administradores/administradores.component';
 import { CrearAdministradorComponent } from './admin/crear-administrador/crear-administrador.component';
+import { EditarAdministradorComponent } from './admin/editar-administrador/editar-administrador.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,10 @@ const routes: Routes = [
   {
     path:'administradores/create',
     component: CrearAdministradorComponent
+  },
+  {
+    path:'administradores/:id/edit',
+    component: EditarAdministradorComponent
   },
   {
     path:'403',

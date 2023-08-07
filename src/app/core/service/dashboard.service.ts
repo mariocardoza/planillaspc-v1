@@ -24,25 +24,29 @@ export class DashboardService {
     }))
   }
 
-  usersPending(token,page:number,limit: number): Observable<any> {
+  usersPending(token:string,codigoRol:string,codigoPagaduria:any,page:number,limit: number): Observable<any> {
     const url = endpoint.api.usuarios+"/usuarios-pendientes";
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     let params = new HttpParams();
     params = params.append("skip", page);
     params = params.append("limit", limit);
+    params = params.append("codigoRol", codigoRol);
+    params = params.append("codigoPagaduria", codigoPagaduria);
     headers = headers.append('Authorization', 'Bearer ' + `${token}`);
     return this.http.get(url,{params,headers}).pipe(tap((result) => {
       return result;
     }))
   }
 
-  usersActive(token, page:number, limit: number): Observable<any> {
+  usersActive(token: string,codigoRol:string,codigoPagaduria:string, page:number, limit: number): Observable<any> {
     const url = endpoint.api.usuarios+"/usuarios-activos";
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     headers = headers.append('Authorization', 'Bearer ' + `${token}`);
     let params = new HttpParams();
     params = params.append("skip", page);
     params = params.append("limit", limit);
+    params = params.append("codigoRol", codigoRol);
+    params = params.append("codigoPagaduria", codigoPagaduria);
     return this.http.get(url,{params,headers}).pipe(tap((result) => {
       return result;
     }))
@@ -112,6 +116,15 @@ export class DashboardService {
     let headers = new HttpHeaders({'Content-Type' : 'application/json'})
     headers = headers.append('Authorization', 'Bearer ' + `${token}`);
     return this.http.post(url,data,{headers: headers}).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
+  findAdmin(idUsuario: number,token:string): Observable<any>{
+    const url = endpoint.api.usuarios+"/administradores/"+idUsuario
+    let headers = new HttpHeaders({'Content-Type' : 'application/json'})
+    headers = headers.append('Authorization', 'Bearer '+`${token}`);
+    return this.http.get(url,{headers: headers}).pipe(tap((result) => {
       return result;
     }))
   }

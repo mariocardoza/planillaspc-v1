@@ -20,6 +20,7 @@ import { Page403Component } from './page403/page403.component';
 import { AdministradoresComponent } from './admin/administradores/administradores.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CrearAdministradorComponent } from './admin/crear-administrador/crear-administrador.component';
+import { EditarAdministradorComponent } from './admin/editar-administrador/editar-administrador.component';
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -33,7 +34,8 @@ import { CrearAdministradorComponent } from './admin/crear-administrador/crear-a
     CrearComponent,
     Page403Component,
     AdministradoresComponent,
-    CrearAdministradorComponent
+    CrearAdministradorComponent,
+    EditarAdministradorComponent
   ],
   imports: [
     CommonModule,

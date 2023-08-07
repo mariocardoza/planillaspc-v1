@@ -1,11 +1,25 @@
 import { Injectable } from '@angular/core';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { DetallePlanilla } from '../models/detalle-planilla.interface';
+import { Observable, forkJoin, tap } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { endpoint } from 'src/environments/endpoint';
 @Injectable({
   providedIn: 'root'
 })
 export class PlanillaService {
+    private serviceUrl = 'https://dummyjson.com/users';
+  constructor(private http: HttpClient) { }
 
-  constructor() { }
+
+  guardarPlanilla(data:any,token:string){
+    const url = endpoint.api.planillas+"/create";
+    let headers = new HttpHeaders({'Content-Type':'application/json'});
+    headers = headers.append('Authorization', 'Bearer ' + `${token}`);
+    return this.http.post(url,data,{headers:headers}).pipe(tap((result) => {
+        return result;
+    }))
+  }
 
   getProductsData() {
     return [
@@ -374,5 +388,31 @@ export class PlanillaService {
 
   getProductsMini() {
     return Promise.resolve(this.getProductsData().slice(0, 5));
+  }
+
+  getUsers(): Observable<DetallePlanilla[]> {
+    return this.http
+      .get(this.serviceUrl)
+      .pipe<DetallePlanilla[]>(map((data: any) => data.users));
+  }
+
+  updateUser(user: DetallePlanilla): Observable<DetallePlanilla> {
+    return this.http.patch<DetallePlanilla>(`${this.serviceUrl}/${user.id}`, user);
+  }
+
+  addUser(user: DetallePlanilla): Observable<DetallePlanilla> {
+    return this.http.post<DetallePlanilla>(`${this.serviceUrl}/add`, user);
+  }
+
+  deleteUser(id: number): Observable<DetallePlanilla> {
+    return this.http.delete<DetallePlanilla>(`${this.serviceUrl}/${id}`);
+  }
+
+  deleteUsers(users: DetallePlanilla[]): Observable<DetallePlanilla[]> {
+    return forkJoin(
+      users.map((user) =>
+        this.http.delete<DetallePlanilla>(`${this.serviceUrl}/${user.id}`)
+      )
+    );
   }
 }

@@ -38,7 +38,7 @@ export class SidebarComponent implements OnInit {
   }
 
   contarPendientes(){
-    this.dashboardService.usersPending(this.token,0,10).subscribe((res)=>{
+    this.dashboardService.usersPending(this.token,this.usuario.CodigoRol,this.usuario.CodigoPagaduria,0,10).subscribe((res)=>{
       if(res.success){
         this.numeroPendientes = res.registros
       }

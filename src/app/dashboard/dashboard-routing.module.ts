@@ -14,6 +14,7 @@ import { Page403Component } from './page403/page403.component';
 import { AdministradoresComponent } from './admin/administradores/administradores.component';
 import { CrearAdministradorComponent } from './admin/crear-administrador/crear-administrador.component';
 import { EditarAdministradorComponent } from './admin/editar-administrador/editar-administrador.component';
+import { EditarPlanillaComponent } from './planillas/editar-planilla/editar-planilla.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,10 @@ const routes: Routes = [
   {
     path: 'planillas/create',
     component: CrearComponent
+  },
+  {
+    path: 'planillas/:id/edit',
+    component: EditarPlanillaComponent
   },
   {
     path: 'usuarios-pendientes',

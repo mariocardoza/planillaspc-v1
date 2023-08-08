@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12">
-                <h2>Registrar una nueva planilla</h2>
+                <h2>Actualizar la planilla N°: {{planilla?.noMandamiento}}</h2>
             </div>
             <div class="col-5">
                 <div *ngIf="isSuccess" class="alert alert-success">{{message}}</div>
@@ -24,10 +24,8 @@
                 <div class="col-12 col-md-3">
                     <mat-form-field class="full-width" appearance="fill">
                         <mat-label>Periodo</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="Periodo">
-                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker startView="multi-year"
-                        (monthSelected)="setMonthAndYear($event, picker)"></mat-datepicker>
+                        <input matInput formControlName="Periodo">
+                        
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-3">
@@ -50,11 +48,50 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <button (click)="onSubmit()" class="btn btn-primary"><i class="pi pi-save" ></i> Generar planilla</button>
+                    <button (click)="onSubmit()" class="btn btn-primary"><i class="pi pi-save" ></i> Actualizar planilla</button>
                 </div>
             </div>
         </form>
             
         
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <p-table [value]="empleados" dataKey="id" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '100%'}">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>DUI</th>
+                            <th>Nombres demandado</th>
+                            <th>Apellidos demandado</th>
+                            <th>Nombres demandante</th>
+                            <th>Apellidos demandante</th>
+                            <th>Monto cuota</th>
+                            <th>Número de beneficiarios</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-empleado>
+                        <tr>
+                            <td>{{empleado.duIdemandado}}</td>
+                            <td>{{empleado.nombresDemandado}}</td>
+                            <td>{{empleado.apellidosDemandado}}</td>
+                            <td>{{empleado.nombresDemandante}}</td>
+                            <td>{{empleado.apellidosDemandante}}</td>
+                            <td pEditableColumn>
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="text" [(ngModel)]="empleado.monto">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        ${{empleado.monto}}
+                                    </ng-template>
+                                </p-cellEditor>
+                               
+                            <td>{{empleado.noBeneficiarios}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
     </div>
 </section>

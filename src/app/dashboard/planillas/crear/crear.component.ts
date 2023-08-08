@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core'
@@ -41,7 +42,9 @@ export const MY_FORMATS = {
   ],
 })
 export class CrearComponent implements OnInit {
-
+  isSuccess = false;
+  isError = false;
+  message = '';
   meses = [
     {value:'01', name:'Enero'},
     {value:'02', name:'Febrero'},
@@ -89,7 +92,7 @@ export class CrearComponent implements OnInit {
   }
 
 
-  constructor(private planillaService: PlanillaService, private formBuilder: FormBuilder) {
+  constructor(private planillaService: PlanillaService, private formBuilder: FormBuilder, private router: Router) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
@@ -100,7 +103,7 @@ export class CrearComponent implements OnInit {
     this.planillaFormGroup = this.formBuilder.group({
       Periodo: ['', Validators.required],
       CodigoTipoCuota: ['', Validators.required],
-      NoMandamiento: ['',''],
+      NoMandamiento: ['0',''],
       CodigoEstado: ['1',''],
       CodigoPagaduria:[this.data.CodigoPagaduria,''],
       CodigoEmpresa:[this.data.CodigoEmpresa,''],
@@ -111,14 +114,29 @@ export class CrearComponent implements OnInit {
   }
 
   onSubmit(){
-    const data = {
-      ...this.planillaFormGroup.value
-    }
-    this.planillaService.guardarPlanilla(data,this.token).subscribe((result) => {
+    if(this.planillaFormGroup.valid){
+      let periodo = this.planillaFormGroup.value['Periodo']
+      this.planillaFormGroup.patchValue({Periodo:periodo.format('MM/Y')})
+      const data = {
+        ...this.planillaFormGroup.value
+      }
       
-    })
+      this.planillaService.guardarPlanilla(data,this.token).subscribe((result) => {
+        if(result['success']){
+          this.isSuccess = true;
+          this.message = result['message'];
+          this.router.navigate(['/dashboard/planillas/'+result['idEncabezado']+'/edit']);
+        }else{
+          this.isError = true;
+          this.message = result['message'];
+        }
+      })
+      this.planillaFormGroup.patchValue({Periodo:periodo})
+    }
+    
+    
 
-    console.log(data)
+    //console.log(data)
   }
 
 

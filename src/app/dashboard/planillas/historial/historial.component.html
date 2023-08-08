@@ -35,11 +35,10 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <p-table [value]="products" [columns]="5">
+                    <p-table [value]="planillas" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="obtenerPlanillas($event)" [totalRecords]="totalRecords">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>Código</th>
-                                <th>Título</th>
+                                <th>N° de mandamiento</th>
                                 <th>Periodo</th>
                                 <th>Tipo</th>
                                 <th>Monto planilla</th>
@@ -48,16 +47,17 @@
                                 <th>Acción</th>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-product>
+                        <ng-template pTemplate="body" let-planilla>
                             <tr>
-                                <td>{{ product.code }}</td>
-                                <td>{{ product.name }}</td>
-                                <td>{{ product.category }}</td>
-                                <td>{{ product.description }}</td>
-                                <td>${{ product.price }}</td>
-                                <td>{{ product.quantity }}</td>
-                                <td><p-tag severity="primary" value="Enviada"></p-tag></td>
-                                <td></td>
+                                <td>{{ planilla.noMandamiento }}</td>
+                                <td>{{ planilla.periodo }}</td>
+                                <td>{{ buscarTipoCuota(planilla.codigoTipoCuota) }}</td>
+                                <td>${{ planilla.monto }}</td>
+                                <td>{{ planilla.empleadosEnPlanilla }}</td>
+                                <td><p-tag severity="primary" value="{{buscarEstadoPlanilla(planilla.codigoEstado)}}"></p-tag></td>
+                                <td>
+                                    <p-button routerLink="/dashboard/planillas/{{planilla.idEncabezado}}/edit" icon="pi pi-user-edit" class="warning"></p-button>
+                                </td>
                             </tr>
                         </ng-template>
                     </p-table>

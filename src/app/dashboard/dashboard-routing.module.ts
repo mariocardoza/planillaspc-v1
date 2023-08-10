@@ -15,6 +15,7 @@ import { AdministradoresComponent } from './admin/administradores/administradore
 import { CrearAdministradorComponent } from './admin/crear-administrador/crear-administrador.component';
 import { EditarAdministradorComponent } from './admin/editar-administrador/editar-administrador.component';
 import { EditarPlanillaComponent } from './planillas/editar-planilla/editar-planilla.component';
+import { ClonarPlanillaComponent } from './planillas/clonar-planilla/clonar-planilla.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
   {
     path: 'planillas/:id/edit',
     component: EditarPlanillaComponent
+  },
+  {
+    path: 'planillas/clonar',
+    component: ClonarPlanillaComponent
   },
   {
     path: 'usuarios-pendientes',

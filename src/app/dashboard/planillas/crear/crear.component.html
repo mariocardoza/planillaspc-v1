@@ -50,7 +50,8 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <button (click)="onSubmit()" class="btn btn-primary"><i class="pi pi-save" ></i> Generar planilla</button>
+                    <button (click)="onSubmit()" pButton class="primary" icon="pi pi-save" label="Generar planilla"></button> | 
+                    <button routerLink="/dashboard/planillas" pButton class="primary" icon="pi pi-angle-left" label="Atrás"></button>
                 </div>
             </div>
         </form>

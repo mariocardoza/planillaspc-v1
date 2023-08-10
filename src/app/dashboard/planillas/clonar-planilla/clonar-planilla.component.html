@@ -1,37 +1,42 @@
+<ng-template #clonarPlanilla let-modal>
+    <div class="modal-header">
+      <h4 class="text-center">Datos de la planilla a crear</h4>
+      <button class="close" aria-label="close" type="button" (click)="modal.dismiss()"><span>&times;</span></button>
+    </div>
+    <div class="modal-body">
+      <form class="validate-form" [formGroup]="clonarForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Periodo</mat-label>
+              <input type="hidden" formControlName="IdClonar">
+              <input type="hidden" formControlName="CodigoTipoCuota">
+              <input matInput formControlName="Periodo" [dropSpecialCharacters]="false" mask="00/0000" maxlength="7"/>
+              <mat-error *ngIf="clonarForm.get('Periodo')?.hasError('required')">
+                Periodo en requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="mt-2">
+          <div style="text-align:center">
+            <button mat-raised-button color="primary" [class.auth-spinner]="loading"
+              class="auth-form-btn" [disabled]="loading || !clonarForm.valid " type="submit">Clonar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer"></div>
+</ng-template>
 <section class="content">
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h2>Historial de planillas</h2>
+                <p-toast></p-toast>
+                <h2>Seleccione una planilla que desea clonar</h2>
             </div>
         </div>
-        <div class="row justify-content-center mt-4">
-            <form>
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-4">
-                            <mat-form-field>
-                                <mat-label>Seleccione el mes</mat-label>
-                                <mat-select placeholder="Seleccione un mes">
-                                    <mat-option *ngFor="let mes of meses" [value]="mes.value">
-                                        {{mes.name}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-4">
-                            <mat-form-field>
-                                <mat-label>Código de la empresa</mat-label>
-                                <input matInput name="hola">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-4">
-                            <button pButton class="primary">Buscar</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
+        
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -56,7 +61,7 @@
                                 <td>{{ planilla.empleadosEnPlanilla }}</td>
                                 <td><p-tag severity="primary" value="{{buscarEstadoPlanilla(planilla.codigoEstado)}}"></p-tag></td>
                                 <td>
-                                    <p-button routerLink="/dashboard/planillas/{{planilla.idEncabezado}}/edit" icon="pi pi-user-edit" class="warning"></p-button>
+                                    <p-button (click)="clonar(planilla,clonarPlanilla)" icon="pi pi-copy" styleClass="p-button-warning" label="Clonar planilla"></p-button>
                                 </td>
                             </tr>
                         </ng-template>

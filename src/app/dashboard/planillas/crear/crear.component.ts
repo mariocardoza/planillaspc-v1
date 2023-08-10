@@ -143,81 +143,8 @@ export class CrearComponent implements OnInit {
 
 
 
-  editRow(row: DetallePlanilla) {
-    if (row.id === 0) {
-      this.planillaService.addUser(row).subscribe((newUser: DetallePlanilla) => {
-        row.id = newUser.id
-        row.isEdit = false
-      })
-    } else {
-      this.planillaService.updateUser(row).subscribe(() => (row.isEdit = false))
-    }
-  }
+ 
 
-  addRow() {
-    const newRow: DetallePlanilla = {
-      id: 0,
-      firstName: '',
-      lastName: '',
-      email: '',
-      birthDate: '',
-      isEdit: true,
-      isSelected: false,
-    }
-    this.dataSource.data = [newRow, ...this.dataSource.data]
-  }
-
-  removeRow(id: number) {
-    this.planillaService.deleteUser(id).subscribe(() => {
-      this.dataSource.data = this.dataSource.data.filter(
-        (u: DetallePlanilla) => u.id !== id,
-      )
-    })
-  }
-
-  removeSelectedRows() {
-    const users = this.dataSource.data.filter((u: DetallePlanilla) => u.isSelected)
-    /*this.dialog
-      .open(ConfirmDialogComponent)
-      .afterClosed()
-      .subscribe((confirm) => {
-        if (confirm) {
-          this.planillaService.deleteUsers(users).subscribe(() => {
-            this.dataSource.data = this.dataSource.data.filter(
-              (u: DetallePlanilla) => !u.isSelected,
-            )
-          })
-        }
-      })*/
-  }
-
-  inputHandler(e: any, id: number, key: string) {
-    if (!this.valid[id]) {
-      this.valid[id] = {}
-    }
-    this.valid[id][key] = e.target.validity.valid
-  }
-
-  disableSubmit(id: number) {
-    if (this.valid[id]) {
-      return Object.values(this.valid[id]).some((item) => item === false)
-    }
-    return false
-  }
-
-  isAllSelected() {
-    return this.dataSource.data.every((item) => item.isSelected)
-  }
-
-  isAnySelected() {
-    return this.dataSource.data.some((item) => item.isSelected)
-  }
-
-  selectAll(event: any) {
-    this.dataSource.data = this.dataSource.data.map((item) => ({
-      ...item,
-      isSelected: event.checked,
-    }))
-  }
+  
 
 }

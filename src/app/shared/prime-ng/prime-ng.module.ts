@@ -5,6 +5,7 @@ import { CardModule } from 'primeng/card';
 import {TableModule} from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { DropdownModule } from 'primeng/dropdown';
+import {ToastModule} from 'primeng/toast';
 @NgModule({
   declarations: [],
   imports: [
@@ -15,7 +16,8 @@ import { DropdownModule } from 'primeng/dropdown';
     CardModule,
     TableModule,
     DropdownModule,
-    TagModule
+    TagModule,
+    ToastModule
   ]
 })
 export class PrimeNgModule { }

@@ -22,6 +22,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CrearAdministradorComponent } from './admin/crear-administrador/crear-administrador.component';
 import { EditarAdministradorComponent } from './admin/editar-administrador/editar-administrador.component';
 import { EditarPlanillaComponent } from './planillas/editar-planilla/editar-planilla.component';
+import { ClonarPlanillaComponent } from './planillas/clonar-planilla/clonar-planilla.component';
+
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -37,7 +39,8 @@ import { EditarPlanillaComponent } from './planillas/editar-planilla/editar-plan
     AdministradoresComponent,
     CrearAdministradorComponent,
     EditarAdministradorComponent,
-    EditarPlanillaComponent
+    EditarPlanillaComponent,
+    ClonarPlanillaComponent
   ],
   imports: [
     CommonModule,

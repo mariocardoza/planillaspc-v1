@@ -1,11 +1,17 @@
 export interface DetallePlanilla {
-  isSelected: boolean;
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  birthDate: string;
-  isEdit: boolean;
+  idDetalle: number;
+  idEncabezado: number;
+  apellidosDemandado?: string;
+  nombresDemandado?: string;
+  apellidosDemandante?: string;
+  nombresDemandante?: string;
+  duIdemandado: string;
+  monto: number;
+  noBeneficiarios: number;
+  noTarjeta: string;
+  noExpediente: string;
+  observaciones: string;
+  codigoExpediente: number;
 }
 
 export const DetalleColumns = [

@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import { ICredencial } from "src/app/core/models/credencial";
-
+import * as XLSX from 'xlsx'
+import { PlanillaService } from "src/app/core/service/planilla.service";
 @Component({
   selector: "app-file-upload",
   templateUrl: "./file-upload.component.html",
@@ -25,7 +26,7 @@ export class FileUploadComponent implements OnInit {
   campoPrimary: string = '';
   objUser: ICredencial = null;
   loadedData: boolean = false;
-  constructor() {
+  constructor(private planillaService: PlanillaService) {
     this.return = new EventEmitter<any>();
   }
 
@@ -33,14 +34,14 @@ export class FileUploadComponent implements OnInit {
     this.objUser = JSON.parse(localStorage.getItem('PlanillaUser'));
     this.separador = this.config['$'] ? this.config['$']['separador'] : '|';
     this.camposSumar = this.config['_'] ? this.config['_'].split(',') : [];
-    this.enableTrigger = this.config['$']['trigger'] ? this.config['$']['trigger'] : '';
+   //  this.enableTrigger = this.config['$']['trigger'] ? this.config['$']['trigger'] : '';
     // console.log(this.separador, this.camposSumar);
     // console.log(this.enableTrigger);
 
     if(this.usePrimary){
-      this.campoPrimary = this.metadataUtilizar.find((campo) => campo.codigoDetalleMantenimientoTabla === 1).codigoCampo.trim();
+      this.campoPrimary = 'dui'
       // console.log(this.campoPrimary);
-      this.metadataUtilizar = this.metadataUtilizar.filter((campo) => campo.codigoDetalleMantenimientoTabla !== 1);
+      //this.metadataUtilizar = this.metadataUtilizar.filter((campo) => campo.codigoDetalleMantenimientoTabla !== 1);
       // console.log(this.metadataUtilizar);
     }
     this.metadataUtilizar.forEach((field) => {
@@ -52,6 +53,7 @@ export class FileUploadComponent implements OnInit {
   }
 
   getFileDetails(files) {
+    console.log(files)
     if (files.length === 0) return;
 
     if (files.length > 0) this.myFiles[0] = files[0];
@@ -66,16 +68,23 @@ export class FileUploadComponent implements OnInit {
     }
 
     const reader = new FileReader();
-    reader.readAsText(fileToUpload);
+    reader.readAsBinaryString(fileToUpload);
 
     reader.onload = () => {
-      let csvData = reader.result;
-      // console.log(csvData);
+      var empleados = XLSX.read(reader.result,{type:'binary'});
+      var sheetNames = empleados.SheetNames;
+      this.registros = XLSX.utils.sheet_to_json(empleados.Sheets[sheetNames[0]]);
+      this.loadedData = true;
+      console.log(this.registros)
+      
+      /*let csvData = reader.result;
+       console.log(csvData);
       let csvRecordsArray = (<string>csvData).split(/\r\n|\n/);
-      // console.log(csvRecordsArray);
+       //console.log(csvRecordsArray);
       if (csvRecordsArray.length > 0){
         this.loadedData = true;
         let result = this.obtenerDatosArray(csvRecordsArray);
+        console.log(result)
         this.registros = result;
         this.records.Registro = result;
         if(this.camposSumar.length > 0){
@@ -84,22 +93,25 @@ export class FileUploadComponent implements OnInit {
         // this.guardarRegistrosCargados();
       } else {
         //this.toastService.show("No se encontraron registros.", { classname: 'bg-dark text-light', delay: 3000, header: 'Notificación!' });
-      }
+      }*/
     };
   }
 
   obtenerDatosArray(csvRecordsArray: any[]){
+    console.log(this.separador)
     let registrosRetorno = [];
-    csvRecordsArray.forEach(value => {
+    csvRecordsArray.forEach((value,index) => {
+      console.log(<string>value)
       let actual = (<string>value).split(this.separador);
-
+      //console.log(actual)
       let registro = {};
 
-      if(this.usePrimary){
-        registro[this.campoPrimary] = this.llaveHeredada;
-      }
+     /* if(this.usePrimary){
+        registro['dui'] = actual[index];
+      }*/
 
       this.campos.forEach((campo, index) => {
+        console.log(campo)
         registro[campo] = actual[index]
       });
 
@@ -129,22 +141,26 @@ export class FileUploadComponent implements OnInit {
 
   validateFile(name: String) {
     const ext = name.substring(name.lastIndexOf('.') + 1);
-    return ext.toLowerCase() == 'txt' || ext.toLowerCase() == 'csv';
+    return ext.toLowerCase() == 'xls' || ext.toLowerCase() == 'xlsx';
   }
 
   guardarRegistrosCargados () {
-    /*this.displayTableService.guardarRegistrosSubidos(this.mantenimientoTabla, this.enableTrigger, this.llaveHeredada, this.records).subscribe(
+    console.log(this.registros)
+    this.planillaService.guardarPlanillaImportada(this.registros,this.objUser.Token).subscribe(
         res => {
-          // console.log(res)
-          if(res.statusCode === 200){
-            this.buttonPdfService.actualizarTabla();
-            this.toastService.show(`Se guardaron los datos correctamemte.`, { classname: 'bg-success text-light', delay: 5000, header: "Acción exitosa." });
-            this.return.emit(this.records);
-          }else {
-            this.toastService.show(res.reasonPhrase, { classname: 'bg-dark text-light', delay: 3000, header: 'Error!' });
-          }
+           console.log(res)
+          
         }
-    )*/
+    )
   }
+
+  json2array(json){
+    var result = [];
+    var keys = Object.keys(json);
+    keys.forEach(function(key){
+        result.push(json[key]);
+    });
+    return result;
+}
 
 }

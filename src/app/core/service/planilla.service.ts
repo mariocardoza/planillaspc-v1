@@ -15,7 +15,7 @@ export class PlanillaService {
   guardarPlanilla(data:any,token:string){
     const url = endpoint.api.planillas+"/create";
     let headers = new HttpHeaders({'Content-Type':'application/json'});
-    headers = headers.append('Authorization', 'Bearer ' + `${token}`);
+    //headers = headers.append('Authorization', 'Bearer ' + `${token}`);
     return this.http.post(url,data,{headers:headers}).pipe(tap((result) => {
         return result;
     }))
@@ -24,7 +24,7 @@ export class PlanillaService {
   obtenerPlanilla(idEncabezado: number,token:string){
     const url = endpoint.api.planillas+"/"+idEncabezado;
     let headers = new HttpHeaders({'Content-Type':'application/json'});
-    headers = headers.append('Authorization', 'Bearer ' + `${token}`);
+    //headers = headers.append('Authorization', 'Bearer ' + `${token}`);
     return this.http.get(url,{headers:headers}).pipe(tap((result) => {
         return result;
     }))
@@ -36,7 +36,7 @@ export class PlanillaService {
     params = params.append("limit", limit);
     const url = endpoint.api.planillas+"/empresa/"+codigoEmpresa;
     let headers = new HttpHeaders({'Content-Type':'application/json'});
-    headers = headers.append('Authorization', 'Bearer ' + `${token}`);
+   // headers = headers.append('Authorization', 'Bearer ' + `${token}`);
     return this.http.get(url,{headers,params}).pipe(tap((result) => {
         return result;
     }))
@@ -45,7 +45,7 @@ export class PlanillaService {
   editarDetallePlanilla(data:any,token:string){
     const url = endpoint.api.planillas+"/detalle/update";
     let headers = new HttpHeaders({'Content-Type':'application/json'});
-    headers = headers.append('Authorize','Bearer '+ `${token}`);
+    //headers = headers.append('Authorize','Bearer '+ `${token}`);
     return this.http.post(url,data,{headers:headers}).pipe(tap((result)=>{
         return result;
     }))
@@ -54,7 +54,16 @@ export class PlanillaService {
   clonarPlanilla(data:any,token:string){
     const url = endpoint.api.planillas+"/clonar";
     let headers = new HttpHeaders({'Content-Type':'application/json'});
-    headers = headers.append('Authorize','Bearer '+ `${token}`);
+    //headers = headers.append('Authorize','Bearer '+ `${token}`);
+    return this.http.post(url,data,{headers:headers}).pipe(tap((result)=>{
+        return result;
+    }))
+  }
+
+  guardarPlanillaImportada(data:any,token:string){
+    const url = endpoint.api.planillas+"/importada";
+    let headers = new HttpHeaders({'Content-Type':'application/json'});
+    //headers = headers.append('Authorize','Bearer '+ `${token}`);
     return this.http.post(url,data,{headers:headers}).pipe(tap((result)=>{
         return result;
     }))

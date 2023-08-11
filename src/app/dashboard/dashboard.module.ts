@@ -23,6 +23,7 @@ import { CrearAdministradorComponent } from './admin/crear-administrador/crear-a
 import { EditarAdministradorComponent } from './admin/editar-administrador/editar-administrador.component';
 import { EditarPlanillaComponent } from './planillas/editar-planilla/editar-planilla.component';
 import { ClonarPlanillaComponent } from './planillas/clonar-planilla/clonar-planilla.component';
+import { ImportarPlanillaComponent } from './planillas/importar-planilla/importar-planilla.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ClonarPlanillaComponent } from './planillas/clonar-planilla/clonar-plan
     CrearAdministradorComponent,
     EditarAdministradorComponent,
     EditarPlanillaComponent,
-    ClonarPlanillaComponent
+    ClonarPlanillaComponent,
+    ImportarPlanillaComponent
   ],
   imports: [
     CommonModule,

@@ -1,1 +1,88 @@
-<p>file-upload works!</p>
+<div class="header">
+    <h4>
+        <strong>Adjunte el archivo .xls o .xlsx a importar:</strong>
+    </h4>
+</div>
+
+
+<div class="file-drop-area">
+    <p-button icon="pi pi-upload" label="Elegir archivo"></p-button>
+    <span class="ms-2" *ngIf="myFiles.length == 0">O Arraste y suelte el archivo aquí.</span>
+    <span class="file-msg" *ngFor="let file of myFiles">
+     <div class="me-2">{{ file["name"] }}, subido exitosamente.</div>
+   </span>
+    <input class="file-input" type="file" multiple #file (change)="getFileDetails(file.files)">
+</div>
+<hr>
+<div class="table-responsive" *ngIf="loadedData">
+    <p-table [value]="registros"
+             styleClass="p-datatable-striped"
+             [paginator]="true" [rows]="10" [totalRecords]="registros.length"
+             
+    >
+        <ng-template pTemplate="caption">
+            <div class="d-md-inline-flex justify-content-md-between w-100">
+                <div class="my-auto"> Estos son los registros encontrados.</div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                    <th>
+                        DUI
+                    </th>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Apellido
+                    </th>
+                    <th>
+                        Edad
+                    </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-tableRow>
+            <tr>
+                    <td>
+                        <span class="normal">{{ tableRow.dui }}</span>
+                    </td>
+                    <td>
+                        <span class="normal">{{ tableRow.nombre }}</span>
+                    </td>
+                    <td>
+                        <span class="normal">{{ tableRow.apellido }}</span>
+                    </td>
+                    <td>
+                        <span class="normal">{{ tableRow.edad }}</span>
+                    </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No se encontraron resultados.</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="d-md-inline-flex justify-content-md-between w-100">
+                <div class="my-auto">
+                        Se han encontrado {{ registros ? registros.length : 0 }} registros.
+                        <span class="font-14 fw-light" *ngFor="let results of resultsShow ">
+                                                  / {{results.nombre}} : {{results.resultado}}
+                                                </span>
+                </div>
+                <div>
+                    <ul class="header-buttons">
+                        <li>
+                            <button [disabled]="registros.length === 0"
+                                    (click)="guardarRegistrosCargados()"
+                                    pButton type="button" class="p-button-secondary"
+                                    icon="pi pi-cog" label="Guardar Registros">
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </ng-template>
+        
+    </p-table>
+</div>

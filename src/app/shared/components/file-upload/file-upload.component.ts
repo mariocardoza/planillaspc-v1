@@ -76,6 +76,8 @@ export class FileUploadComponent implements OnInit {
       this.registros = XLSX.utils.sheet_to_json(empleados.Sheets[sheetNames[0]]);
       this.loadedData = true;
       console.log(this.registros)
+      this.records.Registro = this.registros
+      this.json2array(this.registros)
       
       /*let csvData = reader.result;
        console.log(csvData);
@@ -148,7 +150,7 @@ export class FileUploadComponent implements OnInit {
     console.log(this.registros)
     this.planillaService.guardarPlanillaImportada(this.registros,this.objUser.Token).subscribe(
         res => {
-           console.log(res)
+           console.log(res['message'])
           
         }
     )
@@ -161,6 +163,6 @@ export class FileUploadComponent implements OnInit {
         result.push(json[key]);
     });
     return result;
-}
+  }
 
 }

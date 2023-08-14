@@ -61,10 +61,19 @@ export class PlanillaService {
   }
 
   guardarPlanillaImportada(data:any,token:string){
-    const url = endpoint.api.planillas+"/importada";
+    const url = endpoint.api.planillas+"/registrarexcel";
     let headers = new HttpHeaders({'Content-Type':'application/json'});
     //headers = headers.append('Authorize','Bearer '+ `${token}`);
     return this.http.post(url,data,{headers:headers}).pipe(tap((result)=>{
+        return result;
+    }))
+  }
+
+  anularPlanilla(idEncabezado:number){
+    const url = endpoint.api.planillas+"/anular/"+idEncabezado;
+    let headers = new HttpHeaders({'Content-Type':'application/json'});
+    //headers = headers.append('Authorize','Bearer '+ `${token}`);
+    return this.http.post(url,{headers:headers}).pipe(tap((result)=>{
         return result;
     }))
   }

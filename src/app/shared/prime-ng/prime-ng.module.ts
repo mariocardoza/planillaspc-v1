@@ -5,7 +5,10 @@ import { CardModule } from 'primeng/card';
 import {TableModule} from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { DropdownModule } from 'primeng/dropdown';
-import {ToastModule} from 'primeng/toast';
+import { ToastModule } from 'primeng/toast';
+import { CalendarModule } from 'primeng/calendar';
+import { KeyFilterModule } from 'primeng/keyfilter';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -17,7 +20,9 @@ import {ToastModule} from 'primeng/toast';
     TableModule,
     DropdownModule,
     TagModule,
-    ToastModule
+    ToastModule,
+    CalendarModule,
+    KeyFilterModule
   ]
 })
 export class PrimeNgModule { }

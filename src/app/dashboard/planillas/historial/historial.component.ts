@@ -1,14 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { PlanillaService } from 'src/app/core/service/planilla.service';
 import { LazyLoadEvent } from 'primeng/api';
+import Swal from "sweetalert2";
+import { MessageService } from 'primeng/api';
+
 @Component({
   selector: 'app-historial',
   templateUrl: './historial.component.html',
+  providers: [MessageService],
   styleUrls: ['./historial.component.scss']
 })
 export class HistorialComponent implements OnInit {
   planillas: any = [];
   data:any;
+  private lastTableLazyLoadEvent: LazyLoadEvent;
   token: string;
   meses = [
     {value:'01', name:'Enero'},
@@ -33,9 +38,10 @@ export class HistorialComponent implements OnInit {
     {value:'1', name:'En proceso'},
     {value:'2', name:'Enviada'},
     {value:'3', name:'Procesada'},
+    {value:'4', name:'Anulada'},
   ];
   totalRecords: number = 0;
-  constructor(private planillaService: PlanillaService) {
+  constructor(private planillaService: PlanillaService, private messageService: MessageService) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
@@ -47,6 +53,8 @@ export class HistorialComponent implements OnInit {
   }
 
   obtenerPlanillas(event: LazyLoadEvent){
+    this.lastTableLazyLoadEvent = event;
+    console.log(event)
     this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,this.token,event.first || 0,event.rows || 10).subscribe((result) => {
       this.planillas = result['data'];
       this.totalRecords = result['registros'];
@@ -61,6 +69,30 @@ export class HistorialComponent implements OnInit {
   buscarEstadoPlanilla(codigoEstado){
     var valor = this.codigoEstados.find(e => e.value === codigoEstado);
     return valor.name;
+  }
+
+  anularPlanilla(idEncabezado){
+    Swal.fire({
+      title: '¿Esta seguro?',
+      text: "Esta acción anulará la planilla",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.planillaService.anularPlanilla(idEncabezado).subscribe((res)=>{
+          if(res['success']){
+            this.obtenerPlanillas(this.lastTableLazyLoadEvent);
+            this.messageService.add({severity:'success', summary: 'Exito', detail:'Planilla anulada con éxito'});
+          }else{
+            this.messageService.add({severity:'error', summary: 'Error', detail:'Ocurrió un error al anular la planilla'});
+          }
+        })
+      }
+    })
   }
 
 }

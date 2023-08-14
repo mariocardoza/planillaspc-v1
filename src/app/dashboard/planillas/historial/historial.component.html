@@ -2,6 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
+                <p-toast></p-toast>
                 <h2>Historial de planillas</h2>
             </div>
         </div>
@@ -35,7 +36,17 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <p-table [value]="planillas" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="obtenerPlanillas($event)" [totalRecords]="totalRecords">
+                    <p-table #myTab [value]="planillas" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="obtenerPlanillas($event)" [totalRecords]="totalRecords" [globalFilterFields]=
+                    "['periodo', 'noMandamiento']">
+                        <ng-template pTemplate="caption">
+                            <tr>
+                                <th>
+                                    <input pInputText type="text" (input)=
+                                        "myTab.filter($event.target.value,noMandamiento, CONTAINS)" />
+                                </th>
+                            </tr>
+                            
+                        </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>N° de mandamiento</th>
@@ -56,7 +67,8 @@
                                 <td>{{ planilla.empleadosEnPlanilla }}</td>
                                 <td><p-tag severity="primary" value="{{buscarEstadoPlanilla(planilla.codigoEstado)}}"></p-tag></td>
                                 <td>
-                                    <p-button routerLink="/dashboard/planillas/{{planilla.idEncabezado}}/edit" icon="pi pi-user-edit" class="warning"></p-button>
+                                    <button *ngIf="planilla.codigoEstado == 1" pButton (click)="anularPlanilla(planilla.idEncabezado)" icon="pi pi-times" class="p-button-warning"></button> | 
+                                    <button *ngIf="planilla.codigoEstado == 1" pButton routerLink="/dashboard/planillas/{{planilla.idEncabezado}}/edit" icon="pi pi-user-edit" class="p-button-primary"></button>
                                 </td>
                             </tr>
                         </ng-template>

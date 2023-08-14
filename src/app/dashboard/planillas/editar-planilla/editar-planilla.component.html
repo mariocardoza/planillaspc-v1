@@ -159,7 +159,7 @@
                             <td>
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
-                                        <input pInputText type="number" style="width: 50%;"  [(ngModel)]="empleado.monto">
+                                        <input pInputText pKeyFilter="money" style="width: 50%;"  [(ngModel)]="empleado.monto">
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{empleado.monto | currency: 'USD'}}
@@ -169,7 +169,7 @@
                             <td>
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
-                                        <input pInputText type="number" style="width: 50%;"  [(ngModel)]="empleado.noBeneficiarios">
+                                        <input pInputText pKeyFilter="int" style="width: 50%;"  [(ngModel)]="empleado.noBeneficiarios">
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         {{empleado.noBeneficiarios}}

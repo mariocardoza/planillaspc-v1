@@ -31,7 +31,7 @@ export class ProtectRoutesInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(
-        catchError((err: HttpErrorResponse) => {
+        /*catchError((err: HttpErrorResponse) => {
           localStorage.clear();
 
           if (err.status === 401) {
@@ -41,7 +41,7 @@ export class ProtectRoutesInterceptor implements HttpInterceptor {
           this.router.navigate(['/authentication/signin']);
           return throwError( err );
 
-        })
+        })*/
     );
   }
 }

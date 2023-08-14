@@ -22,39 +22,114 @@
     >
         <ng-template pTemplate="caption">
             <div class="d-md-inline-flex justify-content-md-between w-100">
-                <div class="my-auto"> Estos son los registros encontrados.</div>
+                <div class="my-auto"> Estos son los datos encontrados.</div>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                    <th>
-                        DUI
-                    </th>
-                    <th>
-                        Nombre
-                    </th>
-                    <th>
-                        Apellido
-                    </th>
-                    <th>
-                        Edad
-                    </th>
+                <th>Código expediente</th>
+                <th>N° tarjeta física</th>
+                <th>DUI</th>
+                <th>Nombres demandado</th>
+                <th>Apellidos demandado</th>
+                <th>Nombres demandante</th>
+                <th>Apellidos demandante</th>
+                <th>Monto cuota</th>
+                <th>Número de beneficiarios</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-tableRow>
             <tr>
-                    <td>
-                        <span class="normal">{{ tableRow.dui }}</span>
-                    </td>
-                    <td>
-                        <span class="normal">{{ tableRow.nombre }}</span>
-                    </td>
-                    <td>
-                        <span class="normal">{{ tableRow.apellido }}</span>
-                    </td>
-                    <td>
-                        <span class="normal">{{ tableRow.edad }}</span>
-                    </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" style="width: 50%;"  [(ngModel)]="tableRow.CodigoExpediente">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.CodigoExpediente}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" style="width: 50%;" [(ngModel)]="tableRow.NoTarjeta">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.NoTarjeta}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText [dropSpecialCharacters]="false" mask="00000000-0" maxlength="10" type="text" [(ngModel)]="tableRow.DUIdemandado">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.DUIdemandado}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="tableRow.NombresDemandado">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.NombresDemandado}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="tableRow.ApellidosDemandado">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.ApellidosDemandado}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="tableRow.NombresDemandante">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.NombresDemandante}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="tableRow.ApellidosDemandante">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.ApellidosDemandante}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText pKeyFilter="money" style="width: 50%;"  [(ngModel)]="tableRow.Monto">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.Monto | currency: 'USD'}}
+                        </ng-template>
+                    </p-cellEditor>
+                   
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText pKeyFilter="int" style="width: 50%;"  [(ngModel)]="tableRow.NoBeneficiarios">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.NoBeneficiarios}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
@@ -75,8 +150,8 @@
                         <li>
                             <button [disabled]="registros.length === 0"
                                     (click)="guardarRegistrosCargados()"
-                                    pButton type="button" class="p-button-secondary"
-                                    icon="pi pi-cog" label="Guardar Registros">
+                                    pButton type="button" class="p-button-primary"
+                                    icon="pi pi-cog" label="Guardar datos">
                             </button>
                         </li>
                     </ul>

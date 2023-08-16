@@ -31,17 +31,18 @@ export class ProtectRoutesInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(
-        /*catchError((err: HttpErrorResponse) => {
-          localStorage.clear();
+        catchError((err: HttpErrorResponse) => {
+          
 
           if (err.status === 401) {
+            localStorage.clear();
             this.router.navigate(['/authentication/signin']);
           }
 
-          this.router.navigate(['/authentication/signin']);
+          //this.router.navigate(['/authentication/signin']);
           return throwError( err );
 
-        })*/
+        })
     );
   }
 }

@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders,HttpParams } from '@angular/common/http';
 import { DetallePlanilla } from '../models/detalle-planilla.interface';
-import { Observable, forkJoin, tap } from 'rxjs';
+import { Observable, forkJoin, tap, catchError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { endpoint } from 'src/environments/endpoint';
+import { DetalleEPlanilla } from '../models/detalle-e-planilla';
+import { HandleError, HttpErrorHandlerService } from './http-error-handler.service';
 @Injectable({
   providedIn: 'root'
 })
 export class PlanillaService {
     private serviceUrl = 'https://dummyjson.com/users';
-  constructor(private http: HttpClient) { }
+    private readonly handleError: HandleError;
+  constructor(private http: HttpClient,httpErrorHandler: HttpErrorHandlerService,) { 
+    this.handleError = httpErrorHandler.createHandleError('PlanillaService'); 
+  }
 
 
   guardarPlanilla(data:any,token:string){
@@ -76,6 +81,28 @@ export class PlanillaService {
     return this.http.post(url,{headers:headers}).pipe(tap((result)=>{
         return result;
     }))
+  }
+
+  eliminarEmpleadoPlanilla(idDetalle: number, idEncabezado:number){
+    const data = {
+      idDetalle,
+      idEncabezado
+    }
+    const url = endpoint.api.planillas+"/eliminarEmpleado";
+    let headers = new HttpHeaders({'Content-Type':'application/json'});
+    //headers = headers.append('Authorize','Bearer '+ `${token}`);
+    return this.http.post(url,data,{headers:headers}).pipe(tap((result)=>{
+        return result;
+    }))
+  }
+
+  prePlanilla(codigoempresa: number,codigopagaduria:string){
+    const url = endpoint.api.planillas+"/preplanilla?codigoPgr="+codigoempresa+"&codigoPagaduria="+codigopagaduria;
+    let headers = new HttpHeaders({'Content-Type':'application/json'});
+    //headers = headers.append('Authorize','Bearer '+ `${token}`);
+    return this.http.get<DetalleEPlanilla[]>(url).pipe(
+      catchError(this.handleError('prePlanilla', [])
+    ));
   }
 
   

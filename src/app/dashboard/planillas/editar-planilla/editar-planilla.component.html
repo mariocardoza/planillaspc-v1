@@ -66,10 +66,10 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <button pButton pRipple type="button" (click)="onAddNewRow()">Nuevo empleado</button>
+                <button pButton pRipple pAddRow type="button" (click)="onAddNewRow()">Nuevo empleado</button>
             </div>
             <div class="col-12">
-                <p-table [value]="empleados" dataKey="idDetalle" editMode="row" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '100%'}">
+                <p-table #dt [value]="empleados" dataKey="idDetalle" editMode="row" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '100%'}">
                     <ng-template pTemplate="header">
                         <tr>
                             <th>Código expediente</th>
@@ -180,6 +180,7 @@
                                 <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(empleado)" class="p-button-rounded p-button-text"></button>
                                 <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(empleado)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
                                 <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(empleado, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                                <button *ngIf="planilla.codigoEstado == 1" pButton pRipple type="button" pCancelEditableRow icon="pi pi-trash" (click)="onRowDelete(empleado.idDetalle, planilla.idEncabezado)" class="p-button-rounded p-button-text p-button-danger"></button>
                             </td>
                         </tr>
                     </ng-template>

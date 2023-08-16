@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { PlanillaService } from 'src/app/core/service/planilla.service';
 //import {default as _rollupMoment, Moment} from 'moment';
 import { DetallePlanilla, DetalleColumns } from 'src/app/core/models/detalle-planilla.interface';
+import { DetalleEPlanilla } from 'src/app/core/models/detalle-e-planilla';
 const moment = _moment;
 
 export const MY_FORMATS = {
@@ -71,13 +72,14 @@ export class CrearComponent implements OnInit {
     {value:'2', name:'Enviada'},
     {value:'3', name:'Procesada'},
   ];
-
+  cuantos:number = 0;
   displayedColumns: string[] = DetalleColumns.map((col) => col.key)
   columnsSchema: any = DetalleColumns
   dataSource = new MatTableDataSource<DetallePlanilla>()
   valid: any = {}
   data: any;
   token: string;
+  planilla: DetalleEPlanilla[];
 
   periodo = new FormControl(moment());
   planillaFormGroup: FormGroup;
@@ -100,6 +102,7 @@ export class CrearComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.prePlanilla(this.data.CodigoEmpresa,this.data.CodigoPagaduria)
     this.planillaFormGroup = this.formBuilder.group({
       Periodo: ['', Validators.required],
       CodigoTipoCuota: ['', Validators.required],
@@ -111,6 +114,14 @@ export class CrearComponent implements OnInit {
     });
 
     
+  }
+
+  prePlanilla(codigoempresa: number, codigopagaduria: string){
+    this.planillaService.prePlanilla(codigoempresa,codigopagaduria).subscribe((res)=>{
+      console.log(res)
+      this.planilla = res;
+      this.cuantos = this.planilla.length
+    })
   }
 
   onSubmit(){

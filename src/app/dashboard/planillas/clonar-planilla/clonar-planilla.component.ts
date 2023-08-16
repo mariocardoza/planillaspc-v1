@@ -38,6 +38,7 @@ export class ClonarPlanillaComponent implements OnInit {
     {value:'1', name:'En proceso'},
     {value:'2', name:'Enviada'},
     {value:'3', name:'Procesada'},
+    {value:'4', name:'Anulada'},
   ];
   totalRecords: number = 0;
   constructor(private planillaService: PlanillaService,public modal: NgbModal,private formBuilder: FormBuilder, private messageService: MessageService) {
@@ -93,7 +94,12 @@ export class ClonarPlanillaComponent implements OnInit {
 
   buscarEstadoPlanilla(codigoEstado){
     var valor = this.codigoEstados.find(e => e.value === codigoEstado);
-    return valor.name;
+    if(valor){
+      return valor.name;
+    }else{
+      return 'sin definir';
+    }
+    
   }
 
 }

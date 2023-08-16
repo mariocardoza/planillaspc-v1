@@ -5,12 +5,18 @@ import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DetallePlanilla } from 'src/app/core/models/detalle-planilla.interface';
 import { Table } from 'primeng/table';
+import Swal from "sweetalert2";
+
+
 @Component({
   selector: 'app-editar-planilla',
   templateUrl: './editar-planilla.component.html',
   providers: [MessageService],
   styleUrls: ['./editar-planilla.component.scss']
 })
+
+
+
 export class EditarPlanillaComponent implements OnInit {
   isSuccess = false;
   isError = false;
@@ -64,6 +70,30 @@ export class EditarPlanillaComponent implements OnInit {
     //console.log(this.clonedEmpleado)
   }
 
+  onRowDelete(idDetalle: number,idEncabezado:number){
+    Swal.fire({
+      title: '¿Esta seguro?',
+      text: "Esta acción eliminará el empleado de la planilla",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.planillaService.eliminarEmpleadoPlanilla(idDetalle,idEncabezado).subscribe((res)=>{
+          if(res['success']){
+            this.messageService.add({severity:'success', summary: 'Exito', detail:res['message']});
+            this.getPlanilla(idEncabezado)
+          }else{
+            this.messageService.add({severity:'error', summary: 'Exito', detail:res['message']});
+          }
+        })
+      }
+    })
+  }
+
   onAddNewRow(){
     const newP: DetallePlanilla = {
       idEncabezado: this.planilla.idEncabezado,
@@ -93,14 +123,19 @@ export class EditarPlanillaComponent implements OnInit {
       if(result){
         this.getPlanilla(empleado.idEncabezado)
         this.messageService.add({severity:'success', summary: 'Exito', detail:'Empleado actualizado'});
+      }else{
+        this.messageService.add({severity:'error', summary: 'Exito', detail:'No se pudo crear el nuevo registro'});
       }
     })
   }
 
   onRowEditCancel(empleado:DetallePlanilla,index: number){
-    this.empleados[index] = this.clonedEmpleado[empleado.idDetalle];
-    //console.log(this.empleados[empleado.idDetalle])
-    //delete this.empleados[empleado.idDetalle];
+    //this.empleados[index] = this.clonedEmpleado[empleado.idDetalle];
+    //console.log(this.clonedEmpleado[empleado.idDetalle])
+    //delete this.empleados[index]
+    if(this.empleados[empleado.idDetalle].idDetalle == 0){
+      this.empleados.shift();
+    }
   }
 
   getPlanilla(idEncabezado){

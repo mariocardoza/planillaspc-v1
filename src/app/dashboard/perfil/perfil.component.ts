@@ -8,6 +8,7 @@ import { saveAs} from 'file-saver';
 import { PasswordStrengthValidator } from 'src/app/core/validators/password-strength.validator';
 import { PasswordValidation } from 'src/app/core/validators/password-validator';
 import { NgbAlertModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthenticationService } from 'src/app/core/service/authentication.service';
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
@@ -23,6 +24,7 @@ export class PerfilComponent implements OnInit {
   a = moment().subtract(18, 'year').format("YYYY-MM-DD");
   token: any;
   persona: any = [];
+  unidades: any;
   sexos = [
     {value:'F', name:'Femenino'},
     {value:'M', name:'Masculino'},
@@ -33,7 +35,8 @@ export class PerfilComponent implements OnInit {
   constructor(
     private dashboardService: DashboardService,
     private formBuilder: FormBuilder,
-    private fileService: FileDownloadService
+    private fileService: FileDownloadService,
+    private authenticationService: AuthenticationService
   ) { 
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
@@ -76,9 +79,19 @@ export class PerfilComponent implements OnInit {
     }
   }
 
+  listarPagadurias(){
+    this.authenticationService.unidadesOrganizacionales().subscribe((res) => {
+      if(res.success){
+        this.unidades = res.data
+      }
+    })
+  }
+
   ngOnInit(): void {
+    this.listarPagadurias();
     this.perfilFormGroup = this.formBuilder.group({
       NIT: ['', Validators.required],
+      Pagaduria: ['', Validators.required],
       codigoPGR: ['0'],
       RazonSocial: ['',Validators.required],
       ImagenNIT: ['',''],
@@ -127,6 +140,7 @@ export class PerfilComponent implements OnInit {
           this.perfilFormGroup.patchValue({CodigoRepresentante:res.data.codigoRepresentante});
           this.perfilFormGroup.patchValue({ImagenNIT:res.data.imagenNIT});
           this.perfilFormGroup.patchValue({CodigoMedioContacto:res.data.codigoMedioContacto});
+          this.perfilFormGroup.patchValue({Pagaduria:res.data.pagaduria});
           //this.editFormGroup.patchValue({TelefonoContactoPersona: res.data.telefonoContactoPersona});
         }
       })
@@ -135,6 +149,7 @@ export class PerfilComponent implements OnInit {
     this.userFormGroup = this.formBuilder.group({
       // idRegistro: [{value: '0', disabled: true}, [Validators.required, Validators.min(1)]],
       Username: ['', Validators.required],
+      CodigoPagaduria: ['',Validators.required],
       CodigoEmpresa: ['', ''],
       Password: ['', [Validators.required, PasswordStrengthValidator]],
       ConfirmPassword: ['', Validators.nullValidator]
@@ -145,6 +160,7 @@ export class PerfilComponent implements OnInit {
 
     this.userFormGroup.patchValue({Username:this.data.Usuario});
     this.userFormGroup.patchValue({CodigoEmpresa:this.data.CodigoEmpresa});
+    this.userFormGroup.patchValue({CodigoPagaduria:this.data.CodigoPagaduria});
 
   }
 
@@ -160,6 +176,7 @@ export class PerfilComponent implements OnInit {
           this.userFormGroup.reset();
           this.userFormGroup.patchValue({Username:this.data.Usuario});
           this.userFormGroup.patchValue({CodigoEmpresa:this.data.CodigoEmpresa});
+          this.userFormGroup.patchValue({CodigoPagaduria:this.data.CodigoPagaduria});
         }else{
           this.isError = true;
           this.message = res.message

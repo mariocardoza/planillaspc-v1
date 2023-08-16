@@ -56,6 +56,145 @@
             </div>
         </form>
             
+        <div class="row">
+            <div class="col-12">
+                <p-table [value]="planilla"
+             styleClass="p-datatable-striped"
+             [paginator]="true" [rows]="10" [totalRecords]="cuantos">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Código expediente</th>
+                <th>Número de expediente</th>
+                <th>N° tarjeta física</th>
+                <th>DUI</th>
+                <th>Nombres demandado</th>
+                <th>Apellidos demandado</th>
+                <th>Nombres demandante</th>
+                <th>Apellidos demandante</th>
+                <th>Monto cuota</th>
+                <th>Número de beneficiarios</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-tableRow>
+            <tr>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" style="width: 50%;"  [(ngModel)]="tableRow.codigoExpediente">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.codigoExpediente}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" style="width: 50%;"  [(ngModel)]="tableRow.noExpediente">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.noExpediente}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" style="width: 50%;" [(ngModel)]="tableRow.nTarjeta">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.nTarjeta}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText [dropSpecialCharacters]="false" mask="00000000-0" maxlength="10" type="text" [(ngModel)]="tableRow.duiPersonaNatural">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.duiPersonaNatural}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="tableRow.nombresPersonaNatural">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.nombresPersonaNatural}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="tableRow.apellidosPersonaNatural">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.apellidosPersonaNatural}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="tableRow.nombresPersonaE">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.nombresPersonaE}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="tableRow.apellidosPersonaE">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.apellidosPersonaE}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText pKeyFilter="money" style="width: 50%;"  [(ngModel)]="tableRow.montoCR">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.montoCR | currency: 'USD'}}
+                        </ng-template>
+                    </p-cellEditor>
+                   
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText pKeyFilter="int" style="width: 50%;"  [(ngModel)]="tableRow.cantidadB">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.cantidadB}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No se encontraron resultados.</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="d-md-inline-flex justify-content-md-between w-100">
+                <div class="my-auto">
+                    Se han encontrado {{ planilla ? planilla.length : 0 }} registros.
+                </div>
+            </div>
+        </ng-template>
+        
+    </p-table>
+            </div>
+        </div>
         
     </div>
 </section>

@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/api';
 import { DetallePlanilla } from 'src/app/core/models/detalle-planilla.interface';
 import { Table } from 'primeng/table';
 import Swal from "sweetalert2";
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-editar-planilla',
@@ -24,8 +24,10 @@ export class EditarPlanillaComponent implements OnInit {
   data: any;
   token: string;
   planilla: any;
+  empleadoForm: FormGroup;
   empleados: DetallePlanilla[];
   planillaFormGroup: FormGroup;
+  loading: boolean = false;
   tipoCuotas = [
     {value:'1', name:'Cuota alimenticia'},
     {value:'3', name:'Aguinaldos'},
@@ -38,7 +40,7 @@ export class EditarPlanillaComponent implements OnInit {
   ];
   clonedEmpleado: { [s: string]: DetallePlanilla } = {};
   @ViewChild(Table, { read: Table }) pTable: Table;
-  constructor(private formBuilder: FormBuilder,private route: ActivatedRoute, private planillaService: PlanillaService,private messageService: MessageService) { 
+  constructor(private formBuilder: FormBuilder,private route: ActivatedRoute, private planillaService: PlanillaService,private messageService: MessageService,public modal: NgbModal) { 
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
@@ -58,10 +60,50 @@ export class EditarPlanillaComponent implements OnInit {
       CodigoEmpresa:[this.data.CodigoEmpresa,''],
       Observacion:['',''],
     });
+
+    this.empleadoForm = this.formBuilder.group({
+      DUIDemandado: ['', Validators.required],
+      NombresDemandado: ['', Validators.required],
+      ApellidosDemandado: ['',Validators.required],
+      NombresDemandante: ['', Validators.required],
+      CodigoExpediente: ['', ''],
+      NumeroExpediente: ['', ''],
+      NumeroTarjeta: ['', ''],
+      ApellidosDemandante: ['', Validators.required],
+      Monto: ['', Validators.required],
+      NoBeneficiarios: ['', Validators.required],
+      IdDetalle: ['0', ''],
+      IdEncabezado: ['', ''],
+    });
   }
 
   onSubmit(){
+    const dataF: DetallePlanilla = {
+      ...this.empleadoForm.value
+    };
 
+    console.log(dataF)
+  }
+
+  onSubmitEmpleado(){
+    const dataF: DetallePlanilla = {
+      ...this.empleadoForm.value
+    };
+
+    this.planillaService.editarDetallePlanilla(dataF,this.token).subscribe((result)=>{
+      console.log(result['success'])
+      if(result['success']){
+        this.getPlanilla(dataF['IdEncabezado'])
+        this.modal.dismissAll()
+        this.messageService.add({severity:'success', summary: 'Exito', detail:result['message']});
+      }else{
+        this.messageService.add({severity:'error', summary: 'Exito', detail:result['message']});
+      }
+    })
+  }
+
+  crearNuevo(modal){
+    this.modal.open(modal,{ size: <any>'lg' });
   }
 
   onRowEditInit(empleado: DetallePlanilla){
@@ -118,13 +160,13 @@ export class EditarPlanillaComponent implements OnInit {
   }
 
   onRowEditSave(empleado: DetallePlanilla){
-    console.log(empleado)
     this.planillaService.editarDetallePlanilla(empleado,this.token).subscribe((result)=>{
-      if(result){
+      console.log(result['success'])
+      if(result['success']){
         this.getPlanilla(empleado.idEncabezado)
-        this.messageService.add({severity:'success', summary: 'Exito', detail:'Empleado actualizado'});
+        this.messageService.add({severity:'success', summary: 'Exito', detail:result['message']});
       }else{
-        this.messageService.add({severity:'error', summary: 'Exito', detail:'No se pudo crear el nuevo registro'});
+        this.messageService.add({severity:'error', summary: 'Exito', detail:result['message']});
       }
     })
   }
@@ -133,9 +175,9 @@ export class EditarPlanillaComponent implements OnInit {
     //this.empleados[index] = this.clonedEmpleado[empleado.idDetalle];
     //console.log(this.clonedEmpleado[empleado.idDetalle])
     //delete this.empleados[index]
-    if(this.empleados[empleado.idDetalle].idDetalle == 0){
+    /*if(this.empleados[empleado.idDetalle].idDetalle == 0){
       this.empleados.shift();
-    }
+    }*/
   }
 
   getPlanilla(idEncabezado){
@@ -148,6 +190,7 @@ export class EditarPlanillaComponent implements OnInit {
         this.planillaFormGroup.patchValue({CodigoTipoCuota:this.planilla.codigoTipoCuota})
         this.planillaFormGroup.patchValue({Observacion:this.planilla.observacion})
         this.planillaFormGroup.patchValue({Monto:this.planilla.monto})
+        this.empleadoForm.patchValue({IdEncabezado:this.planilla.idEncabezado})
       }
       
     })

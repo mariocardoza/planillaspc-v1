@@ -3,7 +3,7 @@
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";
 @import "src/assets/scss/pages/_auth.scss";
-html, body { height: 100%; }
+html, body { min-height: 100vh; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .bg-danger{
@@ -46,5 +46,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 #section {
   width: 80%;
   float: left;
+}
+
+aside{
+  position: sticky;
 }
   

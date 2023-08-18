@@ -36,15 +36,22 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <p-table #myTab [value]="planillas" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="obtenerPlanillas($event)" [totalRecords]="totalRecords">
+                    <p-table #myTab [value]="planillas" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="obtenerPlanillas($event)" [totalRecords]="totalRecords"
+                    [globalFilterFields]="['noMandamiento', 'periodo']">
                         <ng-template pTemplate="caption">
-                            <tr>
-                                <th>
-                                    <input pInputText type="text" (input)=
-                                        "myTab.filter($event.target.value,noMandamiento, CONTAINS)" />
-                                </th>
-                            </tr>
-                            
+                            <div style="text-align: right">
+                                <i 
+                                    class="pi pi-search" 
+                                    style="margin:4px 4px 0 0"> 
+                                </i>
+                                <input 
+                                    type="text" 
+                                    pInputText size="50" 
+                                    placeholder="Global Filter"
+                                    (input)=
+                    "myTab.filterGlobal($any($event.target).value, 'contains')" 
+                                    style="width:auto" />
+                            </div>
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>

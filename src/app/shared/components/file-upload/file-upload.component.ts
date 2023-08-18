@@ -2,9 +2,11 @@ import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import { ICredencial } from "src/app/core/models/credencial";
 import * as XLSX from 'xlsx'
 import { PlanillaService } from "src/app/core/service/planilla.service";
+import { MessageService } from "primeng/api";
 @Component({
   selector: "app-file-upload",
   templateUrl: "./file-upload.component.html",
+  providers: [MessageService],
   styleUrls: ["./file-upload.component.scss"],
 })
 export class FileUploadComponent implements OnInit {
@@ -26,7 +28,7 @@ export class FileUploadComponent implements OnInit {
   campoPrimary: string = '';
   objUser: ICredencial = null;
   loadedData: boolean = false;
-  constructor(private planillaService: PlanillaService) {
+  constructor(private planillaService: PlanillaService,private messageService: MessageService) {
     this.return = new EventEmitter<any>();
   }
 
@@ -78,7 +80,7 @@ export class FileUploadComponent implements OnInit {
       console.log(this.registros)
       this.records.Registro = this.registros
       this.json2array(this.registros)
-      
+      this.messageService.add({severity:'success', summary: 'Exito',detail: "Registros cargados con éxito"});
       /*let csvData = reader.result;
        console.log(csvData);
       let csvRecordsArray = (<string>csvData).split(/\r\n|\n/);
@@ -151,6 +153,11 @@ export class FileUploadComponent implements OnInit {
     this.planillaService.guardarPlanillaImportada(this.registros,this.objUser.Token).subscribe(
         res => {
            console.log(res['message'])
+           if(res['success']){
+            this.messageService.add({severity:'success', summary: 'Exito',detail: "Planilla cargada con éxito"});
+           }else{
+            this.messageService.add({severity:'error', summary: 'Error',detail: res['message']});
+           }
           
         }
     )

@@ -9,6 +9,7 @@ export const endpoint = {
     api: {
         empty: ws.api + '/',
         auth: ws.api + '/auth',
+        dashboard: ws.api+ '/Dashboard',
         naturales: ws.api + '/PersonasNaturales',
         juridicas: ws.api + '/PersonasJuridicas',
         usuarios: ws.api + '/Usuarios',

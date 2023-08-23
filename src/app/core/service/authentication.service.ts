@@ -80,8 +80,6 @@ export class AuthenticationService {
       let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
       return this.http.post<any>(url, credenciales, { headers: headers })
           .pipe(tap(data => {
-               console.log(data.token);
-
               if (data.token != null) {
                   localStorage.setItem('EmpleadoUser', JSON.stringify(
                     {   usercodigo: credenciales.codigoUsuario,
@@ -92,7 +90,7 @@ export class AuthenticationService {
                         usernperfil: data.PerfilUsuario,
                         token: data.token
                     }));
-                    console.log(JSON.parse(localStorage.getItem("EmpleadoUser")))
+                    //console.log(JSON.parse(localStorage.getItem("EmpleadoUser")))
                   return data;
             } else {
                 return null;

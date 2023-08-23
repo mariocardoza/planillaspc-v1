@@ -55,7 +55,7 @@ export class HistorialComponent implements OnInit {
   obtenerPlanillas(event: LazyLoadEvent){
     this.lastTableLazyLoadEvent = event;
     console.log(event)
-    this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,this.token,event.first || 0,event.rows || 10).subscribe((result) => {
+    this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,event.globalFilter || '',event.first || 0,event.rows || 10).subscribe((result) => {
       this.planillas = result['data'];
       this.totalRecords = result['registros'];
     });

@@ -3,6 +3,7 @@ import { ICredencial } from "src/app/core/models/credencial";
 import * as XLSX from 'xlsx'
 import { PlanillaService } from "src/app/core/service/planilla.service";
 import { MessageService } from "primeng/api";
+import { Router } from "@angular/router";
 @Component({
   selector: "app-file-upload",
   templateUrl: "./file-upload.component.html",
@@ -28,7 +29,7 @@ export class FileUploadComponent implements OnInit {
   campoPrimary: string = '';
   objUser: ICredencial = null;
   loadedData: boolean = false;
-  constructor(private planillaService: PlanillaService,private messageService: MessageService) {
+  constructor(private planillaService: PlanillaService,private messageService: MessageService, private router: Router) {
     this.return = new EventEmitter<any>();
   }
 
@@ -155,6 +156,7 @@ export class FileUploadComponent implements OnInit {
            console.log(res['message'])
            if(res['success']){
             this.messageService.add({severity:'success', summary: 'Exito',detail: "Planilla cargada con éxito"});
+            this.router.navigate(['/dashboard/planillas/historial']);
            }else{
             this.messageService.add({severity:'error', summary: 'Error',detail: res['message']});
            }

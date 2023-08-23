@@ -36,11 +36,25 @@
                 <h2>Seleccione una planilla que desea clonar</h2>
             </div>
         </div>
-        
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <p-table [value]="planillas" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="obtenerPlanillas($event)" [totalRecords]="totalRecords">
+                    <p-table #myTab [value]="planillas" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="obtenerPlanillas($event)" [totalRecords]="totalRecords">
+                      <ng-template pTemplate="caption">
+                        <div style="text-align: right">
+                            <i 
+                                class="pi pi-search" 
+                                style="margin:4px 4px 0 0"> 
+                            </i>
+                            <input 
+                                type="text" 
+                                pInputText size="50" 
+                                placeholder="No de mandamiento"
+                                (input)=
+                "myTab.filterGlobal($any($event.target).value, 'contains')" 
+                                style="width:auto" />
+                        </div>
+                    </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>N° de mandamiento</th>

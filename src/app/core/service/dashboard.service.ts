@@ -128,4 +128,12 @@ export class DashboardService {
       return result;
     }))
   }
+
+  estadisticasDashboard(codigoEmpresa:number):Observable<any>{
+    const url = endpoint.api.dashboard+"/estadisticas/"+codigoEmpresa
+    let headers = new HttpHeaders({'Content-Type' : 'application/json'})
+    return this.http.get(url,{headers: headers}).pipe(tap((result) => {
+      return result;
+    }))
+  }
 }

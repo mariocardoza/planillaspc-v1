@@ -105,7 +105,7 @@ export class CrearComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.prePlanilla(this.data.CodigoEmpresa,this.data.CodigoPagaduria)
+    this.prePlanilla(this.data.CodigoPGR,this.data.CodigoPagaduria)
     this.planillaFormGroup = this.formBuilder.group({
       Periodo: ['', Validators.required],
       CodigoTipoCuota: ['', Validators.required],
@@ -114,6 +114,7 @@ export class CrearComponent implements OnInit {
       CodigoPagaduria:[this.data.CodigoPagaduria,''],
       CodigoEmpresa:[this.data.CodigoEmpresa,''],
       Observacion:['',''],
+      CodigoPGR:[this.data.CodigoPGR,''],
     });
 
     

@@ -1,3 +1,14 @@
 .full-width{
     width: 100%;
 }
+.ver-detalles{
+    display: none;
+}
+
+.td{
+    &:hover{
+        .ver-detalles{
+            display:  block !important;
+        }
+    }
+}

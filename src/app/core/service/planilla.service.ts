@@ -35,10 +35,11 @@ export class PlanillaService {
     }))
   }
 
-  obtenerPlanillas(codigoEmpresa: number,token:string,page:number,limit:number){
+  obtenerPlanillas(codigoEmpresa: number,filter:string,page:number,limit:number){
     let params = new HttpParams();
     params = params.append("skip", page);
     params = params.append("limit", limit);
+    params = params.append("filter", filter);
     const url = endpoint.api.planillas+"/empresa/"+codigoEmpresa;
     let headers = new HttpHeaders({'Content-Type':'application/json'});
    // headers = headers.append('Authorization', 'Bearer ' + `${token}`);
@@ -49,6 +50,15 @@ export class PlanillaService {
 
   editarDetallePlanilla(data:any,token:string){
     const url = endpoint.api.planillas+"/detalle/update";
+    let headers = new HttpHeaders({'Content-Type':'application/json'});
+    //headers = headers.append('Authorize','Bearer '+ `${token}`);
+    return this.http.post(url,data,{headers:headers}).pipe(tap((result)=>{
+        return result;
+    }))
+  }
+
+  editarEncabezadoPlanilla(data:any){
+    const url = endpoint.api.planillas+"/update";
     let headers = new HttpHeaders({'Content-Type':'application/json'});
     //headers = headers.append('Authorize','Bearer '+ `${token}`);
     return this.http.post(url,data,{headers:headers}).pipe(tap((result)=>{

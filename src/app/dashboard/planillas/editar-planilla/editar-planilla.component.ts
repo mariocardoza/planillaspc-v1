@@ -58,6 +58,7 @@ export class EditarPlanillaComponent implements OnInit {
       Monto: ['',''],
       CodigoPagaduria:[this.data.CodigoPagaduria,''],
       CodigoEmpresa:[this.data.CodigoEmpresa,''],
+      IdEncabezado:['',''],
       Observacion:['',''],
     });
 
@@ -67,8 +68,8 @@ export class EditarPlanillaComponent implements OnInit {
       ApellidosDemandado: ['',Validators.required],
       NombresDemandante: ['', Validators.required],
       CodigoExpediente: ['', ''],
-      NumeroExpediente: ['', ''],
-      NumeroTarjeta: ['', ''],
+      NoExpediente: ['', ''],
+      NoTarjeta: ['', ''],
       ApellidosDemandante: ['', Validators.required],
       Monto: ['', Validators.required],
       NoBeneficiarios: ['', Validators.required],
@@ -78,11 +79,18 @@ export class EditarPlanillaComponent implements OnInit {
   }
 
   onSubmit(){
-    const dataF: DetallePlanilla = {
-      ...this.empleadoForm.value
+    const dataPlanilla = {
+      ...this.planillaFormGroup.value
     };
 
-    console.log(dataF)
+    this.planillaService.editarEncabezadoPlanilla(dataPlanilla).subscribe((result)=>{
+      console.log(result['success'])
+      if(result['success']){
+        this.messageService.add({severity:'success', summary: 'Exito', detail:result['message']});
+      }else{
+        this.messageService.add({severity:'error', summary: 'Exito', detail:result['message']});
+      }
+    })
   }
 
   onSubmitEmpleado(){
@@ -103,12 +111,37 @@ export class EditarPlanillaComponent implements OnInit {
   }
 
   crearNuevo(modal){
+    this.empleadoForm.patchValue({DUIDemandado:''});
+    this.empleadoForm.patchValue({NombresDemandado:''});
+    this.empleadoForm.patchValue({ApellidosDemandado:''});
+    this.empleadoForm.patchValue({NombresDemandante:''});
+    this.empleadoForm.patchValue({ApellidosDemandante:''});
+    this.empleadoForm.patchValue({CodigoExpediente:''});
+    this.empleadoForm.patchValue({NoExpediente:''});
+    this.empleadoForm.patchValue({NoBeneficiarios:''});
+    this.empleadoForm.patchValue({Monto:''});
+    this.empleadoForm.patchValue({NoTarjeta:''});
+    this.empleadoForm.patchValue({IdEncabezado:this.planilla.idEncabezado});
+    this.empleadoForm.patchValue({IdDetalle:'0'});
     this.modal.open(modal,{ size: <any>'lg' });
   }
 
-  onRowEditInit(empleado: DetallePlanilla){
+  onRowEditInit(empleado: DetallePlanilla,modal){
     //console.log(empleado)
-    this.clonedEmpleado[empleado.idDetalle] = { ...empleado };
+    this.empleadoForm.patchValue({DUIDemandado:empleado.duIdemandado});
+    this.empleadoForm.patchValue({NombresDemandado:empleado.nombresDemandado});
+    this.empleadoForm.patchValue({ApellidosDemandado:empleado.apellidosDemandado});
+    this.empleadoForm.patchValue({NombresDemandante:empleado.nombresDemandante});
+    this.empleadoForm.patchValue({ApellidosDemandante:empleado.apellidosDemandante});
+    this.empleadoForm.patchValue({CodigoExpediente:empleado.codigoExpediente});
+    this.empleadoForm.patchValue({NoExpediente:empleado.noExpediente});
+    this.empleadoForm.patchValue({NoBeneficiarios:empleado.noBeneficiarios});
+    this.empleadoForm.patchValue({Monto:empleado.monto});
+    this.empleadoForm.patchValue({NoTarjeta:empleado.noTarjeta});
+    this.empleadoForm.patchValue({IdEncabezado:empleado.idEncabezado});
+    this.empleadoForm.patchValue({IdDetalle:empleado.idDetalle});
+    this.modal.open(modal,{ size: <any>'lg' });
+    //this.clonedEmpleado[empleado.idDetalle] = { ...empleado };
     //console.log(this.clonedEmpleado)
   }
 
@@ -136,6 +169,10 @@ export class EditarPlanillaComponent implements OnInit {
     })
   }
 
+  verdetalle(empleado:DetallePlanilla){
+    alert(empleado.apellidosDemandado)
+  }
+
   onAddNewRow(){
     const newP: DetallePlanilla = {
       idEncabezado: this.planilla.idEncabezado,
@@ -156,7 +193,7 @@ export class EditarPlanillaComponent implements OnInit {
     this.empleados.unshift(newP);
     //Caution: guard again dataKey here
     this.pTable.editingRowKeys[newP[this.pTable.dataKey]] = true;
-    this.onRowEditInit(newP);
+    //this.onRowEditInit(newP);
   }
 
   onRowEditSave(empleado: DetallePlanilla){
@@ -190,6 +227,7 @@ export class EditarPlanillaComponent implements OnInit {
         this.planillaFormGroup.patchValue({CodigoTipoCuota:this.planilla.codigoTipoCuota})
         this.planillaFormGroup.patchValue({Observacion:this.planilla.observacion})
         this.planillaFormGroup.patchValue({Monto:this.planilla.monto})
+        this.planillaFormGroup.patchValue({IdEncabezado:this.planilla.idEncabezado})
         this.empleadoForm.patchValue({IdEncabezado:this.planilla.idEncabezado})
       }
       

@@ -23,6 +23,11 @@
                                     <mat-card>
                                         <mat-card-header><h3>Datos de la empresa</h3></mat-card-header>
                                         <mat-card-content>
+                                            <div class="row my-4">
+                                              <div class="col-12">
+                                                <h4>Codigo de la empresa en sistema PGR: {{ persona.codigoPersona }}</h4>
+                                              </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-12 col-md-6">
                                                   <mat-form-field class="full-width" appearance="fill">
@@ -49,7 +54,7 @@
                                                 <div class="col-12 col-md-6">
                                                     <mat-form-field class="full-width" appearance="fill">
                                                     <mat-label>Código PGR</mat-label>
-                                                    <input matInput placeholder="NRC" mask="000000" [showMaskTyped]="false" formControlName="codigoPGR">
+                                                    <input matInput placeholder="NRC" mask="0000000" [showMaskTyped]="false" formControlName="codigoPGR">
                                                     </mat-form-field>
                                                 </div>
                                             </div>
@@ -268,6 +273,7 @@
                                 <div class="col-12 col-md-6">
                                   <mat-form-field class="full-width" appearance="fill">
                                     <mat-label>Usuario</mat-label>
+                                    <input type="hidden" formControlName="IdUsuario">
                                     <input matInput placeholder="Usuario" formControlName="Username" required>
                                   </mat-form-field>
                                 </div>

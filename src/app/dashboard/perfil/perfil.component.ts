@@ -148,6 +148,7 @@ export class PerfilComponent implements OnInit {
 
     this.userFormGroup = this.formBuilder.group({
       // idRegistro: [{value: '0', disabled: true}, [Validators.required, Validators.min(1)]],
+      IdUsuario: ['', Validators.required],
       Username: ['', Validators.required],
       CodigoPagaduria: ['',Validators.required],
       CodigoEmpresa: ['', ''],
@@ -158,6 +159,7 @@ export class PerfilComponent implements OnInit {
       validator: PasswordValidation.MatchPassword
     });
 
+    this.userFormGroup.patchValue({IdUsuario:this.data.IdUsuario});
     this.userFormGroup.patchValue({Username:this.data.Usuario});
     this.userFormGroup.patchValue({CodigoEmpresa:this.data.CodigoEmpresa});
     this.userFormGroup.patchValue({CodigoPagaduria:this.data.CodigoPagaduria});
@@ -175,6 +177,7 @@ export class PerfilComponent implements OnInit {
           this.message = res.message
           this.userFormGroup.reset();
           this.userFormGroup.patchValue({Username:this.data.Usuario});
+          this.userFormGroup.patchValue({IdUsuario:this.data.IdUsuario});
           this.userFormGroup.patchValue({CodigoEmpresa:this.data.CodigoEmpresa});
           this.userFormGroup.patchValue({CodigoPagaduria:this.data.CodigoPagaduria});
         }else{

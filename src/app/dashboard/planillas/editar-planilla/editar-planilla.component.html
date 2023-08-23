@@ -31,8 +31,8 @@
             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                 <mat-form-field class="full-width" appearance="outline">
                   <mat-label>Número expediente</mat-label>
-                  <input matInput formControlName="NumeroExpediente" autocomplete="off"  />
-                  <mat-error *ngIf="empleadoForm.get('NumeroExpediente')?.hasError('required')">
+                  <input matInput formControlName="NoExpediente" autocomplete="off"  />
+                  <mat-error *ngIf="empleadoForm.get('NoExpediente')?.hasError('required')">
                     El número de expediente es requerido
                   </mat-error>
                 </mat-form-field>
@@ -40,8 +40,8 @@
               <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                 <mat-form-field class="full-width" appearance="outline">
                   <mat-label>Número tarjeta física</mat-label>
-                  <input matInput formControlName="NumeroTarjeta" autocomplete="off"/>
-                  <mat-error *ngIf="empleadoForm.get('NumeroTarjeta')?.hasError('required')">
+                  <input matInput formControlName="NoTarjeta" autocomplete="off"/>
+                  <mat-error *ngIf="empleadoForm.get('NoTarjeta')?.hasError('required')">
                     El número de tarjeta física es requerido
                   </mat-error>
                 </mat-form-field>
@@ -123,6 +123,10 @@
             <div class="col-12">
                 <p-toast></p-toast>
                 <h2>Actualizar la planilla N°: {{planilla?.noMandamiento}}</h2>
+                <p>
+                    <strong>Empresa:</strong> {{data.NombreEmpresa}}<br>
+                    <strong>NIT:</strong> {{data.NIT}}
+                </p>
             </div>
             <div class="col-5">
                 <div *ngIf="isSuccess" class="alert alert-success">{{message}}</div>
@@ -130,6 +134,7 @@
             </div>
         </div>
             <form [formGroup]="planillaFormGroup">
+                <input readonly type="hidden" formControlName="IdEncabezado">
                 <input readonly type="hidden" formControlName="CodigoEstado">
                 <input readonly type="hidden" formControlName="CodigoPagaduria">
                 <input readonly type="hidden" formControlName="CodigoEmpresa">
@@ -218,12 +223,12 @@
                                 <th>Apellidos demandante</th>
                                 <th>Monto cuota</th>
                                 <th>Número de beneficiarios</th>
-                                <th width="100px"></th>
+                                <th style="width:115px"></th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-empleado let-editing="editing" let-ri="rowIndex">
                             <tr [pEditableRow]="empleado">
-                                <td>
+                                <td class="td">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
                                             <input pInputText type="text" style="width: 75%;"  [(ngModel)]="empleado.codigoExpediente">
@@ -233,7 +238,7 @@
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
-                                <td>
+                                <td class="td">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
                                             <input pInputText type="text" style="width: 75%;"  [(ngModel)]="empleado.noExpediente">
@@ -243,7 +248,7 @@
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
-                                <td>
+                                <td class="td">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
                                             <input pInputText type="text" style="width: 80%;" [(ngModel)]="empleado.noTarjeta">
@@ -253,7 +258,7 @@
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
-                                <td>
+                                <td class="td">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
                                             <input pInputText [dropSpecialCharacters]="false" mask="00000000-0" maxlength="10" type="text" [(ngModel)]="empleado.duIdemandado">
@@ -263,7 +268,7 @@
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
-                                <td>
+                                <td class="td">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
                                             <input pInputText type="text" [(ngModel)]="empleado.nombresDemandado">
@@ -273,7 +278,7 @@
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
-                                <td>
+                                <td class="td">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
                                             <input pInputText type="text" [(ngModel)]="empleado.apellidosDemandado">
@@ -283,7 +288,7 @@
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
-                                <td>
+                                <td class="td">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
                                             <input pInputText type="text" [(ngModel)]="empleado.nombresDemandante">
@@ -293,7 +298,7 @@
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
-                                <td>
+                                <td class="td">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
                                             <input pInputText type="text" [(ngModel)]="empleado.apellidosDemandante">
@@ -303,7 +308,7 @@
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
-                                <td>
+                                <td class="td">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
                                             <input pInputText pKeyFilter="money" style="width: 80%;"  [(ngModel)]="empleado.monto">
@@ -313,18 +318,19 @@
                                         </ng-template>
                                     </p-cellEditor>
                                 
-                                <td>
+                                <td class="td">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
                                             <input pInputText pKeyFilter="int" style="width: 50%;"  [(ngModel)]="empleado.noBeneficiarios">
                                         </ng-template>
                                         <ng-template pTemplate="output">
                                             {{empleado.noBeneficiarios}}
+                                            <a class="ver-detalles" href="javascript:void(0)" (click)="verdetalle(empleado)">Ver detalles</a>
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
                                 <td>
-                                    <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(empleado)" class="p-button-rounded p-button-text"></button>
+                                    <button *ngIf="!editing" pButton pRipple type="button"  icon="pi pi-pencil" (click)="onRowEditInit(empleado,agregarEmpleado)" class="p-button-rounded p-button-text"></button>
                                     <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(empleado)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
                                     <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(empleado, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
                                     <button *ngIf="planilla.codigoEstado == 1 && !editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-trash" (click)="onRowDelete(empleado.idDetalle, planilla.idEncabezado)" class="p-button-rounded p-button-text p-button-danger"></button>

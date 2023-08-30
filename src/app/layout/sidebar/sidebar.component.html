@@ -38,6 +38,11 @@
               Reportes
             </a>
           </li>
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
+            <a routerLink="/dashboard/empleados" class="menu-top">
+              Empleados
+            </a>
+          </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol != 'U'">
             <a routerLink="/dashboard/bitacora-juridicas" class="menu-top">
               Bitácora

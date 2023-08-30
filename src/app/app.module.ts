@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ToastrModule } from 'ngx-toastr';
 import { PageLoaderComponent } from './layout/page-loader/page-loader.component';
 import { ProtectRoutesInterceptor } from './core/interceptors/protect-routes.interceptor';
+import { DisableControlDirective } from './core/directives/disable-control.directive';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ProtectRoutesInterceptor } from './core/interceptors/protect-routes.int
     FooterComponent,
     SidebarComponent,
     PageLoaderComponent,
+    DisableControlDirective,
     //UploadComponent
   ],
   imports: [

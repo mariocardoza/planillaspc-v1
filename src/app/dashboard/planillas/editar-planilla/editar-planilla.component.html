@@ -6,7 +6,7 @@
     <div class="modal-body">
       <form class="validate-form" [formGroup]="empleadoForm" (ngSubmit)="onSubmitEmpleado()">
         <div class="row">
-          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>DUI</mat-label>
               <input type="hidden" formControlName="IdDetalle">
@@ -17,12 +17,16 @@
               </mat-error>
             </mat-form-field>
           </div>
+          <div class="col-12 col-md-6">
+            <button mat-raised-button color="primary" [class.auth-spinner]="loadingDUI"
+              class="auth-form-btn" [disabled]="loadingDUI" (click)="buscarDui()" type="button">Validar DUI</button>
+          </div>
         </div>
         <div class="row">
             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
               <mat-form-field class="full-width" appearance="outline">
-                <mat-label>Codigo expediente</mat-label>
-                <input matInput formControlName="CodigoExpediente" autocomplete="off" pKeyFilter="int" />
+                <mat-label>Codigo expediente electrónico</mat-label>
+                <input [readonly]="!hasExpedient" matInput formControlName="CodigoExpediente" autocomplete="off" pKeyFilter="int" />
                 <mat-error *ngIf="empleadoForm.get('CodigoExpediente')?.hasError('required')">
                   El código de expediente es requerido
                 </mat-error>
@@ -30,8 +34,8 @@
             </div>
             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                 <mat-form-field class="full-width" appearance="outline">
-                  <mat-label>Número expediente</mat-label>
-                  <input matInput formControlName="NoExpediente" autocomplete="off"  />
+                  <mat-label>Número expediente físico</mat-label>
+                  <input [readonly]="!hasExpedient" matInput formControlName="NoExpediente" autocomplete="off"  />
                   <mat-error *ngIf="empleadoForm.get('NoExpediente')?.hasError('required')">
                     El número de expediente es requerido
                   </mat-error>
@@ -40,7 +44,7 @@
               <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                 <mat-form-field class="full-width" appearance="outline">
                   <mat-label>Número tarjeta física</mat-label>
-                  <input matInput formControlName="NoTarjeta" autocomplete="off"/>
+                  <input [readonly]="!hasExpedient" matInput formControlName="NoTarjeta" autocomplete="off"/>
                   <mat-error *ngIf="empleadoForm.get('NoTarjeta')?.hasError('required')">
                     El número de tarjeta física es requerido
                   </mat-error>
@@ -51,7 +55,7 @@
             <div class="col-12 col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Nombres demandado</mat-label>
-                    <input matInput formControlName="NombresDemandado" autocomplete="off"/>
+                    <input [readonly]="!hasExpedient" matInput formControlName="NombresDemandado" autocomplete="off"/>
                     <mat-error *ngIf="empleadoForm.get('NombresDemandado')?.hasError('required')">
                       Nombres del demandado son requeridos
                     </mat-error>
@@ -60,7 +64,7 @@
             <div class="col-12 col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Apellidos demandado</mat-label>
-                    <input matInput formControlName="ApellidosDemandado" autocomplete="off"/>
+                    <input [readonly]="!hasExpedient" matInput formControlName="ApellidosDemandado" autocomplete="off"/>
                     <mat-error *ngIf="empleadoForm.get('ApellidosDemandado')?.hasError('required')">
                         Los apellidos del demandado son requeridos
                     </mat-error>
@@ -71,7 +75,7 @@
             <div class="col-12 col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Nombres demandante</mat-label>
-                    <input matInput formControlName="NombresDemandante" autocomplete="off"/>
+                    <input [readonly]="!hasExpedient" matInput formControlName="NombresDemandante" autocomplete="off"/>
                     <mat-error *ngIf="empleadoForm.get('NombresDemandante')?.hasError('required')">
                        Los nombres del demandante son requeridos
                     </mat-error>
@@ -80,7 +84,7 @@
             <div class="col-12 col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Apellido demandante</mat-label>
-                    <input matInput formControlName="ApellidosDemandante" autocomplete="off"/>
+                    <input [readonly]="!hasExpedient" matInput formControlName="ApellidosDemandante" autocomplete="off"/>
                     <mat-error *ngIf="empleadoForm.get('ApellidosDemandante')?.hasError('required')">
                       El apellido del demandante es requerido
                     </mat-error>
@@ -91,7 +95,7 @@
             <div class="col-12 col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Monto de la cuota</mat-label>
-                    <input matInput pKeyFilter="money" formControlName="Monto" autocomplete="off"/>
+                    <input [readonly]="!hasExpedient" [disableControl]="!hasExpedient" matInput pKeyFilter="money" formControlName="Monto" autocomplete="off"/>
                     <mat-error *ngIf="empleadoForm.get('Monto')?.hasError('required')">
                        El monto es requerido
                     </mat-error>
@@ -100,11 +104,20 @@
             <div class="col-12 col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>No Beneficiarios</mat-label>
-                    <input matInput pKeyFilter="int" formControlName="NoBeneficiarios" autocomplete="off"/>
+                    <input [readonly]="!hasExpedient" [disableControl]="hasExpedientl" matInput pKeyFilter="int" formControlName="NoBeneficiarios" autocomplete="off"/>
                     <mat-error *ngIf="empleadoForm.get('NoBeneficiarios')?.hasError('required')">
                       El número de beneficiarios es requerido
                     </mat-error>
                 </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Adjunte orden de descuento (.pdf,.png,.jpg)</mat-label>
+                    <input [readonly]="hasExpedient" [disableControl]="hasExpedient" matInput formControlName="OrdenDescuento"  placeholder="Adjunte la orden de descuento" readonly>
+                    <app-upload (onUploadFinished)=uploadFinishedOrdenDescuento($event)></app-upload>
+                  </mat-form-field>
             </div>
         </div>
         <div class="mt-2">
@@ -117,6 +130,129 @@
     </div>
     <div class="modal-footer"></div>
 </ng-template>
+<ng-template #listaEmpleados let-empleados>
+    <div class="modal-header modal-lg">
+        <h4 class="text-center">Seleccionar empleado</h4>
+        <button class="close" aria-label="close" type="button" (click)="empleados.dismiss()"><span>&times;</span></button>
+    </div>
+    <div class="modal-body">
+        <p-table [value]="empleadosPre"  styleClass="p-datatable-striped" [tableStyle]="{'min-width': '100%'}"
+                    [paginator]="true" [rows]="5" >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Código expediente electrónico</th>
+                            <th>Número expediente físico</th>
+                            <th>N° tarjeta física</th>
+                            <th pSortableColumn="duIdemandado">DUI <p-sortIcon field="duIdemandado"></p-sortIcon></th>
+                            <th pSortableColumn="nombresDemandado">Nombres demandado <p-sortIcon field="nombresDemandado"></p-sortIcon></th>
+                            <th pSortableColumn="apellidosDemandado">Apellidos demandado <p-sortIcon field="apellidosDemandado"></p-sortIcon></th>
+                            <th>Nombres demandante</th>
+                            <th>Apellidos demandante</th>
+                            <th pSortableColumn="monto">Monto cuota <p-sortIcon field="monto"></p-sortIcon></th>
+                            <th style="width:115px"></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-empleado>
+                        <tr >
+                            <td class="td">
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="text" style="width: 75%;"  [(ngModel)]="empleado.codigoExpediente">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{empleado.codigoExpediente}}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td class="td">
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="text" style="width: 75%;"  [(ngModel)]="empleado.noExpediente">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{empleado.noExpediente}}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td class="td">
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="text" style="width: 80%;" [(ngModel)]="empleado.nTarjeta">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{empleado.nTarjeta}}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td class="td">
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText [dropSpecialCharacters]="false" mask="00000000-0" maxlength="10" type="text" [(ngModel)]="empleado.duiPersonaNatural">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{empleado.duiPersonaNatural}}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td class="td">
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="text" [(ngModel)]="empleado.nombresPersonaNatural">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{empleado.nombresPersonaNatural}}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td class="td">
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="text" [(ngModel)]="empleado.apellidosPersonaNatural">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{empleado.apellidosPersonaNatural}}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td class="td">
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="text" [(ngModel)]="empleado.nombresPersonaE">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{empleado.nombresPersonaE}}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td class="td">
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText type="text" [(ngModel)]="empleado.apellidosPersonaE">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{empleado.apellidosPersonaE}}
+                                    </ng-template>
+                                </p-cellEditor>
+                            </td>
+                            <td class="td">
+                                <p-cellEditor>
+                                    <ng-template pTemplate="input">
+                                        <input pInputText pKeyFilter="money" style="width: 80%;"  [(ngModel)]="empleado.montoCR">
+                                    </ng-template>
+                                    <ng-template pTemplate="output">
+                                        {{empleado.montoCR | currency: 'USD'}}
+                                    </ng-template>
+                                </p-cellEditor>
+                            
+                            
+                            <td>
+                                <button pButton pRipple type="button" icon="pi pi-check" (click)="AgregarAPlanilla(empleado)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+        </p-table>
+    </div>
+</ng-template>
 <section class="content">
     <div class="container">
         <div class="row justify-content-center">
@@ -125,7 +261,8 @@
                 <h2>Actualizar la planilla N°: {{planilla?.noMandamiento}}</h2>
                 <p>
                     <strong>Empresa:</strong> {{data.NombreEmpresa}}<br>
-                    <strong>NIT:</strong> {{data.NIT}}
+                    <strong>NIT:</strong> {{data.NIT}}<br>
+                    <strong>Codigo de empresa:</strong> {{data.CodigoEmpresa}}
                 </p>
             </div>
             <div class="col-5">
@@ -194,7 +331,7 @@
             </div>
             <div class="col-12">
                 <div class="my-4" id="container-table" style="height: 500px; overflow-y: auto;">
-                    <p-table #dt [value]="empleados" dataKey="idDetalle" editMode="row" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '100%'}"
+                    <p-table #dt [value]="empleados" (onEdit)="onEditInit($event)" (onEditComplete)="onEditComplete($event)" dataKey="idDetalle" editMode="row" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '100%'}"
                     [globalFilterFields]="['codigoExpediente', 'noTarjeta','duIdemandado','nombresDemandado','nombresDemandante','apellidosDemandado','apellidosDemandante']" [paginator]="true" [rows]="5" >
                     <ng-template pTemplate="caption">
                         <div style="text-align: right">
@@ -213,15 +350,15 @@
                     </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>Código expediente</th>
-                                <th>Número expediente</th>
+                                <th>Código expediente electrónico</th>
+                                <th>Número expediente físico</th>
                                 <th>N° tarjeta física</th>
-                                <th>DUI</th>
-                                <th>Nombres demandado</th>
-                                <th>Apellidos demandado</th>
+                                <th pSortableColumn="duIdemandado">DUI <p-sortIcon field="duIdemandado"></p-sortIcon></th>
+                                <th pSortableColumn="nombresDemandado">Nombres demandado <p-sortIcon field="nombresDemandado"></p-sortIcon></th>
+                                <th pSortableColumn="apellidosDemandado">Apellidos demandado <p-sortIcon field="apellidosDemandado"></p-sortIcon></th>
                                 <th>Nombres demandante</th>
                                 <th>Apellidos demandante</th>
-                                <th>Monto cuota</th>
+                                <th pSortableColumn="monto">Monto cuota <p-sortIcon field="monto"></p-sortIcon></th>
                                 <th>Número de beneficiarios</th>
                                 <th style="width:115px"></th>
                             </tr>
@@ -308,7 +445,7 @@
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
-                                <td class="td">
+                                <td class="td" [pEditableColumn]="empleado">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
                                             <input pInputText pKeyFilter="money" style="width: 80%;"  [(ngModel)]="empleado.monto">

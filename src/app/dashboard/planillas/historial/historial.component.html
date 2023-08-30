@@ -6,33 +6,7 @@
                 <h2>Historial de planillas</h2>
             </div>
         </div>
-        <div class="row justify-content-center mt-4">
-            <!--form>
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-4">
-                            <mat-form-field>
-                                <mat-label>Seleccione el mes</mat-label>
-                                <mat-select placeholder="Seleccione un mes">
-                                    <mat-option *ngFor="let mes of meses" [value]="mes.value">
-                                        {{mes.name}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-4">
-                            <mat-form-field>
-                                <mat-label>Código de la empresa</mat-label>
-                                <input matInput name="hola">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-4">
-                            <button pButton class="primary">Buscar</button>
-                        </div>
-                    </div>
-                </div>
-            </form-->
-        </div>
+
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -55,12 +29,12 @@
                         </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
-                                <th>N° de mandamiento</th>
-                                <th>Periodo</th>
-                                <th>Tipo</th>
+                                <th pSortableColumn="noMandamiento">N° de mandamiento <p-sortIcon field="noMandamiento"></p-sortIcon></th>
+                                <th pSortableColumn="periodo">Periodo <p-sortIcon field="periodo"></p-sortIcon></th>
+                                <th pSortableColumn="codigoTipoCuota">Tipo <p-sortIcon field="codigoTipoCuota"></p-sortIcon></th>
                                 <th>Monto planilla</th>
                                 <th>Personal en planilla</th>
-                                <th>Estado</th>
+                                <th pSortableColumn="codigoEstado">Estado <p-sortIcon field="codigoEstado"></p-sortIcon></th>
                                 <th>Acción</th>
                             </tr>
                         </ng-template>
@@ -71,10 +45,12 @@
                                 <td>{{ buscarTipoCuota(planilla.codigoTipoCuota) }}</td>
                                 <td>${{ planilla.monto }}</td>
                                 <td>{{ planilla.empleadosEnPlanilla }}</td>
-                                <td><p-tag severity="primary" value="{{buscarEstadoPlanilla(planilla.codigoEstado)}}"></p-tag></td>
+                                <td><p-tag severity="{{claseEstadoPlanilla(planilla.codigoEstado)}}" value="{{buscarEstadoPlanilla(planilla.codigoEstado)}}"></p-tag></td>
                                 <td>
-                                    <button *ngIf="planilla.codigoEstado == 1" pButton (click)="anularPlanilla(planilla.idEncabezado)" icon="pi pi-times" class="p-button-warning"></button> | 
-                                    <button *ngIf="planilla.codigoEstado == 1" pButton routerLink="/dashboard/planillas/{{planilla.idEncabezado}}/edit" icon="pi pi-user-edit" class="p-button-primary"></button>
+                                    <button *ngIf="planilla.codigoEstado == 1" pButton (click)="anularPlanilla(planilla.idEncabezado)" icon="pi pi-times" class="p-button-warning mx-1"></button>
+                                    <button *ngIf="planilla.codigoEstado == 1" pButton routerLink="/dashboard/planillas/{{planilla.idEncabezado}}/edit" icon="pi pi-user-edit" class="p-button-primary mx-1"></button>
+                                    <button *ngIf="planilla.codigoEstado == 1" title="Procesar planilla" pButton (click)="procesarPlanilla(planilla.idEncabezado)" icon="pi pi-check" class="p-button-secondary mx-1"></button>
+                                    <button *ngIf="planilla.codigoEstado == 2" title="Imprimir planilla" pButton (click)="procesarPlanilla(planilla.idEncabezado)" icon="pi pi-print" class="p-button-secondary mx-1"></button>
                                 </td>
                             </tr>
                         </ng-template>

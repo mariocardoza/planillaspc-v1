@@ -1,6 +1,6 @@
 export interface DetallePlanilla {
-  idDetalle: number;
-  idEncabezado: number;
+  idDetalle?: number;
+  idEncabezado?: number;
   apellidosDemandado?: string;
   nombresDemandado?: string;
   apellidosDemandante?: string;
@@ -10,7 +10,7 @@ export interface DetallePlanilla {
   noBeneficiarios: number;
   noTarjeta: string;
   noExpediente: string;
-  observaciones: string;
+  observaciones?: string;
   codigoExpediente: number;
 }
 

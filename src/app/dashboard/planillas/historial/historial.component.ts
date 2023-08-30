@@ -31,7 +31,9 @@ export class HistorialComponent implements OnInit {
   ];
   tipoCuotas = [
     {value:'1', name:'Cuota alimenticia'},
+    {value:'2', name:'Bonificaciones'},
     {value:'3', name:'Aguinaldos'},
+    {value:'4', name:'Indemnizaciones'},
     {value:'0', name:'Otras prestaciones'},
   ];
   codigoEstados = [
@@ -55,10 +57,32 @@ export class HistorialComponent implements OnInit {
   obtenerPlanillas(event: LazyLoadEvent){
     this.lastTableLazyLoadEvent = event;
     console.log(event)
-    this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,event.globalFilter || '',event.first || 0,event.rows || 10).subscribe((result) => {
+    this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'fechaHoraRegistro').subscribe((result) => {
       this.planillas = result['data'];
       this.totalRecords = result['registros'];
     });
+  }
+
+  procesarPlanilla(idEncabezado){
+    Swal.fire({
+      title: '¿Esta seguro?',
+      text: "Esta acción guardará la planilla y ya no podrá hacer cambios en ella",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, Continuar',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.planillaService.enviarPlanilla(idEncabezado).subscribe((result) => {
+          if(result.success){
+            this.obtenerPlanillas(this.lastTableLazyLoadEvent);
+            this.messageService.add({severity:'success', summary: 'Exito', detail:'Planilla enviada a la PGR con éxito'});
+          }
+        });  
+      }
+    })
   }
 
   buscarTipoCuota(codigoTipoCuota){
@@ -69,6 +93,18 @@ export class HistorialComponent implements OnInit {
   buscarEstadoPlanilla(codigoEstado){
     var valor = this.codigoEstados.find(e => e.value === codigoEstado);
     return valor.name;
+  }
+
+  claseEstadoPlanilla(codigoEstado){
+    if(codigoEstado==1){
+      return 'primary';
+    }else{
+      if(codigoEstado==4){
+        return 'danger';
+      }else{
+        return 'success';
+      }
+    }
   }
 
   anularPlanilla(idEncabezado){

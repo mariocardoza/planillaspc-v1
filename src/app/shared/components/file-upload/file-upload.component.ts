@@ -4,6 +4,7 @@ import * as XLSX from 'xlsx'
 import { PlanillaService } from "src/app/core/service/planilla.service";
 import { MessageService } from "primeng/api";
 import { Router } from "@angular/router";
+import { DetallePlanilla } from "src/app/core/models/detalle-planilla.interface";
 @Component({
   selector: "app-file-upload",
   templateUrl: "./file-upload.component.html",
@@ -22,7 +23,7 @@ export class FileUploadComponent implements OnInit {
   camposSumar: any;
   resultsShow: any[] = [];
   records: any = {};
-  registros: any[] = [];
+  registros: DetallePlanilla[] = [];
   metadataUtilizar: any[] = [];
   campos: string[] = [];
   descriptionColumns: string[] = [];
@@ -64,6 +65,7 @@ export class FileUploadComponent implements OnInit {
     let fileToUpload = <File>files[0];
 
     if (!this.validateFile(fileToUpload.name)) {
+      this.messageService.add({severity:'error', summary: 'Error',detail: 'Formato de archivo inválido'});
       //this.toastService.show("Tipo de archivo inválido.", { classname: 'bg-dark text-light', delay: 3000, header: 'Notificación!' });
       // this.loading = false;
       this.myFiles = [];
@@ -153,10 +155,10 @@ export class FileUploadComponent implements OnInit {
     console.log(this.registros)
     this.planillaService.guardarPlanillaImportada(this.registros,this.objUser.Token).subscribe(
         res => {
-           console.log(res['message'])
+           //console.log(res['message'])
            if(res['success']){
             this.messageService.add({severity:'success', summary: 'Exito',detail: "Planilla cargada con éxito"});
-            this.router.navigate(['/dashboard/planillas/historial']);
+            this.router.navigate(['/dashboard/planillas/'+res['lastId']+'/edit']);
            }else{
             this.messageService.add({severity:'error', summary: 'Error',detail: res['message']});
            }

@@ -35,11 +35,13 @@ export class PlanillaService {
     }))
   }
 
-  obtenerPlanillas(codigoEmpresa: number,filter:string,page:number,limit:number){
+  obtenerPlanillas(codigoEmpresa: number,filter:string,page:number,limit:number,sortOrder:number,sortField: string){
     let params = new HttpParams();
     params = params.append("skip", page);
     params = params.append("limit", limit);
     params = params.append("filter", filter);
+    params = params.append("sortOrder", sortOrder);
+    params = params.append("sortField", sortField);
     const url = endpoint.api.planillas+"/empresa/"+codigoEmpresa;
     let headers = new HttpHeaders({'Content-Type':'application/json'});
    // headers = headers.append('Authorization', 'Bearer ' + `${token}`);
@@ -113,6 +115,22 @@ export class PlanillaService {
     return this.http.get<DetalleEPlanilla[]>(url).pipe(
       catchError(this.handleError('prePlanilla', [])
     ));
+  }
+
+  buscarExpediente(data:any): Observable<any>{
+    const url = endpoint.api.planillas+"/buscarExpediente";
+    let headers = new HttpHeaders({'Content-Type':'application/json'});
+    return this.http.post(url,data,{headers:headers}).pipe(tap((result)=>{
+        return result;
+    }))
+  }
+
+  enviarPlanilla(idEncabezado: number): Observable<any>{
+    const url = endpoint.api.planillas+"/Enviar/"+idEncabezado;
+    let headers = new HttpHeaders({'Content-Type':'application/json'});
+    return this.http.post(url,headers).pipe(tap(result => {
+      return result;
+    }))
   }
 
   

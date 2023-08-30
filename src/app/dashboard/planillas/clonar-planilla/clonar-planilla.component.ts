@@ -4,6 +4,7 @@ import { LazyLoadEvent } from 'primeng/api';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-clonar-planilla',
   templateUrl: './clonar-planilla.component.html',
@@ -14,6 +15,7 @@ export class ClonarPlanillaComponent implements OnInit {
   planillas: any = [];
   data:any;
   token: string;
+  cuotas: number = 1;
   clonarForm: FormGroup;
   meses = [
     {value:'01', name:'Enero'},
@@ -29,9 +31,11 @@ export class ClonarPlanillaComponent implements OnInit {
     {value:'11', name:'Noviembre'},
     {value:'12', name:'Diciembre'},
   ];
-  tipoCuotas = [
+  public tipoCuotas = [
     {value:'1', name:'Cuota alimenticia'},
+    {value:'2', name:'Bonificaciones'},
     {value:'3', name:'Aguinaldos'},
+    {value:'4', name:'Indemnizaciones'},
     {value:'0', name:'Otras prestaciones'},
   ];
   codigoEstados = [
@@ -41,7 +45,7 @@ export class ClonarPlanillaComponent implements OnInit {
     {value:'4', name:'Anulada'},
   ];
   totalRecords: number = 0;
-  constructor(private planillaService: PlanillaService,public modal: NgbModal,private formBuilder: FormBuilder, private messageService: MessageService) {
+  constructor(private planillaService: PlanillaService,public modal: NgbModal,private formBuilder: FormBuilder, private messageService: MessageService, private router: Router) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
@@ -54,11 +58,20 @@ export class ClonarPlanillaComponent implements OnInit {
       CodigoTipoCuota: ['', Validators.required],
       NoMandamiento: ['0',''],
       CodigoEstado: ['1',''],
+      TipoClonar: ['',Validators.required],
       CodigoPagaduria:[this.data.CodigoPagaduria,''],
       CodigoEmpresa:[this.data.CodigoEmpresa,''],
       Observacion:['',''],
       IdClonar:['',''],
+      Monto:['',''],
     })
+  }
+
+  conMontos(){
+    let tipoclonar = this.clonarForm.controls.TipoClonar.value;
+    this.cuotas = tipoclonar;
+    this.clonarForm.controls.Monto.setValidators(this.cuotas == 1 ? null : [Validators.required]);
+    this.clonarForm.controls.Monto.updateValueAndValidity();
   }
 
   onSubmit(){
@@ -69,6 +82,7 @@ export class ClonarPlanillaComponent implements OnInit {
       if(res['success']){
         this.modal.dismissAll();
         this.messageService.add({severity:'success', summary: 'Exito', detail:'Planilla correctamente clonada'});
+        this.router.navigate(['/dashboard/planillas/'+res['idEncabezado']+'/edit']);
       }
     })
   }
@@ -81,7 +95,7 @@ export class ClonarPlanillaComponent implements OnInit {
   }
 
   obtenerPlanillas(event: LazyLoadEvent){
-    this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,event.globalFilter || '',event.first || 0,event.rows || 10).subscribe((result) => {
+    this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'noMandamiento').subscribe((result) => {
       this.planillas = result['data'];
       this.totalRecords = result['registros'];
     });

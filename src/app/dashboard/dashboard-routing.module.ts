@@ -17,6 +17,7 @@ import { EditarAdministradorComponent } from './admin/editar-administrador/edita
 import { EditarPlanillaComponent } from './planillas/editar-planilla/editar-planilla.component';
 import { ClonarPlanillaComponent } from './planillas/clonar-planilla/clonar-planilla.component';
 import { ImportarPlanillaComponent } from './planillas/importar-planilla/importar-planilla.component';
+import { EmpIndexComponent } from './empleados/emp-index/emp-index.component';
 
 const routes: Routes = [
   {
@@ -83,6 +84,11 @@ const routes: Routes = [
   {
     path:'administradores/:id/edit',
     component: EditarAdministradorComponent
+  },
+  //Empleados
+  {
+    path:'empleados',
+    component: EmpIndexComponent
   },
   {
     path:'403',

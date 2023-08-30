@@ -65,7 +65,9 @@ export class CrearComponent implements OnInit {
 
   tipoCuotas = [
     {value:'1', name:'Cuota alimenticia'},
+    {value:'2', name:'Bonificaciones'},
     {value:'3', name:'Aguinaldos'},
+    {value:'4', name:'Indemnizaciones'},
     {value:'0', name:'Otras prestaciones'},
   ];
 

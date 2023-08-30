@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PlanillaService } from 'src/app/core/service/planilla.service';
 import { ActivatedRoute } from '@angular/router';
@@ -16,8 +16,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 
 
-
 export class EditarPlanillaComponent implements OnInit {
+  @ViewChild("listaEmpleados") modalEmpleados: ElementRef;
+  public response: { dbPath: '' }
+  empleadosPre: any;
   isSuccess = false;
   isError = false;
   message = '';
@@ -28,9 +30,12 @@ export class EditarPlanillaComponent implements OnInit {
   empleados: DetallePlanilla[];
   planillaFormGroup: FormGroup;
   loading: boolean = false;
+  loadingDUI: boolean = false;
   tipoCuotas = [
     {value:'1', name:'Cuota alimenticia'},
+    {value:'2', name:'Bonificaciones'},
     {value:'3', name:'Aguinaldos'},
+    {value:'4', name:'Indemnizaciones'},
     {value:'0', name:'Otras prestaciones'},
   ];
   codigoEstados = [
@@ -38,6 +43,7 @@ export class EditarPlanillaComponent implements OnInit {
     {value:'2', name:'Enviada'},
     {value:'3', name:'Procesada'},
   ];
+  hasExpedient:boolean = false;
   clonedEmpleado: { [s: string]: DetallePlanilla } = {};
   @ViewChild(Table, { read: Table }) pTable: Table;
   constructor(private formBuilder: FormBuilder,private route: ActivatedRoute, private planillaService: PlanillaService,private messageService: MessageService,public modal: NgbModal) { 
@@ -75,6 +81,7 @@ export class EditarPlanillaComponent implements OnInit {
       NoBeneficiarios: ['', Validators.required],
       IdDetalle: ['0', ''],
       IdEncabezado: ['', ''],
+      OrdenDescuento: ['', Validators.required],
     });
   }
 
@@ -111,7 +118,7 @@ export class EditarPlanillaComponent implements OnInit {
   }
 
   crearNuevo(modal){
-    this.empleadoForm.patchValue({DUIDemandado:''});
+    this.empleadoForm.patchValue({DUIDemandado:'01949641-2'});
     this.empleadoForm.patchValue({NombresDemandado:''});
     this.empleadoForm.patchValue({ApellidosDemandado:''});
     this.empleadoForm.patchValue({NombresDemandante:''});
@@ -127,7 +134,7 @@ export class EditarPlanillaComponent implements OnInit {
   }
 
   onRowEditInit(empleado: DetallePlanilla,modal){
-    //console.log(empleado)
+    console.log(empleado)
     this.empleadoForm.patchValue({DUIDemandado:empleado.duIdemandado});
     this.empleadoForm.patchValue({NombresDemandado:empleado.nombresDemandado});
     this.empleadoForm.patchValue({ApellidosDemandado:empleado.apellidosDemandado});
@@ -169,6 +176,73 @@ export class EditarPlanillaComponent implements OnInit {
     })
   }
 
+  buscarDui(){
+    this.loadingDUI = true;
+    let dui: string = (this.empleadoForm.value.DUIDemandado);
+    this.hasExpedient = true;
+    const data = {
+      dui : dui,
+      codigoPagaduria: this.data.CodigoPagaduria,
+      codigoEmpresa: this.data.CodigoPGR
+    };
+    this.planillaService.buscarExpediente(data).subscribe((res)=>{
+      if(res.success){
+        this.hasExpedient = false;
+        //if(res.detalle.length  > 1){
+          this.empleadosPre = res.detalle 
+          
+          this.modal.open(this.modalEmpleados,{ size: <any>'xl' });
+        /*}else{
+          this.empleadoForm.patchValue({CodigoExpediente:res.detalle[0].codigoExpediente})
+        }*/
+      }else{
+        this.hasExpedient = true;
+      }
+      this.loadingDUI = false;
+    })
+    this.empleadoForm.controls.OrdenDescuento.setValidators(!this.hasExpedient ? null : [Validators.required]);
+    this.empleadoForm.controls.OrdenDescuento.updateValueAndValidity();
+  }
+
+  AgregarAPlanilla(empleado){
+    const newP: DetallePlanilla = {
+      idEncabezado: this.planilla.idEncabezado,
+      idDetalle: 0,
+      duIdemandado: empleado.duiPersonaNatural,
+      nombresDemandado: empleado.nombresPersonaNatural,
+      apellidosDemandado: empleado.apellidosPersonaNatural,
+      nombresDemandante: empleado.nombresPersonaE,
+      apellidosDemandante: empleado.apellidosPersonaE,
+      monto: empleado.montoCR,
+      noBeneficiarios: empleado.cantidadB,
+      noExpediente: empleado.noExpediente,
+      noTarjeta: empleado.nTarjeta,
+      codigoExpediente: empleado.codigoExpediente,
+      observaciones: '',
+    };
+
+    this.planillaService.editarDetallePlanilla(newP,this.token).subscribe((result)=>{
+      //console.log(result['success'])
+      if(result['success']){
+        this.getPlanilla(this.planilla.idEncabezado)
+        this.messageService.add({severity:'success', summary: 'Exito', detail:result['message']});
+        this.modal.dismissAll()
+      }else{
+        this.messageService.add({severity:'error', summary: 'Exito', detail:result['message']});
+      }
+    })
+
+  }
+
+  public uploadFinishedOrdenDescuento = (event) => {
+    this.response = event;
+    console.log(event)
+    this.empleadoForm.patchValue({
+      OrdenDescuento:  this.response.dbPath
+    });     
+  }
+
+
   verdetalle(empleado:DetallePlanilla){
     alert(empleado.apellidosDemandado)
   }
@@ -194,6 +268,25 @@ export class EditarPlanillaComponent implements OnInit {
     //Caution: guard again dataKey here
     this.pTable.editingRowKeys[newP[this.pTable.dataKey]] = true;
     //this.onRowEditInit(newP);
+  }
+
+  onEditComplete(event){
+    //console.log(event.data)
+    let empleado = event.data;
+    this.planillaService.editarDetallePlanilla(empleado,this.token).subscribe((result)=>{
+      //console.log(result['success'])
+      if(result['success']){
+        //this.getPlanilla(empleado.idEncabezado)
+        this.messageService.add({severity:'success', summary: 'Exito', detail:result['message']});
+      }else{
+        this.messageService.add({severity:'error', summary: 'Exito', detail:result['message']});
+      }
+    })
+  }
+
+  onEditInit(event): void {
+    console.log(event);
+    console.log("Edit Init Event Called");
   }
 
   onRowEditSave(empleado: DetallePlanilla){

@@ -24,6 +24,8 @@ import { EditarAdministradorComponent } from './admin/editar-administrador/edita
 import { EditarPlanillaComponent } from './planillas/editar-planilla/editar-planilla.component';
 import { ClonarPlanillaComponent } from './planillas/clonar-planilla/clonar-planilla.component';
 import { ImportarPlanillaComponent } from './planillas/importar-planilla/importar-planilla.component';
+import { EmpIndexComponent } from './empleados/emp-index/emp-index.component';
+import { EmpCreateComponent } from './empleados/emp-create/emp-create.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { ImportarPlanillaComponent } from './planillas/importar-planilla/importa
     EditarAdministradorComponent,
     EditarPlanillaComponent,
     ClonarPlanillaComponent,
-    ImportarPlanillaComponent
+    ImportarPlanillaComponent,
+    EmpIndexComponent,
+    EmpCreateComponent,
   ],
   imports: [
     CommonModule,

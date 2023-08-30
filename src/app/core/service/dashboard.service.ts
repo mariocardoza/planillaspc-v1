@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders,HttpParams } from '@angular/
 import { Router } from '@angular/router';
 import { endpoint } from 'src/environments/endpoint';
 import { BehaviorSubject, ReplaySubject, catchError, Observable, tap, throwError, of } from 'rxjs';
+import { IEmpleado } from '../models/empleados/empleado';
 @Injectable({
   providedIn: 'root'
 })
@@ -131,6 +132,14 @@ export class DashboardService {
 
   estadisticasDashboard(codigoEmpresa:number):Observable<any>{
     const url = endpoint.api.dashboard+"/estadisticas/"+codigoEmpresa
+    let headers = new HttpHeaders({'Content-Type' : 'application/json'})
+    return this.http.get(url,{headers: headers}).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
+  buscarEmpleadosEmpresa(codigoEmpresa:number): Observable<any>{
+    const url = endpoint.api.dashboard+"/empresas/empleados/"+codigoEmpresa
     let headers = new HttpHeaders({'Content-Type' : 'application/json'})
     return this.http.get(url,{headers: headers}).pipe(tap((result) => {
       return result;

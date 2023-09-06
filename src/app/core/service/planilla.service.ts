@@ -35,7 +35,7 @@ export class PlanillaService {
     }))
   }
 
-  obtenerPlanillas(codigoEmpresa: number,filter:string,page:number,limit:number,sortOrder:number,sortField: string){
+  obtenerPlanillas(codigoEmpresa: number,filter:string,page:number,limit:number,sortOrder:number,sortField: string): Observable<any>{
     let params = new HttpParams();
     params = params.append("skip", page);
     params = params.append("limit", limit);

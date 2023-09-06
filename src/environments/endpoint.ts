@@ -12,6 +12,7 @@ export const endpoint = {
         dashboard: ws.api+ '/Dashboard',
         naturales: ws.api + '/PersonasNaturales',
         juridicas: ws.api + '/PersonasJuridicas',
+        empleados: ws.api+ '/Empleados',
         usuarios: ws.api + '/Usuarios',
         planillas: ws.api+ '/Planillas',
         upload: ws.api + "/Upload",

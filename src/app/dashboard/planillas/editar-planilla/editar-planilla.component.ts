@@ -148,8 +148,7 @@ export class EditarPlanillaComponent implements OnInit {
     this.empleadoForm.patchValue({IdEncabezado:empleado.idEncabezado});
     this.empleadoForm.patchValue({IdDetalle:empleado.idDetalle});
     this.modal.open(modal,{ size: <any>'lg' });
-    //this.clonedEmpleado[empleado.idDetalle] = { ...empleado };
-    //console.log(this.clonedEmpleado)
+    
   }
 
   onRowDelete(idDetalle: number,idEncabezado:number){
@@ -312,9 +311,11 @@ export class EditarPlanillaComponent implements OnInit {
 
   getPlanilla(idEncabezado){
     this.planillaService.obtenerPlanilla(idEncabezado,this.token).subscribe((result) => {
+      console.log(result)
       if(result['success']){
         this.planilla = result['data']
-        this.empleados = this.planilla.empleados
+        this.empleados = this.planilla.detalles
+        //console.log(result['data']).detalles
         this.planillaFormGroup.patchValue({NoMandamiento:this.planilla.noMandamiento})
         this.planillaFormGroup.patchValue({Periodo:this.planilla.periodo})
         this.planillaFormGroup.patchValue({CodigoTipoCuota:this.planilla.codigoTipoCuota})

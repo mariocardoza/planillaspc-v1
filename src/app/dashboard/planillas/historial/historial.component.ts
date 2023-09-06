@@ -95,6 +95,10 @@ export class HistorialComponent implements OnInit {
     return valor.name;
   }
 
+  imprimirPlanilla(idEncabezado:number){
+    alert(idEncabezado)
+  }
+
   claseEstadoPlanilla(codigoEstado){
     if(codigoEstado==1){
       return 'primary';

@@ -1,30 +1,136 @@
 <section class="content">
+  <p-toast></p-toast>
+  <ng-template #agregarEmpleado let-modal>
+    <div class="modal-header modal-lg">
+      <h4 class="text-center"><span *ngIf="isCreating; else isEditing">Agregar</span><ng-template #isEditing>Editar</ng-template> empleado</h4>
+      <button class="close" aria-label="close" type="button" (click)="modal.dismiss()"><span>&times;</span></button>
+    </div>
+    <div class="modal-body">
+      <form class="validate-form" [formGroup]="empleadoForm" (ngSubmit)="isCreating ? onSubmitEmpleado() : editEmpleado()">
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>DUI o Pasaporte</mat-label>
+              <input type="hidden" formControlName="IdPersona">
+              <input matInput formControlName="DuiPasaporte" autocomplete="off" />
+              <mat-error *ngIf="empleadoForm.get('DuiPasaporte')?.hasError('required')">
+                El DUI o pasaporte es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Codigo expediente electrónico</mat-label>
+                <input matInput formControlName="CodigoExpediente" autocomplete="off" pKeyFilter="int" />
+                <mat-error *ngIf="empleadoForm.get('CodigoExpediente')?.hasError('required')">
+                  El código de expediente es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <mat-form-field class="full-width" appearance="outline">
+                  <mat-label>Número expediente físico</mat-label>
+                  <input matInput formControlName="ExpedienteFisico" autocomplete="off"  />
+                  <mat-error *ngIf="empleadoForm.get('ExpedienteFisico')?.hasError('required')">
+                    El número de expediente es requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+          </div>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Nombres empleado</mat-label>
+                    <input matInput formControlName="Nombres" autocomplete="off"/>
+                    <mat-error *ngIf="empleadoForm.get('Nombres')?.hasError('required')">
+                      Nombres del empleado son requeridos
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-6">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Apellidos empleado</mat-label>
+                    <input matInput formControlName="Apellidos" autocomplete="off"/>
+                    <mat-error *ngIf="empleadoForm.get('Apellidos')?.hasError('required')">
+                        Los apellidos del empleado son requeridos
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        
+        <div class="row" *ngIf="isCreating">
+            <div class="col-12">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Adjunte documento (.pdf,.png,.jpg)</mat-label>
+                    <input matInput formControlName="RutaDocumento"  placeholder="Adjunte la orden de descuento" readonly>
+                    <app-upload (onUploadFinished)=uploadFinishedDocumento($event)></app-upload>
+                  </mat-form-field>
+            </div>
+        </div>
+        <div class="mt-2">
+          <div style="text-align:center">
+            <button mat-raised-button color="primary" [class.auth-spinner]="loading"
+              class="auth-form-btn" [disabled]="loading || !empleadoForm.valid " type="submit"><span *ngIf="isCreating; else isEditing">Registrar</span><ng-template #isEditing>Actualizar</ng-template></button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer"></div>
+</ng-template>
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <h3 class="text-center">Listado de empleados</h3>
             </div>
         </div>
+        <div class="row">
+          <div class="col-12 my-4">
+              <button pButton icon="pi pi-plus" pRipple type="button" label="Nuevo empleado" (click)="crearNuevo(agregarEmpleado)"></button>
+          </div>
+      </div>
         <div class="row mt-4">
             <div class="col-12">
-              <p-table [value]="empleados" [paginator]="true" [loading]="loading" [rows]="10" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 25, 50, 100]">
+              <p-table #dt [value]="empleados" [paginator]="true" [loading]="loading" [rows]="10" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 25, 50, 100]"
+              [globalFilterFields]="['DUIPersonaNatural', 'NombresPersonaNatural','ApellidosPersonaNatural','CodigoPersona']">
+                <ng-template pTemplate="caption">
+                  <div style="text-align: right">
+                      <i 
+                          class="pi pi-search" 
+                          style="margin:4px 4px 0 0"> 
+                      </i>
+                      <input 
+                          type="text" 
+                          pInputText size="50" 
+                          placeholder="Digite el término a buscar"
+                          (input)=
+          "dt.filterGlobal($any($event.target).value, 'contains')" 
+                          style="width:auto" />
+                  </div>
+              </ng-template>
                 <ng-template pTemplate="header">
                   <tr>
-                    <th>Codigo de la persona</th>
+                    <th>Código persona</th>
                     <th>DUI</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
+                    <th>N° expediente electrónico</th>
+                    <th>N° expediente físico</th>
                     <th></th>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-empleado>
                   <tr>
-                    <td>{{ empleado.IdRegistro }}</td>
-                    <td>{{ empleado.DUIPersonaNatural }}</td>
-                    <td>{{ empleado.NombresPersonaNatural }}</td>
-                    <td>{{ empleado.ApellidosPersonaNatural }}</td>
+                    <td>{{ empleado.codigoPersona }}</td>
+                    <td>{{ empleado.duiPasaporte }}</td>
+                    <td>{{ empleado.nombres }}</td>
+                    <td>{{ empleado.apellidos }}</td>
+                    <td>{{ empleado.codigoExpediente }}</td>
+                    <td>{{ empleado.expedienteFisico }}</td>
                     <td>
-                        
+                      <button pButton pRipple type="button"  icon="pi pi-pencil" (click)="onEditInit(empleado,agregarEmpleado)" class="p-button-rounded p-button-text"></button>
+                      <button pButton pRipple type="button"  icon="pi pi-trash" (click)="onDelete(empleado.idRegistro)" class="p-button-rounded p-button-danger p-button-text"></button>
                     </td>
                 </tr>
                 </ng-template>

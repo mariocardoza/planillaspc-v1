@@ -137,12 +137,4 @@ export class DashboardService {
       return result;
     }))
   }
-
-  buscarEmpleadosEmpresa(codigoEmpresa:number): Observable<any>{
-    const url = endpoint.api.dashboard+"/empresas/empleados/"+codigoEmpresa
-    let headers = new HttpHeaders({'Content-Type' : 'application/json'})
-    return this.http.get(url,{headers: headers}).pipe(tap((result) => {
-      return result;
-    }))
-  }
 }

@@ -16,6 +16,7 @@ export const endpoint = {
         usuarios: ws.api + '/Usuarios',
         planillas: ws.api+ '/Planillas',
         upload: ws.api + "/Upload",
+        uploadDir: ws.api + '/Upload/Dir',
         download: ws.api + '/Download/',
     },
     current: {

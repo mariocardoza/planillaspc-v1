@@ -12,6 +12,7 @@
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>DUI o Pasaporte</mat-label>
               <input type="hidden" formControlName="IdPersona">
+              <input type="hidden" formControlName="CodigoEmpresa">
               <input matInput formControlName="DuiPasaporte" autocomplete="off" />
               <mat-error *ngIf="empleadoForm.get('DuiPasaporte')?.hasError('required')">
                 El DUI o pasaporte es requerido
@@ -20,25 +21,45 @@
           </div>
         </div>
         <div class="row">
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Codigo expediente electrónico</mat-label>
+              <input matInput formControlName="CodigoExpediente" autocomplete="off" pKeyFilter="int" />
+              <mat-error *ngIf="empleadoForm.get('CodigoExpediente')?.hasError('required')">
+                El código de expediente es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
               <mat-form-field class="full-width" appearance="outline">
-                <mat-label>Codigo expediente electrónico</mat-label>
-                <input matInput formControlName="CodigoExpediente" autocomplete="off" pKeyFilter="int" />
-                <mat-error *ngIf="empleadoForm.get('CodigoExpediente')?.hasError('required')">
-                  El código de expediente es requerido
+                <mat-label>Número expediente físico</mat-label>
+                <input matInput formControlName="ExpedienteFisico" autocomplete="off"  />
+                <mat-error *ngIf="empleadoForm.get('ExpedienteFisico')?.hasError('required')">
+                  El número de expediente es requerido
                 </mat-error>
               </mat-form-field>
             </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                <mat-form-field class="full-width" appearance="outline">
-                  <mat-label>Número expediente físico</mat-label>
-                  <input matInput formControlName="ExpedienteFisico" autocomplete="off"  />
-                  <mat-error *ngIf="empleadoForm.get('ExpedienteFisico')?.hasError('required')">
-                    El número de expediente es requerido
-                  </mat-error>
-                </mat-form-field>
-              </div>
+        </div>
+        <div class="row" *ngIf="isCreating">
+          <div class="col-12 col-md-6">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Fecha de nacimiento</mat-label>
+              <input matInput [matDatepicker]="picker" [max]="a" formControlName="FechaNacimiento">
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
           </div>
+          <div class="col-12 col-md-6">
+            <mat-form-field class="full-width" appearance="fill">
+              <mat-label>Sexo</mat-label>
+              <mat-select placeholder="Sexo" formControlName="Sexo">
+                <mat-option *ngFor="let sexo of sexos" [value]="sexo.value">
+                  {{sexo.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
         <div class="row">
             <div class="col-12 col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
@@ -53,6 +74,7 @@
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Apellidos empleado</mat-label>
                     <input matInput formControlName="Apellidos" autocomplete="off"/>
+                    <input formControlName="RutaDocumento" type="hidden"  placeholder="Adjunte la orden de descuento" readonly>
                     <mat-error *ngIf="empleadoForm.get('Apellidos')?.hasError('required')">
                         Los apellidos del empleado son requeridos
                     </mat-error>
@@ -60,14 +82,11 @@
             </div>
         </div>
         
-        <div class="row" *ngIf="isCreating">
-            <div class="col-12">
-                <mat-form-field class="full-width" appearance="fill">
-                    <mat-label>Adjunte documento (.pdf,.png,.jpg)</mat-label>
-                    <input matInput formControlName="RutaDocumento"  placeholder="Adjunte la orden de descuento" readonly>
-                    <app-upload (onUploadFinished)=uploadFinishedDocumento($event)></app-upload>
-                  </mat-form-field>
-            </div>
+        <div class="row">
+          <div class="col-12">
+            <app-files-upload-dir [Directorio]="carpetaInstaciada" [actualFile]="actualfile"
+              (onUploadFinished)=uploadFinished($event) (onDownload)="downloadURLFile()"></app-files-upload-dir>
+          </div>
         </div>
         <div class="mt-2">
           <div style="text-align:center">

@@ -8,6 +8,7 @@ import { DashboardService } from 'src/app/core/service/dashboard.service';
 export class DashboardComponent implements OnInit {
   planillas:number = 0;
   montos:number = 0;
+  empleados: number = 0;
   data:any;
   constructor(private dashboardService: DashboardService) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
@@ -23,6 +24,7 @@ export class DashboardComponent implements OnInit {
       if(res.success){
         this.planillas = res.planillas;
         this.montos = res.montos;
+        this.empleados = res.empleados
       }
     });
   }

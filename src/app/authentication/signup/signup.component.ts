@@ -97,7 +97,7 @@ export class SignupComponent implements OnInit {
 
     this.personaJuridicaFormGroup = this.formBuilder.group({
       NIT: ['', Validators.required],
-      codigoPGR: ['0'],
+      codigoPGR: ['',Validators.required],
       RazonSocial: ['',Validators.required],
       ImagenNIT: ['',Validators.required],
       //ImagenNRC: ['',''],

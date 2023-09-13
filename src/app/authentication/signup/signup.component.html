@@ -1,10 +1,3 @@
-<header>
-  <nav class="navbar navbar-light dark" color="dark">
-    <div class="container-fluid">
-      <span class="navbar-brand mb-0 h1"><img width="250" src="/assets/images/logo.png" alt=""></span>
-    </div>
-  </nav>
-</header>
 <div class="auth-container">
     <div class="row auth-main">
       <div class="col-sm-12 auth-form-section">
@@ -20,7 +13,7 @@
             <h4 class="login-title mt-2">Registro de datos de empresas PGR</h4>
             <p class="text-center">Registre la información que se le pide en cada paso</p>
             <div class="row">
-              <mat-stepper #stepper>
+              <mat-stepper linear #stepper>
                 <mat-step>
                   <ng-template matStepLabel>Introducción</ng-template>
                   <mat-card class="mt-4">
@@ -28,7 +21,7 @@
                       <p>IMPORTANTE: En el proceso de creación del usuario será necesario que agregue las imágenes de los documentos que son requisitos para la creación del usuario.</p>
                       <p>Requerirá de información de la empresa como del representante legal </p>
                       <div>
-                        <p>Datos que que serán necesarios</p>
+                        <p>Datos que serán necesarios</p>
                         <ol>
                           <li>Foto del NIT de la empresa (150%)</li>
                           <li>Datos generales de la empresa</li>
@@ -57,6 +50,7 @@
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>NIT</mat-label>
                           <input matInput placeholder="NIT" (blur)="findNIT()" formControlName="NIT" [dropSpecialCharacters]="false" mask="0000-000000-000-0" [showMaskTyped]="false" required>
+                          <mat-error *ngIf="personaJuridicaFormGroup.get('NIT')?.hasError('required')">El NIT es requerido</mat-error>
                         </mat-form-field>
                       </div>
                     
@@ -64,6 +58,7 @@
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Nombre comercial</mat-label>
                           <input matInput placeholder="Nombre comercial" formControlName="NombreComercial" required>
+                          <mat-error *ngIf="personaJuridicaFormGroup.get('NombreComercial')?.hasError('required')">El nombre comercial es requerido</mat-error>
                         </mat-form-field>
                       </div>
                     </div>
@@ -72,6 +67,7 @@
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Razón social</mat-label>
                           <input matInput placeholder="Razón social" formControlName="RazonSocial" required>
+                          <mat-error *ngIf="personaJuridicaFormGroup.get('RazonSocial')?.hasError('required')">La razón social es requerido</mat-error>
                         </mat-form-field>
                       </div>
                    
@@ -79,6 +75,7 @@
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Código PGR</mat-label>
                           <input matInput placeholder="Codigo PGR" pKeyFilter="int" formControlName="codigoPGR">
+                          <mat-error *ngIf="personaJuridicaFormGroup.get('codigoPGR')?.hasError('required')">El código de empresa en la PGR es requerido</mat-error>
                         </mat-form-field>
                       </div>
                     </div>
@@ -90,6 +87,7 @@
                               <mat-option value="R">Privada</mat-option>
                               <mat-option value="U">Pública</mat-option>
                           </mat-select>
+                          <mat-error *ngIf="personaJuridicaFormGroup.get('TipoEmpresa')?.hasError('required')">El tipo de empresa es requerido</mat-error>
                         </mat-form-field>
                       </div>
                       <div class="col-12 col-md-6">
@@ -97,6 +95,7 @@
                           <mat-label>Imagen del NIT</mat-label>
                           <input matInput formControlName="ImagenNIT"  placeholder="Imagen NIT" readonly>
                           <app-upload (onUploadFinished)=uploadFinishedNITEmp($event)></app-upload>
+                          <mat-error *ngIf="personaJuridicaFormGroup.get('ImagenNIT')?.hasError('required')">La imagen del NIT es requerida</mat-error>
                         </mat-form-field>
                       </div>
                     </div>
@@ -121,6 +120,7 @@
                           <mat-form-field class="full-width" appearance="fill">
                             <mat-label>Correo electrónico institucional</mat-label>
                             <input matInput placeholder="Correo electrónico institucional" formControlName="MedioContactoPersona">
+                            <mat-error *ngIf="personaJuridicaFormGroup.get('MedioContactoPersona')?.hasError('required')">El correo electrónico es requerido</mat-error>
                           </mat-form-field>
                       </div>
                       <div class="col-12 col-md-6">
@@ -134,7 +134,7 @@
                     <div class="d-grid gap-2 d-md-block" *ngIf="!nitExiste">
                       <p>Continuar a datos del representante legal</p>
                       <button class="btn btn-primary" mat-button matStepperPrevious>Atras</button> | 
-                      <button class="btn btn-primary" mat-button matStepperNext>Siguiente</button>
+                      <button class="btn btn-primary" [disabled]="personaJuridicaFormGroup.valid" mat-button matStepperNext>Siguiente</button>
                     </div>
                     <div class="row mt-2 text-center" *ngIf="nitExiste">
                       <p class="auth-signup-text text-muted pb-0">
@@ -292,7 +292,7 @@
                       <div class="col">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Clave</mat-label>
-                          <input matInput [type]="hide ? 'password' : 'text'" formControlName="Password" maxlength="12">
+                          <input autocomplete="off" matInput [type]="hide ? 'password' : 'text'" formControlName="Password" maxlength="12">
                           <a class="show-pwd-icon" href="#" onClick="return false;" matSuffix (click)="hide = !hide"
                             [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -310,7 +310,7 @@
                       <div class="col">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Confirme la Clave de su Usuario</mat-label>
-                          <input matInput placeholder="Confirme Clave" [type]="hider ? 'password' : 'text'" formControlName="ConfirmPassword" maxlength="12" required>
+                          <input autocomplete="off" matInput placeholder="Confirme Clave" [type]="hider ? 'password' : 'text'" formControlName="ConfirmPassword" maxlength="12" required>
                           <a class="show-pwd-icon" href="#" onClick="return false;" matSuffix (click)="hider = !hider"
                             [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hider">
                             <mat-icon>{{hider ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -328,11 +328,88 @@
                 <mat-step [stepControl]="fourthFormGroup">
                   <form [formGroup]="fourthFormGroup">
                     <ng-template matStepLabel>Términos y condiciones</ng-template>
-                    <mat-card>
-                      Aqui va el texto de los términos y condiciones
-                      que se deberá redactar
-                    </mat-card>
-                    <mat-card style="text-align: justify;">
+                    <mat-tab-group>
+                      <mat-tab>
+                        <mat-card class="scrollable-content">
+                          <mat-card-content style="text-align: justify;">
+                            <strong>TERMINOS Y CONDICIONES DE LOS SERVICIOS DE PAGO DE CUOTAS ALIMENTICIAS Y PRESTACIONES POR MEDIO DE PLANILLA UNICA DE LA PROCURADURIA GENERAL DE LA REPUBLICA EL SALVADOR </strong><br>
+                            <br>
+                            Los términos de uso (también conocidos como términos y condiciones) son un contrato legal entre el proveedor de un servicio PGR, la empresa o instituciones pública y privada, obligada al pago de la cuota.<br>
+                            La persona encargada, pagador(a) debe aceptar cumplir estos términos para usar el servicio ofertado<br>
+                            Registro en Plataforma EPlanilla PGR; Servicios de Pago de Cuotas Alimenticias y Cuotas Adicionales o Prestaciones recibidas por la parte alimentante y que son pagados por medio de EPlanilla entre la Procuraduría General de la República y las Empresas ò Instituciones Públicas y Privadas obligadas al pago de las mismas, la cual se realizara mediante el uso de plataforma digital de acuerdo a lo establecido el Articulo 18 de la Ley de Procedimientos Administrativos; Articulo 32 literal “b” de la Ley Orgánica de la PGR, Decretos Legislativos 140,503,167 cumpliendo los plazos establecidos, comprometiéndose a hacer uso de dicha plataforma bajo los términos, condiciones y obligaciones siguientes:<br><br>
+                            <strong>I.	Condiciones de usos, oferta de servicio y política de privacidad de datos respecto al Pago de EPlanilla de Cuotas Alimenticias</strong><br><br>
+                            <ol>
+                              <li>"La PGR" ofrecerá a las Empresas o Instituciones públicas y privadas" el servicio del software EPlanilla, el cual tiene como finalidad agilizar el proceso de colectar y pagar las cuotas alimenticias y Cuotas adicionales o prestaciones derivadas de las mismas, por vía ordenes de descuento remitidas por la PGR o Tribunales de Justicia, aplicadas desde las Empresas o Instituciones Públicas y Privadas. El acceso a la Plataforma EPlanilla será vía internet, utilizando un navegador web y en un horario 24/7 los 365 días del año incluidos los días bisiestos.<br> La dirección para su acceso se dará en <a href="https://www.pgrapp.gob.sv/EPlanilla">https://www.pgrapp.gob.sv/EPlanilla</a>.</li>
+                              <li>Para utilizar la Plataforma EPlanilla, el personal de la empresa o Institución Pública y Privada correspondiente, deberá realizar un registro de información a efectos de generar un usuario y una clave, debiendo suministrar en el registro datos de carácter obligatorio como son: a) Razón Social o denominación Legal de la empresa o institución; b) Nombre Comercial de la empresa o Abreviaturas; c)Número de Identificación Tributaria d) No. Matricula de Empresa; e)Dirección; municipio o distrito y departamento; f) Contacto: Nombre y Apellido de la persona responsable de elaborar la planilla Teléfono, y Correo. G) Representante Legal, dependencias a nivel nacional señalando los datos antes mencionados. </li>
+                              <li>La empresa o institución Pública y Privada al momento de designar otra persona para el uso de plataforma de Planilla Única deberá informarlo a la Procuraduría General de la República para la actualización de datos del responsable y su actualización de cambio de usuario y clave. En el caso que la Empresa o Institución Pública y Privada tenga más de una sucursal ò dependencia, deberá tener más de un usuario, para cada sucursal, o dependencias.</li>
+                              <li>El crear un usuario no implica el acceso a EPlanilla. El personal correspondiente de la Procuraduría General de la República validará en la plataforma que el usuario y la documentación proporcionada es la correcta. Una vez el personal de la empresa o institución pública y privada, cumpla con los requisitos del registro, el personal de la Procuraduría General de la República, enviará vía correo electrónico el mensaje indicando que el usuario habilitado o dado de alta, permitiendo utilizar EPlanilla. En dicho correo electrónico se entregará un Código o Numero de Pago Electrónico.</li>
+                              <li>Para Inhabilitar o dar de baja a un usuario EPlanilla el personal de la empresa o institución pública y privada, deberá solicitarlo, vía correo electrónico, al personal correspondiente en la Procuraduría General de la Republica. El correo electrónico es <a href="mailto:soporteeplanilla@pgres.gob.sv">soporteeplanilla@pgres.gob.sv</a> </li>
+                              <li>La información que administra EPlanilla es de uso confidencial. El personal de la Procuraduría General de la República y toda persona que acceda en virtud de sus funciones acceda a la plataforma, se compromete a utilizar los datos personales para los usos a favor de las personas beneficiarias de la pensión alimenticia. Para Toda persona que en virtud de sus funciones acceda a la plataforma</li>
+                            </ol>
+                            <strong>II.	Requisitos a cumplir por parte de las empresas o instituciones públicas y privadas</strong><br>
+                            <ol>
+                              <li>La Procuraduría General de la República se compromete por medio de la Unidad de Control de Fondos de Terceros a proveer por medio de Plataforma EPlanilla de cuotas alimenticias y prestaciones por las empresas o Instituciones Públicas y Privadas los datos obligatorios de acuerdo a lo establecido en las leyes y decretos correspondientes detallando a) Código de Expediente electrónico Personal Alimentario; b) DUI  ò Pasaporte Personal Natural Demandado/a c) Nombre  y apellido de Persona Natural demandante; e) Cantidad de Personas Beneficiarias  y NUI f) Montos de Cuotas, prestaciones recibidas.</li>
+                              <li>La persona encargada de cada empresa e institución al momento de ejecutar EPlanilla deberá realizar una Planilla según tipologías de pagos diferentes si se trata de cuotas o prestación adicionales (Bonificaciones, indemnizaciones, vacaciones en su pago adicional etc.) según se detalla:<br>
+                                1.	Pago de Cuotas Alimenticias: En concepto de: Cuota alimenticia anticipada pagadas en forma mensual; quincenal; semanales, cuota alimenticia adicionál generadas por mora; aumentos de cuota alimenticia o disminución si hubieren modificacion etc. Las cuales deben ser pagadas en cumplimiento a oficios de la PGR o Tribunales de Justicia recibidos.<br>
+                                2.	Pago de Aguinaldos correspondiente al 30% correspondiente al porcentaje aplicable al aguinaldo devengado por el empleado o persona alimentante, en adición a la pensión alimenticia del mes de diciembre, en el plazo establecido al 1 de diciembre de cada año<br>
+                                3.	Pago de Cuota adicional equivalente al 30% del monto recibido en concepto de Bonificaciones, Indemnizaciones Laborales, Fondos de Retiro; pensiones adicionales; incentivos laborales; y cualquier otra gratificación o prestación laboral; Vacaciones Pagadas sobre el 30% adicional, consideradas adicional en el caso de Comisiones, Viáticos y gastos de representación; no serán incluidos y otros fondos provenientes de la realización de su trabajo, etc. Debiendo hacer efectivo el pago en el plazo establecido de 15 días posteriores, contados a partir de los días hábiles siguiente en que haya efectuado dicha cancelación.
+                              </li>
+                              <li>Condiciones a tomar en cuenta en la EPlanilla de pago de cuotas alimenticias a enviar a la PGR por parte de los pagadores o personas responsables de su ejecución<br>
+                                <strong>I)	De la Persona Pagadora o Responsable de los Pagos</strong><br>
+    
+                                •	Será responsabilidad del personal de la empresa o Institución pública y privada, utilizar EPlanilla según manual de usuario. Debiendo acceder en su versión digital desde la misma plataforma.<br>
+                                •	Modificar y mantener actualizada la información de la empresa o Institución Pública y Privada, agregando o modificando los datos del perfil del usuario según lo establecido en este documento.<br>
+                                •	La persona pagadora o responsable del llenado de la EPlanilla deberá identificar el estado de la persona demandada para el ingreso en la misma, siendo a) Los de nuevos ingreso b) Lo de arrastre del mes anterior y c) Los que dejan de laborar en la empresa o institución.<br>
+                                •	La empresa o institución Pública y Privada por medio de sus responsables, ingresaran a las personas por primera vez, adjuntando en formato digital en PDF la orden de descuento u oficio que soporta el mandato del pago de dicha pensión alimenticia, de preferencia escaneada, de tal forma que la imagen tenga una buena resolución y sea legible y comprensible para el personal correspondiente de la Procuraduría General de la República.<br>
+                                •	Asimismo, deberán ingresar en EPlanilla Las personas empleadas que continúan laborando en la empresa y tienen cuotas alimenticias, debiendo introducir toda la información ya descrita en este documento.<br>
+                                •	La persona pagadora o encargada del pago en los casos que la persona sea cesado de la obligación alimenticia deberá adjuntar carta en formato PDF dirigida a la Unidad de Control de Fondos de Terceros de la Procuraduría Auxiliar respectiva informando que ha sido cesado especificando a partir de qué fecha y adjuntando en formato digital la evidencia de oficio correspondiente, de preferencia escaneada, de tal forma que la imagen tenga una buena resolución y sea legible y comprensible para el personal correspondiente de la Procuraduría General de la República. Procediendo a su vez a darle de baja en la planilla.<br>
+                                •	A su vez inhabilitara o dará de baja a las personas empleadas o alimentantes que dejan de laborar en la empresa, institución pública y privada, procediendo a remitir el último pago correspondiente a la cuota alimenticia del mes en que fue despedido y el 30% de las prestaciones relacionadas en cumplimiento a los decretos respectivos si así procediere en ambos casos, debiendo adjuntar carta en PDF dirigida a la Unidad de Control de Fondos de Terceros, especificando la fecha que ha sido cesada la persona empleada o alimentante de sus funciones, eximiendo toda responsabilidad de no pago por parte de los responsables.<br>
+                                •	Las personas responsables deberán pagar las pensiones alimenticias en forma anticipada y sucesiva en las formas establecidas en los oficios remitidos por la PGR y los Tribunales competentes y en cumplimiento a lo establecido en la ley respectiva. (256 Código de Familia)<br>
+                                •	Toda persona responsable del pago de cuota alimenticia deberá acatarlo inmediatamente y de no cumplirla será solidariamente responsable con el obligado del pago de las cuotas alimenticias no retenidas debiendo realizarlo dentro de los tres días hábiles siguientes del pago del salario respectivo.<br>
+    
+                                <strong>II)	Oferta de Servicios de la Procuraduría General de la República-Unidad de Control de Fondos de Terceros</strong><br>
+                                1.	El personal de la Procuraduría General de la República capacitará de forma proactiva o reactiva al personal de las empresas o instituciones públicas y privadas, al momento de la implementación de EPlanilla, también pondrá a disposición videos y manual de utilización del software.<br>
+                                2.	La Procuraduría General de la República es propietario del software y plataforma tecnológica de EPlanilla y se reserva el derecho de hacer los cambios correspondientes a efectos de realizar mejoras en su operación.<br>
+                                3.	El personal de la Procuraduría General de la República se reserva el derecho de señalar inconformidades encontradas en los datos de la planilla, así como notificar al personal correspondiente de la empresa o Instituciones Públicas y Privadas al encargado de Planillas para proceder a subsanar las omisiones, errores o inconsistencias encontrados.<br>
+                                4.	Respecto al cumplimiento de los aspectos legales establecidos en el Código de Familia, Decreto Legislativos, los cuales encontrará en el botón "Soporte Legal", la empresa deberá cumplir con el artículo 264 del Código de Familia.<br>
+                                <br><br>
+                                <strong>III)	Recepción, verificación y validación de los datos enviados por las empresas e instituciones a la PGR</strong><br>
+    
+                                a)	Recepción de la Planilla de cuotas alimenticias se hará digitalmente en la plataforma EPlanilla proporcionada por la PGR la cual estará habilitada en un horario 24/7 los 365 días del año incluidos años bisiestos.<br>
+                                b)	La Unidad de Control de Fondos de Terceros respectiva, una vez Recibida la EPlanilla en la plataforma de la PGR, procederá a la revisión y verificación de los datos, de estar conforme los datos presentados por la empresa e institución pública y Privada en forma y contenido, se emitirá un mandamiento de pago, por el monto de cada planilla presentada, procediendo la empresa o institución pública y Privada, al pago en el Banco de Fomento Agropecuario.  y remitiendo el comprobante de pago vía correo institucional a la a la Unidad Local de Control de Fondos de Terceros respectiva.<br>
+    
+                                c)	En caso de inconformidad encontrada en los datos de planilla de cuotas alimenticias revisada por el personal de las Unidades de Control de Fondos de Terceros, se le notificará al Encargado de Planillas de la Empresa o institución pública y privada correspondiente, quien deberá proceder diligentemente a subsanar las omisiones, errores o inconsistencias encontrados.  Una vez modificada la planilla será reenviada nuevamente a la Unidad de Control de Fondos de Terceros respectiva, para su validación, de estar conforme se procede como lo señalado en el párrafo anterior.<br>
+    
+                                <br><br>
+                                <strong>IV)	Política de Privacidad</strong><br>
+    
+                                a)	La política de privacidad de los datos se realizará con base cumplimiento a convenciones internacionales; Ley de Acceso a la Información Pública, Política de Integridad y Gobierno Abierto de la PGR.<br>
+                                b)	Los datos serán tratados según su naturaleza como datos personales, siendo clasificados como CONFIDENCIALES, y solo podrán ser utilizados por personal autorizado de la PGR, Tribunales y Juzgados de Familia, Juzgados de Paz, Fiscalía.  Para otras circunstancias se requerirá el consentimiento de los titulares de datos personales.<br>
+                                c)	No obstante, quedan excluidos los datos de número de expediente electrónico y físico, Procuraduría Auxiliar, Montos, Diligencias, etc. que constituyen datos estadísticos no relacionados a los datos personales.<br>
+                                <br>
+                                <strong>V)	Horarios del Servicio por parte de las Unidades de Control de Fondos de Terceros</strong><br><br>
+    
+                                  El personal de la Unidad de Control de Fondos de Terceros, respectivo proporcionara los siguientes servicios:<br>
+    
+                                d)	Atención de Consultas o Asesorías días hábiles de 8:00am a 4:00:pm sin interrupción al mediodía.<br>
+                                e)	Procesamiento de datos de planillas además de los días hábiles y horario anterior, se realizarán según discreción en atención a la necesidad del servicio.<br>
+                                <br>
+                              </li>
+                            </ol>
+                            
+                            <ul>
+                              <li>Sobre pagos por servicio Transfer365, deberán Anexar digitalmente la documentación correspondiente del pago de la planilla</li>
+                              <li>Todos los pagos deberán realizarse a las cuentas corriente respectivas asignadas a cada Procuraduría Auxiliar departamental del Banco de Fomento Agropecuario con el mandamiento generado por la Unidad de Control de Fondos de Terceros respectivos.</li>
+                              <li>"La PGR" se obliga a guardar confidencialidad en la asignación y manejo de la identificación del usuario y la clave del "La persona responsable de los pagos de la Empresa o Institución públicas y Privadas</li>
+                              <li>Las empresas e Instituciones Públicas y Privadas" podrá accesar a los servicios que aquí se detallan como servicios de Plataforma EPlanilla de Cuotas Alimenticias a través de mecanismos de identificación electrónica que "La PGR" le proporciona, tales como usuarios y claves o de otro tipo que en un futuro "PGR" disponga para la prestación del servicio que se presta. Es entendido que: a) "Las Empresas o  Instituciones Públicas y Privadas" tendrá única y absoluta responsabilidad por la custodia, confidencialidad, por el uso o mal uso que dé a la identificación del usuario y la clave proporcionado, y cualquier otro acto ilícito ó punible, a partir de la fecha del respectivo contrato; b) toda información obtenida, y toda operación realizada utilizando la identificación electrónica secreta, se entenderá que ha sido realizada por "Empresas e Instituciones Públicas y Privadas" o autorizada por él mismo; </li>
+                            </ul>
+    
+                          </mat-card-content>
+                        </mat-card>
+                      </mat-tab>
+                    </mat-tab-group>
+                    
+                    <mat-card class="mt-4" style="text-align: justify;">
                       <b>Aceptación de la autorización.</b> Declaro haber leído, entendido y aceptado la totalidad de los términos y condiciones contenidos en el presente documento, sobre la autorización de notificación de todos los actos administrativos que realice la PGR y me comprometo a estar pendiente de cualquier notificación que sea realizada.
                       <section class="example-section">
                         <mat-checkbox class="example-margin" formControlName="aceptado" value="1" (change)="checkValue($event)">Acepto los términos y condiciones</mat-checkbox>

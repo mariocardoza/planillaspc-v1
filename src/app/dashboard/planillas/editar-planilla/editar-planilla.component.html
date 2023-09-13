@@ -262,7 +262,8 @@
                 <p>
                     <strong>Empresa:</strong> {{data.NombreEmpresa}}<br>
                     <strong>NIT:</strong> {{data.NIT}}<br>
-                    <strong>Codigo de empresa:</strong> {{data.CodigoEmpresa}}
+                    <strong>Codigo de empresa EPlanilla:</strong> {{data.CodigoEmpresa}}<br>
+                    <strong>Codigo de empresa PGR:</strong> {{data.CodigoPGR}}
                 </p>
             </div>
             <div class="col-5">
@@ -351,9 +352,9 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>Código expediente electrónico</th>
-                                <th>Número expediente físico</th>
+                                <th style="width: 150px;">Número expediente físico</th>
                                 <th>N° tarjeta física</th>
-                                <th pSortableColumn="duIdemandado">DUI <p-sortIcon field="duIdemandado"></p-sortIcon></th>
+                                <th style="width: 120px;" pSortableColumn="duIdemandado">DUI <p-sortIcon field="duIdemandado"></p-sortIcon></th>
                                 <th pSortableColumn="nombresDemandado">Nombres demandado <p-sortIcon field="nombresDemandado"></p-sortIcon></th>
                                 <th pSortableColumn="apellidosDemandado">Apellidos demandado <p-sortIcon field="apellidosDemandado"></p-sortIcon></th>
                                 <th>Nombres demandante</th>
@@ -462,7 +463,7 @@
                                         </ng-template>
                                         <ng-template pTemplate="output">
                                             {{empleado.noBeneficiarios}}
-                                            <a class="ver-detalles" href="javascript:void(0)" (click)="verdetalle(empleado)">Ver detalles</a>
+                                            <!--a class="ver-detalles" href="javascript:void(0)" (click)="verdetalle(empleado)">Ver detalles</a-->
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>

@@ -22,6 +22,7 @@ import { MatStepperModule } from "@angular/material/stepper";
 import {MatCardModule} from '@angular/material/card';
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatBadgeModule } from '@angular/material/badge';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 const materialModules = [
   MatButtonModule,
@@ -46,6 +47,7 @@ const materialModules = [
   MatStepperModule,
   MatSortModule,
   MatBadgeModule,
+  ScrollingModule,
   MatProgressBarModule,
 ];
 

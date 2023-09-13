@@ -107,6 +107,7 @@
         <div class="row">
           <div class="col-12 my-4">
               <button pButton icon="pi pi-plus" pRipple type="button" label="Nuevo empleado" (click)="crearNuevo(agregarEmpleado)"></button>
+              <button class="p-button-success mx-4" [loading]="loading" pButton icon="pi pi-refresh" pRipple type="button" label="Actualizar empleados" (click)="actualizarEmpleados()"></button>
           </div>
       </div>
         <div class="row mt-4">

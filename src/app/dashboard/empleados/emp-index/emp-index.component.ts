@@ -31,6 +31,7 @@ export class EmpIndexComponent implements OnInit {
   ];
   constructor(private empleadosService: EmpleadosService,private formBuilder: FormBuilder,public modal: NgbModal,private messageService: MessageService) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
+    console.log(this.data)
    }
 
   ngOnInit(): void {
@@ -48,6 +49,21 @@ export class EmpIndexComponent implements OnInit {
       RutaDocumento: ['', ''],
       CodigoEmpresa: [this.data.CodigoPGR, ''],
     });
+  }
+
+  actualizarEmpleados(){
+    this.loading = true;
+    this.empleadosService.refrescarEmpleados(this.data.CodigoPGR,this.data.CodigoPagaduria).subscribe((res)=>{
+      if(res.success){
+        this.messageService.add({severity:'success', summary: 'Exito', detail:res.message});
+        this.loading = false;
+        this.buscarEmpleados();
+      }else{
+        this.messageService.add({severity:'danger', summary: 'Error', detail:res.message});
+        this.loading = false;
+      }
+    })
+    //this.loading = false;
   }
 
   onEditInit(empleado: IEmpleado,modal){
@@ -158,7 +174,7 @@ export class EmpIndexComponent implements OnInit {
   }
 
   buscarEmpleados(){
-    this.empleadosService.buscarEmpleadosEmpresa(this.data.CodigoPGR).subscribe((res)=>{
+    this.empleadosService.buscarEmpleadosEmpresa(this.data.CodigoPGR,this.data.CodigoPagaduria).subscribe((res)=>{
       if(res.success){
         this.empleados = res.data;
         this.totalRecords = res.total

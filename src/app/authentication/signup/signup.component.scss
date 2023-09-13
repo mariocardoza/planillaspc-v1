@@ -37,3 +37,25 @@ mat-card{
 .auth-container{
     position: relative;
 }
+
+ol{
+    list-style-type: auto !important;
+}
+ul{
+    list-style-type: auto !important;
+}
+
+.mat-card.scrollable-content{
+    display: flex;
+    flex-direction: column;
+}
+
+.mat-card.scrollable-content mat-card-content {
+    overflow-y: auto;
+}
+.mat-card.scrollable-content mat-card-title {
+    display: block;
+}
+.mat-tab-group {
+    height: 400px;
+}

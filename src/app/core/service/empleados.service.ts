@@ -12,7 +12,7 @@ export class EmpleadosService {
     this.http = http;
    }
 
-   buscarEmpleadosEmpresa(codigoEmpresa:number, codigoPagaduria: string): Observable<any>{
+  buscarEmpleadosEmpresa(codigoEmpresa:number, codigoPagaduria: string): Observable<any>{
     const url = endpoint.api.empleados+"/empresas/"+codigoEmpresa+"/"+codigoPagaduria
     let headers = new HttpHeaders({'Content-Type' : 'application/json'})
     return this.http.get(url,{headers: headers}).pipe(tap((result) => {
@@ -51,6 +51,25 @@ export class EmpleadosService {
     const url = endpoint.api.empleados+"/refrescar/"+codigoEmpresa+"/"+codigoPagaduria
     let headers = new HttpHeaders({'Content-Type' : 'application/json'})
     return this.http.get(url,{headers: headers}).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
+  buscarEmpleadosInactivosEmpresa(codigoEmpresa:number, codigoPagaduria: string): Observable<any>{
+    const url = endpoint.api.empleados+"/inactivos/"+codigoEmpresa+"/"+codigoPagaduria
+    let headers = new HttpHeaders({'Content-Type' : 'application/json'})
+    return this.http.get(url,{headers: headers}).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
+  activarEmpleado(idRegistro:number) : Observable<any>{
+    const data = {
+      idTabla : idRegistro
+    }
+    const url = endpoint.api.empleados+"/activar";
+    let headers = new HttpHeaders({'Content-Type' : 'application/json'})
+    return this.http.post(url,data,{headers: headers}).pipe(tap((result) => {
       return result;
     }))
   }

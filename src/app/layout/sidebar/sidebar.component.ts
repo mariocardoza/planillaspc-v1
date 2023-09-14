@@ -13,6 +13,18 @@ export class SidebarComponent implements OnInit {
   listMaxHeight: string;
   listMaxWidth: string;
   numeroPendientes: number = 0;
+  menu: any[]= [
+    {
+      "codigoMenu": "empleados",
+      "nombreMenu": "Mantenimiento de empleados",
+      "urlMenu": "?",
+      "ayudaMenu": "Permite administrar los empleados",
+      "ordenMenu": 1,
+      "codigoMenuSuperior": "empleados",
+      "nivelMenu": 1,
+      "sinSuperior": 0
+  }
+]
   constructor(
     @Inject(DOCUMENT) private document: Document,
     public elementRef: ElementRef,
@@ -27,6 +39,10 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.contarPendientes()
+  }
+
+  rutaOp(opcion: any){
+    return null;
   }
 
   mouseHover(e) {

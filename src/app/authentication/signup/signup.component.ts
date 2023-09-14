@@ -100,9 +100,7 @@ export class SignupComponent implements OnInit {
       codigoPGR: ['',Validators.required],
       RazonSocial: ['',Validators.required],
       ImagenNIT: ['',Validators.required],
-      //ImagenNRC: ['',''],
-      //ImagenEscritura: ['',''],
-      MedioContactoPersona: ['',Validators.required,Validators.email],
+      MedioContactoPersona: ['',Validators.required],
       TelefonoContactoPersona: ['',''],
       TipoEmpresa: ['',Validators.required],
       NombreComercial: ['',Validators.required],
@@ -141,17 +139,23 @@ export class SignupComponent implements OnInit {
     });
 
     this.fourthFormGroup = this.formBuilder.group({
-      aceptado: [0,'']
+      Terminos: [0,''],
+      FechaHoraTerminos: ['',''],
     });
 
     
   }
 
   checkValue(event){
+
     if(event.checked){
-      this.accepted =true
+      this.accepted =true;
+      this.fourthFormGroup.patchValue({Terminos:1})
+      this.fourthFormGroup.patchValue({FechaHoraTerminos:moment().format('YYYY-MM-DD HH:mm:SS')})
     }else{
-      this.accepted = false
+      this.accepted = false;
+      this.fourthFormGroup.patchValue({Terminos:0})
+      this.fourthFormGroup.patchValue({FechaHoraTerminos:''})
     }
  }
 
@@ -194,6 +198,7 @@ export class SignupComponent implements OnInit {
     } else {
       console.log(res)
       this.error = res.message;
+      this.nitExiste = false;
     }
   })
  }
@@ -272,6 +277,7 @@ export class SignupComponent implements OnInit {
         ...this.personaJuridicaFormGroup.value,
         ...this.personaNaturalFormGroup.value,
         ...this.userFormGroup.value,
+        ...this.fourthFormGroup.value
       };
 
       this.authenticationService.register(data).subscribe((res) => {

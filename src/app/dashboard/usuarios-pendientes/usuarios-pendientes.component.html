@@ -31,23 +31,25 @@
               <p-table [value]="usuarios" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="buscarUsuarios($event)" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 25, 50, 100]">
                 <ng-template pTemplate="header">
                   <tr>
-                    <th>Codigo de la persona</th>
+                    <th>N°</th>
                     <th>Usuario (acceso al sistema)</th>
                     <th>NIT</th>
                     <th>Imagen NIT</th>
                     <th>Nombre de la empresa</th>
                     <th>Fecha de registro</th>
+                    <th>Aceptó términos y cond.</th>
                     <th></th>
                   </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-usuario>
+                <ng-template pTemplate="body" let-usuario let-ri="rowIndex">
                   <tr>
-                    <td>{{ usuario.codigoEmpresa }}</td>
+                    <td>{{ ri+1 }}</td>
                     <td>{{ usuario.usuario }}</td>
                     <td>{{ usuario.nit }}</td>
                     <td><a href="#" (click)="descargarArchivo(usuario.imagenNIT)">Ver</a></td>
                     <td>{{ usuario.nombreComercial }}</td>
                     <td>{{ usuario.fechaRegistro | date }}</td>
+                    <td>{{ usuario.fechaHoraTerminos | date :"dd/MM/yyyy HH:mm:ss" }}</td>
                     <td>
                         <button (click)="activarUsuario(usuario.idUsuario)" pButton icon="pi pi-check" class="p-button-primary"></button> | 
                         <a routerLink="/dashboard/editar-usuario/{{ usuario.codigoEmpresa}}" pButton icon="pi pi-user-edit" class="p-button-warning"></a>

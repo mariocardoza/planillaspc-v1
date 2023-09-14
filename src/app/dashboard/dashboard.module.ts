@@ -26,6 +26,8 @@ import { ClonarPlanillaComponent } from './planillas/clonar-planilla/clonar-plan
 import { ImportarPlanillaComponent } from './planillas/importar-planilla/importar-planilla.component';
 import { EmpIndexComponent } from './empleados/emp-index/emp-index.component';
 import { EmpCreateComponent } from './empleados/emp-create/emp-create.component';
+import { EmpdIndexComponent } from './empleados/empd-index/empd-index.component';
+import { LegalComponent } from './dashboard/legal/legal.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { EmpCreateComponent } from './empleados/emp-create/emp-create.component'
     ImportarPlanillaComponent,
     EmpIndexComponent,
     EmpCreateComponent,
+    EmpdIndexComponent,
+    LegalComponent,
   ],
   imports: [
     CommonModule,

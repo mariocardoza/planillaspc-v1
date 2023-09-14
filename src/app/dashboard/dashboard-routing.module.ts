@@ -18,6 +18,8 @@ import { EditarPlanillaComponent } from './planillas/editar-planilla/editar-plan
 import { ClonarPlanillaComponent } from './planillas/clonar-planilla/clonar-planilla.component';
 import { ImportarPlanillaComponent } from './planillas/importar-planilla/importar-planilla.component';
 import { EmpIndexComponent } from './empleados/emp-index/emp-index.component';
+import { EmpdIndexComponent } from './empleados/empd-index/empd-index.component';
+import { LegalComponent } from './dashboard/legal/legal.component';
 
 const routes: Routes = [
   {
@@ -89,6 +91,14 @@ const routes: Routes = [
   {
     path:'empleados',
     component: EmpIndexComponent
+  },
+  {
+    path: 'empleados/inactivos',
+    component: EmpdIndexComponent
+  },
+  {
+    path: 'legal',
+    component: LegalComponent
   },
   {
     path:'403',

@@ -13,7 +13,7 @@
             <h4 class="login-title mt-2">Registro de datos de empresas PGR</h4>
             <p class="text-center">Registre la información que se le pide en cada paso</p>
             <div class="row">
-              <mat-stepper linear #stepper>
+              <mat-stepper [linear]="true" #stepper>
                 <mat-step>
                   <ng-template matStepLabel>Introducción</ng-template>
                   <mat-card class="mt-4">
@@ -74,7 +74,7 @@
                       <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Código PGR</mat-label>
-                          <input matInput placeholder="Codigo PGR" pKeyFilter="int" formControlName="codigoPGR">
+                          <input matInput placeholder="Codigo PGR" pKeyFilter="int" formControlName="codigoPGR" required>
                           <mat-error *ngIf="personaJuridicaFormGroup.get('codigoPGR')?.hasError('required')">El código de empresa en la PGR es requerido</mat-error>
                         </mat-form-field>
                       </div>
@@ -99,27 +99,11 @@
                         </mat-form-field>
                       </div>
                     </div>
-                    <!--div class="row">
-                      <div class="col-12 col-md-6">
-                        <mat-form-field class="full-width" appearance="fill">
-                          <mat-label>Imagen del NRC</mat-label>
-                          <input matInput formControlName="ImagenNRC"  placeholder="Imagen NRC" readonly>
-                          <app-upload (onUploadFinished)=uploadFinishedNRCEmp($event)></app-upload>
-                        </mat-form-field>
-                      </div>
-                      <div class="col-12 col-md-6">
-                        <mat-form-field class="full-width" appearance="fill">
-                          <mat-label>Imagen de la escritura de propiedad</mat-label>
-                          <input matInput formControlName="ImagenEscritura"  placeholder="Imagen Escritura" readonly>
-                          <app-upload (onUploadFinished)=uploadFinishedEscrituraEmp($event)></app-upload>
-                        </mat-form-field>
-                      </div>
-                    </div-->
                     <div class="row">
                       <div class="col-12 col-md-6">
                           <mat-form-field class="full-width" appearance="fill">
                             <mat-label>Correo electrónico institucional</mat-label>
-                            <input matInput placeholder="Correo electrónico institucional" formControlName="MedioContactoPersona">
+                            <input matInput type="email" placeholder="Correo electrónico institucional" formControlName="MedioContactoPersona">
                             <mat-error *ngIf="personaJuridicaFormGroup.get('MedioContactoPersona')?.hasError('required')">El correo electrónico es requerido</mat-error>
                           </mat-form-field>
                       </div>
@@ -134,7 +118,7 @@
                     <div class="d-grid gap-2 d-md-block" *ngIf="!nitExiste">
                       <p>Continuar a datos del representante legal</p>
                       <button class="btn btn-primary" mat-button matStepperPrevious>Atras</button> | 
-                      <button class="btn btn-primary" [disabled]="personaJuridicaFormGroup.valid" mat-button matStepperNext>Siguiente</button>
+                      <button class="btn btn-primary" mat-button matStepperNext>Siguiente</button>
                     </div>
                     <div class="row mt-2 text-center" *ngIf="nitExiste">
                       <p class="auth-signup-text text-muted pb-0">
@@ -412,7 +396,8 @@
                     <mat-card class="mt-4" style="text-align: justify;">
                       <b>Aceptación de la autorización.</b> Declaro haber leído, entendido y aceptado la totalidad de los términos y condiciones contenidos en el presente documento, sobre la autorización de notificación de todos los actos administrativos que realice la PGR y me comprometo a estar pendiente de cualquier notificación que sea realizada.
                       <section class="example-section">
-                        <mat-checkbox class="example-margin" formControlName="aceptado" value="1" (change)="checkValue($event)">Acepto los términos y condiciones</mat-checkbox>
+                        <input type="hidden" formControlName="FechaHoraTerminos">
+                        <mat-checkbox class="example-margin" formControlName="Terminos" value="1" (change)="checkValue($event)">Acepto los términos y condiciones</mat-checkbox>
                       </section>
                       <div class="mt-2">
                         <button class="btn btn-primary" mat-button matStepperPrevious>Atras</button> | 

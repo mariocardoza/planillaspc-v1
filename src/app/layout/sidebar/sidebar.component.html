@@ -19,13 +19,26 @@
             <hr class="mt-2 mb-0">
           </li>
           <li class="sidebar-user-panel">
+            <i-feather name="home" class="sidebarIcon"></i-feather>
             <a routerLink="/dashboard/home" class="menu-top">
               Inicio
             </a>
           </li>
-          <li class="sidebar-user-panel">
-            <a routerLink="/dashboard/perfil" class="menu-top">
-              Editar mi perfil
+          <li class="sidebar-user-panel" *ngFor="let op of menu; index as i">
+            <a class="menu-top" class="menu-top" [routerLink]="rutaOp(op)">
+              <i-feather name="layers" class="sidebarIcon"></i-feather>
+              <span class="hide-menu">{{op.nombreMenu}}
+              </span>
+            </a>
+          </li>
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
+            <a routerLink="/dashboard/empleados" class="menu-top">
+              Empleados activos
+            </a>
+          </li>
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
+            <a routerLink="/dashboard/empleados/inactivos" class="menu-top">
+              Empleados inactivos
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
@@ -38,11 +51,12 @@
               Reportes
             </a>
           </li>
-          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
-            <a routerLink="/dashboard/empleados" class="menu-top">
-              Empleados
+          <li class="sidebar-user-panel">
+            <a routerLink="/dashboard/perfil" class="menu-top">
+              Editar mi perfil
             </a>
           </li>
+          
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol != 'U'">
             <a routerLink="/dashboard/bitacora-juridicas" class="menu-top">
               Bitácora
@@ -63,11 +77,10 @@
               Usuarios administradores
             </a>
           </li>
-          <li>
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label style="color: white">Buscar</mat-label>
-              <input matInput autocomplete="off" style="color: white">
-            </mat-form-field>
+          <li class="sidebar-user-panel" >
+            <a routerLink="/dashboard/legal" class="menu-top">
+              Soporte Legal
+            </a>
           </li>
         </ul>
       </div>

@@ -113,7 +113,7 @@
         <div class="row mt-4">
             <div class="col-12">
               <p-table #dt [value]="empleados" [paginator]="true" [loading]="loading" [rows]="10" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 25, 50, 100]"
-              [globalFilterFields]="['DUIPersonaNatural', 'NombresPersonaNatural','ApellidosPersonaNatural','CodigoPersona']">
+              [globalFilterFields]="['duiPasaporte', 'nombres','apellidos','codigoExpediente','expedienteFisico']">
                 <ng-template pTemplate="caption">
                   <div style="text-align: right">
                       <i 
@@ -131,18 +131,18 @@
               </ng-template>
                 <ng-template pTemplate="header">
                   <tr>
-                    <th>Código persona</th>
-                    <th>DUI</th>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                    <th>N° expediente electrónico</th>
-                    <th>N° expediente físico</th>
+                    <th>N°</th>
+                    <th pSortableColumn="duiPasaporte">DUI <p-sortIcon field="duiPasaporte"></p-sortIcon></th>
+                    <th pSortableColumn="nombres">Nombres <p-sortIcon field="nombres"></p-sortIcon></th>
+                    <th pSortableColumn="apellidos">Apellidos <p-sortIcon field="apellidos"></p-sortIcon></th>
+                    <th pSortableColumn="codigoExpediente">N° expediente electrónico <p-sortIcon field="codigoExpediente"></p-sortIcon></th>
+                    <th pSortableColumn="expedienteFisico">N° expediente físico <p-sortIcon field="expedienteFisico"></p-sortIcon></th>
                     <th></th>
                   </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-empleado>
+                <ng-template pTemplate="body" let-empleado let-i="rowIndex">
                   <tr>
-                    <td>{{ empleado.codigoPersona }}</td>
+                    <td>{{i+1}}</td>
                     <td>{{ empleado.duiPasaporte }}</td>
                     <td>{{ empleado.nombres }}</td>
                     <td>{{ empleado.apellidos }}</td>

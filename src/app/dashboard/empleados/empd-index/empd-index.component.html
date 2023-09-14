@@ -1,0 +1,60 @@
+<section class="content">
+    <p-toast></p-toast>
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <h3 class="text-center">Listado de empleados inactivos</h3>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-12 my-4">
+            </div>
+        </div>
+          <div class="row mt-4">
+              <div class="col-12">
+                <p-table #dt [value]="empleados" [paginator]="true" [loading]="loading" [rows]="10" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 25, 50, 100]"
+                [globalFilterFields]="['duiPasaporte', 'nombres','apellidos','codigoExpediente','expedienteFisico']">
+                  <ng-template pTemplate="caption">
+                    <div style="text-align: right">
+                        <i 
+                            class="pi pi-search" 
+                            style="margin:4px 4px 0 0"> 
+                        </i>
+                        <input 
+                            type="text" 
+                            pInputText size="50" 
+                            placeholder="Digite el término a buscar"
+                            (input)=
+            "dt.filterGlobal($any($event.target).value, 'contains')" 
+                            style="width:auto" />
+                    </div>
+                </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>N°</th>
+                      <th pSortableColumn="duiPasaporte">DUI <p-sortIcon field="duiPasaporte"></p-sortIcon></th>
+                      <th pSortableColumn="nombres">Nombres <p-sortIcon field="nombres"></p-sortIcon></th>
+                      <th pSortableColumn="apellidos">Apellidos <p-sortIcon field="apellidos"></p-sortIcon></th>
+                      <th pSortableColumn="codigoExpediente">N° expediente electrónico <p-sortIcon field="codigoExpediente"></p-sortIcon></th>
+                      <th pSortableColumn="expedienteFisico">N° expediente físico <p-sortIcon field="expedienteFisico"></p-sortIcon></th>
+                      <th></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-empleado let-i="rowIndex">
+                    <tr>
+                      <td>{{i+1}}</td>
+                      <td>{{ empleado.duiPasaporte }}</td>
+                      <td>{{ empleado.nombres }}</td>
+                      <td>{{ empleado.apellidos }}</td>
+                      <td>{{ empleado.codigoExpediente }}</td>
+                      <td>{{ empleado.expedienteFisico }}</td>
+                      <td>
+                        <button pButton pRipple type="button"  icon="pi pi-refresh" (click)="onRestore(empleado.idRegistro)" class="p-button-rounded p-button-primary p-button-text"></button>
+                      </td>
+                  </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+          </div>
+      </div>
+  </section>

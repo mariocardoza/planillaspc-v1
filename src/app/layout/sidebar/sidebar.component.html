@@ -24,11 +24,11 @@
               Inicio
             </a>
           </li>
-          <li class="sidebar-user-panel" *ngFor="let op of menu; index as i">
-            <a class="menu-top" class="menu-top" [routerLink]="rutaOp(op)">
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
+            
+            <a class="menu-top">
               <i-feather name="layers" class="sidebarIcon"></i-feather>
-              <span class="hide-menu">{{op.nombreMenu}}
-              </span>
+              Mantenimiento de empleados
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
@@ -47,7 +47,7 @@
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
-            <a routerLink="/dashboard/planillas" class="menu-top">
+            <a routerLink="/dashboard/reportes" class="menu-top">
               Reportes
             </a>
           </li>

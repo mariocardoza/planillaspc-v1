@@ -7,11 +7,13 @@ import { FilesUploadDirComponent } from './files-upload-dir/files-upload-dir.com
 import { MaterialModule } from "../material.module";
 import { PrimeNgModule } from "../prime-ng/prime-ng.module";
 import { NgImageFullscreenViewModule } from "ng-image-fullscreen-view";
+import { BarCodeComponent } from './bar-code/bar-code.component';
 @NgModule({
   declarations: [
     UploadComponent,
     FileUploadComponent,
-    FilesUploadDirComponent
+    FilesUploadDirComponent,
+    BarCodeComponent
     ],
     imports: [
       CommonModule,
@@ -23,7 +25,8 @@ import { NgImageFullscreenViewModule } from "ng-image-fullscreen-view";
   exports: [
     UploadComponent,
     FilesUploadDirComponent,
-    FileUploadComponent
+    FileUploadComponent,
+    BarCodeComponent
   ],
   providers: [
   ]

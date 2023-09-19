@@ -20,6 +20,7 @@ import { ImportarPlanillaComponent } from './planillas/importar-planilla/importa
 import { EmpIndexComponent } from './empleados/emp-index/emp-index.component';
 import { EmpdIndexComponent } from './empleados/empd-index/empd-index.component';
 import { LegalComponent } from './dashboard/legal/legal.component';
+import { RepIndexComponent } from './reportes/rep-index/rep-index.component';
 
 const routes: Routes = [
   {
@@ -99,6 +100,10 @@ const routes: Routes = [
   {
     path: 'legal',
     component: LegalComponent
+  },
+  {
+    path: 'reportes',
+    component: RepIndexComponent
   },
   {
     path:'403',

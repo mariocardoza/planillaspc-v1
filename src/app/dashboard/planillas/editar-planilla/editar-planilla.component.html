@@ -17,7 +17,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-md-6" *ngIf="!editing">
             <button mat-raised-button color="primary" [class.auth-spinner]="loadingDUI"
               class="auth-form-btn" [disabled]="loadingDUI" (click)="buscarDui()" type="button">Validar DUI</button>
           </div>
@@ -351,6 +351,7 @@
                     </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
+                                <th><input class="todos" type="checkbox" value="1" selected> Selec. todos</th>
                                 <th>N°</th>
                                 <th style="width: 120px;" pSortableColumn="duIdemandado">DUI <p-sortIcon field="duIdemandado"></p-sortIcon></th>
                                 <th pSortableColumn="apellidosDemandado">Apellidos demandado <p-sortIcon field="apellidosDemandado"></p-sortIcon></th>
@@ -366,6 +367,9 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-empleado let-editing="editing" let-ri="rowIndex">
                             <tr [pEditableRow]="empleado">
+                                <td>
+                                    <input class="checkbox" data-id="{{empleado.idDetalle}}" type="checkbox" value="1" selected>
+                                </td>
                                 <td>{{ ri+1}}</td>
                                 <td class="td">
                                     <p-cellEditor>
@@ -440,10 +444,6 @@
                                     </p-cellEditor>
                                 </td>
                                 
-                                
-                                
-                                
-                                
                                 <td class="td" [pEditableColumn]="empleado">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
@@ -478,4 +478,5 @@
             </div>
         </div>
     </div>
+    <button class="btn-flotante">{{total | currency:'USD'}}</button>
 </section>

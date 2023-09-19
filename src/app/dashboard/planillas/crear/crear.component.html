@@ -68,10 +68,10 @@
         </form>
             
         <div class="row">
-            <div class="col-12">
+            <div class="col-12" id="container-table" style="height: 700px; overflow-y: auto;">
                 <p-table responsiveLayout="stack" [value]="planilla"
              styleClass="p-datatable-striped"
-             [paginator]="true" [rows]="10" [loading]="loading" [totalRecords]="cuantos" [scrollable]="true" 
+             [paginator]="false" [rows]="10" [loading]="loading" [totalRecords]="cuantos" [scrollable]="true" 
              scrollHeight="flex">
         <ng-template pTemplate="header">
             <tr>

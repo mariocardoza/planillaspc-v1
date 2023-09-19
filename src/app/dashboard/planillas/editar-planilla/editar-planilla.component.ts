@@ -17,8 +17,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 export class EditarPlanillaComponent implements OnInit {
+  
   @ViewChild("listaEmpleados") modalEmpleados: ElementRef;
   public response: { dbPath: '' }
+  total: number = 0;
   empleadosPre: any;
   isSuccess = false;
   isError = false;
@@ -43,6 +45,7 @@ export class EditarPlanillaComponent implements OnInit {
     {value:'2', name:'Enviada'},
     {value:'3', name:'Procesada'},
   ];
+  editing: boolean = false;
   hasExpedient:boolean = false;
   clonedEmpleado: { [s: string]: DetallePlanilla } = {};
   @ViewChild(Table, { read: Table }) pTable: Table;
@@ -51,7 +54,11 @@ export class EditarPlanillaComponent implements OnInit {
     if(this.data != null){
       this.token = this.data.Token;
     }
+    
   }
+
+  
+
 
   ngOnInit(): void {
     let id = this.route.snapshot.params.id;
@@ -111,6 +118,8 @@ export class EditarPlanillaComponent implements OnInit {
         this.getPlanilla(dataF['IdEncabezado'])
         this.modal.dismissAll()
         this.messageService.add({severity:'success', summary: 'Exito', detail:result['message']});
+        this.planillaFormGroup.patchValue({Monto:result['monto']})
+        this.total = result['monto'];
       }else{
         this.messageService.add({severity:'error', summary: 'Exito', detail:result['message']});
       }
@@ -118,7 +127,9 @@ export class EditarPlanillaComponent implements OnInit {
   }
 
   crearNuevo(modal){
-    this.empleadoForm.patchValue({DUIDemandado:'01949641-2'});
+    this.editing = false;
+    this.empleadoForm.patchValue({DUIDemandado:''});
+    this.empleadoForm.patchValue({OrdenDescuento:''});
     this.empleadoForm.patchValue({NombresDemandado:''});
     this.empleadoForm.patchValue({ApellidosDemandado:''});
     this.empleadoForm.patchValue({NombresDemandante:''});
@@ -134,7 +145,10 @@ export class EditarPlanillaComponent implements OnInit {
   }
 
   onRowEditInit(empleado: DetallePlanilla,modal){
-    console.log(empleado)
+    this.editing = true;
+    this.hasExpedient = true;
+    this.empleadoForm.controls.OrdenDescuento.setValidators(this.hasExpedient ? null : [Validators.required]);
+    this.empleadoForm.controls.OrdenDescuento.updateValueAndValidity();
     this.empleadoForm.patchValue({DUIDemandado:empleado.duIdemandado});
     this.empleadoForm.patchValue({NombresDemandado:empleado.nombresDemandado});
     this.empleadoForm.patchValue({ApellidosDemandado:empleado.apellidosDemandado});
@@ -277,6 +291,8 @@ export class EditarPlanillaComponent implements OnInit {
       if(result['success']){
         //this.getPlanilla(empleado.idEncabezado)
         this.messageService.add({severity:'success', summary: 'Exito', detail:result['message']});
+        this.planillaFormGroup.patchValue({Monto:result['monto']})
+        this.total = result['monto'];
       }else{
         this.messageService.add({severity:'error', summary: 'Exito', detail:result['message']});
       }
@@ -321,6 +337,7 @@ export class EditarPlanillaComponent implements OnInit {
         this.planillaFormGroup.patchValue({CodigoTipoCuota:this.planilla.codigoTipoCuota})
         this.planillaFormGroup.patchValue({Observacion:this.planilla.observacion})
         this.planillaFormGroup.patchValue({Monto:this.planilla.monto})
+        this.total = this.planilla.monto;
         this.planillaFormGroup.patchValue({IdEncabezado:this.planilla.idEncabezado})
         this.empleadoForm.patchValue({IdEncabezado:this.planilla.idEncabezado})
       }

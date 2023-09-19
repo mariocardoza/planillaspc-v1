@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { IEmpleado } from 'src/app/core/models/empleados/empleado';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,9 +14,12 @@ import * as moment from 'moment';
   styleUrls: ['./emp-index.component.scss']
 })
 export class EmpIndexComponent implements OnInit {
+  @ViewChild("eliminarEmpleado") modalEliminarEmpleado: ElementRef;
   a = moment().subtract(18, 'year').format("YYYY-MM-DD");
   carpetaInstaciada: string;
+  carpetaInstaciada2: string;
   actualfile: string = '';
+  actualfile2: string = '';
   empleados: IEmpleado[];
   totalRecords: number = 0;
   data:any;
@@ -25,6 +28,7 @@ export class EmpIndexComponent implements OnInit {
   loading: boolean = true;
   public response: { dbPath: '' }
   empleadoForm: FormGroup;
+  empleadoFormDelete: FormGroup;
   sexos = [
     {value:'F', name:'Femenino'},
     {value:'M', name:'Masculino'},
@@ -36,6 +40,7 @@ export class EmpIndexComponent implements OnInit {
 
   ngOnInit(): void {
     this.carpetaInstaciada = "empresas/empleados";
+    this.carpetaInstaciada2 = "empresas/empleados/cesados";
     this.buscarEmpleados()
     this.empleadoForm = this.formBuilder.group({
       DuiPasaporte: ['', Validators.required],
@@ -48,6 +53,12 @@ export class EmpIndexComponent implements OnInit {
       IdPersona: ['', ''],
       RutaDocumento: ['', ''],
       CodigoEmpresa: [this.data.CodigoPGR, ''],
+    });
+
+    this.empleadoFormDelete = this.formBuilder.group({
+      IdRegistro: ['',Validators.required],
+      FechaCesacion: ['',Validators.required],
+      RutaDocumentoCesado: ['',Validators.required]
     });
   }
 
@@ -81,7 +92,15 @@ export class EmpIndexComponent implements OnInit {
     console.log(empleado)
   }
 
-  onDelete(idRegistro:number){
+  onDeleteModal(idRegistro:number){
+    this.empleadoFormDelete.patchValue({IdRegistro:idRegistro})
+    this.modal.open(this.modalEliminarEmpleado,{ size: <any>'lg' });
+  }
+
+  onDelete(){
+    const data = {
+      ...this.empleadoFormDelete.value
+    }
     Swal.fire({
       title: '¿Esta seguro?',
       text: "Esta acción eliminará el empleado de la empresa",
@@ -93,10 +112,11 @@ export class EmpIndexComponent implements OnInit {
       cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.empleadosService.descactivarEmpleado(idRegistro).subscribe((result) => {
+        this.empleadosService.descactivarEmpleado(data).subscribe((result) => {
           if(result.success){
             this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
-            this.buscarEmpleados()
+            this.buscarEmpleados();
+            this.modal.dismissAll();
           }else{
             this.messageService.add({severity:'error', summary: 'Exito', detail:result.message});
           }
@@ -166,8 +186,24 @@ export class EmpIndexComponent implements OnInit {
     // console.log('code: ' + this.field.CodigoCampo, this.group.controls[this.field.CodigoCampo].value);
   }
 
+  uploadFinished2 = (event) => {
+    this.response = event;
+    // console.log(this.response);
+    
+    this.empleadoFormDelete.patchValue({RutaDocumentoCesado:this.response.dbPath})
+    // this.group.patchValue({ 'GDocumento1' : ''  })
+    // console.log('code: ' + this.field.CodigoCampo, this.group.controls[this.field.CodigoCampo].value);
+  }
+
   downloadURLFile() {
     let strUrlFile = this.empleadoForm.controls[0].value;
+
+    let filename = strUrlFile.substring(strUrlFile.lastIndexOf('\\')+1);
+
+  }
+
+  downloadURLFile2() {
+    let strUrlFile = this.empleadoFormDelete.controls[0].value;
 
     let filename = strUrlFile.substring(strUrlFile.lastIndexOf('\\')+1);
 

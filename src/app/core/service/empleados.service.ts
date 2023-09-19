@@ -36,10 +36,10 @@ export class EmpleadosService {
     }))
   }
 
-  descactivarEmpleado(idRegistro:number) : Observable<any>{
-    const data = {
+  descactivarEmpleado(data:any) : Observable<any>{
+    /*const data = {
       idTabla : idRegistro
-    }
+    }*/
     const url = endpoint.api.empleados+"/desactivar";
     let headers = new HttpHeaders({'Content-Type' : 'application/json'})
     return this.http.post(url,data,{headers: headers}).pipe(tap((result) => {

@@ -133,5 +133,21 @@ export class PlanillaService {
     }))
   }
 
+  generarComprobante(idEncabezado: number): Observable<any>{
+    const url = endpoint.api.planillas+"/Comprobante/"+idEncabezado;
+    let headers = new HttpHeaders({'Content-Type':'application/json'});
+    return this.http.post(url,headers).pipe(tap(result => {
+      return result;
+    }))
+  }
+
+  imprimirComprobante(idEncabezado: number) : Observable<any>{
+    const url = endpoint.api.planillas+"/Imprimir/"+idEncabezado;
+    let headers = new HttpHeaders({'Content-Type':'application/json'});
+    return this.http.post(url,headers).pipe(tap(result => {
+      return result;
+    }))
+  }
+
   
 }

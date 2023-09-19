@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PlanillaService } from 'src/app/core/service/planilla.service';
 import { LazyLoadEvent } from 'primeng/api';
 import Swal from "sweetalert2";
 import { MessageService } from 'primeng/api';
+import { IMandamiento } from 'src/app/core/models/planillas/mandamiento';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 
 @Component({
   selector: 'app-historial',
@@ -11,8 +16,12 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./historial.component.scss']
 })
 export class HistorialComponent implements OnInit {
+  @ViewChild("modalComprobante") modalComprobante: ElementRef;
   planillas: any = [];
+  mandamiento: IMandamiento;
   data:any;
+  barcode;
+  npe;
   private lastTableLazyLoadEvent: LazyLoadEvent;
   token: string;
   meses = [
@@ -42,8 +51,9 @@ export class HistorialComponent implements OnInit {
     {value:'3', name:'Procesada'},
     {value:'4', name:'Anulada'},
   ];
+  px2mmFactor: number;
   totalRecords: number = 0;
-  constructor(private planillaService: PlanillaService, private messageService: MessageService) {
+  constructor(private planillaService: PlanillaService, private messageService: MessageService, public modalService: NgbModal) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
@@ -51,7 +61,18 @@ export class HistorialComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.px2mmFactor = this.calcPx2MmFactor();
     
+  }
+
+  calcPx2MmFactor() {
+    let e = document.createElement('div');
+    e.style.position = 'absolute';
+    e.style.width = '100mm';
+    document.body.appendChild(e);
+    let rect = e.getBoundingClientRect();
+    document.body.removeChild(e);
+    return rect.width / 100;
   }
 
   obtenerPlanillas(event: LazyLoadEvent){
@@ -95,8 +116,28 @@ export class HistorialComponent implements OnInit {
     return valor.name;
   }
 
-  imprimirPlanilla(idEncabezado:number){
-    alert(idEncabezado)
+  generarPlanilla(idEncabezado:number){
+    this.planillaService.generarComprobante(idEncabezado).subscribe((result)=>{
+      if(result.success){
+        this.obtenerPlanillas(this.lastTableLazyLoadEvent);
+        this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
+      }
+    })
+  }
+
+  imprimirComprobante(idEncabezado: number){
+    this.planillaService.imprimirComprobante(idEncabezado).subscribe((result)=>{
+      if(result.success){
+        this.mandamiento = result.data;
+        this.barcode = this.mandamiento.codigoBarra;
+        let v = this.mandamiento.npe.match(/.{1,4}/g); 
+        this.npe = v.join(" "); 
+        this.modalService.open(this.modalComprobante,{ size: <any>'lg' });
+        this.obtenerPlanillas(this.lastTableLazyLoadEvent);
+        //this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
+      }
+    })
+    
   }
 
   claseEstadoPlanilla(codigoEstado){
@@ -133,6 +174,34 @@ export class HistorialComponent implements OnInit {
         })
       }
     })
+  }
+
+  imprimirPDF(){
+    const tabla = document.getElementById('contenido');
+    const DATA: HTMLElement = tabla!;
+    const doc = new jsPDF('p', 'pt', 'a4');
+    const options = {
+      background: 'white',
+      scale: 3
+    };
+    html2canvas(DATA, options).then((canvas) => {
+
+      const img = canvas.toDataURL('image/PNG');
+
+      // Add image Canvas to PDF
+      const bufferX = 15;
+      const bufferY = 15;
+      const imgProps = (doc as any).getImageProperties(img);
+      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+      /*const canvas2 = document.getElementById('barcode') as HTMLCanvasElement;
+      const jpegUrl = canvas2.toDataURL('image/jpeg');
+      doc.addImage(jpegUrl, 'JPEG', 100, 150, 350, 60);*/
+      return doc;
+    }).then((docResult) => {
+      docResult.save(`${new Date().toISOString()}_mandamiento_pago.pdf`);
+    });
   }
 
 }

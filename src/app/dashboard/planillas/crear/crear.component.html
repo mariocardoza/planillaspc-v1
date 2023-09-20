@@ -75,19 +75,73 @@
              scrollHeight="flex">
         <ng-template pTemplate="header">
             <tr>
+                <th>N°</th>
+                <th>DUI</th>
+                <th>Apellidos demandado</th>
+                <th>Nombres demandado</th>
+                <th>Apellidos demandante</th>
+                <th>Nombres demandante</th>
                 <th>Código expediente</th>
                 <th>Número de expediente</th>
-                <th>DUI</th>
-                <th>Nombres demandado</th>
-                <th>Apellidos demandado</th>
-                <th>Nombres demandante</th>
-                <th>Apellidos demandante</th>
                 <th>Monto cuota</th>
                 <th>Número de beneficiarios</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-tableRow sortMode="multiple">
+        <ng-template pTemplate="body" let-i="rowIndex" let-tableRow sortMode="multiple">
             <tr>
+                <td>{{i+1}}</td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText [dropSpecialCharacters]="false" mask="00000000-0" maxlength="10" type="text" [(ngModel)]="tableRow.duiPersonaNatural">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.duiPersonaNatural}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="tableRow.apellidosPersonaNatural">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.apellidosPersonaNatural}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="tableRow.nombresPersonaNatural">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.nombresPersonaNatural}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="tableRow.apellidosPersonaE">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.apellidosPersonaE}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="tableRow.nombresPersonaE">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{tableRow.nombresPersonaE}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                
                 <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
@@ -105,56 +159,6 @@
                         </ng-template>
                         <ng-template pTemplate="output">
                             {{tableRow.noExpediente}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText [dropSpecialCharacters]="false" mask="00000000-0" maxlength="10" type="text" [(ngModel)]="tableRow.duiPersonaNatural">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{tableRow.duiPersonaNatural}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="tableRow.nombresPersonaNatural">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{tableRow.nombresPersonaNatural}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="tableRow.apellidosPersonaNatural">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{tableRow.apellidosPersonaNatural}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="tableRow.nombresPersonaE">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{tableRow.nombresPersonaE}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="tableRow.apellidosPersonaE">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{tableRow.apellidosPersonaE}}
                         </ng-template>
                     </p-cellEditor>
                 </td>

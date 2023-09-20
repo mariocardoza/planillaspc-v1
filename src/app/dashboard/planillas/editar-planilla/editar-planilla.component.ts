@@ -28,6 +28,7 @@ export class EditarPlanillaComponent implements OnInit {
   data: any;
   token: string;
   planilla: any;
+  codigoEstado: string;
   empleadoForm: FormGroup;
   empleados: DetallePlanilla[];
   planillaFormGroup: FormGroup;
@@ -327,11 +328,11 @@ export class EditarPlanillaComponent implements OnInit {
 
   getPlanilla(idEncabezado){
     this.planillaService.obtenerPlanilla(idEncabezado,this.token).subscribe((result) => {
-      console.log(result)
       if(result['success']){
         this.planilla = result['data']
         this.empleados = this.planilla.detalles
         //console.log(result['data']).detalles
+        this.codigoEstado = this.planilla.codigoEstado;
         this.planillaFormGroup.patchValue({NoMandamiento:this.planilla.noMandamiento})
         this.planillaFormGroup.patchValue({Periodo:this.planilla.periodo})
         this.planillaFormGroup.patchValue({CodigoTipoCuota:this.planilla.codigoTipoCuota})
@@ -345,6 +346,28 @@ export class EditarPlanillaComponent implements OnInit {
     })
     
     //
+  }
+
+  procesarPlanilla(idEncabezado: number){
+    Swal.fire({
+      title: '¿Esta seguro?',
+      text: "Esta acción guardará la planilla y ya no podrá hacer cambios en ella",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, Continuar',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.planillaService.enviarPlanilla(idEncabezado).subscribe((result) => {
+          if(result.success){
+            this.getPlanilla(idEncabezado);
+            this.messageService.add({severity:'success', summary: 'Exito', detail:'Planilla enviada a la PGR con éxito'});
+          }
+        });  
+      }
+    })
   }
 
 }

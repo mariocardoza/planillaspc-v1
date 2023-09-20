@@ -317,8 +317,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 my-4">
-                    <button pButton pRipple (click)="onSubmit()" class="primary" icon="pi pi-save" label="Actualizar planilla"></button> | <button pButton icon="pi pi-plus" pRipple type="button" label="Nuevo empleado" (click)="crearNuevo(agregarEmpleado)"></button>
+                <div class="col-12 my-4" *ngIf="codigoEstado == '1'">
+                    <button pButton pRipple (click)="onSubmit()" class="primary mx-2" icon="pi pi-save" label="Actualizar planilla"></button>
+                    <button class="primary mx-2" pButton icon="pi pi-plus" pRipple type="button" label="Nuevo empleado" (click)="crearNuevo(agregarEmpleado)"></button>
+                    <button class="primary mx-2" pButton icon="pi pi-plus" pRipple type="button" label="Enviar planilla" (click)="procesarPlanilla(planilla.idEncabezado)"></button>
                 </div>
             </div>
         </form>
@@ -446,7 +448,7 @@
                                 
                                 <td class="td" [pEditableColumn]="empleado">
                                     <p-cellEditor>
-                                        <ng-template pTemplate="input">
+                                        <ng-template pTemplate="input" *ngIf="planilla.codigoEstado == 1">
                                             <input pInputText pKeyFilter="money" style="width: 80%;"  [(ngModel)]="empleado.monto">
                                         </ng-template>
                                         <ng-template pTemplate="output">
@@ -466,7 +468,7 @@
                                     </p-cellEditor>
                                 </td>
                                 <td>
-                                    <button *ngIf="!editing" pButton pRipple type="button"  icon="pi pi-pencil" (click)="onRowEditInit(empleado,agregarEmpleado)" class="p-button-rounded p-button-text"></button>
+                                    <button *ngIf="planilla.codigoEstado == 1 && !editing" pButton pRipple type="button"  icon="pi pi-pencil" (click)="onRowEditInit(empleado,agregarEmpleado)" class="p-button-rounded p-button-text"></button>
                                     <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(empleado)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
                                     <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(empleado, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
                                     <button *ngIf="planilla.codigoEstado == 1 && !editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-trash" (click)="onRowDelete(empleado.idDetalle, planilla.idEncabezado)" class="p-button-rounded p-button-text p-button-danger"></button>
@@ -475,6 +477,9 @@
                         </ng-template>
                     </p-table>
                 </div>
+            </div>
+            <div class="col-12">
+                <button pButton pRipple routerLink="/dashboard/planillas/historial" class="primary mx-2 my-2" icon="pi pi-angle-left" label="Atrás"></button>
             </div>
         </div>
     </div>

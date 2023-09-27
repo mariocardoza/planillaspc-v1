@@ -20,6 +20,7 @@ export class FilesUploadDirComponent implements OnInit {
   selectedPdf: string | SafeResourceUrl = '';
   @Input() Directorio: string;
   @Input() actualFile: any = '';
+  @Input() Ocultar: boolean = false;
   @Input() field: any;
 
   @Output() public onUploadFinished = new EventEmitter();

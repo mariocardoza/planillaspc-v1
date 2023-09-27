@@ -50,6 +50,7 @@ export class HistorialComponent implements OnInit {
     {value:'2', name:'Enviada'},
     {value:'3', name:'Procesada'},
     {value:'4', name:'Anulada'},
+    {value:'5', name:'Pago completado'},
   ];
   px2mmFactor: number;
   totalRecords: number = 0;
@@ -137,7 +138,6 @@ export class HistorialComponent implements OnInit {
         //this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
       }
     })
-    
   }
 
   claseEstadoPlanilla(codigoEstado){

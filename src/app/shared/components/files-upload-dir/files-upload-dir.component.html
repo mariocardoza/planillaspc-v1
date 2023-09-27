@@ -2,7 +2,7 @@
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <p-toast></p-toast>
-<div class="file-drop-area">
+<div *ngIf="!Ocultar" class="file-drop-area">
     <button mat-raised-button color="primary">Elegir archivo.</button>
     <span class="ms-2" *ngIf="myFiles.length == 0">O arrastre y suelte el archivo aquí.</span>
     <span class="file-msg" *ngFor="let file of myFiles">
@@ -20,7 +20,7 @@
             <div class="list-group">
                 <!--button mat-raised-button class="mt-3" type="button" (click)="descargarArchivo()" color="primary">Descargar archivo.</button-->
                 <button mat-raised-button class="mt-3" type="button" (click)="showLightbox()">Visualizar archivo.</button>
-                <button mat-raised-button class="mt-3" type="button" (click)="eliminarArchivo()" color="warn">Eliminar archivo.</button>
+                <button mat-raised-button class="mt-3" type="button" *ngIf="!Ocultar" (click)="eliminarArchivo()" color="warn">Eliminar archivo.</button>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
             <div class="list-group">
                 <!--button mat-raised-button class="mt-3" type="button" (click)="descargarArchivo()" color="primary">Descargar archivo.</button-->
                 <!-- <button mat-raised-button class="mt-3" type="button" >Visualizar archivo.</button> -->
-                <button mat-raised-button class="mt-3" type="button" (click)="eliminarArchivo()" color="warn">Eliminar archivo.</button>
+                <button mat-raised-button class="mt-3" type="button" *ngIf="!Ocultar" (click)="eliminarArchivo()" color="warn">Eliminar archivo.</button>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@
                 <!--button mat-raised-button class="mt-5" type="button" (click)="descargarArchivo()" color="primary">Descargar
                     archivo.</button-->
                 <button mat-raised-button class="mt-3" type="button" (click)="visualizarArchivo(content)">Visualizar archivo.</button>
-                <button mat-raised-button class="mt-3" type="button" (click)="eliminarArchivo()" color="warn">Eliminar
+                <button mat-raised-button class="mt-3" type="button" *ngIf="!Ocultar" (click)="eliminarArchivo()" color="warn">Eliminar
                     archivo.</button>
             </div>
         </div>
@@ -66,7 +66,7 @@
                 <!--button mat-raised-button class="mt-5" type="button" (click)="descargarArchivo()" color="primary">Descargar
                     archivo.</button-->
                 <button mat-raised-button class="mt-3" type="button" (click)="visualizarArchivo(content)">Visualizar archivo.</button>
-                <button mat-raised-button class="mt-3" type="button" (click)="eliminarArchivo()" color="warn">Eliminar
+                <button mat-raised-button class="mt-3" type="button" *ngIf="!Ocultar" (click)="eliminarArchivo()" color="warn">Eliminar
                     archivo.</button>
             </div>
         </div>

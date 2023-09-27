@@ -1,0 +1,212 @@
+<section class="content">
+    <ng-template #modalComprobante let-modal>
+        <div class="modal-header ">
+            <h4 class="text-center">Mandamiento de pago</h4>
+            <button class="close" aria-label="close" type="button" (click)="modal.dismiss()"><span>&times;</span></button>
+        </div>
+        <div class="modal-body" id="contenido">
+            <div class="row" >
+                <div class="col-2">
+                    <img src="./assets/images/logosv.png" width="100" alt="sv">
+                </div>
+                <div class="col-8">
+                    <h2 class="text-center">Mandamiento de pago N°: {{ mandamiento.idControl }}</h2>
+                    <p class="text-center"><strong>Planilla N°: </strong>{{mandamiento.noMandamiento}}</p>
+                    <p class="text-center"><strong>Fecha generación: </strong> {{mandamiento.fechaHora | date:'dd/MM/YYYY h:mm:ss a'}}</p>
+                    <p class="text-center"><strong>Tipo de cuota: </strong>{{buscarTipoCuota(mandamiento.codigoTipoCuota)}}</p>
+                </div>
+                <div class="col-2 float-right" style="text-align: right;">
+                    <img src="./assets/images/logopgr.png" width="100" alt="pgr">
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-6"><h6 class="text-center"><strong>Nombre contribuyente</strong>: {{ mandamiento.nombreComercial }}</h6></div>
+                <div class="col-6"><h6 class="text-center"><strong>NIT</strong>: {{ mandamiento.nit }}</h6></div>
+            </div>
+            <div class="row">
+                <div class="col-6"><h6 class="text-center"><strong>Monto: </strong> {{ mandamiento.monto | currency:'USD' }}</h6></div>
+                <div class="col-6"><h6 class="text-center"><strong>Procuraduría: </strong> {{ mandamiento.nombrePA }}</h6></div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div style='text-align: center;' class="barcode-container">
+                        <app-bar-code [barcode]="barcode"></app-bar-code>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <h6 class="text-center"><strong>NPE: </strong>{{  npe }}</h6>
+                </div>
+                <div class="col-12">
+                    <h6 class="text-center"><strong>Concepto: </strong>{{  mandamiento.descripcion }}</h6>
+                </div>
+            </div>
+            <hr>
+            <div class="row" >
+                <div class="col-2">
+                    <img src="./assets/images/logosv.png" width="100" alt="sv">
+                </div>
+                <div class="col-8">
+                    <h2 class="text-center">Mandamiento de pago N°: {{ mandamiento.idControl }}</h2>
+                    <p class="text-center"><strong>Planilla N°: </strong>{{mandamiento.noMandamiento}}</p>
+                    <p class="text-center"><strong>Fecha generación: </strong> {{mandamiento.fechaHora | date:'dd/MM/YYYY h:mm:ss a'}}</p>
+                    <p class="text-center"><strong>Tipo de cuota: </strong>{{buscarTipoCuota(mandamiento.codigoTipoCuota)}}</p>
+                </div>
+                <div class="col-2 float-right" style="text-align: right;">
+                    <img src="./assets/images/logopgr.png" width="100" alt="pgr">
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-6"><h6 class="text-center"><strong>Nombre contribuyente</strong>: {{ mandamiento.nombreComercial }}</h6></div>
+                <div class="col-6"><h6 class="text-center"><strong>NIT</strong>: {{ mandamiento.nit }}</h6></div>
+            </div>
+            <div class="row">
+                <div class="col-6"><h6 class="text-center"><strong>Monto: </strong> {{ mandamiento.monto | currency:'USD' }}</h6></div>
+                <div class="col-6"><h6 class="text-center"><strong>Procuraduría: </strong> {{ mandamiento.nombrePA }}</h6></div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div style='text-align: center;' class="barcode-container">
+                        <app-bar-code [barcode]="barcode"></app-bar-code>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <h6 class="text-center"><strong>NPE: </strong>{{  npe }}</h6>
+                </div>
+                <div class="col-12">
+                    <h6 class="text-center"><strong>Concepto: </strong>{{  mandamiento.descripcion }}</h6>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="modal-footer">
+            <button label="Imprimir" icon="pi pi-print" pButton pRipple type="button" class="p-button-primary mx-1" (click)="imprimirPDF()"></button>
+        </div>
+    </ng-template>
+    <ng-template #modalVerDocumento let-ver>
+        <div class="modal-header">
+            <h4 class="text-center">Información de pago</h4>
+            <button class="close" aria-label="close" type="button" (click)="ver.dismiss()"><span>&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-12">
+                    <h5>N° de comprobante: {{verC.noComprobantePago}}</h5>
+                </div>
+                <div class="col-12">
+                    <h5>Institución financiera: {{buscarBanco(verC.codInstitucionFinanciera)}} </h5>
+                </div>
+                <div class="col-12">
+                    <app-files-upload-dir [Ocultar]="true" [Directorio]="carpetaInstaciada" [actualFile]="verC.rutaImagenComprobante"
+                        (onUploadFinished)=uploadFinished($event) (onDownload)="downloadURLFile()"></app-files-upload-dir>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #modalDocumento let-mDocumento>
+        <div class="modal-header ">
+            <h4 class="text-center">Subir documento bancario</h4>
+            <button class="close" aria-label="close" type="button" (click)="mDocumento.dismiss()"><span>&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <form action="" [formGroup]="comprobanteForm" (ngSubmit)="onUploadDocument()">
+                <div class="row">
+                    <div class="col-12">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>N° comprobante de pago</mat-label>
+                            <input matInput type="text" formControlName="NoComprobantePago">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Institución financiera</mat-label>
+                            <mat-select formControlName="CodInstitucionFinanciera">
+                                <mat-option *ngFor="let banco of bancos" [value]="banco.codInstucionFinanciera">{{ banco.nombreBanco }}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                        <input type="hidden" formControlName="IdTabla">
+                        <input type="hidden" formControlName="RutaDocumento">
+                        <app-files-upload-dir [Directorio]="carpetaInstaciada" [actualFile]="verC.codigoEstado == '3' ? verC.rutaImagenComprobante : ''"
+                        (onUploadFinished)=uploadFinished($event) (onDownload)="downloadURLFile()"></app-files-upload-dir>
+                    </div>
+                    <div class="col-12 mt-2">
+                        <button mat-raised-button color="primary" [class.auth-spinner]="loading"
+          class="auth-form-btn" [disabled]="loading || !comprobanteForm.valid " type="submit">Subir documento</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <p-toast></p-toast>
+                <h2>Pago de planillas</h2>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <p-table #myTab [value]="mandamientos" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="obtenerComprobantes($event)" [totalRecords]="totalRecords"
+                    [globalFilterFields]="['noMandamiento', 'periodo']">
+                        <ng-template pTemplate="caption">
+                            <div style="text-align: right">
+                                <i 
+                                    class="pi pi-search" 
+                                    style="margin:4px 4px 0 0"> 
+                                </i>
+                                <input 
+                                    type="text" 
+                                    pInputText size="50" 
+                                    placeholder="No de mandamiento"
+                                    (input)=
+                    "myTab.filterGlobal($any($event.target).value, 'contains')" 
+                                    style="width:auto" />
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="idControl">N° <p-sortIcon field="idControl"></p-sortIcon></th>
+                                <th pSortableColumn="noMandamiento">N° de mandamiento <p-sortIcon field="noMandamiento"></p-sortIcon></th>
+                                <th >Descripción </th>
+                                <th pSortableColumn="codigoTipoCuota">Tipo de pago <p-sortIcon field="codigoTipoCuota"></p-sortIcon></th>
+                                <th pSortableColumn="monto">Monto <p-sortIcon field="monto"></p-sortIcon></th>
+                                <th>Comprobante banco</th>
+                                <th pSortableColumn="codigoEstado">Estado <p-sortIcon field="codigoEstado"></p-sortIcon></th>
+                                <th>Acciones</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-i="rowIndex" let-mandamiento>
+                            <tr *ngIf="mandamiento.codigoEstado >= 3">
+                                <td>{{ i+1 }}</td>
+                                <td>{{ mandamiento.noMandamiento }}</td>
+                                <td>{{ mandamiento.descripcion }}</td>
+                                <td>{{ buscarTipoCuota(mandamiento.codigoTipoCuota) }}</td>
+                                <td>{{ mandamiento.monto | currency:'USD' }}</td>
+                                <td>
+                                    <div *ngIf="mandamiento.rutaImagenComprobante != null; else pending">
+                                        <button pButton pRipple type="button" label="Ver comprobante" icon="pi pi-eye" (click)="verEditarComprobante(mandamiento)" class="p-button-rounded p-button-text p-button-danger"></button>
+                                    </div>
+                                    <ng-template #pending>
+                                        <button pButton pRipple type="button" label="Subir comprobante" icon="pi pi-upload" (click)="agregarComprobante(mandamiento.idControl)" class="p-button-rounded p-button-text p-button-danger"></button>
+                                    </ng-template>
+                                </td>
+                                <td><p-tag severity="{{claseEstadoPlanilla(mandamiento.codigoEstado)}}" value="{{buscarEstadoPlanilla(mandamiento.codigoEstado)}}"></p-tag></td>
+                                <td>
+                                    <button title="Imprimir comprobante" pButton (click)="imprimirComprobante(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-secondary m-1"></button>
+                                    <button *ngIf="mandamiento.rutaImagenComprobante != null && mandamiento.codigoEstado != 5" title="Registrar recibo de pago" pButton (click)="finalizarPlanilla(mandamiento.idEncabezado)" icon="pi pi-check" class="p-button-primary m-1"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="col-12">
+                    <p-button icon="pi pi-angle-left" routerLink="/dashboard/planillas" label="Atrás"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

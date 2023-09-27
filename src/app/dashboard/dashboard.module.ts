@@ -29,6 +29,8 @@ import { EmpCreateComponent } from './empleados/emp-create/emp-create.component'
 import { EmpdIndexComponent } from './empleados/empd-index/empd-index.component';
 import { LegalComponent } from './dashboard/legal/legal.component';
 import { RepIndexComponent } from './reportes/rep-index/rep-index.component';
+import { RepPlanillasComponent } from './reportes/rep-planillas/rep-planillas.component';
+import { PagosComponent } from './planillas/pagos/pagos.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,8 @@ import { RepIndexComponent } from './reportes/rep-index/rep-index.component';
     EmpdIndexComponent,
     LegalComponent,
     RepIndexComponent,
+    RepPlanillasComponent,
+    PagosComponent,
   ],
   imports: [
     CommonModule,

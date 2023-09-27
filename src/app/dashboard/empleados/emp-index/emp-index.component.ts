@@ -197,7 +197,7 @@ export class EmpIndexComponent implements OnInit {
 
   downloadURLFile() {
     let strUrlFile = this.empleadoForm.controls[0].value;
-
+    
     let filename = strUrlFile.substring(strUrlFile.lastIndexOf('\\')+1);
 
   }

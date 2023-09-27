@@ -21,6 +21,8 @@ import { EmpIndexComponent } from './empleados/emp-index/emp-index.component';
 import { EmpdIndexComponent } from './empleados/empd-index/empd-index.component';
 import { LegalComponent } from './dashboard/legal/legal.component';
 import { RepIndexComponent } from './reportes/rep-index/rep-index.component';
+import { RepPlanillasComponent } from './reportes/rep-planillas/rep-planillas.component';
+import { PagosComponent } from './planillas/pagos/pagos.component';
 
 const routes: Routes = [
   {
@@ -59,6 +61,10 @@ const routes: Routes = [
   {
     path:'planillas/importar',
     component: ImportarPlanillaComponent
+  },
+  {
+    path:'pagos',
+    component: PagosComponent
   },
   {
     path: 'usuarios-pendientes',
@@ -101,9 +107,14 @@ const routes: Routes = [
     path: 'legal',
     component: LegalComponent
   },
+  //Reportes
   {
     path: 'reportes',
     component: RepIndexComponent
+  },
+  {
+    path:'reportes/planillas',
+    component: RepPlanillasComponent
   },
   {
     path:'403',

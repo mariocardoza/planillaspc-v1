@@ -1,0 +1,127 @@
+<section class="content">
+    <ng-template #modalPlanilla let-modal>
+        <div class="modal-header ">
+            <h4 class="text-center">Planilla</h4>
+            <button class="close" aria-label="close" type="button" (click)="modal.dismiss()"><span>&times;</span></button>
+        </div>
+        <div class="modal-body" class="contenido" id="contenido">
+            <header id="header">
+                <div class="row">
+                    <div class="col-2">
+                        <img src="./assets/images/logopgr.png" width="100" alt="pgr">
+                    </div>
+                    <div class="col-8 my-4">
+                        <h5 class="text-center">PROCURADURÍA GENERAL DE LA REPÚBLICA</h5>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+                <table class="table" width="100%">
+                    <tr>
+                        <th width="50%"><strong>1. NOMBRE DE LA INSTITUCION: </strong> {{imprimir.nombreComercial}}</th>
+                        <th><strong>2. DIRECCIÓN Y TELÉFONO: </strong> </th>
+                        <th><strong>3. TELÉFONO - FAX: </strong> </th>
+                    </tr>
+                    <tr>
+                        <th wisth="50%"></th>
+                        <th><strong>4. CORREO:</strong> {{isMedios("1")}}</th>
+                    </tr>
+                    <tr>
+                        <th width="50%"><strong>CODIGO DE EMPRESA:</strong> {{ data.CodigoPGR }}</th>
+                        <th width="25%"><strong>5. MES A PAGAR:</strong> {{ imprimir.mes }}</th>
+                        <th width="25%"><strong>6. AÑO A PAGAR:</strong> {{ imprimir.anio }}</th>
+                    </tr>
+                </table>
+                <br>
+            </header>
+            <div id="body">
+                <table class="table" rules="all">
+                    <thead>
+                        <tr class="body">
+                            <th>7. NOMBRE DEL ALIMENTARIO</th>
+                            <th>8. NOMBRE DEL ALIMENTANTE</th>
+                            <th>9. No. EXPEDIENTE FISICO</th>
+                            <th>10. No. EXPEDIENTE ELECTRÓNICO</th>
+                            <th>11. TIPO DE INGRESO</th>
+                            <th>12. Monto</th>
+                            <th>13. NÚMERO DE IDENTIFIACION<br>DUI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="body" *ngFor="let detalle of imprimir.detalles; index as i">
+                            <td>{{ (i+1) +". "+ detalle.apellidosDemandante +" "+ detalle.nombresDemandante }}</td>
+                            <td>{{ detalle.apellidosDemandado +" "+ detalle.nombresDemandado }}</td>
+                            <td>{{ detalle.noExpediente }}</td>
+                            <td>{{ detalle.codigoExpediente }}</td>
+                            <td>{{ codigoTipoCuota(imprimir.codigoTipoCuota)}}</td>
+                            <td>{{ detalle.monto | currency:'USD' }}</td>
+                            <td>{{ detalle.duIdemandado }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button label="Imprimir" icon="pi pi-print" pButton pRipple type="button" class="p-button-primary mx-1" (click)="imprimirPDF()"></button>
+        </div>
+    </ng-template>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <p-toast></p-toast>
+                <h2>Reporte de planillas</h2>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <p-table #myTab [value]="planillas" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="obtenerPlanillas($event)" [totalRecords]="totalRecords"
+                    [globalFilterFields]="['noMandamiento', 'periodo']">
+                        <ng-template pTemplate="caption">
+                            <div style="text-align: right">
+                                <i 
+                                    class="pi pi-search" 
+                                    style="margin:4px 4px 0 0"> 
+                                </i>
+                                <input 
+                                    type="text" 
+                                    pInputText size="50" 
+                                    placeholder="No de mandamiento"
+                                    (input)=
+                    "myTab.filterGlobal($any($event.target).value, 'contains')" 
+                                    style="width:auto" />
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="noMandamiento">N° de mandamiento <p-sortIcon field="noMandamiento"></p-sortIcon></th>
+                                <th pSortableColumn="periodo">Periodo <p-sortIcon field="periodo"></p-sortIcon></th>
+                                <th pSortableColumn="codigoTipoCuota">Tipo <p-sortIcon field="codigoTipoCuota"></p-sortIcon></th>
+                                <th>Monto planilla</th>
+                                <th>Personal en planilla</th>
+                                <th pSortableColumn="codigoEstado">Estado <p-sortIcon field="codigoEstado"></p-sortIcon></th>
+                                <th>Acción</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-planilla>
+                            <tr *ngIf="planilla.codigoEstado > 2">
+                                <td>{{ planilla.noMandamiento }}</td>
+                                <td>{{ planilla.periodo }}</td>
+                                <td>{{ buscarTipoCuota(planilla.codigoTipoCuota) }}</td>
+                                <td>${{ planilla.monto }}</td>
+                                <td>{{ planilla.empleadosEnPlanilla }}</td>
+                                <td><p-tag severity="{{claseEstadoPlanilla(planilla.codigoEstado)}}" value="{{buscarEstadoPlanilla(planilla.codigoEstado)}}"></p-tag></td>
+                                <td>
+                                    <button title="Imprimir comprobante" pButton (click)="imprimirComprobante(planilla.idEncabezado)" icon="pi pi-print" class="p-button-secondary mx-1"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="col-12">
+                    <p-button icon="pi pi-angle-left" routerLink="/dashboard/planillas" label="Atrás"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

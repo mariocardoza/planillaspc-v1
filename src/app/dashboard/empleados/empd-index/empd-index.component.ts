@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { EmpleadosService } from 'src/app/core/service/empleados.service';
 import { MessageService } from 'primeng/api';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { IEmpleado } from 'src/app/core/models/empleados/empleado';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-empd-index',
@@ -12,6 +13,7 @@ import { IEmpleado } from 'src/app/core/models/empleados/empleado';
   styleUrls: ['./empd-index.component.scss']
 })
 export class EmpdIndexComponent implements OnInit {
+  @ViewChild("modalVerDocumento") modalVerDocumento: ElementRef;
   a = moment().subtract(18, 'year').format("YYYY-MM-DD");
   carpetaInstaciada: string;
   actualfile: string = '';
@@ -21,12 +23,21 @@ export class EmpdIndexComponent implements OnInit {
   isCreating: boolean = false;
   isEditing: boolean = false;
   loading: boolean = true;
-  constructor(private empleadosService: EmpleadosService,private messageService: MessageService) { 
+  verC:any;
+  actualFile:string;
+  constructor(private empleadosService: EmpleadosService,private messageService: MessageService, private modalService: NgbModal) { 
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
   }
 
   ngOnInit(): void {
     this.buscarEmpleados()
+  }
+
+  verDocumento(empleado){
+    this.verC = empleado;
+    console.log(this.verC)
+    this.actualFile = this.verC.rutaDocumento;
+    this.modalService.open(this.modalVerDocumento,{ size: <any>'lg' });
   }
 
   onRestore(idRegistro:number){

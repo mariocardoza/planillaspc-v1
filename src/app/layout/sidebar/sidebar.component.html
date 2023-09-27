@@ -47,6 +47,11 @@
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
+            <a routerLink="/dashboard/pagos" class="menu-top">
+              Pago de planillas
+            </a>
+          </li>
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
             <a routerLink="/dashboard/reportes" class="menu-top">
               Reportes
             </a>

@@ -1,5 +1,22 @@
 <section class="content">
     <p-toast></p-toast>
+    <ng-template #modalVerDocumento let-ver>
+      <div class="modal-header">
+          <h4 class="text-center">Documento de cesación</h4>
+          <button class="close" aria-label="close" type="button" (click)="ver.dismiss()"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <h5>Fecha de cesación: {{ verC.fechaCesacion | date}}</h5>
+            </div>
+              <div class="col-12">
+                  <app-files-upload-dir [Ocultar]="true" [Directorio]="carpetaInstaciada" [actualFile]="verC.rutaDocumento"
+                      (onUploadFinished)=uploadFinished($event) (onDownload)="downloadURLFile()"></app-files-upload-dir>
+              </div>
+          </div>
+      </div>
+  </ng-template>
       <div class="container">
           <div class="row">
               <div class="col-12">
@@ -37,6 +54,7 @@
                       <th pSortableColumn="apellidos">Apellidos <p-sortIcon field="apellidos"></p-sortIcon></th>
                       <th pSortableColumn="codigoExpediente">N° expediente electrónico <p-sortIcon field="codigoExpediente"></p-sortIcon></th>
                       <th pSortableColumn="expedienteFisico">N° expediente físico <p-sortIcon field="expedienteFisico"></p-sortIcon></th>
+                      <th>Documento</th>
                       <th></th>
                     </tr>
                   </ng-template>
@@ -48,6 +66,9 @@
                       <td>{{ empleado.apellidos }}</td>
                       <td>{{ empleado.codigoExpediente }}</td>
                       <td>{{ empleado.expedienteFisico }}</td>
+                      <td>
+                        <button pButton pRipple type="button" label="Ver documento" icon="pi pi-eye" (click)="verDocumento(empleado)" class="p-button-rounded p-button-text p-button-danger"></button>
+                      </td>
                       <td>
                         <button pButton pRipple type="button"  icon="pi pi-refresh" (click)="onRestore(empleado.idRegistro)" class="p-button-rounded p-button-primary p-button-text"></button>
                       </td>

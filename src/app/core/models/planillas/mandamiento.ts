@@ -1,5 +1,6 @@
 export interface IMandamiento {
     idEncabezado?: number;
+    idControl?: number;
     codigoTipoCuota: string;
     descripcion: string;
     fechaHora: Date;
@@ -8,4 +9,12 @@ export interface IMandamiento {
     nombrePA: string;
     codigoBarra: string;
     npe: string;
+    nombreComercial?: string;
+    rutaImagenComprobante?: string;
+    codInstitucionFinanciera?: string;
+    codigoTipoComprobante?: string;
+    noComprobantePago?: string;
+    observacion?: string;
+    nit?: string;
+    codigoEstado?: string;
 }

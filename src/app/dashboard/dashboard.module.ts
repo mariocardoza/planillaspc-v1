@@ -31,6 +31,7 @@ import { LegalComponent } from './dashboard/legal/legal.component';
 import { RepIndexComponent } from './reportes/rep-index/rep-index.component';
 import { RepPlanillasComponent } from './reportes/rep-planillas/rep-planillas.component';
 import { PagosComponent } from './planillas/pagos/pagos.component';
+import { PlanillasPagadasComponent } from './admin/planillas-pagadas/planillas-pagadas.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { PagosComponent } from './planillas/pagos/pagos.component';
     RepIndexComponent,
     RepPlanillasComponent,
     PagosComponent,
+    PlanillasPagadasComponent,
   ],
   imports: [
     CommonModule,

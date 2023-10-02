@@ -1,15 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef  } from '@angular/core';
 import { PlanillaService } from 'src/app/core/service/planilla.service';
-import { LazyLoadEvent } from 'primeng/api';
-import Swal from "sweetalert2";
-import { MessageService } from 'primeng/api';
-import { IMandamiento } from 'src/app/core/models/planillas/mandamiento';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import { GenerateReportService } from 'src/app/core/service/generate-report.service';
-import { IReportes, IPlanillaReport } from 'src/app/core/models/reportes';
-import { PdfMakeWrapper } from 'pdfmake-wrapper';
+import { IMandamiento } from 'src/app/core/models/planillas/mandamiento';
+import { MessageService } from 'primeng/api';
+import { LazyLoadEvent } from 'primeng/api';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 import * as moment from "moment/moment";
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts  from 'pdfmake/build/vfs_fonts';
@@ -17,20 +13,31 @@ import { imagenes } from 'src/environments/images';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
-  selector: 'app-rep-planillas',
+  selector: 'app-planillas-pagadas',
+  templateUrl: './planillas-pagadas.component.html',
   providers: [MessageService],
-  templateUrl: './rep-planillas.component.html',
-  styleUrls: ['./rep-planillas.component.scss']
+  styleUrls: ['./planillas-pagadas.component.scss']
 })
-
-export class RepPlanillasComponent implements OnInit {
-  @ViewChild("modalPlanilla") modalPlanilla: ElementRef;
-  private lastTableLazyLoadEvent: LazyLoadEvent;
-  planillas: any;
+export class PlanillasPagadasComponent implements OnInit {
+  @ViewChild("modalComprobante") modalComprobante: ElementRef;
+  @ViewChild("modalDocumento") modalDocumento: ElementRef;
+  @ViewChild("modalVerDocumento") modalVerDocumento: ElementRef;
   imprimir: any;
   medioscontacto: any = [];
+  mandamientos: IMandamiento[];
+  loading: boolean = false;
+  mandamiento: IMandamiento;
+  totalRecords: number = 0;
+  barcode: string;
+  npe: string;
+  bancos: any[];
+  verC:any;
+  carpetaInstaciada: string;
+  actualFile:any = '';
+  public response: { dbPath: '' }
+  comprobanteForm: FormGroup;
+  private lastTableLazyLoadEvent: LazyLoadEvent;
   data:any;
-  totalRecords:number = 0;
   tipoCuotas = [
     {value:'1', name:'Cuota alimenticia',code:'C'},
     {value:'2', name:'Bonificaciones',code:'OP'},
@@ -45,60 +52,51 @@ export class RepPlanillasComponent implements OnInit {
     {value:'4', name:'Anulada'},
     {value:'5', name:'Pago completado'},
   ];
-  reporte: IPlanillaReport;
-  constructor(private planillaService: PlanillaService, public modalService: NgbModal, private reportService: GenerateReportService) {
+  LarutaImagenComprobante: string;
+  elCodigoEstado: string;
+  constructor(private planillaService: PlanillaService, public modalService: NgbModal, private messageService: MessageService, private formBuilder: FormBuilder) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
   }
-  
-  ngOnInit(): void {
-    
-  }
 
-  obtenerPlanillas(event: LazyLoadEvent){
-    this.lastTableLazyLoadEvent = event;
-    console.log(event)
-    this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'fechaHoraRegistro').subscribe((result) => {
-      this.planillas = result['data'];
-      this.totalRecords = result['registros'];
+  ngOnInit(): void {
+    this.obtenerBancos();
+    this.carpetaInstaciada = 'comprobantes/'+this.data.CodigoPGR;
+    this.comprobanteForm = this.formBuilder.group({
+      RutaDocumento: ['',Validators.required],
+      NoComprobantePago: ['',Validators.required],
+      CodInstitucionFinanciera:['',Validators.required],
+      IdTabla: ['',Validators.required]
     });
   }
 
-  buscarTipoCuota(codigoTipoCuota){
-    var valor = this.tipoCuotas.find(e => e.value === codigoTipoCuota);
-    if(valor){
-      return valor.name;
-    }else{
-      return '';
-    }
+  obtenerBancos(){
+    this.planillaService.listadoBancos().subscribe((result) => {
+      this.bancos = result.data;
+    });
   }
 
-  codigoTipoCuota(codigoTipoCuota){
-    var valor = this.tipoCuotas.find(e => e.value === codigoTipoCuota);
-    if(valor){
-      return valor.code;
-    }else{
-      return '';
-    }
+  obtenerComprobantes(event: LazyLoadEvent){
+    this.lastTableLazyLoadEvent = event;
+    this.planillaService.obtenerComprobantesPagados(this.data.CodigoPagaduria,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'idControl').subscribe((result) => {
+      this.mandamientos = result.data;
+      this.totalRecords = result.registros;
+    });
   }
 
-  buscarEstadoPlanilla(codigoEstado){
-    var valor = this.codigoEstados.find(e => e.value === codigoEstado);
-    if(valor){
-      return valor.name;
+  verEditarComprobante(mandamiento: IMandamiento){
+    this.verC = mandamiento;
+    if(this.verC.codigoEstado == "3"){
+      this.elCodigoEstado = "3";
+      this.LarutaImagenComprobante = mandamiento.rutaImagenComprobante;
+      this.comprobanteForm.patchValue({IdTabla:mandamiento.idControl})
+      this.comprobanteForm.patchValue({CodInstitucionFinanciera:parseInt(mandamiento.codInstitucionFinanciera)})
+      this.comprobanteForm.patchValue({RutaDocumento:''})
+      this.comprobanteForm.patchValue({NoComprobantePago:mandamiento.noComprobantePago})
+      this.actualFile = this.verC.rutaImagenComprobante;
+      this.modalService.open(this.modalDocumento,{ size: <any>'lg' });
     }else{
-      return '';
-    }
-  }
-
-  claseEstadoPlanilla(codigoEstado){
-    if(codigoEstado==1){
-      return 'primary';
-    }else{
-      if(codigoEstado==4){
-        return 'danger';
-      }else{
-        return 'success';
-      }
+      this.actualFile = this.verC.rutaImagenComprobante;
+      this.modalService.open(this.modalVerDocumento,{ size: <any>'lg' });
     }
   }
 
@@ -137,6 +135,10 @@ export class RepPlanillasComponent implements OnInit {
         const fecha = moment();
         //console.log(array)
         const pdfDefinition: any = {
+          filename: "planilla_"+this.imprimir.nombreComercial+"_"+this.imprimir.mes+"_"+this.imprimir.anio+".pdf",
+          info: {
+            title: 'planilla_'+this.imprimir.nombreComercial+"_"+this.imprimir.mes+"_"+this.imprimir.anio+".pdf",
+          },
           defaultStyle: {
             fontSize: 7,
           },
@@ -196,7 +198,7 @@ export class RepPlanillasComponent implements OnInit {
                                 {}
                               ],
                               [
-                                {text:'CÓDIGO DE EMPRESA: '+this.data.CodigoPGR, style:'tableHeader',alignment:'left'},
+                                {text:'CÓDIGO DE EMPRESA: '+this.imprimir.codigoPGR, style:'tableHeader',alignment:'left'},
                                 {text:'5. MES A PAGAR: '+this.imprimir.mes, style:'tableHeader',alignment:'left'},
                                 {text:'6. AÑO: '+this.imprimir.anio, style:'tableHeader',alignment:'left'},
                               ]
@@ -308,56 +310,52 @@ export class RepPlanillasComponent implements OnInit {
     
   }
 
-  async generatePDF(): Promise<void> {
-    this.reporte.titulo ="Planilla de empleados";
-    this.reporte.orientacion = 'H';
-    await this.reportService.build(this.reporte);
+  buscarBanco(codInstitucionFinanciera){
+    let actual = parseInt(codInstitucionFinanciera)
+    for (let i = 0; i < this.bancos.length; i++) {
+      const element = this.bancos[i];
+      //console.log(element.codInstucionFinanciera+" "+" "+codInstitucionFinanciera.trim())
+      if (element.codInstucionFinanciera === actual) {
+        //console.log(element.codInstucionFinanciera+" "+" "+codInstitucionFinanciera)
+        return element.nombreBanco;
+      }
+    }
+    return -1;
+    /*console.log(mandamiento.codInstitucionFinanciera)
+    var valor = this.bancos.find(e => e.codInstucionFinanciera === mandamiento.codInstitucionFinanciera);
+    console.log(valor)
+    return valor.nombreBanco;*/
   }
 
-  imprimirPDF(){
-    const tabla = document.getElementById('contenido');
-    const contentHeight = document.querySelector<HTMLElement>('.contenido').offsetHeight;
-    // Set the maximum height of each page (adjust as needed)
-    const maxHeightPerPage = 700; // For example, assuming each page can hold up to 800px of content
-    let specialElementHandlers = {
-        // element with id of "bypass" - jQuery style selector
-        '#header': function (element, renderer) {
-            // true = "handled elsewhere, bypass text extraction"
-            return true
-        }
-    };
-    let margins = {
-        top: 80,
-        bottom: 60,
-        left: 40,
-        width: 522
-    };
+  codigoTipoCuota(codigoTipoCuota){
+    var valor = this.tipoCuotas.find(e => e.value === codigoTipoCuota);
+    if(valor){
+      return valor.code;
+    }else{
+      return '';
+    }
+  }
 
-    // Calculate the number of pages needed
-    const totalPages = Math.ceil(contentHeight / maxHeightPerPage);
-    const DATA: HTMLElement = tabla!;
-    const doc = new jsPDF('l', 'pt', 'a4');
-    const options = {
-      background: 'white',
-      scale: 3,
-      margins: margins 
-    };
-    html2canvas(DATA, options).then((canvas) => {
+  claseEstadoPlanilla(codigoEstado){
+    if(codigoEstado==1){
+      return 'primary';
+    }else{
+      if(codigoEstado==4){
+        return 'danger';
+      }else{
+        return 'success';
+      }
+    }
+  }
 
-      const img = canvas.toDataURL('image/PNG');
+  buscarEstadoPlanilla(codigoEstado){
+    var valor = this.codigoEstados.find(e => e.value === codigoEstado);
+    return valor.name;
+  }
 
-      // Add image Canvas to PDF
-      const bufferX = 15;
-      const bufferY = 15;
-      const imgProps = (doc as any).getImageProperties(img);
-      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
-      const pdfHeight = ((imgProps.height * pdfWidth) / imgProps.width)- 50;
-      console.log(pdfHeight)
-      doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
-      return doc;
-    }).then((docResult) => {
-      docResult.save(`${new Date().toISOString()}_planilla.pdf`);
-    });
+  buscarTipoCuota(codigoTipoCuota){
+    var valor = this.tipoCuotas.find(e => e.value === codigoTipoCuota);
+    return valor.name;
   }
 
   isMedios(tipoMedio) {
@@ -368,18 +366,5 @@ export class RepPlanillasComponent implements OnInit {
       return '';
     }
   }
-
-  createPDF(){
-    let token = 'ghgshgsdhg';
-    this.planillaService.obtenerPlanilla(1,token).subscribe((result)=>{
-      if(result['success']){
-        
-      }
-    })
-    
-  }
-
-  
-  
 
 }

@@ -142,7 +142,7 @@
         <div class="row">
             <div class="col-12">
                 <p-toast></p-toast>
-                <h2>Pago de planillas</h2>
+                <h2>Planillas ya pagadas por las empresas</h2>
             </div>
         </div>
         
@@ -171,6 +171,8 @@
                                 <th pSortableColumn="idControl">N° <p-sortIcon field="idControl"></p-sortIcon></th>
                                 <th pSortableColumn="noMandamiento">N° de mandamiento <p-sortIcon field="noMandamiento"></p-sortIcon></th>
                                 <th >Descripción </th>
+                                <th>Empresa</th>
+                                <th>Codigo de empresa PGR</th>
                                 <th pSortableColumn="codigoTipoCuota">Tipo de pago <p-sortIcon field="codigoTipoCuota"></p-sortIcon></th>
                                 <th pSortableColumn="monto">Monto <p-sortIcon field="monto"></p-sortIcon></th>
                                 <th>Comprobante banco</th>
@@ -183,6 +185,8 @@
                                 <td>{{ i+1 }}</td>
                                 <td>{{ mandamiento.noMandamiento }}</td>
                                 <td>{{ mandamiento.descripcion }}</td>
+                                <td>{{ mandamiento.nombreComercial }}</td>
+                                <td>{{ mandamiento.codigoPGR }}</td>
                                 <td>{{ buscarTipoCuota(mandamiento.codigoTipoCuota) }}</td>
                                 <td>{{ mandamiento.monto | currency:'USD' }}</td>
                                 <td>

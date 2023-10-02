@@ -353,7 +353,7 @@
                     </ng-template>
                         <ng-template pTemplate="header">
                             <tr>
-                                <th><input class="todos" type="checkbox" value="1" selected> Selec. todos</th>
+                                <th><input class="todos" [(ngModel)]="selectAll" (change)="toggleSelectAll()" type="checkbox" value="1" selected> Selec. todos</th>
                                 <th>N°</th>
                                 <th style="width: 120px;" pSortableColumn="duIdemandado">DUI <p-sortIcon field="duIdemandado"></p-sortIcon></th>
                                 <th pSortableColumn="apellidosDemandado">Apellidos demandado <p-sortIcon field="apellidosDemandado"></p-sortIcon></th>
@@ -370,7 +370,7 @@
                         <ng-template pTemplate="body" let-empleado let-editing="editing" let-ri="rowIndex">
                             <tr [pEditableRow]="empleado">
                                 <td>
-                                    <input class="checkbox" data-id="{{empleado.idDetalle}}" type="checkbox" value="1" selected>
+                                    <input class="checkbox" name="selectedC" [(ngModel)]="empleado.selected" data-id="{{empleado.idDetalle}}" type="checkbox" value="1" selected>
                                 </td>
                                 <td>{{ ri+1}}</td>
                                 <td class="td">

@@ -23,10 +23,10 @@
         <div class="row">
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
             <mat-form-field class="full-width" appearance="outline">
-              <mat-label>Codigo expediente electrónico</mat-label>
+              <mat-label>Número expediente electrónico</mat-label>
               <input matInput formControlName="CodigoExpediente" autocomplete="off" pKeyFilter="int" />
               <mat-error *ngIf="empleadoForm.get('CodigoExpediente')?.hasError('required')">
-                El código de expediente es requerido
+                El número de expediente es requerido
               </mat-error>
             </mat-form-field>
           </div>

@@ -8,6 +8,7 @@ export interface IMandamiento {
     noMandamiento: number;
     nombrePA: string;
     codigoBarra: string;
+    codigoPGR: number;
     npe: string;
     nombreComercial?: string;
     rutaImagenComprobante?: string;

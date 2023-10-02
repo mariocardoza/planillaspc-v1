@@ -16,6 +16,7 @@ import { AuthenticationService } from 'src/app/core/service/authentication.servi
 })
 export class PerfilComponent implements OnInit {
   data: any;
+  medioscontacto: any = [];
   active = 1;
   error= '';
   isSuccess: boolean = false;
@@ -121,12 +122,13 @@ export class PerfilComponent implements OnInit {
       this.dashboardService.searchUser(id,this.token).subscribe((res)=> {
         if(res.success){
           this.persona = res.data
+          this.medioscontacto = res.data.mediosContacto;
           this.perfilFormGroup.patchValue({NIT: res.data.nit});
           this.perfilFormGroup.patchValue({RazonSocial: res.data.razonSocial});
           this.perfilFormGroup.patchValue({NombreComercial: res.data.nombreComercial});
           this.perfilFormGroup.patchValue({codigoPGR: res.data.codigoPGR});
           this.perfilFormGroup.patchValue({TipoEmpresa: res.data.tipoEmpresa});
-          this.perfilFormGroup.patchValue({MedioContactoPersona: res.data.medioContactoPersona});
+          this.perfilFormGroup.patchValue({MedioContactoPersona: this.isMedios("1")});
           this.perfilFormGroup.patchValue({CodigoNumeroDui: res.data.codigoNumeroDui});
           this.perfilFormGroup.patchValue({Nombre1: res.data.nombre1});
           this.perfilFormGroup.patchValue({Nombre2: res.data.nombre2});
@@ -141,6 +143,7 @@ export class PerfilComponent implements OnInit {
           this.perfilFormGroup.patchValue({ImagenNIT:res.data.imagenNIT});
           this.perfilFormGroup.patchValue({CodigoMedioContacto:res.data.codigoMedioContacto});
           this.perfilFormGroup.patchValue({Pagaduria:res.data.pagaduria});
+          this.perfilFormGroup.patchValue({TelefonoContactoPersona:this.isMedios("2")});
           //this.editFormGroup.patchValue({TelefonoContactoPersona: res.data.telefonoContactoPersona});
         }
       })
@@ -164,6 +167,15 @@ export class PerfilComponent implements OnInit {
     this.userFormGroup.patchValue({CodigoEmpresa:this.data.CodigoEmpresa});
     this.userFormGroup.patchValue({CodigoPagaduria:this.data.CodigoPagaduria});
 
+  }
+
+  isMedios(tipoMedio) {
+    let medio = this.medioscontacto.find(o => o.codigoTipoMedioContacto === tipoMedio);
+    if(medio){
+      return medio.medioContactoPersona
+    }else{
+      return '';
+    }
   }
 
   onSubmitPassword(){

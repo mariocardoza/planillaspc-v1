@@ -45,6 +45,8 @@ export class PagosComponent implements OnInit {
     {value:'4', name:'Anulada'},
     {value:'5', name:'Pago completado'},
   ];
+  LarutaImagenComprobante: string;
+  elCodigoEstado: string;
   constructor(private planillaService: PlanillaService, public modalService: NgbModal, private messageService: MessageService, private formBuilder: FormBuilder) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
   }
@@ -152,6 +154,8 @@ export class PagosComponent implements OnInit {
   }
 
   agregarComprobante(idControl: number){
+    this.elCodigoEstado = "3";
+    this.LarutaImagenComprobante = '';
     this.comprobanteForm.patchValue({IdTabla:idControl})
     this.comprobanteForm.patchValue({RutaDocumento:''})
     this.modalService.open(this.modalDocumento,{ size: <any>'lg' })
@@ -160,6 +164,8 @@ export class PagosComponent implements OnInit {
   verEditarComprobante(mandamiento: IMandamiento){
     this.verC = mandamiento;
     if(this.verC.codigoEstado == "3"){
+      this.elCodigoEstado = "3";
+      this.LarutaImagenComprobante = mandamiento.rutaImagenComprobante;
       this.comprobanteForm.patchValue({IdTabla:mandamiento.idControl})
       this.comprobanteForm.patchValue({CodInstitucionFinanciera:parseInt(mandamiento.codInstitucionFinanciera)})
       this.comprobanteForm.patchValue({RutaDocumento:''})

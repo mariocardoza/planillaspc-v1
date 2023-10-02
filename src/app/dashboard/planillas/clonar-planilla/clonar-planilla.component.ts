@@ -43,6 +43,7 @@ export class ClonarPlanillaComponent implements OnInit {
     {value:'2', name:'Enviada'},
     {value:'3', name:'Procesada'},
     {value:'4', name:'Anulada'},
+    {value:'5', name:'Pago completado'},
   ];
   totalRecords: number = 0;
   constructor(private planillaService: PlanillaService,public modal: NgbModal,private formBuilder: FormBuilder, private messageService: MessageService, private router: Router) {

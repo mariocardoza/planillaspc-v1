@@ -17,7 +17,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 export class EditarPlanillaComponent implements OnInit {
-  
+  selectAll:boolean = false;
   @ViewChild("listaEmpleados") modalEmpleados: ElementRef;
   public response: { dbPath: '' }
   total: number = 0;
@@ -331,7 +331,6 @@ export class EditarPlanillaComponent implements OnInit {
       if(result['success']){
         this.planilla = result['data']
         this.empleados = this.planilla.detalles
-        //console.log(result['data']).detalles
         this.codigoEstado = this.planilla.codigoEstado;
         this.planillaFormGroup.patchValue({NoMandamiento:this.planilla.noMandamiento})
         this.planillaFormGroup.patchValue({Periodo:this.planilla.periodo})
@@ -341,11 +340,8 @@ export class EditarPlanillaComponent implements OnInit {
         this.total = this.planilla.monto;
         this.planillaFormGroup.patchValue({IdEncabezado:this.planilla.idEncabezado})
         this.empleadoForm.patchValue({IdEncabezado:this.planilla.idEncabezado})
-      }
-      
+      }  
     })
-    
-    //
   }
 
   procesarPlanilla(idEncabezado: number){
@@ -369,5 +365,14 @@ export class EditarPlanillaComponent implements OnInit {
       }
     })
   }
+
+  toggleSelectAll(){
+    if(this.toggleSelectAll){
+      this.empleados.forEach(o => o.selected = this.selectAll)
+    }else{
+      this.empleados.forEach(o => o.selected = true)
+    }
+  }
+
 
 }

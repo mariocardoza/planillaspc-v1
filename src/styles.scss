@@ -4,7 +4,7 @@
 @import "~bootstrap/scss/bootstrap";
 @import "src/assets/scss/pages/_auth.scss";
 html, body { min-height: 100vh; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #f3f3f3; }
 
 .bg-danger{
     background-color: red;
@@ -40,6 +40,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 #aside {
   /*width: 20%;*/
+  background: #121427;
   float: left;
   min-height: 1099px;
 }

@@ -78,13 +78,19 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-12 col-md-6">
+                                                <div class="col-12 col-md-4">
                                                     <mat-form-field class="full-width" appearance="fill">
-                                                      <mat-label>Correo electrónico institucional</mat-label>
-                                                      <input matInput placeholder="Correo electrónico institucional" formControlName="MedioContactoPersona">
+                                                      <mat-label>Correo electrónico empresarial</mat-label>
+                                                      <input matInput placeholder="Correo electrónico empresarial" formControlName="MedioContactoPersona">
                                                     </mat-form-field>
                                                 </div>
-                                                <div class="col-12 col-md-6">
+                                                <div class="col-12 col-md-4">
+                                                  <mat-form-field class="full-width" appearance="fill">
+                                                    <mat-label>Teléfono de contacto</mat-label>
+                                                    <input matInput placeholder="Teléfono de contacto" [dropSpecialCharacters]="false" mask="0000-0000" [showMaskTyped]="false" formControlName="TelefonoContactoPersona">
+                                                  </mat-form-field>
+                                              </div>
+                                                <div class="col-12 col-md-4">
                                                   <mat-form-field class="full-width" appearance="fill">
                                                     <mat-label>Procuraduría donde realiza el pago</mat-label>
                                                     <input type="text"
@@ -237,14 +243,14 @@
                                                 <div class="col-12 col-md-6">
                                                     <mat-form-field class="full-width" appearance="fill">
                                                     <mat-label>Clave</mat-label>
-                                                    <input matInput placeholder="Clave" formControlName="Password" type="password" required>
+                                                    <input matInput placeholder="Clave" autocomplete="off" formControlName="Password" type="password" required>
                                                     </mat-form-field>
                                                 </div>
                                             
                                                 <div class="col-12 col-md-6">
                                                     <mat-form-field class="full-width" appearance="fill">
                                                     <mat-label>Confirmar clave</mat-label>
-                                                    <input matInput placeholder="Confirmar clave" formControlName="ConfirmPassword" type="password">
+                                                    <input matInput placeholder="Confirmar clave" autocomplete="off"  formControlName="ConfirmPassword" type="password">
                                                     </mat-form-field>
                                                 </div>
                                             </div>

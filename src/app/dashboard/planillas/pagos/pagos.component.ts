@@ -6,6 +6,8 @@ import { MessageService } from 'primeng/api';
 import { LazyLoadEvent } from 'primeng/api';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-pagos',
@@ -47,7 +49,7 @@ export class PagosComponent implements OnInit {
   ];
   LarutaImagenComprobante: string;
   elCodigoEstado: string;
-  constructor(private planillaService: PlanillaService, public modalService: NgbModal, private messageService: MessageService, private formBuilder: FormBuilder) {
+  constructor(private planillaService: PlanillaService, public modalService: NgbModal, private messageService: MessageService, private formBuilder: FormBuilder, private fileService: FileDownloadService) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
   }
 
@@ -147,10 +149,11 @@ export class PagosComponent implements OnInit {
   }
 
   downloadURLFile() {
-    let strUrlFile = this.comprobanteForm.controls[0].value;
-    console.log(strUrlFile)
+    let strUrlFile = this.comprobanteForm.controls.RutaDocumento.value;
     let filename = strUrlFile.substring(strUrlFile.lastIndexOf('\\')+1);
-
+    this.fileService.downloadFile(strUrlFile).subscribe(response => {
+			saveAs(response, filename);
+		}), error => this.messageService.add({severity:'error', summary: 'Error', detail:''}), () => this.messageService.add({severity:'success', summary: 'Exito', detail:''})
   }
 
   agregarComprobante(idControl: number){
@@ -168,12 +171,13 @@ export class PagosComponent implements OnInit {
       this.LarutaImagenComprobante = mandamiento.rutaImagenComprobante;
       this.comprobanteForm.patchValue({IdTabla:mandamiento.idControl})
       this.comprobanteForm.patchValue({CodInstitucionFinanciera:parseInt(mandamiento.codInstitucionFinanciera)})
-      this.comprobanteForm.patchValue({RutaDocumento:''})
+      this.comprobanteForm.patchValue({RutaDocumento:this.verC.rutaImagenComprobante})
       this.comprobanteForm.patchValue({NoComprobantePago:mandamiento.noComprobantePago})
       this.actualFile = this.verC.rutaImagenComprobante;
       this.modalService.open(this.modalDocumento,{ size: <any>'lg' });
     }else{
       this.actualFile = this.verC.rutaImagenComprobante;
+      this.comprobanteForm.patchValue({RutaDocumento:this.verC.rutaImagenComprobante})
       this.modalService.open(this.modalVerDocumento,{ size: <any>'lg' });
     }
   }

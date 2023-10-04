@@ -5,7 +5,8 @@ import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { IEmpleado } from 'src/app/core/models/empleados/empleado';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
+import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-empd-index',
   templateUrl: './empd-index.component.html',
@@ -25,7 +26,7 @@ export class EmpdIndexComponent implements OnInit {
   loading: boolean = true;
   verC:any;
   actualFile:string;
-  constructor(private empleadosService: EmpleadosService,private messageService: MessageService, private modalService: NgbModal) { 
+  constructor(private empleadosService: EmpleadosService,private messageService: MessageService, private modalService: NgbModal, private fileService: FileDownloadService) { 
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
   }
 
@@ -74,6 +75,14 @@ export class EmpdIndexComponent implements OnInit {
         this.loading = false;
       }
     })
+  }
+
+  downloadURLFile() {
+    let strUrlFile = this.actualFile;
+    let filename = strUrlFile.substring(strUrlFile.lastIndexOf('\\')+1);
+    this.fileService.downloadFile(strUrlFile).subscribe(response => {
+			saveAs(response, filename);
+		}), error => this.messageService.add({severity:'error', summary: 'Error', detail:''}), () => this.messageService.add({severity:'success', summary: 'Exito', detail:''})
   }
 
 }

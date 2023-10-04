@@ -68,6 +68,11 @@
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol != 'U'">
+            <a routerLink="/dashboard/planillas/presentadas" class="menu-top">
+              Planillas pagadas
+            </a>
+          </li>
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol != 'U'">
             <a routerLink="/dashboard/usuarios-activos" class="menu-top">
               Usuarios activos
             </a>
@@ -77,7 +82,7 @@
               <span matBadge="{{numeroPendientes}}" matBadgeSize="small">Verificación de usuarios </span>
             </a>
           </li>
-          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'S'">
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'R'">
             <a routerLink="/dashboard/administradores" class="menu-top">
               Usuarios administradores
             </a>

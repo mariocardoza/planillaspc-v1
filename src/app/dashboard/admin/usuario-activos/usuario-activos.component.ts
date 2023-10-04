@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DashboardService } from 'src/app/core/service/dashboard.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -17,9 +17,13 @@ import { LazyLoadEvent } from 'primeng/api';
 })
 export class UsuarioActivosComponent implements OnInit {
   private lastTableLazyLoadEvent: LazyLoadEvent;
+  @ViewChild("modalVerDocumento") modalVerDocumento: ElementRef;
+  verC:any;
   http: HttpClient;
   private data: any;
   token: any;
+  carpetaInstaciada: string;
+  actualFile:any = '';
   constructor(http: HttpClient,private router:Router,private dashboardService: DashboardService,private _sanitizer: DomSanitizer,private fileService: FileDownloadService,public toastService: ToastService,public modal: NgbModal) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
@@ -36,12 +40,22 @@ export class UsuarioActivosComponent implements OnInit {
     }
   }
 
-  descargarArchivo(urlImagen) {
-    console.log(urlImagen)
+  descargarArchivo(usuario:any) {
+    this.verC = usuario
+    this.modal.open(this.modalVerDocumento,{ size: <any>'lg' });
+    /*console.log(urlImagen)
     let filename = urlImagen.substring(urlImagen.lastIndexOf('\\')+1);
     this.fileService.downloadFile(urlImagen).subscribe(response => {
 			saveAs(response, filename);
-		}), error => console.log('error'), () => console.info('Archivo descargado correctamente');
+		}), error => console.log('error'), () => console.info('Archivo descargado correctamente');*/
+  }
+
+  downloadURLFile() {
+    let strUrlFile = this.verC.imagenNIT;
+    let filename = strUrlFile.substring(strUrlFile.lastIndexOf('\\')+1);
+    this.fileService.downloadFile(strUrlFile).subscribe(response => {
+			saveAs(response, filename);
+		}), error => console.log("g"), () => console.log("g")
   }
 
   buscarUsuarios(event: LazyLoadEvent){

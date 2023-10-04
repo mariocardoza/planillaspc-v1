@@ -32,7 +32,9 @@
               [globalFilterFields]="['NIT']">
                 <ng-template pTemplate="header">
                   <tr>
+                    <th>N°</th>
                     <th>Codigo de la persona</th>
+                    <th>Codigo en PGR</th>
                     <th>Nombre comercial</th>
                     <th>NIT</th>
                     <th>Razón social</th>
@@ -40,9 +42,11 @@
                     <th>Acción</th>
                   </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-usuario>
+                <ng-template pTemplate="body" let-usuario let-i="rowIndex">
                   <tr>
+                    <td>{{ i+1 }}</td>
                     <td>{{ usuario.codigoPersona }}</td>
+                    <td>{{ usuario.codigoPGR }}</td>
                     <td>{{ usuario.nombreComercial }}</td>
                     <td>{{ usuario.nit }}</td>
                     <td>{{ usuario.razonSocial }}</td>

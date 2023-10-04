@@ -13,6 +13,7 @@ export interface DetallePlanilla {
   observaciones?: string;
   codigoExpediente: number;
   selected?:boolean;
+  ordenDescuento?:string;
 }
 
 export const DetalleColumns = [

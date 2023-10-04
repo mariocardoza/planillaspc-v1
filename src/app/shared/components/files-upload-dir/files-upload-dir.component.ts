@@ -192,6 +192,10 @@ export class FilesUploadDirComponent implements OnInit {
     }
   }
 
+  descargarArchivo() {
+    this.onDownload.emit(true);
+  }
+
   eliminarArchivo() {
     this.onUploadFinished.emit({ dbPath: '' });
     this.image = '';

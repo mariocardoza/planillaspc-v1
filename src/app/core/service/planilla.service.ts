@@ -164,14 +164,14 @@ export class PlanillaService {
     }))
   }
 
-  obtenerComprobantesPagados(codigoPagaduria: number,filter:string,page:number,limit:number,sortOrder:number,sortField: string): Observable<any>{
+  obtenerComprobantesPagados(codigoPagaduria: string,codigoRol:string,filter:string,page:number,limit:number,sortOrder:number,sortField: string): Observable<any>{
     let params = new HttpParams();
     params = params.append("skip", page);
     params = params.append("limit", limit);
     params = params.append("filter", filter);
     params = params.append("sortOrder", sortOrder);
     params = params.append("sortField", sortField);
-    const url = endpoint.api.planillas+"/comprobantes/pagados/"+codigoPagaduria;
+    const url = endpoint.api.planillas+"/comprobantes/pagados/"+codigoPagaduria+"/"+codigoRol;
     let headers = new HttpHeaders({'Content-Type':'application/json'});
    // headers = headers.append('Authorization', 'Bearer ' + `${token}`);
     return this.http.get(url,{headers,params}).pipe(tap((result) => {

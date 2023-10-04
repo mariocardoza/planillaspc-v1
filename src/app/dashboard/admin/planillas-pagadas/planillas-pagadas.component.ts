@@ -11,6 +11,8 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts  from 'pdfmake/build/vfs_fonts';
 import { imagenes } from 'src/environments/images';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-planillas-pagadas',
@@ -54,8 +56,11 @@ export class PlanillasPagadasComponent implements OnInit {
   ];
   LarutaImagenComprobante: string;
   elCodigoEstado: string;
-  constructor(private planillaService: PlanillaService, public modalService: NgbModal, private messageService: MessageService, private formBuilder: FormBuilder) {
+  constructor(private planillaService: PlanillaService, public modalService: NgbModal, private messageService: MessageService, private formBuilder: FormBuilder, private fileService: FileDownloadService) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
+    if(this.data.CodigoRol == 'U'){
+      window.location.href = 'dashboard';
+    }
   }
 
   ngOnInit(): void {
@@ -77,7 +82,7 @@ export class PlanillasPagadasComponent implements OnInit {
 
   obtenerComprobantes(event: LazyLoadEvent){
     this.lastTableLazyLoadEvent = event;
-    this.planillaService.obtenerComprobantesPagados(this.data.CodigoPagaduria,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'idControl').subscribe((result) => {
+    this.planillaService.obtenerComprobantesPagados(this.data.CodigoPagaduria,this.data.CodigoRol,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'idControl').subscribe((result) => {
       this.mandamientos = result.data;
       this.totalRecords = result.registros;
     });
@@ -90,11 +95,12 @@ export class PlanillasPagadasComponent implements OnInit {
       this.LarutaImagenComprobante = mandamiento.rutaImagenComprobante;
       this.comprobanteForm.patchValue({IdTabla:mandamiento.idControl})
       this.comprobanteForm.patchValue({CodInstitucionFinanciera:parseInt(mandamiento.codInstitucionFinanciera)})
-      this.comprobanteForm.patchValue({RutaDocumento:''})
+      this.comprobanteForm.patchValue({RutaDocumento:mandamiento.rutaImagenComprobante})
       this.comprobanteForm.patchValue({NoComprobantePago:mandamiento.noComprobantePago})
       this.actualFile = this.verC.rutaImagenComprobante;
       this.modalService.open(this.modalDocumento,{ size: <any>'lg' });
     }else{
+      this.comprobanteForm.patchValue({RutaDocumento:mandamiento.rutaImagenComprobante})
       this.actualFile = this.verC.rutaImagenComprobante;
       this.modalService.open(this.modalVerDocumento,{ size: <any>'lg' });
     }
@@ -365,6 +371,14 @@ export class PlanillasPagadasComponent implements OnInit {
     }else{
       return '';
     }
+  }
+
+  downloadURLFile() {
+    let strUrlFile = this.comprobanteForm.controls.RutaDocumento.value;
+    let filename = strUrlFile.substring(strUrlFile.lastIndexOf('\\')+1);
+    this.fileService.downloadFile(strUrlFile).subscribe(response => {
+			saveAs(response, filename);
+		}), error => this.messageService.add({severity:'error', summary: 'Error', detail:''}), () => this.messageService.add({severity:'success', summary: 'Exito', detail:''})
   }
 
 }

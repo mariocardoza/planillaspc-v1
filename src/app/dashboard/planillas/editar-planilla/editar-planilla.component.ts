@@ -7,6 +7,8 @@ import { DetallePlanilla } from 'src/app/core/models/detalle-planilla.interface'
 import { Table } from 'primeng/table';
 import Swal from "sweetalert2";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-editar-planilla',
@@ -18,6 +20,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 export class EditarPlanillaComponent implements OnInit {
   selectAll:boolean = false;
+  carpetaInstaciada:string;
   @ViewChild("listaEmpleados") modalEmpleados: ElementRef;
   public response: { dbPath: '' }
   total: number = 0;
@@ -48,10 +51,13 @@ export class EditarPlanillaComponent implements OnInit {
   ];
   editing: boolean = false;
   hasExpedient:boolean = false;
+  actualfile:any = '';
   clonedEmpleado: { [s: string]: DetallePlanilla } = {};
   @ViewChild(Table, { read: Table }) pTable: Table;
-  constructor(private formBuilder: FormBuilder,private route: ActivatedRoute, private planillaService: PlanillaService,private messageService: MessageService,public modal: NgbModal) { 
+  constructor(private formBuilder: FormBuilder,private route: ActivatedRoute, private planillaService: PlanillaService,private messageService: MessageService,public modal: NgbModal,
+    private fileService: FileDownloadService) { 
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
+    this.carpetaInstaciada = 'planillas/ordenes';
     if(this.data != null){
       this.token = this.data.Token;
     }
@@ -81,7 +87,7 @@ export class EditarPlanillaComponent implements OnInit {
       NombresDemandado: ['', Validators.required],
       ApellidosDemandado: ['',Validators.required],
       NombresDemandante: ['', Validators.required],
-      CodigoExpediente: ['', ''],
+      CodigoExpediente: ['', Validators.required],
       NoExpediente: ['', ''],
       NoTarjeta: ['', ''],
       ApellidosDemandante: ['', Validators.required],
@@ -162,6 +168,8 @@ export class EditarPlanillaComponent implements OnInit {
     this.empleadoForm.patchValue({NoTarjeta:empleado.noTarjeta});
     this.empleadoForm.patchValue({IdEncabezado:empleado.idEncabezado});
     this.empleadoForm.patchValue({IdDetalle:empleado.idDetalle});
+    this.empleadoForm.patchValue({OrdenDescuento:empleado.ordenDescuento});
+    this.actualfile = empleado.ordenDescuento;
     this.modal.open(modal,{ size: <any>'lg' });
     
   }
@@ -372,6 +380,14 @@ export class EditarPlanillaComponent implements OnInit {
     }else{
       this.empleados.forEach(o => o.selected = true)
     }
+  }
+
+  downloadURLFile() {
+    let strUrlFile = this.empleadoForm.controls.OrdenDescuento.value;
+    let filename = strUrlFile.substring(strUrlFile.lastIndexOf('\\')+1);
+    this.fileService.downloadFile(strUrlFile).subscribe(response => {
+			saveAs(response, filename);
+		}), error => this.messageService.add({severity:'error', summary: 'Error', detail:''}), () => this.messageService.add({severity:'success', summary: 'Exito', detail:''})
   }
 
 

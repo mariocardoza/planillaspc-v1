@@ -56,7 +56,7 @@ export class EditarAdministradorComponent implements OnInit {
       this.dashboardService.createAdmin(data, this.token).subscribe((res) => {
         if(res.success){
           this.isSuccess = true
-          this.message = "Actualización de usuario administrador; realizada con éxito"
+          this.message = "Actualización de usuario administrador realizada con éxito"
         }else{
           this.isError = true;
           this.message = res.message

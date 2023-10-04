@@ -33,7 +33,7 @@
                                           formControlName="CodigoPagaduria"
                                           [matAutocomplete]="auto">
                                           <mat-autocomplete #auto="matAutocomplete">
-                                            <mat-option *ngFor="let option of unidades" [value]="option.codigoPagaduria.trim()">
+                                            <mat-option *ngFor="let option of unidades" [value]="option.codigoUnidadOrganizacional.trim()">
                                               {{option.pagaduria}}
                                             </mat-option>
                                           </mat-autocomplete>

@@ -6,6 +6,8 @@ import { EmpleadosService } from 'src/app/core/service/empleados.service';
 import { MessageService } from 'primeng/api';
 import Swal from 'sweetalert2';
 import * as moment from 'moment';
+import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-emp-index',
@@ -33,7 +35,7 @@ export class EmpIndexComponent implements OnInit {
     {value:'F', name:'Femenino'},
     {value:'M', name:'Masculino'},
   ];
-  constructor(private empleadosService: EmpleadosService,private formBuilder: FormBuilder,public modal: NgbModal,private messageService: MessageService) {
+  constructor(private empleadosService: EmpleadosService,private formBuilder: FormBuilder,public modal: NgbModal,private messageService: MessageService, private fileService: FileDownloadService) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     console.log(this.data)
    }
@@ -86,6 +88,7 @@ export class EmpIndexComponent implements OnInit {
     this.empleadoForm.patchValue({DuiPasaporte:empleado.duiPasaporte});
     this.empleadoForm.patchValue({CodigoExpediente:empleado.codigoExpediente});
     this.empleadoForm.patchValue({ExpedienteFisico:empleado.expedienteFisico});
+    this.empleadoForm.patchValue({RutaDocumento:empleado.rutaDocumento});
     this.actualfile = empleado.rutaDocumento;
     console.log(this.actualfile)
     this.modal.open(modal,{ size: <any>'lg' })
@@ -134,6 +137,8 @@ export class EmpIndexComponent implements OnInit {
     this.empleadoForm.patchValue({DuiPasaporte:''});
     this.empleadoForm.patchValue({CodigoExpediente:''});
     this.empleadoForm.patchValue({ExpedienteFisico:''});
+    this.empleadoForm.patchValue({RutaDocumento:''});
+    this.actualfile = '';
     this.modal.open(modalEmpleados,{ size: <any>'lg' })
   }
 
@@ -142,7 +147,6 @@ export class EmpIndexComponent implements OnInit {
       ...this.empleadoForm.value
     }
     this.empleadosService.actualizarEmpleado(data).subscribe((result) => {
-      console.log(result.success)
       if(result.success){
         this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
         this.buscarEmpleados();
@@ -195,18 +199,12 @@ export class EmpIndexComponent implements OnInit {
     // console.log('code: ' + this.field.CodigoCampo, this.group.controls[this.field.CodigoCampo].value);
   }
 
-  downloadURLFile() {
-    let strUrlFile = this.empleadoForm.controls[0].value;
-    
-    let filename = strUrlFile.substring(strUrlFile.lastIndexOf('\\')+1);
-
-  }
-
   downloadURLFile2() {
-    let strUrlFile = this.empleadoFormDelete.controls[0].value;
-
+    let strUrlFile = this.empleadoFormDelete.controls.RutaDocumentoCesado.value;
     let filename = strUrlFile.substring(strUrlFile.lastIndexOf('\\')+1);
-
+    this.fileService.downloadFile(strUrlFile).subscribe(response => {
+			saveAs(response, filename);
+		}), error => this.messageService.add({severity:'error', summary: 'Error', detail:''}), () => this.messageService.add({severity:'success', summary: 'Exito', detail:''})
   }
 
   buscarEmpleados(){
@@ -219,6 +217,14 @@ export class EmpIndexComponent implements OnInit {
         this.loading = false;
       }
     })
+  }
+
+  downloadURLFile() {
+    let strUrlFile = this.empleadoForm.controls.RutaDocumento.value;
+    let filename = strUrlFile.substring(strUrlFile.lastIndexOf('\\')+1);
+    this.fileService.downloadFile(strUrlFile).subscribe(response => {
+			saveAs(response, filename);
+		}), error => this.messageService.add({severity:'error', summary: 'Error', detail:''}), () => this.messageService.add({severity:'success', summary: 'Exito', detail:''})
   }
 
 }

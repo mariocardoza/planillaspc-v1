@@ -17,6 +17,7 @@
                                     <mat-label>Usuario</mat-label>
                                     <input matInput placeholder="Usuario" formControlName="Username" required>
                                     <input formControlName="NIT" type="hidden">
+                                    <input formControlName="Accion" type="hidden">
                                     <input formControlName="CodigoEmpresa" type="hidden">
                                     <mat-error *ngIf="userFormGroup.get('Username')?.hasError('required')">
                                         Digite el correo electrónico
@@ -25,7 +26,7 @@
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <mat-form-field class="full-width" appearance="fill">
-                                        <mat-label>Procuraduría donde realiza el pago</mat-label>
+                                        <mat-label>Procuraduría donde administrada los pagos</mat-label>
                                         <input type="text"
                                           placeholder="Pick one"
                                           aria-label="Number"
@@ -33,7 +34,7 @@
                                           formControlName="CodigoPagaduria"
                                           [matAutocomplete]="auto">
                                           <mat-autocomplete #auto="matAutocomplete">
-                                            <mat-option *ngFor="let option of unidades" [value]="option.codigoPagaduria.trim()">
+                                            <mat-option *ngFor="let option of unidades" [value]="option.codigoUnidadOrganizacional.trim()">
                                               {{option.pagaduria}}
                                             </mat-option>
                                           </mat-autocomplete>

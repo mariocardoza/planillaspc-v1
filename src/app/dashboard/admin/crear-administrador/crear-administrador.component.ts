@@ -32,7 +32,7 @@ export class CrearAdministradorComponent implements OnInit {
       NIT: ['', Validators.required],
       CodigoPagaduria: ['', Validators.required],
       CodigoEmpresa: ['', ''],
-      Accion: ['', 0],
+      Accion: [false, ''],
       Password: ['', [Validators.required, PasswordStrengthValidator]],
       ConfirmPassword: ['', Validators.nullValidator]
     }, 

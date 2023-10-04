@@ -73,7 +73,7 @@
                                                     <mat-label>Imagen del NIT</mat-label>
                                                     <input matInput formControlName="ImagenNIT"  placeholder="Imagen NIT" readonly>
                                                     <app-upload (onUploadFinished)=uploadFinishedNITEmp($event)></app-upload>
-                                                    <a href="#" (click)="descargarArchivo(persona.imagenNIT)">Ver documento</a>
+                                                    <button pButton (click)="descargarArchivo(persona.imagenNIT)">Ver documento</button>
                                                     </mat-form-field>
                                                 </div>
                                             </div>

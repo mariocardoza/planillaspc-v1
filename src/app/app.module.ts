@@ -17,7 +17,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { PageLoaderComponent } from './layout/page-loader/page-loader.component';
 import { ProtectRoutesInterceptor } from './core/interceptors/protect-routes.interceptor';
 import { DisableControlDirective } from './core/directives/disable-control.directive';
-
+import  localeEs from '@angular/common/locales/es';
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localeEs, 'es');
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +46,7 @@ import { DisableControlDirective } from './core/directives/disable-control.direc
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ProtectRoutesInterceptor, multi: true },
+    { provide: LOCALE_ID, useValue: 'es' }
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

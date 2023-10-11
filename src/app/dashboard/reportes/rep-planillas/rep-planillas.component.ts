@@ -28,8 +28,11 @@ export class RepPlanillasComponent implements OnInit {
   private lastTableLazyLoadEvent: LazyLoadEvent;
   planillas: any;
   imprimir: any;
+  sello: any;
+  unafecha: any;
   medioscontacto: any = [];
   data:any;
+  loading:boolean = false;
   totalRecords:number = 0;
   tipoCuotas = [
     {value:'1', name:'Cuota alimenticia',code:'C'},
@@ -104,9 +107,12 @@ export class RepPlanillasComponent implements OnInit {
 
   imprimirComprobante(idEncabezado: number){
     let token:string='d';
+    let total = 0;
+    this.loading = true;
     this.planillaService.obtenerPlanilla(idEncabezado,token).subscribe((result)=>{
       if(result['success']){
         this.imprimir = result['data']
+        this.unafecha =  this.imprimir.fechaEnvio;
         this.medioscontacto = result['data'].mediosContacto;
         //this.modalService.open(this.modalPlanilla,{ size: <any>'xl' });
         //console.log(this.medioscontacto)
@@ -133,20 +139,106 @@ export class RepPlanillasComponent implements OnInit {
           aux.push(this.imprimir.detalles[i].duIdemandado)
 
           array.push(aux)
+          total+=this.imprimir.detalles[i].monto;
         }
-        const fecha = moment();
-        //console.log(array)
+
+          let footer = Array();
+          footer.push('')
+          footer.push('')
+          footer.push('')
+          footer.push('')
+          footer.push('')
+          footer.push("$"+total.toFixed(2))
+          footer.push('')
+
+          array.push(footer)
+        
+        setTimeout(() => { 
+          this.imprimirPDF(array);
+         }, 10000);
+        
+        
+        
+        //this.obtenerPlanillas(this.lastTableLazyLoadEvent);
+        
+        //this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
+      }
+    })
+    
+  }
+
+  laFecha(date){
+    moment.locale('es');
+    let now;
+    if(date){
+      now = moment(date);
+    }else{
+      now= moment();
+    }
+    
+    //formato por defecto
+    console.log(now)
+
+    //formato predefinido, hay más opciones (ver enlace anterior)
+    console.log(now.format('LL'));
+
+    //formato pedido por el OP (los meses en español empiezan por minúscula)
+    return now.format('DD MMM YYYY');
+  }
+
+
+  imprimirPDF(array){
+    
+    const tabla = document.getElementById('sellito');
+    const DATA: HTMLElement = tabla!;
+    /*const doc = new jsPDF('p', 'pt', '');
+    const options = {
+      background: 'white',
+      scale: 3
+    };*/
+    html2canvas(DATA, {}).then((canvas) => {
+      
+      this.sello = canvas.toDataURL('image/PNG');
+
+      
+
+      //setInterval(this.generarArray(array), 5000);
+      setTimeout(() => { 
+        this.generarArray(array);
+       }, 1000);
+      
+      //console.log(img)
+      //this.sello = img;
+      //return img
+      //console.log(img)
+
+      // Add image Canvas to PDF
+      /*const bufferX = 15;
+      const bufferY = 15;
+      const imgProps = (doc as any).getImageProperties(this.sello);
+      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      doc.addImage(this.sello, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');*/
+      //return doc;
+    }).then((docResult) => {
+      //docResult.save(`${new Date().toISOString()}_mandamiento_pago.pdf`);
+    });
+  }
+
+  generarArray(array){
+    const fecha = moment();
+    console.log(this.imprimir)
         const pdfDefinition: any = {
           defaultStyle: {
             fontSize: 7,
           },
           // by default we use portrait, you can change it to landscape if you wish
           pageOrientation: 'landscape',
-
+  
           // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
           pageMargins: [ 40, 110, 40, 60 ],
           footer: (currentPage, pageCount) => {
-            var t = {
+            var t = [{
               layout: "noBorders",
               fontSize: 8,
               margin: [40 , 10],
@@ -162,8 +254,7 @@ export class RepPlanillasComponent implements OnInit {
                   fontSize: 8
                 }
               ],
-              
-            };
+            }];
       
             return t;
           },
@@ -211,36 +302,6 @@ export class RepPlanillasComponent implements OnInit {
               ],
             }
           ],
-          /*header:{
-            margin: [ 40, 40, 40, 20 ],
-            
-            columns: [
-              {
-                text: 'Procuraduría General de la República', alignment:'center', fontSize:'18', style:'headers',
-              },
-            ],
-            table:{
-              widths : ['*','*','auto'],
-              style:'table',
-              body:[
-                [
-                  {text: '1. NOMBRE DE LA EMPRESA O INSTITUCIÓN: '+this.imprimir.nombreComercial,style:'tableHeader',rowSpan:2,alignment:'left'},
-                  {text: '2. DIRECCIÓN Y TELÉFONO: '+this.isMedios("2"),style:'tableHeader',alignment:'left'},
-                  {text: '3. TEL. - FAX.: ', style:'tableHeader', rowSpan:2,alignment:'left'},
-                ],
-                [
-                  {},
-                  {text:'4. CORREO: '+this.isMedios("1"),style:'tableHeader',alignment:'left'},
-                  {}
-                ],
-                [
-                  {text:'CÓDIGO DE EMPRESA: '+this.data.CodigoPGR, style:'tableHeader',alignment:'left'},
-                  {text:'5. MES A PAGAR: '+this.imprimir.mes, style:'tableHeader',alignment:'left'},
-                  {text:'6. AÑO: '+this.imprimir.anio, style:'tableHeader',alignment:'left'},
-                ]
-              ]
-            }
-          },*/
           content: [
             {
               table:{
@@ -257,11 +318,18 @@ export class RepPlanillasComponent implements OnInit {
                 },{
                   text:''
                 },
-                {
+                ,{
+                  text: '' ,
+                  //absolutePosition: {x:320}
+                },
+                ,{
+                  text:''
+                },
+                /*{
                   text: "F. _____________________________",margin:[0,5,0,0],
                 },{
                   text: "F. _____________________________",margin:[0,5,0,0],
-                }
+                }*/
               ]
             },
             {
@@ -272,11 +340,19 @@ export class RepPlanillasComponent implements OnInit {
                 {
                   text:''
                 },
+                
+                { 
+                  image: this.sello, width:70, 
+                  //absolutePosition: {x:300}
+                },
                 {
+                  text:''
+                },
+                /*{
                   text: "NOMBRE DEL PAGADOR",fontSize: 6,
                 },{
                   text: "FIRMA Y SELLO DEL PAGADOR",fontSize: 6,
-                }
+                }*/
               ]
             }
            
@@ -296,68 +372,12 @@ export class RepPlanillasComponent implements OnInit {
             },
           }
         }
-        
+
         const pdf = pdfMake.createPdf(pdfDefinition);
         
-        pdf.open();
-        //this.obtenerPlanillas(this.lastTableLazyLoadEvent);
-        
-        //this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
-      }
-    })
-    
-  }
+        pdf.download();
 
-  async generatePDF(): Promise<void> {
-    this.reporte.titulo ="Planilla de empleados";
-    this.reporte.orientacion = 'H';
-    await this.reportService.build(this.reporte);
-  }
-
-  imprimirPDF(){
-    const tabla = document.getElementById('contenido');
-    const contentHeight = document.querySelector<HTMLElement>('.contenido').offsetHeight;
-    // Set the maximum height of each page (adjust as needed)
-    const maxHeightPerPage = 700; // For example, assuming each page can hold up to 800px of content
-    let specialElementHandlers = {
-        // element with id of "bypass" - jQuery style selector
-        '#header': function (element, renderer) {
-            // true = "handled elsewhere, bypass text extraction"
-            return true
-        }
-    };
-    let margins = {
-        top: 80,
-        bottom: 60,
-        left: 40,
-        width: 522
-    };
-
-    // Calculate the number of pages needed
-    const totalPages = Math.ceil(contentHeight / maxHeightPerPage);
-    const DATA: HTMLElement = tabla!;
-    const doc = new jsPDF('l', 'pt', 'a4');
-    const options = {
-      background: 'white',
-      scale: 3,
-      margins: margins 
-    };
-    html2canvas(DATA, options).then((canvas) => {
-
-      const img = canvas.toDataURL('image/PNG');
-
-      // Add image Canvas to PDF
-      const bufferX = 15;
-      const bufferY = 15;
-      const imgProps = (doc as any).getImageProperties(img);
-      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
-      const pdfHeight = ((imgProps.height * pdfWidth) / imgProps.width)- 50;
-      console.log(pdfHeight)
-      doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
-      return doc;
-    }).then((docResult) => {
-      docResult.save(`${new Date().toISOString()}_planilla.pdf`);
-    });
+        this.loading = false;
   }
 
   isMedios(tipoMedio) {

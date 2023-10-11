@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
@@ -12,6 +12,7 @@ import { PlanillaService } from 'src/app/core/service/planilla.service';
 import { DetallePlanilla, DetalleColumns } from 'src/app/core/models/detalle-planilla.interface';
 import { DetalleEPlanilla } from 'src/app/core/models/detalle-e-planilla';
 import { MessageService } from 'primeng/api';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 const moment = _moment;
 
 export const MY_FORMATS = {
@@ -45,6 +46,7 @@ export const MY_FORMATS = {
   ],
 })
 export class CrearComponent implements OnInit {
+  @ViewChild("clonarPlanilla") modalClonar: ElementRef;
   isSuccess = false;
   isError = false;
   message = '';
@@ -88,6 +90,7 @@ export class CrearComponent implements OnInit {
 
   periodo = new FormControl(moment());
   planillaFormGroup: FormGroup;
+  clonarFormGroup: FormGroup;
 
   setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>) {
     const ctrlValue = this.periodo.value!;
@@ -99,7 +102,7 @@ export class CrearComponent implements OnInit {
   }
 
 
-  constructor(private planillaService: PlanillaService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(private planillaService: PlanillaService, private formBuilder: FormBuilder, private router: Router, private modalService: NgbModal) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
@@ -113,6 +116,19 @@ export class CrearComponent implements OnInit {
       CodigoTipoCuota: ['', Validators.required],
       NoMandamiento: ['0',''],
       CodigoEstado: ['1',''],
+      Monto: ['0',''],
+      CodigoPagaduria:[this.data.CodigoPagaduria,''],
+      CodigoEmpresa:[this.data.CodigoEmpresa,''],
+      Observacion:['',''],
+      CodigoPGR:[this.data.CodigoPGR,''],
+    });
+
+    this.clonarFormGroup = this.formBuilder.group({
+      Periodo: ['', Validators.required],
+      CodigoTipoCuota: ['', Validators.required],
+      NoMandamiento: ['0',''],
+      CodigoEstado: ['1',''],
+      Monto: ['',Validators.required],
       CodigoPagaduria:[this.data.CodigoPagaduria,''],
       CodigoEmpresa:[this.data.CodigoEmpresa,''],
       Observacion:['',''],
@@ -131,6 +147,27 @@ export class CrearComponent implements OnInit {
     })
   }
 
+  onSubmitC(){
+    if(this.clonarFormGroup.valid){
+      const data = {
+        ...this.clonarFormGroup.value
+      }
+
+      this.planillaService.guardarPlanilla(data,this.token).subscribe((result) => {
+        if(result['success']){
+          this.isSuccess = true;
+          this.modalService.dismissAll();
+          this.message = result['message'];
+          this.router.navigate(['/dashboard/planillas/'+result['idEncabezado']+'/edit']);
+
+        }else{
+          this.isError = true;
+          this.message = result['message'];
+        }
+      })
+    }
+  }
+
   onSubmit(){
     if(this.planillaFormGroup.valid){
       let periodo = this.planillaFormGroup.value['Periodo']
@@ -138,18 +175,27 @@ export class CrearComponent implements OnInit {
       const data = {
         ...this.planillaFormGroup.value
       }
-      
-      this.planillaService.guardarPlanilla(data,this.token).subscribe((result) => {
-        if(result['success']){
-          this.isSuccess = true;
-          this.message = result['message'];
-          this.router.navigate(['/dashboard/planillas/'+result['idEncabezado']+'/edit']);
-        }else{
-          this.isError = true;
-          this.message = result['message'];
-        }
-      })
-      this.planillaFormGroup.patchValue({Periodo:periodo})
+
+      let tipo = this.planillaFormGroup.value['CodigoTipoCuota'];
+      let observacion = this.planillaFormGroup.value['Observacion'];
+      if(tipo == '1'){
+        this.planillaService.guardarPlanilla(data,this.token).subscribe((result) => {
+          if(result['success']){
+            this.isSuccess = true;
+            this.message = result['message'];
+            this.router.navigate(['/dashboard/planillas/'+result['idEncabezado']+'/edit']);
+          }else{
+            this.isError = true;
+            this.message = result['message'];
+          }
+        })
+        this.planillaFormGroup.patchValue({Periodo:periodo})
+      }else{
+        this.clonarFormGroup.patchValue({CodigoTipoCuota:tipo})
+        this.clonarFormGroup.patchValue({Observacion:observacion})
+        this.clonarFormGroup.patchValue({Periodo:periodo.format('MM/Y')})
+        this.modalService.open(this.modalClonar,{ size: <any>'lg' });
+      }
     }
     
     

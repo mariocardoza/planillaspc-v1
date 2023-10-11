@@ -64,7 +64,7 @@ export class ClonarPlanillaComponent implements OnInit {
       CodigoEmpresa:[this.data.CodigoEmpresa,''],
       Observacion:['',''],
       IdClonar:['',''],
-      Monto:['',''],
+      Monto:[0,''],
     })
   }
 

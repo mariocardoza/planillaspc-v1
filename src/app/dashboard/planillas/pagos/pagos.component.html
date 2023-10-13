@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="row mt-4">
-                <div class="col-6"><h6 class="text-center"><strong>Nombre contribuyente</strong>: {{ mandamiento.nombreComercial }}</h6></div>
+                <div class="col-6"><h6 class="text-center"><strong>Nombre de la Empresa o Institución</strong>: {{ mandamiento.nombreComercial }}</h6></div>
                 <div class="col-6"><h6 class="text-center"><strong>NIT</strong>: {{ mandamiento.nit }}</h6></div>
             </div>
             <div class="row">
@@ -179,7 +179,7 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-i="rowIndex" let-mandamiento>
-                            <tr *ngIf="mandamiento.codigoEstado >= 3">
+                            <tr *ngIf="mandamiento.codigoEstado == 3 || mandamiento.codigoEstado == 5">
                                 <td>{{ i+1 }}</td>
                                 <td>{{ mandamiento.noMandamiento }}</td>
                                 <td>{{ mandamiento.descripcion }}</td>

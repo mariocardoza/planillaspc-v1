@@ -130,7 +130,7 @@
                                 <td>{{ planilla.empleadosEnPlanilla }}</td>
                                 <td><p-tag severity="{{claseEstadoPlanilla(planilla.codigoEstado)}}" value="{{buscarEstadoPlanilla(planilla.codigoEstado)}}"></p-tag></td>
                                 <td>
-                                    <button *ngIf="planilla.codigoEstado == 1" pButton (click)="anularPlanilla(planilla.idEncabezado)" icon="pi pi-times" class="p-button-warning mx-1"></button>
+                                    <button *ngIf="planilla.codigoEstado <= 3" pButton (click)="anularPlanilla(planilla.idEncabezado)" icon="pi pi-times" class="p-button-warning mx-1"></button>
                                     <button pButton routerLink="/dashboard/planillas/{{planilla.idEncabezado}}/edit" icon="pi pi-eye" class="p-button-primary mx-1"></button>
                                     <button *ngIf="planilla.codigoEstado == 1" title="Procesar planilla" pButton (click)="procesarPlanilla(planilla.idEncabezado)" icon="pi pi-check" class="p-button-secondary mx-1"></button>
                                     <button *ngIf="planilla.codigoEstado == 2" title="Emitir comprobante" pButton (click)="generarPlanilla(planilla.idEncabezado)" icon="pi pi-money-bill" class="p-button-secondary mx-1"></button>

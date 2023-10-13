@@ -1,0 +1,20 @@
+#sello_p{
+    position: absolute;
+    margin-top: -2.7em;
+    margin-left: 1.9rem;
+    color: #000000;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#elsello{
+    position: absolute;
+    margin-top: 8rem;
+    width: 100%;
+}
+
+#sellito{
+    @media(min-width: 668px){
+        width: 151px;
+    }
+}

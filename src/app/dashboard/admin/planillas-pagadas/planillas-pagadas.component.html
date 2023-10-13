@@ -140,6 +140,14 @@
     </ng-template>
     <div class="container-fluid">
         <div class="row">
+            <div class="col-12" style="position: relative;">
+                <div id="elsello">
+                    <div id="sellito" style="position: relative;">
+                        <img src="./assets/images/sello.png" width="150" alt="">
+                        <p id="sello_p">{{unafecha}} </p>
+                    </div>
+                </div>
+            </div>
             <div class="col-12">
                 <p-toast></p-toast>
                 <h2>Planillas ya pagadas por las empresas</h2>
@@ -199,7 +207,7 @@
                                 </td>
                                 <td><p-tag severity="{{claseEstadoPlanilla(mandamiento.codigoEstado)}}" value="{{buscarEstadoPlanilla(mandamiento.codigoEstado)}}"></p-tag></td>
                                 <td>
-                                    <button title="Imprimir comprobante" pButton (click)="imprimirComprobante(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-secondary m-1"></button>
+                                    <button [loading]="loading" title="Imprimir comprobante" pButton (click)="imprimirComprobante(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-secondary m-1"></button>
                                     <button *ngIf="mandamiento.rutaImagenComprobante != null && mandamiento.codigoEstado != 5" title="Registrar recibo de pago" pButton (click)="finalizarPlanilla(mandamiento.idEncabezado)" icon="pi pi-check" class="p-button-primary m-1"></button>
                                 </td>
                             </tr>

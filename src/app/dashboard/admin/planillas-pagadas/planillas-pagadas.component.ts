@@ -13,6 +13,7 @@ import { imagenes } from 'src/environments/images';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
 import { saveAs } from 'file-saver';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-planillas-pagadas',
@@ -24,6 +25,7 @@ export class PlanillasPagadasComponent implements OnInit {
   @ViewChild("modalComprobante") modalComprobante: ElementRef;
   @ViewChild("modalDocumento") modalDocumento: ElementRef;
   @ViewChild("modalVerDocumento") modalVerDocumento: ElementRef;
+  unafecha: any;
   imprimir: any;
   medioscontacto: any = [];
   mandamientos: IMandamiento[];
@@ -33,6 +35,7 @@ export class PlanillasPagadasComponent implements OnInit {
   barcode: string;
   npe: string;
   bancos: any[];
+  sello: any;
   verC:any;
   carpetaInstaciada: string;
   actualFile:any = '';
@@ -49,8 +52,8 @@ export class PlanillasPagadasComponent implements OnInit {
   ];
   codigoEstados = [
     {value:'1', name:'En proceso'},
-    {value:'2', name:'Enviada'},
-    {value:'3', name:'Procesada'},
+    {value:'2', name:'Pendiente emisión de pago'},
+    {value:'3', name:'Mandamiento de pago emitido'},
     {value:'4', name:'Anulada'},
     {value:'5', name:'Pago completado'},
   ];
@@ -80,6 +83,261 @@ export class PlanillasPagadasComponent implements OnInit {
     });
   }
 
+  imprimirComprobante(idEncabezado: number){
+    let token:string='d';
+    let total = 0;
+    this.loading = true;
+    this.planillaService.obtenerPlanilla(idEncabezado,token).subscribe((result)=>{
+      if(result['success']){
+        this.imprimir = result['data']
+        this.unafecha =  this.imprimir.fechaEnvio;
+        this.medioscontacto = result['data'].mediosContacto;
+        //this.modalService.open(this.modalPlanilla,{ size: <any>'xl' });
+        //console.log(this.medioscontacto)
+        this.imprimir = result['data']
+        this.medioscontacto = result['data'].mediosContacto;
+        let array = Array();
+        let aux = Array();
+        aux.push({ text: 'N°', bold: true, fontSize: 8})
+        aux.push({text:"7. NOMBRE DEL ALIMENTANTE (DEMANDADO)", bold:true})
+        aux.push({text:"8. NOMBRE DEL ALIMENTARIO (DEMANDANTE)", bold:true})
+        aux.push({ text:"9. No. EXPEDIENTE FISICO", bold:true})
+        aux.push({ text:"10. No. EXPEDIENTE ELECTRÓNICO", bold:true})
+        aux.push({ text:"11. TIPO DE INGRESO", bold:true})
+        aux.push({ text:"12. MONTO", bold:true})
+        aux.push({ text:"13. NÚMERO DE IDENTIFICACIÓN", bold:true})
+        array.push(aux)
+        for(let i=0; i < this.imprimir.detalles.length; i++){
+          let aux = Array();
+          aux.push(i+1)
+          aux.push(this.imprimir.detalles[i].apellidosDemandado+" "+this.imprimir.detalles[i].nombresDemandado)
+          aux.push(this.imprimir.detalles[i].apellidosDemandante+" "+this.imprimir.detalles[i].nombresDemandante)
+          aux.push(this.imprimir.detalles[i].noExpediente)
+          aux.push(this.imprimir.detalles[i].codigoExpediente)
+          aux.push(this.codigoTipoCuota(this.imprimir.codigoTipoCuota))
+          aux.push("$"+this.imprimir.detalles[i].monto.toFixed(2))
+          aux.push(this.imprimir.detalles[i].duIdemandado)
+          array.push(aux)
+          total+=this.imprimir.detalles[i].monto;
+        }
+
+          let footer = Array();
+          footer.push('')
+          footer.push('')
+          footer.push('')
+          footer.push('')
+          footer.push('')
+          footer.push('')
+          footer.push({ text:"$"+total.toFixed(2), bold:true})
+          footer.push('')
+
+          array.push(footer)
+        
+        setTimeout(() => { 
+          this.imprimirPDF(array);
+         }, 10000);
+        
+        
+        
+        //this.obtenerPlanillas(this.lastTableLazyLoadEvent);
+        
+        //this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
+      }
+    })
+    
+  }
+
+  imprimirPDF(array){
+    
+    const tabla = document.getElementById('sellito');
+    const DATA: HTMLElement = tabla!;
+    /*const doc = new jsPDF('p', 'pt', '');
+    const options = {
+      background: 'white',
+      scale: 3
+    };*/
+    html2canvas(DATA, {}).then((canvas) => {
+      
+      this.sello = canvas.toDataURL('image/PNG');
+
+      
+
+      //setInterval(this.generarArray(array), 5000);
+      setTimeout(() => { 
+        this.generarArray(array);
+       }, 1000);
+      
+      //console.log(img)
+      //this.sello = img;
+      //return img
+      //console.log(img)
+
+      // Add image Canvas to PDF
+      /*const bufferX = 15;
+      const bufferY = 15;
+      const imgProps = (doc as any).getImageProperties(this.sello);
+      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      doc.addImage(this.sello, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');*/
+      //return doc;
+    }).then((docResult) => {
+      //docResult.save(`${new Date().toISOString()}_mandamiento_pago.pdf`);
+    });
+  }
+
+  generarArray(array){
+    const fecha = moment();
+    console.log(this.imprimir)
+        const pdfDefinition: any = {
+          defaultStyle: {
+            fontSize: 7,
+          },
+          // by default we use portrait, you can change it to landscape if you wish
+          pageOrientation: 'landscape',
+  
+          // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
+          pageMargins: [ 40, 110, 40, 60 ],
+          footer: (currentPage, pageCount) => {
+            var t = [{
+              layout: "noBorders",
+              fontSize: 8,
+              margin: [40 , 10],
+              columns: [
+                {
+                  text: 'Generado el ' + fecha.format('DD/MM/YYYY HH:mm:ss'),
+                  fontSize: 8,
+                  width: 400
+                },
+                {
+                  text: 'Página ' + currentPage.toString() + ' de ' + pageCount,
+                  alignment: 'right',
+                  fontSize: 8
+                }
+              ],
+            }];
+      
+            return t;
+          },
+          header: [
+            {
+              margin: [ 40, 10, 40, 5 ],
+              columns: [
+                {
+                  table: {
+                    widths: [ '10%','70%','20%'],
+                    body: [
+                      [
+                        { image: imagenes.imageTest, width:80, rowSpan:2 },
+                        { text: 'Procuraduría General de la República', alignment:'center', fontSize:'18', style:'headers', bold:true },
+                        {
+                          image: this.sello, width:130, rowSpan:2,
+                        }
+                      ],[
+                        '',
+                        {
+                          table:{
+                            widths : ['*','*','20%'],
+                            style:'headers',
+                            body:[
+                              [
+                                [{text: '1. NOMBRE DE LA EMPRESA O INSTITUCIÓN: ',style:'tableHeader',rowSpan:2,alignment:'left', bold:true},this.imprimir.nombreComercial],
+                                {text: '2. DIRECCIÓN Y TELÉFONO: '+this.isMedios("2"),style:'tableHeader',alignment:'left'},
+                                {text: '3. TEL. - FAX.: ', style:'tableHeader', rowSpan:2,alignment:'left'},
+                              ],
+                              [
+                                {},
+                                {text:'4. CORREO: '+this.isMedios("1"),style:'tableHeader',alignment:'left'},
+                                {}
+                              ],
+                              [
+                                {text:'CÓDIGO DE EMPRESA: '+this.imprimir.codigoPGR, style:'tableHeader',alignment:'left'},
+                                {text:'5. MES A PAGAR: '+this.imprimir.mes, style:'tableHeader',alignment:'left'},
+                                {text:'6. AÑO: '+this.imprimir.anio, style:'tableHeader',alignment:'left'},
+                              ]
+                            ]
+                          },
+                        },
+                        ''
+                      ],
+                    ],
+                  },
+                  layout: 'noBorders'
+                }/*,{
+                  image: this.sello, width:100, 
+                }*/
+              ],
+            }
+          ],
+          content: [
+            {
+              table:{
+                headerRows: 1,
+                style: 'tables',
+                widths : ['2%','*','*','10%','10%','5%','6%','10%'],
+                body: 
+                  array
+              },
+            },{
+              columns: [
+                {
+                  text: 'Observaciones: '+this.imprimir.observacion, margin:[0,5,0,2],
+                },{
+                  text:''
+                },
+                ,{
+                  text: '' ,
+                  //absolutePosition: {x:320}
+                },
+                ,{
+                  text:''
+                },
+                /*{
+                  text: "F. _____________________________",margin:[0,5,0,0],
+                },{
+                  text: "F. _____________________________",margin:[0,5,0,0],
+                }*/
+              ]
+            },
+            {
+              columns: [
+                {
+                  text: 'CERTIFICO QUE LA INFORMACIÓN SUMINISTRADA EN ESTA PLANILLA ES CORRECTA Y QUE LA MISMA NO ME EXIME DE RESPONSABILIDAD LEGAL POR ERRORES O INEXACTITUDES',fontSize: 6,
+                },
+                {
+                  text:''
+                },
+                /*{
+                  text: "NOMBRE DEL PAGADOR",fontSize: 6,
+                },{
+                  text: "FIRMA Y SELLO DEL PAGADOR",fontSize: 6,
+                }*/
+              ]
+            }
+           
+          ],
+          styles: {
+            headers: {
+              fontSize: 18,
+              bold: true
+            },
+            tables: {
+              fontSize: 7,
+              bold: false
+            },
+            tableHeader: {
+              fontSize: 9,
+              bold: false
+            },
+          }
+        }
+
+        const pdf = pdfMake.createPdf(pdfDefinition);
+        
+        pdf.download('reporte_planilla.pdf');
+
+        this.loading = false;
+  }
+
   obtenerComprobantes(event: LazyLoadEvent){
     this.lastTableLazyLoadEvent = event;
     this.planillaService.obtenerComprobantesPagados(this.data.CodigoPagaduria,this.data.CodigoRol,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'idControl').subscribe((result) => {
@@ -104,216 +362,6 @@ export class PlanillasPagadasComponent implements OnInit {
       this.actualFile = this.verC.rutaImagenComprobante;
       this.modalService.open(this.modalVerDocumento,{ size: <any>'lg' });
     }
-  }
-
-  imprimirComprobante(idEncabezado: number){
-    let token:string='d';
-    this.planillaService.obtenerPlanilla(idEncabezado,token).subscribe((result)=>{
-      if(result['success']){
-        this.imprimir = result['data']
-        this.medioscontacto = result['data'].mediosContacto;
-        //this.modalService.open(this.modalPlanilla,{ size: <any>'xl' });
-        //console.log(this.medioscontacto)
-        this.imprimir = result['data']
-        this.medioscontacto = result['data'].mediosContacto;
-        let array = Array();
-        let aux = Array();
-        aux.push("7. NOMBRE DEL ALIMENTARIO")
-        aux.push("8. NOMBRE DEL ALIMENTANTE")
-        aux.push("9. No. EXPEDIENTE FISICO")
-        aux.push("10. No. EXPEDIENTE ELECTRÓNICO")
-        aux.push("11. TIPO DE INGRESO")
-        aux.push("12. MONTO")
-        aux.push("13. NÚMERO DE IDENTIFICACIÓN")
-        array.push(aux)
-        for(let i=0; i < this.imprimir.detalles.length; i++){
-          let aux = Array();
-          aux.push(i+1+". "+this.imprimir.detalles[i].apellidosDemandante+" "+this.imprimir.detalles[i].nombresDemandante)
-          aux.push(this.imprimir.detalles[i].apellidosDemandado+" "+this.imprimir.detalles[i].nombresDemandado)
-          aux.push(this.imprimir.detalles[i].noExpediente)
-          aux.push(this.imprimir.detalles[i].codigoExpediente)
-          aux.push(this.codigoTipoCuota(this.imprimir.codigoTipoCuota))
-          aux.push("$"+this.imprimir.detalles[i].monto.toFixed(2))
-          aux.push(this.imprimir.detalles[i].duIdemandado)
-
-          array.push(aux)
-        }
-        const fecha = moment();
-        //console.log(array)
-        const pdfDefinition: any = {
-          filename: "planilla_"+this.imprimir.nombreComercial+"_"+this.imprimir.mes+"_"+this.imprimir.anio+".pdf",
-          info: {
-            title: 'planilla_'+this.imprimir.nombreComercial+"_"+this.imprimir.mes+"_"+this.imprimir.anio+".pdf",
-          },
-          defaultStyle: {
-            fontSize: 7,
-          },
-          // by default we use portrait, you can change it to landscape if you wish
-          pageOrientation: 'landscape',
-
-          // [left, top, right, bottom] or [horizontal, vertical] or just a number for equal margins
-          pageMargins: [ 40, 110, 40, 60 ],
-          footer: (currentPage, pageCount) => {
-            var t = {
-              layout: "noBorders",
-              fontSize: 8,
-              margin: [40 , 10],
-              columns: [
-                {
-                  text: 'Generado el ' + fecha.format('DD/MM/YYYY HH:mm:ss'),
-                  fontSize: 8,
-                  width: 400
-                },
-                {
-                  text: 'Página ' + currentPage.toString() + ' de ' + pageCount,
-                  alignment: 'right',
-                  fontSize: 8
-                }
-              ],
-              
-            };
-      
-            return t;
-          },
-          header: [
-            {
-              margin: [ 40, 10, 40, 5 ],
-              columns: [
-                {
-                  table: {
-                    widths: [ '10%','90%'],
-                    body: [
-                      [
-                        { image: imagenes.imageTest, width:80, rowSpan:2 },
-                        { text: 'Procuraduría General de la República', alignment:'center', fontSize:'18', style:'headers', }
-                      ],[
-                        '',
-                        {
-                          table:{
-                            widths : ['*','*','20%'],
-                            style:'headers',
-                            body:[
-                              [
-                                {text: '1. NOMBRE DE LA EMPRESA O INSTITUCIÓN: '+this.imprimir.nombreComercial,style:'tableHeader',rowSpan:2,alignment:'left'},
-                                {text: '2. DIRECCIÓN Y TELÉFONO: '+this.isMedios("2"),style:'tableHeader',alignment:'left'},
-                                {text: '3. TEL. - FAX.: ', style:'tableHeader', rowSpan:2,alignment:'left'},
-                              ],
-                              [
-                                {},
-                                {text:'4. CORREO: '+this.isMedios("1"),style:'tableHeader',alignment:'left'},
-                                {}
-                              ],
-                              [
-                                {text:'CÓDIGO DE EMPRESA: '+this.imprimir.codigoPGR, style:'tableHeader',alignment:'left'},
-                                {text:'5. MES A PAGAR: '+this.imprimir.mes, style:'tableHeader',alignment:'left'},
-                                {text:'6. AÑO: '+this.imprimir.anio, style:'tableHeader',alignment:'left'},
-                              ]
-                            ]
-                          },
-                        }
-                      ]
-                    ],
-                  },
-                  layout: 'noBorders'
-                },
-              ],
-            }
-          ],
-          /*header:{
-            margin: [ 40, 40, 40, 20 ],
-            
-            columns: [
-              {
-                text: 'Procuraduría General de la República', alignment:'center', fontSize:'18', style:'headers',
-              },
-            ],
-            table:{
-              widths : ['*','*','auto'],
-              style:'table',
-              body:[
-                [
-                  {text: '1. NOMBRE DE LA EMPRESA O INSTITUCIÓN: '+this.imprimir.nombreComercial,style:'tableHeader',rowSpan:2,alignment:'left'},
-                  {text: '2. DIRECCIÓN Y TELÉFONO: '+this.isMedios("2"),style:'tableHeader',alignment:'left'},
-                  {text: '3. TEL. - FAX.: ', style:'tableHeader', rowSpan:2,alignment:'left'},
-                ],
-                [
-                  {},
-                  {text:'4. CORREO: '+this.isMedios("1"),style:'tableHeader',alignment:'left'},
-                  {}
-                ],
-                [
-                  {text:'CÓDIGO DE EMPRESA: '+this.data.CodigoPGR, style:'tableHeader',alignment:'left'},
-                  {text:'5. MES A PAGAR: '+this.imprimir.mes, style:'tableHeader',alignment:'left'},
-                  {text:'6. AÑO: '+this.imprimir.anio, style:'tableHeader',alignment:'left'},
-                ]
-              ]
-            }
-          },*/
-          content: [
-            {
-              table:{
-                headerRows: 1,
-                style: 'tables',
-                widths : ['*','*','10%','10%','5%','6%','10%'],
-                body: 
-                  array
-              },
-            },{
-              columns: [
-                {
-                  text: 'Observaciones: '+this.imprimir.observacion, margin:[0,5,0,2],
-                },{
-                  text:''
-                },
-                {
-                  text: "F. _____________________________",margin:[0,5,0,0],
-                },{
-                  text: "F. _____________________________",margin:[0,5,0,0],
-                }
-              ]
-            },
-            {
-              columns: [
-                {
-                  text: 'CERTIFICO QUE LA INFORMACIÓN SUMINISTRADA EN ESTA PLANILLA ES CORRECTA Y QUE LA MISMA NO ME EXIME DE RESPONSABILIDAD LEGAL POR ERRORES O INEXACTITUDES',fontSize: 6,
-                },
-                {
-                  text:''
-                },
-                {
-                  text: "NOMBRE DEL PAGADOR",fontSize: 6,
-                },{
-                  text: "FIRMA Y SELLO DEL PAGADOR",fontSize: 6,
-                }
-              ]
-            }
-           
-          ],
-          styles: {
-            headers: {
-              fontSize: 18,
-              bold: true
-            },
-            tables: {
-              fontSize: 7,
-              bold: false
-            },
-            tableHeader: {
-              fontSize: 9,
-              bold: false
-            },
-          }
-        }
-        
-        const pdf = pdfMake.createPdf(pdfDefinition);
-        
-        pdf.open();
-        //this.obtenerPlanillas(this.lastTableLazyLoadEvent);
-        
-        //this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
-      }
-    })
-    
   }
 
   buscarBanco(codInstitucionFinanciera){

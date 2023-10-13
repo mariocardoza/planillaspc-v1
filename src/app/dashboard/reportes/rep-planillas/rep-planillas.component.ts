@@ -120,8 +120,9 @@ export class RepPlanillasComponent implements OnInit {
         this.medioscontacto = result['data'].mediosContacto;
         let array = Array();
         let aux = Array();
-        aux.push("7. NOMBRE DEL ALIMENTARIO")
-        aux.push("8. NOMBRE DEL ALIMENTANTE")
+        aux.push("N°")
+        aux.push("7. NOMBRE DEL ALIMENTANTE (DEMANDADO)")
+        aux.push("8. NOMBRE DEL ALIMENTARIO (DEMANDANTE)")
         aux.push("9. No. EXPEDIENTE FISICO")
         aux.push("10. No. EXPEDIENTE ELECTRÓNICO")
         aux.push("11. TIPO DE INGRESO")
@@ -130,19 +131,20 @@ export class RepPlanillasComponent implements OnInit {
         array.push(aux)
         for(let i=0; i < this.imprimir.detalles.length; i++){
           let aux = Array();
-          aux.push(i+1+". "+this.imprimir.detalles[i].apellidosDemandante+" "+this.imprimir.detalles[i].nombresDemandante)
+          aux.push(i+1)
           aux.push(this.imprimir.detalles[i].apellidosDemandado+" "+this.imprimir.detalles[i].nombresDemandado)
+          aux.push(this.imprimir.detalles[i].apellidosDemandante+" "+this.imprimir.detalles[i].nombresDemandante)
           aux.push(this.imprimir.detalles[i].noExpediente)
           aux.push(this.imprimir.detalles[i].codigoExpediente)
           aux.push(this.codigoTipoCuota(this.imprimir.codigoTipoCuota))
           aux.push("$"+this.imprimir.detalles[i].monto.toFixed(2))
           aux.push(this.imprimir.detalles[i].duIdemandado)
-
           array.push(aux)
           total+=this.imprimir.detalles[i].monto;
         }
 
           let footer = Array();
+          footer.push('')
           footer.push('')
           footer.push('')
           footer.push('')
@@ -264,11 +266,14 @@ export class RepPlanillasComponent implements OnInit {
               columns: [
                 {
                   table: {
-                    widths: [ '10%','90%'],
+                    widths: [ '10%','70%','20%'],
                     body: [
                       [
                         { image: imagenes.imageTest, width:80, rowSpan:2 },
-                        { text: 'Procuraduría General de la República', alignment:'center', fontSize:'18', style:'headers', }
+                        { text: 'Procuraduría General de la República', alignment:'center', fontSize:'18', style:'headers', },
+                        {
+                          image: this.sello, width:130, rowSpan:2,
+                        }
                       ],[
                         '',
                         {
@@ -293,12 +298,15 @@ export class RepPlanillasComponent implements OnInit {
                               ]
                             ]
                           },
-                        }
-                      ]
+                        },
+                        ''
+                      ],
                     ],
                   },
                   layout: 'noBorders'
-                },
+                }/*,{
+                  image: this.sello, width:100, 
+                }*/
               ],
             }
           ],
@@ -307,7 +315,7 @@ export class RepPlanillasComponent implements OnInit {
               table:{
                 headerRows: 1,
                 style: 'tables',
-                widths : ['*','*','10%','10%','5%','6%','10%'],
+                widths : ['2%','*','*','10%','10%','5%','6%','10%'],
                 body: 
                   array
               },
@@ -340,14 +348,6 @@ export class RepPlanillasComponent implements OnInit {
                 {
                   text:''
                 },
-                
-                { 
-                  image: this.sello, width:70, 
-                  //absolutePosition: {x:300}
-                },
-                {
-                  text:''
-                },
                 /*{
                   text: "NOMBRE DEL PAGADOR",fontSize: 6,
                 },{
@@ -375,7 +375,7 @@ export class RepPlanillasComponent implements OnInit {
 
         const pdf = pdfMake.createPdf(pdfDefinition);
         
-        pdf.download();
+        pdf.download('reporte_planilla.pdf');
 
         this.loading = false;
   }

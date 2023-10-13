@@ -152,7 +152,6 @@ export class CrearComponent implements OnInit {
       const data = {
         ...this.clonarFormGroup.value
       }
-
       this.planillaService.guardarPlanilla(data,this.token).subscribe((result) => {
         if(result['success']){
           this.isSuccess = true;

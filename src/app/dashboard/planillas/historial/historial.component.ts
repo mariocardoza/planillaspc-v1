@@ -118,12 +118,28 @@ export class HistorialComponent implements OnInit {
   }
 
   generarPlanilla(idEncabezado:number){
-    this.planillaService.generarComprobante(idEncabezado).subscribe((result)=>{
-      if(result.success){
-        this.obtenerPlanillas(this.lastTableLazyLoadEvent);
-        this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
+    Swal.fire({
+      title: '¿Esta seguro?',
+      text: "Esta acción generará el comprobante de pago",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.planillaService.generarComprobante(idEncabezado).subscribe((result)=>{
+          if(result.success){
+            this.obtenerPlanillas(this.lastTableLazyLoadEvent);
+            this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
+          }else{
+            this.messageService.add({severity:'error', summary: 'Error', detail:result.message});
+          }
+        })
       }
     })
+    
   }
 
   imprimirComprobante(idEncabezado: number){
@@ -144,6 +160,9 @@ export class HistorialComponent implements OnInit {
     if(codigoEstado==1){
       return 'primary';
     }else{
+      if(codigoEstado == 2){
+        return 'warning';
+      }
       if(codigoEstado==4){
         return 'danger';
       }else{

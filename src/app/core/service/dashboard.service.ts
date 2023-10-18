@@ -53,6 +53,20 @@ export class DashboardService {
     }))
   }
 
+  usersActiveAsync(token: string,codigoRol:string,codigoPagaduria:string, page:number, limit: number): Observable<any> {
+    const url = endpoint.api.usuarios+"/usuarios-activossync";
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    headers = headers.append('Authorization', 'Bearer ' + `${token}`);
+    let params = new HttpParams();
+    params = params.append("skip", page);
+    params = params.append("limit", limit);
+    params = params.append("codigoRol", codigoRol);
+    params = params.append("codigoPagaduria", codigoPagaduria);
+    return this.http.get(url,{params,headers}).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
   searchUser(codigoPersona: number, token: string): Observable<any>{
     const url = endpoint.api.usuarios+"/buscar-usuario/"+codigoPersona;
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -132,6 +146,14 @@ export class DashboardService {
 
   estadisticasDashboard(codigoEmpresa:number):Observable<any>{
     const url = endpoint.api.dashboard+"/estadisticas/"+codigoEmpresa
+    let headers = new HttpHeaders({'Content-Type' : 'application/json'})
+    return this.http.get(url,{headers: headers}).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
+  sisUsuarios(): Observable<any>{
+    const url = endpoint.api.usuarios+"/sisusuarios"
     let headers = new HttpHeaders({'Content-Type' : 'application/json'})
     return this.http.get(url,{headers: headers}).pipe(tap((result) => {
       return result;

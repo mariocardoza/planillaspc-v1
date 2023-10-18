@@ -18,6 +18,9 @@ export class CrearAdministradorComponent implements OnInit {
   data: any = [];
   token: string;
   unidades: any = [];
+  usuarios: any = [];
+  sisusuarios: any = [];
+  selectedUser: string | undefined;
   constructor(private formBuilder: FormBuilder,private dashboardService: DashboardService, private authenticationService: AuthenticationService, private router: Router) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
@@ -27,6 +30,7 @@ export class CrearAdministradorComponent implements OnInit {
 
   ngOnInit(): void {
     this.listarPagadurias();
+    this.listadoSisUsuarios();
     this.userFormGroup = this.formBuilder.group({
       Username: ['', Validators.required],
       NIT: ['', Validators.required],
@@ -42,6 +46,18 @@ export class CrearAdministradorComponent implements OnInit {
 
     this.userFormGroup.patchValue({NIT:this.data.NIT});
     this.userFormGroup.patchValue({CodigoEmpresa:this.data.CodigoEmpresa});
+  }
+
+  listadoSisUsuarios(){
+    this.dashboardService.sisUsuarios().subscribe((res)=>{
+      if(res.success){
+        this.usuarios = res.data;
+        this.sisusuarios = this.usuarios.map(e => ({
+          code: e.codigoUsuario,
+          name: e.nombresUsuario+" "+e.apellidosUsuario
+        }))
+      }
+    })
   }
 
   listarPagadurias(){

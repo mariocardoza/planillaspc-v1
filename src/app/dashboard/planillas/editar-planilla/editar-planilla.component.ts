@@ -32,6 +32,7 @@ export class EditarPlanillaComponent implements OnInit {
   token: string;
   planilla: any;
   codigoEstado: string;
+  codigoTipoCuota: string;
   empleadoForm: FormGroup;
   empleados: DetallePlanilla[];
   planillaFormGroup: FormGroup;
@@ -342,6 +343,7 @@ export class EditarPlanillaComponent implements OnInit {
         this.planilla = result['data']
         this.empleados = this.planilla.detalles
         this.codigoEstado = this.planilla.codigoEstado;
+        this.codigoTipoCuota = this.planilla.codigoTipoCuota;
         this.planillaFormGroup.patchValue({NoMandamiento:this.planilla.noMandamiento})
         this.planillaFormGroup.patchValue({Periodo:this.planilla.periodo})
         this.planillaFormGroup.patchValue({CodigoTipoCuota:this.planilla.codigoTipoCuota})
@@ -374,6 +376,45 @@ export class EditarPlanillaComponent implements OnInit {
         });  
       }
     })
+  }
+
+  deleteSelected(){
+    var input = document.querySelectorAll('input[name=selectedC]:checked');
+    
+    /*var domRepresentation = document.getElementsByClassName('checkbox');
+    console.log(domRepresentation)*/
+    //var angularElement = angular.element(domRepresentation);
+    //const input = document.querySelectorAll('.checkbox');
+    const detalles = Array();
+    if (input.length > 0) {
+      for(var i=0; i< input.length; i++){
+        detalles.push({'idDetalle': parseInt(input[i].id),'idEncabezado':this.planilla.idEncabezado})
+      }
+
+      Swal.fire({
+        title: '¿Esta seguro?',
+        html: "Esta acción eliminará a los <strong>"+detalles.length+"</strong> empleados seleccionados de la planilla",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí',
+        cancelButtonText: 'No',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.planillaService.eliminadoMasivo(detalles).subscribe((res => {
+            if(res['success']){
+              this.messageService.add({severity:'success', summary: 'Exito', detail:res['message']});
+              this.getPlanilla(this.planilla.idEncabezado)
+            }else{
+              this.messageService.add({severity:'error', summary: 'Exito', detail:res['message']});
+            }
+          }))
+        }
+      })
+    }else{
+      this.messageService.add({severity:'error', summary: 'Exito', detail:'Debe seleccionar al menos un empleado a eliminar'});
+    }
   }
 
   toggleSelectAll(){

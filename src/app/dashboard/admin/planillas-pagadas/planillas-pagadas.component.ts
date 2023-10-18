@@ -14,6 +14,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
 import { saveAs } from 'file-saver';
 import html2canvas from 'html2canvas';
+import { DashboardService } from 'src/app/core/service/dashboard.service';
+import { IUsuarios } from 'src/app/core/models/usuarios/usuarios';
 
 @Component({
   selector: 'app-planillas-pagadas',
@@ -26,6 +28,8 @@ export class PlanillasPagadasComponent implements OnInit {
   @ViewChild("modalDocumento") modalDocumento: ElementRef;
   @ViewChild("modalVerDocumento") modalVerDocumento: ElementRef;
   unafecha: any;
+  empresas: IUsuarios[];
+  usuarios: any;
   imprimir: any;
   medioscontacto: any = [];
   mandamientos: IMandamiento[];
@@ -41,6 +45,7 @@ export class PlanillasPagadasComponent implements OnInit {
   actualFile:any = '';
   public response: { dbPath: '' }
   comprobanteForm: FormGroup;
+  filterForm: FormGroup;
   private lastTableLazyLoadEvent: LazyLoadEvent;
   data:any;
   tipoCuotas = [
@@ -59,21 +64,59 @@ export class PlanillasPagadasComponent implements OnInit {
   ];
   LarutaImagenComprobante: string;
   elCodigoEstado: string;
-  constructor(private planillaService: PlanillaService, public modalService: NgbModal, private messageService: MessageService, private formBuilder: FormBuilder, private fileService: FileDownloadService) {
+
+  constructor(private planillaService: PlanillaService,private dashboardService: DashboardService, public modalService: NgbModal, private messageService: MessageService, private formBuilder: FormBuilder, private fileService: FileDownloadService) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data.CodigoRol == 'U'){
       window.location.href = 'dashboard';
     }
+    
+  }
+
+  obtenerEmpresas(){
+    let token = "gdfd";
+    this.dashboardService.usersActiveAsync(token,this.data.CodigoRol,this.data.CodigoPagaduria,1,100).subscribe((res) => {
+      if(res.success){
+        this.empresas = res.data;
+        this.usuarios = this.empresas.map(e => ({
+          code: e.codigoEmpresa,
+          name: e.nombreComercial
+        }))
+      }
+    });
   }
 
   ngOnInit(): void {
+    this.obtenerEmpresas();
     this.obtenerBancos();
+    this.obtenerComprobantes();
     this.carpetaInstaciada = 'comprobantes/'+this.data.CodigoPGR;
     this.comprobanteForm = this.formBuilder.group({
       RutaDocumento: ['',Validators.required],
       NoComprobantePago: ['',Validators.required],
       CodInstitucionFinanciera:['',Validators.required],
       IdTabla: ['',Validators.required]
+    });
+
+    this.filterForm = this.formBuilder.group({
+      empresa:['','']
+    });
+  }
+
+  buscar(){
+    if(this.filterForm.value.empresa){
+      let empresa = this.filterForm.value.empresa;
+      this.planillaService.obtenerComprobantesPagados(this.data.CodigoPagaduria,this.data.CodigoRol,'', empresa, 0, 1000, 1,'idControl').subscribe((result) => {
+        this.mandamientos = result.data;
+        this.totalRecords = result.registros;
+      });
+    }
+  }
+
+  limpiar(){
+    this.planillaService.obtenerComprobantesPagados(this.data.CodigoPagaduria,this.data.CodigoRol,'', '', 0, 1000, 1,'idControl').subscribe((result) => {
+      this.mandamientos = result.data;
+      this.totalRecords = result.registros;
     });
   }
 
@@ -228,7 +271,7 @@ export class PlanillasPagadasComponent implements OnInit {
                     body: [
                       [
                         { image: imagenes.imageTest, width:80, rowSpan:2 },
-                        { text: 'Procuraduría General de la República', alignment:'center', fontSize:'18', style:'headers', bold:true },
+                        { text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA', alignment:'center', fontSize:'18', style:'headers', bold:true },
                         {
                           image: this.sello, width:130, rowSpan:2,
                         }
@@ -338,9 +381,9 @@ export class PlanillasPagadasComponent implements OnInit {
         this.loading = false;
   }
 
-  obtenerComprobantes(event: LazyLoadEvent){
-    this.lastTableLazyLoadEvent = event;
-    this.planillaService.obtenerComprobantesPagados(this.data.CodigoPagaduria,this.data.CodigoRol,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'idControl').subscribe((result) => {
+  obtenerComprobantes(){
+    //this.lastTableLazyLoadEvent = event;
+    this.planillaService.obtenerComprobantesPagados(this.data.CodigoPagaduria,this.data.CodigoRol,'', '', 0, 1000, 1,'idControl').subscribe((result) => {
       this.mandamientos = result.data;
       this.totalRecords = result.registros;
     });

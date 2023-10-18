@@ -135,10 +135,10 @@
 </div>
 <div class="modal-footer"></div>
 </ng-template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <h3 class="text-center">Listado de empleados</h3>
+                <h3 class="text-center">Listado de empleados con expendientes</h3>
             </div>
         </div>
         <div class="row">
@@ -170,8 +170,8 @@
                   <tr>
                     <th>N°</th>
                     <th pSortableColumn="duiPasaporte">DUI <p-sortIcon field="duiPasaporte"></p-sortIcon></th>
-                    <th pSortableColumn="nombres">Nombres <p-sortIcon field="nombres"></p-sortIcon></th>
                     <th pSortableColumn="apellidos">Apellidos <p-sortIcon field="apellidos"></p-sortIcon></th>
+                    <th pSortableColumn="nombres">Nombres <p-sortIcon field="nombres"></p-sortIcon></th>
                     <th pSortableColumn="codigoExpediente">N° expediente electrónico <p-sortIcon field="codigoExpediente"></p-sortIcon></th>
                     <th pSortableColumn="expedienteFisico">N° expediente físico <p-sortIcon field="expedienteFisico"></p-sortIcon></th>
                     <th></th>
@@ -181,8 +181,8 @@
                   <tr>
                     <td>{{i+1}}</td>
                     <td>{{ empleado.duiPasaporte }}</td>
-                    <td>{{ empleado.nombres }}</td>
                     <td>{{ empleado.apellidos }}</td>
+                    <td>{{ empleado.nombres }}</td>
                     <td>{{ empleado.codigoExpediente }}</td>
                     <td>{{ empleado.expedienteFisico }}</td>
                     <td>

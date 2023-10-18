@@ -108,6 +108,15 @@ export class PlanillaService {
     }))
   }
 
+  eliminadoMasivo(data){
+    const url = endpoint.api.planillas+"/eliminadomasivo";
+    let headers = new HttpHeaders({'Content-Type':'application/json'});
+    //headers = headers.append('Authorize','Bearer '+ `${token}`);
+    return this.http.post(url,data,{headers:headers}).pipe(tap((result)=>{
+        return result;
+    }))
+  }
+
   prePlanilla(codigoempresa: number,codigopagaduria:string){
     const url = endpoint.api.planillas+"/preplanilla?codigoPgr="+codigoempresa+"&codigoPagaduria="+codigopagaduria;
     let headers = new HttpHeaders({'Content-Type':'application/json'});
@@ -164,11 +173,12 @@ export class PlanillaService {
     }))
   }
 
-  obtenerComprobantesPagados(codigoPagaduria: string,codigoRol:string,filter:string,page:number,limit:number,sortOrder:number,sortField: string): Observable<any>{
+  obtenerComprobantesPagados(codigoPagaduria: string,codigoRol:string,filter:string,filters,page:number,limit:number,sortOrder:number,sortField: string): Observable<any>{
     let params = new HttpParams();
     params = params.append("skip", page);
     params = params.append("limit", limit);
     params = params.append("filter", filter);
+    params = params.append("filters", filters);
     params = params.append("sortOrder", sortOrder);
     params = params.append("sortField", sortField);
     const url = endpoint.api.planillas+"/comprobantes/pagados/"+codigoPagaduria+"/"+codigoRol;

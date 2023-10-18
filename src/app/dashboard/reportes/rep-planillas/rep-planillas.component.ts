@@ -270,7 +270,7 @@ export class RepPlanillasComponent implements OnInit {
                     body: [
                       [
                         { image: imagenes.imageTest, width:80, rowSpan:2 },
-                        { text: 'Procuraduría General de la República', alignment:'center', fontSize:'18', style:'headers', },
+                        { text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA', alignment:'center', fontSize:'18', style:'headers', },
                         {
                           image: this.sello, width:130, rowSpan:2,
                         }

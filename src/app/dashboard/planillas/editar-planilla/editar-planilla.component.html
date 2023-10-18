@@ -321,7 +321,7 @@
                 <div class="col-12 my-4" *ngIf="codigoEstado == '1'">
                     <button pButton pRipple (click)="onSubmit()" class="primary mx-2" icon="pi pi-save" label="Actualizar planilla"></button>
                     <button class="primary mx-2" pButton icon="pi pi-plus" pRipple type="button" label="Nuevo empleado" (click)="crearNuevo(agregarEmpleado)"></button>
-                    <button class="primary mx-2" pButton icon="pi pi-plus" pRipple type="button" label="Enviar planilla" (click)="procesarPlanilla(planilla.idEncabezado)"></button>
+                    <button class="primary mx-2" pButton icon="pi pi-send" pRipple type="button" label="Enviar planilla" (click)="procesarPlanilla(planilla.idEncabezado)"></button>
                 </div>
             </div>
         </form>
@@ -330,8 +330,11 @@
     </div>
     <div class="container-fluid">
         <div class="row">
+            <div class="col-12 my-3" *ngIf="codigoTipoCuota != '1'">
+                <h4 class="text-center">Se le informa que el monto de la prestacion para este tipo de planilla debe distribuirse de manera proporcional por cada beneficiario.</h4>
+            </div>
             <div class="col-12">
-                
+                <button *ngIf="codigoEstado == '1'" pButton pRipple (click)="deleteSelected()">Eliminar seleccionados</button>
             </div>
             <div class="col-12">
                 <div class="my-4" id="container-table" style="height: 500px; overflow-y: auto;">
@@ -371,7 +374,7 @@
                         <ng-template pTemplate="body" let-empleado let-editing="editing" let-ri="rowIndex">
                             <tr [pEditableRow]="empleado">
                                 <td>
-                                    <input class="checkbox" name="selectedC" [(ngModel)]="empleado.selected" data-id="{{empleado.idDetalle}}" type="checkbox" value="1" selected>
+                                    <input class="checkbox" name="selectedC" [(ngModel)]="empleado.selected" data-id="{{empleado.idDetalle}}" type="checkbox" value="{{empleado.idDetalle}}" selected>
                                 </td>
                                 <td>{{ ri+1}}</td>
                                 <td class="td">
@@ -484,5 +487,5 @@
             </div>
         </div>
     </div>
-    <button class="btn-flotante">{{total | currency:'USD'}}</button>
+    <button class="btn-flotante">Total: {{total | currency:'USD'}}</button>
 </section>

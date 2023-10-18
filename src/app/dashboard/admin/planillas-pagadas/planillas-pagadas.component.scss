@@ -9,8 +9,11 @@
 
 #elsello{
     position: absolute;
-    margin-top: 8rem;
+    margin-top: 12rem;
     width: 100%;
+    @media(max-width: 667px){
+        margin-top: 30rem;
+    }
 }
 
 #sellito{

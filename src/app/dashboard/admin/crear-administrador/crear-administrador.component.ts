@@ -1,17 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { PasswordStrengthValidator } from 'src/app/core/validators/password-strength.validator';
 import { PasswordValidation } from 'src/app/core/validators/password-validator';
 import { DashboardService } from 'src/app/core/service/dashboard.service';
 import { AuthenticationService } from 'src/app/core/service/authentication.service';
 import { Router } from '@angular/router';
+import { MatSelect } from '@angular/material/select';
+import { ReplaySubject, Subject  } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+
 @Component({
   selector: 'app-crear-administrador',
   templateUrl: './crear-administrador.component.html',
   styleUrls: ['./crear-administrador.component.scss']
 })
-export class CrearAdministradorComponent implements OnInit {
+export class CrearAdministradorComponent implements OnInit, OnDestroy {
+  @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
+  public filteredUsers: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
   isSuccess: boolean = false;
+  public itemFilterCtrl: FormControl = new FormControl();
+  protected onDestroy = new Subject();
   isError: boolean = false;
   message: string = "";
   userFormGroup: FormGroup;
@@ -25,6 +33,9 @@ export class CrearAdministradorComponent implements OnInit {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
+    }
+    if(this.data.CodigoRol != 'R'){
+      window.location.href = 'dashboard';
     }
    }
 
@@ -48,6 +59,14 @@ export class CrearAdministradorComponent implements OnInit {
     this.userFormGroup.patchValue({CodigoEmpresa:this.data.CodigoEmpresa});
   }
 
+  ngOnDestroy() {
+
+    this.onDestroy.next(1);
+
+    this.onDestroy.complete();
+
+  }
+
   listadoSisUsuarios(){
     this.dashboardService.sisUsuarios().subscribe((res)=>{
       if(res.success){
@@ -56,9 +75,36 @@ export class CrearAdministradorComponent implements OnInit {
           code: e.codigoUsuario,
           name: e.nombresUsuario+" "+e.apellidosUsuario
         }))
+
+        this.filteredUsers.next(this.sisusuarios.slice());
+
+        this.itemFilterCtrl.valueChanges
+          .pipe(takeUntil(this.onDestroy))
+          .subscribe(() => {
+            this.filterItems();
+        });
       }
     })
   }
+
+  filterItems() {
+    if (!this.sisusuarios) {
+      console.log("no tiene")
+        return;
+    }
+    // get the search keyword
+    let search = this.itemFilterCtrl.value;
+    if (!search) {
+        this.filteredUsers.next(this.sisusuarios.slice());
+        return;
+    } else {
+        search = search.toLowerCase();
+    }
+    // filter the banks
+        this.filteredUsers.next(
+            this.sisusuarios.filter(item => item.name.toLowerCase().indexOf(search) > -1)
+        );
+}
 
   listarPagadurias(){
     this.authenticationService.unidadesOrganizacionales().subscribe((res) => {

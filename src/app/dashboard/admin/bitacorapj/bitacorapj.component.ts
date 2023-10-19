@@ -20,6 +20,9 @@ export class BitacorapjComponent implements OnInit {
     if(this.data != null){
       this.token = this.data.Token;
     }
+    if(this.data.CodigoRol == 'U'){
+      window.location.href = 'dashboard';
+    }
   }
 
   ngOnInit(): void {
@@ -29,7 +32,7 @@ export class BitacorapjComponent implements OnInit {
     this.loading = true
     this.lastTableLazyLoadEvent = event;
     setTimeout(() => {
-      this.dashboardService.bitacoraJuridicas(this.token,event.first || 0,event.rows || 10).subscribe((res) => {
+      this.dashboardService.bitacoraJuridicas(this.token,event.first || 0,event.rows || 10,this.data.CodigoPagaduria,this.data.CodigoRol).subscribe((res) => {
         if (res.success) {
           this.bitacoras = res.data
           this.totalRecords = res.registros

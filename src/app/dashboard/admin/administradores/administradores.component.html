@@ -1,5 +1,5 @@
 <section class="content">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <h3 class="text-center">Listado de usuarios administradores</h3>
@@ -11,7 +11,7 @@
               <p-table [value]="usuarios" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="buscarUsuarios($event)" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 25, 50, 100]">
                 <ng-template pTemplate="header">
                   <tr>
-                    <th>Codigo de la persona</th>
+                    <th>N°</th>
                     <th>Usuario (acceso al sistema)</th>
                     <th>Fecha de registro</th>
                     <th>Pagaduría</th>
@@ -19,9 +19,9 @@
                     <th></th>
                   </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-usuario>
+                <ng-template pTemplate="body" let-usuario let-i="rowIndex">
                   <tr>
-                    <td>{{ usuario.codigoEmpresa }}</td>
+                    <td>{{ i+1 }}</td>
                     <td>{{ usuario.usuario }}</td>
                     <td>{{ usuario.fechaRegistro | date }}</td>
                     <td>{{ usuario.pagaduria }}</td>

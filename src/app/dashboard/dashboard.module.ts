@@ -32,6 +32,8 @@ import { RepIndexComponent } from './reportes/rep-index/rep-index.component';
 import { RepPlanillasComponent } from './reportes/rep-planillas/rep-planillas.component';
 import { PagosComponent } from './planillas/pagos/pagos.component';
 import { PlanillasPagadasComponent } from './admin/planillas-pagadas/planillas-pagadas.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
 
 @NgModule({
   declarations: [
@@ -70,7 +72,8 @@ import { PlanillasPagadasComponent } from './admin/planillas-pagadas/planillas-p
     NgbAlertModule,
     NgbNavModule,
     MatAutocompleteModule,
-    PrimeNgModule
+    PrimeNgModule,
+    NgxMatSelectSearchModule
   ]
 })
 export class DashboardModule { }

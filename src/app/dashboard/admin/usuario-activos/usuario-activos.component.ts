@@ -36,7 +36,7 @@ export class UsuarioActivosComponent implements OnInit {
   ngOnInit(): void {
     //this.buscarUsuarios();
     if(this.data.CodigoRol == 'U'){
-      this.router.navigate(['/dashboard/403'])
+      this.router.navigate(['/dashboard'])
     }
   }
 

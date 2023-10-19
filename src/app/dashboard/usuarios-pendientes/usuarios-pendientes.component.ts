@@ -33,7 +33,7 @@ export class UsuariosPendientesComponent implements OnInit {
   ngOnInit(): void {
     this.primengConfig.ripple = true;
     if(this.data.CodigoRol == 'U'){
-      this.router.navigate(['/dashboard/403'])
+      this.router.navigate(['/dashboard'])
     }
     //this.buscarUsuarios();
   }

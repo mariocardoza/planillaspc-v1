@@ -13,12 +13,14 @@ export class DashboardService {
     this.http = http;
   }
 
-  bitacoraJuridicas(token,page:number,limit: number): Observable<any> {
+  bitacoraJuridicas(token,page:number,limit: number, codigoPagaduria:string, codigoRol:string): Observable<any> {
     const url = endpoint.api.juridicas+"/bitacoras";
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     let params = new HttpParams();
     params = params.append("skip", page);
     params = params.append("limit", limit);
+    params = params.append("codigoRol", codigoRol);
+    params = params.append("codigoPagaduria", codigoPagaduria);
     headers = headers.append('Authorization', 'Bearer ' + `${token}`);
     return this.http.get(url,{params,headers}).pipe(tap((result) => {
       return result;

@@ -22,6 +22,9 @@ export class AdministradoresComponent implements OnInit {
     if(this.data != null){
       this.token = this.data.Token;
     }
+    if(this.data.CodigoRol != 'R'){
+      window.location.href = 'dashboard';
+    }
    }
 
   ngOnInit(): void {

@@ -5,3 +5,17 @@
 .sidebar .menu .list a span {
     margin: auto !important;
 }
+
+
+
+.sidebar{
+    .menu{
+        .list{
+            li{
+                a{
+                    text-decoration: none !important;
+                }
+            }
+        }
+    }
+}

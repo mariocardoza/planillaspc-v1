@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators,NG_VALUE_ACCESSOR, FormControl } fro
 import * as moment from 'moment';
 import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
 import { saveAs} from 'file-saver';
+import { AuthenticationService } from 'src/app/core/service/authentication.service';
 @Component({
   selector: 'app-editar-usuario',
   templateUrl: './editar-usuario.component.html',
@@ -17,6 +18,7 @@ export class EditarUsuarioComponent implements OnInit {
   a = moment().subtract(18, 'year').format("YYYY-MM-DD");
   token: any;
   persona: any = [];
+  unidades: any = [];
   sexos = [
     {value:'F', name:'Femenino'},
     {value:'M', name:'Masculino'},
@@ -27,7 +29,8 @@ export class EditarUsuarioComponent implements OnInit {
     private route: ActivatedRoute, 
     private dashboardService: DashboardService,
     private formBuilder: FormBuilder,
-    private fileService: FileDownloadService
+    private fileService: FileDownloadService,
+    private authenticationService: AuthenticationService
     ) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
@@ -37,6 +40,7 @@ export class EditarUsuarioComponent implements OnInit {
   
 
   ngOnInit(): void {
+    this.listarPagadurias();
     this.editFormGroup = this.formBuilder.group({
       NIT: ['', Validators.required],
       codigoPGR: ['0'],
@@ -60,6 +64,7 @@ export class EditarUsuarioComponent implements OnInit {
       CodigoPersona: ['0'],
       CodigoRepresentante: ['0'],
       CodigoMedioContacto: ['0'],
+      Pagaduria: ['0'],
 
     });
     let id = this.route.snapshot.params.codigopersona;
@@ -85,7 +90,16 @@ export class EditarUsuarioComponent implements OnInit {
         this.editFormGroup.patchValue({CodigoRepresentante:res.data.codigoRepresentante});
         this.editFormGroup.patchValue({ImagenNIT:res.data.imagenNIT});
         this.editFormGroup.patchValue({CodigoMedioContacto:res.data.codigoMedioContacto});
+        this.editFormGroup.patchValue({Pagaduria:res.data.pagaduria});
         //this.editFormGroup.patchValue({TelefonoContactoPersona: res.data.telefonoContactoPersona});
+      }
+    })
+  }
+
+  listarPagadurias(){
+    this.authenticationService.unidadesOrganizacionales().subscribe((res) => {
+      if(res.success){
+        this.unidades = res.data
       }
     })
   }

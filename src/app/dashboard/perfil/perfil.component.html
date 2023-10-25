@@ -196,7 +196,7 @@
                                               <div class="row justify-content-center">
                                                 <div class="col-12">
                                                   <button class="btn btn-primary" mat-button (click)="onSubmit()">Guardar</button> | 
-                                                  <a href="/dashboard" class="btn btn-primary" mat-button >Atrás</a>
+                                                  <a routerLink="/dashboard" class="btn btn-primary" mat-button >Atrás</a>
                                                 </div>
                                               </div>
                                         </mat-card-content>
@@ -257,7 +257,7 @@
                                             <div class="row justify-content-center">
                                                 <div class="col-12">
                                                   <button class="btn btn-primary" mat-button (click)="onSubmitPassword()">Guardar</button> | 
-                                                  <a href="/dashboard" class="btn btn-primary" mat-button >Atrás</a>
+                                                  <a routerLink="/dashboard" class="btn btn-primary" mat-button >Atrás</a>
                                                 </div>
                                             </div>
                                             
@@ -280,7 +280,8 @@
                                   <mat-form-field class="full-width" appearance="fill">
                                     <mat-label>Usuario</mat-label>
                                     <input type="hidden" formControlName="IdUsuario">
-                                    <input matInput placeholder="Usuario" formControlName="Username" required>
+                                    <input *ngIf="cambiarUsuario" matInput placeholder="Usuario" formControlName="Username" required>
+                                    <input *ngIf="!cambiarUsuario" matInput placeholder="Usuario" readonly formControlName="Username" required>
                                   </mat-form-field>
                                 </div>
                                 <div class="col-12 col-md-6">
@@ -307,7 +308,7 @@
                                 <div class="col-12 col-md-6">
                                     <mat-form-field class="full-width" appearance="fill">
                                         <mat-label>Clave</mat-label>
-                                        <input matInput placeholder="Clave" formControlName="Password" required type="password">
+                                        <input matInput placeholder="Clave" formControlName="Password" autocomplete="off" required type="password">
                                         <mat-error *ngIf="userFormGroup.get('Password')?.hasError('passwordStrength')">
                                             {{userFormGroup.get('Password')?.errors['passwordStrength']}}
                                         </mat-error>
@@ -317,7 +318,7 @@
                                 <div class="col-12 col-md-6">
                                     <mat-form-field class="full-width" appearance="fill">
                                         <mat-label>Confirmar clave</mat-label>
-                                        <input matInput placeholder="Confirmar clave" type="password" formControlName="ConfirmPassword" required>
+                                        <input matInput placeholder="Confirmar clave" type="password" autocomplete="off" formControlName="ConfirmPassword" required>
                                         <mat-error *ngIf="userFormGroup.controls['ConfirmPassword'].pristine || userFormGroup.controls['ConfirmPassword'].errors?.MatchPassword">La clave confirmada no es igual</mat-error>
                                     </mat-form-field>
                                 </div>
@@ -325,7 +326,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-12">
                                   <button class="btn btn-primary" mat-button (click)="onSubmitPassword()">Guardar</button> | 
-                                  <a href="/dashboard" class="btn btn-primary" mat-button >Atrás</a>
+                                  <a routerLink="/dashboard" class="btn btn-primary" mat-button >Atrás</a>
                                 </div>
                             </div>
                             

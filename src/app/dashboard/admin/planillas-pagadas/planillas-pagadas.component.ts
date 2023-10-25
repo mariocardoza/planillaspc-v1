@@ -86,6 +86,10 @@ export class PlanillasPagadasComponent implements OnInit {
     });
   }
 
+  finalizarPlanilla(idEncabezado: number){
+    alert(idEncabezado)
+  }
+
   ngOnInit(): void {
     this.obtenerEmpresas();
     this.obtenerBancos();

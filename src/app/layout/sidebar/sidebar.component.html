@@ -19,15 +19,16 @@
             <hr class="mt-2 mb-0">
           </li>
           <li class="sidebar-user-panel">
-            <i-feather name="home" class="sidebarIcon"></i-feather>
+            
             <a routerLink="/dashboard/home" class="menu-top">
+              <i-feather style="color: white" name="home" class="sidebarIcon"></i-feather>
               Inicio
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
             
             <a class="menu-top">
-              <i-feather name="layers" class="sidebarIcon"></i-feather>
+              <i-feather name="chevron-down" class="sidebarIcon"></i-feather>
               Mantenimiento de empleados
             </a>
           </li>
@@ -43,52 +44,62 @@
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
             <a routerLink="/dashboard/planillas" class="menu-top">
+              <i-feather name="list" class="sidebarIcon"></i-feather>
               Planillas
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
             <a routerLink="/dashboard/pagos" class="menu-top">
+              <i-feather name="dollar-sign" class="sidebarIcon"></i-feather>
               Pago de planillas
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
             <a routerLink="/dashboard/reportes" class="menu-top">
+              <i-feather name="printer" class="sidebarIcon"></i-feather>
               Reportes
             </a>
           </li>
           <li class="sidebar-user-panel">
             <a routerLink="/dashboard/perfil" class="menu-top">
+              <i-feather name="check-circle" class="sidebarIcon"></i-feather>
               Editar mi perfil
             </a>
           </li>
           
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol != 'U'">
             <a routerLink="/dashboard/bitacora-juridicas" class="menu-top">
+              <i-feather name="home" class="sidebarIcon"></i-feather>
               Bitácora
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol != 'U'">
             <a routerLink="/dashboard/planillas/presentadas" class="menu-top">
+              <i-feather name="dollar-sign" class="sidebarIcon"></i-feather>
               Planillas pagadas
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol != 'U'">
             <a routerLink="/dashboard/usuarios-activos" class="menu-top">
+              <i-feather name="user-plus" class="sidebarIcon"></i-feather>
               Usuarios activos
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol != 'U'">
             <a routerLink="/dashboard/usuarios-pendientes" class="menu-top">
+              <i-feather name="user-check" class="sidebarIcon"></i-feather>
               <span matBadge="{{numeroPendientes}}" matBadgeSize="small">Verificación de usuarios </span>
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'R'">
             <a routerLink="/dashboard/administradores" class="menu-top">
+              <i-feather name="users" class="sidebarIcon"></i-feather>
               Usuarios administradores
             </a>
           </li>
           <li class="sidebar-user-panel" >
             <a routerLink="/dashboard/legal" class="menu-top">
+              <i-feather name="book" class="sidebarIcon"></i-feather>
               Soporte Legal
             </a>
           </li>

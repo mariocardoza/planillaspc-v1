@@ -16,6 +16,7 @@ import { AuthenticationService } from 'src/app/core/service/authentication.servi
 })
 export class PerfilComponent implements OnInit {
   data: any;
+  cambiarUsuario: boolean = true;
   medioscontacto: any = [];
   active = 1;
   error= '';
@@ -89,6 +90,9 @@ export class PerfilComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.data.CodigoRol == 'A'){
+      this.cambiarUsuario = false;
+    }
     this.listarPagadurias();
     this.perfilFormGroup = this.formBuilder.group({
       NIT: ['', Validators.required],

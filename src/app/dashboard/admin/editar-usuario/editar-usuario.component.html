@@ -66,17 +66,30 @@
                             <div class="row">
                                 <div class="col-12 col-md-6">
                                     <mat-form-field class="full-width" appearance="fill">
-                                      <mat-label>Correo electrónico institucional</mat-label>
+                                      <mat-label>Correo electrónico empresarial</mat-label>
                                       <input matInput placeholder="Correo electrónico institucional" formControlName="MedioContactoPersona">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-12 col-md-6">
-                                  <!--mat-form-field class="full-width" appearance="fill">
-                                    <mat-label>Teléfono institucional</mat-label>
-                                    <input type="hidden" formControlName="CodigoTipoMedioContacto">
-                                    <input matInput placeholder="Número de teléfono institucional" formControlName="TelefonoContactoPersona" mask="0000-0000" [dropSpecialCharacters]="false" [showMaskTyped]="false">
-                                  </mat-form-field-->
+                                  <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Procuraduría donde realiza el pago</mat-label>
+                                    <input type="text"
+                                      placeholder="Seleccione una"
+                                      aria-label="Number"
+                                      matInput
+                                      formControlName="Pagaduria"
+                                      [matAutocomplete]="auto">
+                                      <mat-autocomplete #auto="matAutocomplete">
+                                        <mat-option *ngFor="let option of unidades" [value]="option.codigoPagaduria.trim()">
+                                          {{option.pagaduria}}
+                                        </mat-option>
+                                      </mat-autocomplete>
+                                      <mat-error *ngIf="editFormGroup.get('Pagaduria')?.hasError('required')">
+                                        Seleccione una pagaduría
+                                    </mat-error>
+                                  </mat-form-field>
                                 </div>
+    
                             </div>
                         </mat-card-content>
                     </mat-card>
@@ -164,7 +177,7 @@
                               <div class="row justify-content-center">
                                 <div class="col-12">
                                   <button class="btn btn-primary" mat-button (click)="onSubmit()">Guardar</button> | 
-                                  <a href="/dashboard" class="btn btn-primary" mat-button >Atrás</a>
+                                  <a routerLink="/dashboard" class="btn btn-primary" mat-button >Atrás</a>
                                 </div>
                               </div>
                         </mat-card-content>

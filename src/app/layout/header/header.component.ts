@@ -191,6 +191,7 @@ export class HeaderComponent
       this.renderer.addClass(this.documento.body, className);
     }
   }
+  
   callSidemenuCollapse() {
     const hasClass = this.documento.body.classList.contains("side-closed");
     if (hasClass) {

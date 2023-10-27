@@ -46,6 +46,7 @@ export class PagosComponent implements OnInit {
     {value:'3', name:'Procesada'},
     {value:'4', name:'Anulada'},
     {value:'5', name:'Pago completado'},
+    {value:'6', name:'Finalizada'},
   ];
   LarutaImagenComprobante: string;
   elCodigoEstado: string;

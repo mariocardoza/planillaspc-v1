@@ -21,3 +21,16 @@
         width: 151px;
     }
 }
+
+mat-datepicker-toggle{
+    float: right;
+    margin-top: -2.5rem;
+}
+
+.full-width{
+    width: 100%;
+}
+
+::ng-deep .cdk-overlay-container {
+    z-index: 9999;
+}

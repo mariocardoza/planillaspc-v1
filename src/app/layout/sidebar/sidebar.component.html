@@ -21,24 +21,25 @@
           <li class="sidebar-user-panel">
             
             <a routerLink="/dashboard/home" class="menu-top">
-              <i-feather style="color: white" name="home" class="sidebarIcon"></i-feather>
+              <i-feather name="home" class="sidebarIcon"></i-feather>
               Inicio
             </a>
           </li>
-          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
-            
+          <!--li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
             <a class="menu-top">
               <i-feather name="chevron-down" class="sidebarIcon"></i-feather>
               Mantenimiento de empleados
             </a>
-          </li>
+          </li-->
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
             <a routerLink="/dashboard/empleados" class="menu-top">
+              <i-feather name="user-plus" class="sidebarIcon"></i-feather>
               Empleados activos
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'U' && usuario.Estado == 1">
             <a routerLink="/dashboard/empleados/inactivos" class="menu-top">
+              <i-feather name="user-minus" class="sidebarIcon"></i-feather>
               Empleados inactivos
             </a>
           </li>

@@ -27,6 +27,8 @@ export class PlanillasPagadasComponent implements OnInit {
   @ViewChild("modalComprobante") modalComprobante: ElementRef;
   @ViewChild("modalDocumento") modalDocumento: ElementRef;
   @ViewChild("modalVerDocumento") modalVerDocumento: ElementRef;
+  @ViewChild("modalPresentacion") modalPresentacion: ElementRef;
+  a = moment().subtract(-1, 'day').format("YYYY-MM-DD");
   unafecha: any;
   empresas: IUsuarios[];
   usuarios: any;
@@ -45,6 +47,7 @@ export class PlanillasPagadasComponent implements OnInit {
   actualFile:any = '';
   public response: { dbPath: '' }
   comprobanteForm: FormGroup;
+  reciboIngresoForm: FormGroup;
   filterForm: FormGroup;
   private lastTableLazyLoadEvent: LazyLoadEvent;
   data:any;
@@ -61,6 +64,7 @@ export class PlanillasPagadasComponent implements OnInit {
     {value:'3', name:'Mandamiento de pago emitido'},
     {value:'4', name:'Anulada'},
     {value:'5', name:'Pago completado'},
+    {value:'6', name:'Finalizada'},
   ];
   LarutaImagenComprobante: string;
   elCodigoEstado: string;
@@ -87,7 +91,29 @@ export class PlanillasPagadasComponent implements OnInit {
   }
 
   finalizarPlanilla(idEncabezado: number){
-    alert(idEncabezado)
+    this.reciboIngresoForm.patchValue({IdEncabezado:idEncabezado});
+    this.reciboIngresoForm.patchValue({CodigoUsuario:this.data.Email});
+    this.modalService.open(this.modalPresentacion,{ size: <any>'md' });
+    /*this.planillaService.reciboIngreso(idEncabezado).subscribe((res) => {
+      if(res.success){
+        
+      }
+    });*/
+  }
+
+  onReciboIngreso(){
+    const data = {
+      ...this.reciboIngresoForm.value
+    }
+    this.planillaService.reciboIngreso(data).subscribe((res) => {
+      if(res.errorNumber == 0){
+        this.messageService.add({severity:'success', summary: 'Exito', detail:'Se agregó correctamente el recibo de ingreso'})
+        this.modalService.dismissAll();
+        this.obtenerComprobantes();
+      }else{
+        this.messageService.add({sticky: true,severity:'error', summary: 'Error', detail:res.errorMessage})
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -100,6 +126,13 @@ export class PlanillasPagadasComponent implements OnInit {
       NoComprobantePago: ['',Validators.required],
       CodInstitucionFinanciera:['',Validators.required],
       IdTabla: ['',Validators.required]
+    });
+
+    this.reciboIngresoForm = this.formBuilder.group({
+      CodigoUsuario: ['',Validators.required],
+      NumeroRemesaPresentada: ['',Validators.required],
+      FechaRemesaPresentada:['',Validators.required],
+      IdEncabezado: ['',Validators.required]
     });
 
     this.filterForm = this.formBuilder.group({

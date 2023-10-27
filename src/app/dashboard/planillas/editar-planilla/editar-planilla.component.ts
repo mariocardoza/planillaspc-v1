@@ -51,6 +51,7 @@ export class EditarPlanillaComponent implements OnInit {
     {value:'3', name:'Mandamiento de pago emitido'},
     {value:'4', name:'Anulada'},
     {value:'5', name:'Pago completado'},
+    {value:'6', name:'Finalizada'},
   ];
   editing: boolean = false;
   hasExpedient:boolean = false;

@@ -44,6 +44,7 @@ export class ClonarPlanillaComponent implements OnInit {
     {value:'3', name:'Mandamiento de pago emitido'},
     {value:'4', name:'Anulada'},
     {value:'5', name:'Pago completado'},
+    {value:'6', name:'Finalizada'},
   ];
   totalRecords: number = 0;
   constructor(private planillaService: PlanillaService,public modal: NgbModal,private formBuilder: FormBuilder, private messageService: MessageService, private router: Router) {
@@ -73,6 +74,21 @@ export class ClonarPlanillaComponent implements OnInit {
     this.cuotas = tipoclonar;
     this.clonarForm.controls.Monto.setValidators(this.cuotas == 1 ? null : [Validators.required]);
     this.clonarForm.controls.Monto.updateValueAndValidity();
+  }
+
+  claseEstadoPlanilla(codigoEstado){
+    if(codigoEstado==1){
+      return 'primary';
+    }else{
+      if(codigoEstado == 2){
+        return 'warning';
+      }
+      if(codigoEstado==4){
+        return 'danger';
+      }else{
+        return 'success';
+      }
+    }
   }
 
   onSubmit(){

@@ -138,6 +138,39 @@
             </form>
         </div>
     </ng-template>
+    <ng-template #modalPresentacion let-mPresentacion>
+        <div class="modal-header ">
+            <h4 class="text-center">Presentar recibo de ingreso</h4>
+            <button class="close" aria-label="close" type="button" (click)="mPresentacion.dismiss()"><span>&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <form action="" [formGroup]="reciboIngresoForm" (ngSubmit)="onReciboIngreso()">
+                <div class="row">
+                    <div class="col-12">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>N° de remesa</mat-label>
+                            <input matInput pInputText pKeyFilter="int" type="text" autocomplete="off" formControlName="NumeroRemesaPresentada">
+                            <input type="hidden" formControlName="CodigoUsuario">
+                            <input type="hidden" formControlName="IdEncabezado">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Fecha de presentación</mat-label>
+                            <input matInput [matDatepicker]="picker" [max]="a" formControlName="FechaRemesaPresentada">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                          </mat-form-field>
+                    </div>
+                    <div class="col-12 mt-2">
+                        <button mat-raised-button color="primary" [class.auth-spinner]="loading"
+          class="auth-form-btn" [disabled]="loading || !reciboIngresoForm.valid " type="submit">Presentar recibo de ingreso</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12" style="position: relative;">

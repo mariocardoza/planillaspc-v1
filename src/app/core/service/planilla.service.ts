@@ -213,5 +213,13 @@ export class PlanillaService {
     }))
   }
 
+  reciboIngreso(data:any) : Observable<any>{
+    const url = endpoint.api.planillas+"/migrar-planilla"
+    let headers = new HttpHeaders({'Content-Type' : 'application/json'})
+    return this.http.post(url,data,{headers: headers}).pipe(tap((result) => {
+      return result;
+    }))
+  }
+
   
 }

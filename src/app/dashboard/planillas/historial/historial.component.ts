@@ -51,6 +51,7 @@ export class HistorialComponent implements OnInit {
     {value:'3', name:'Mandamiento de pago emitido'},
     {value:'4', name:'Anulada'},
     {value:'5', name:'Pago completado'},
+    {value:'6', name:'Finalizada'},
   ];
   px2mmFactor: number;
   totalRecords: number = 0;

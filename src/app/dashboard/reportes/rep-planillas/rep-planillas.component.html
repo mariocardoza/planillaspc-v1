@@ -114,7 +114,7 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-planilla>
-                            <tr *ngIf="planilla.codigoEstado == 5">
+                            <tr *ngIf="planilla.codigoEstado >= 5">
                                 <td>{{ planilla.noMandamiento }}</td>
                                 <td>{{ planilla.periodo }}</td>
                                 <td>{{ buscarTipoCuota(planilla.codigoTipoCuota) }}</td>

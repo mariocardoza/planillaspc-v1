@@ -47,6 +47,7 @@ export class RepPlanillasComponent implements OnInit {
     {value:'3', name:'Mandamiento de pago emitido'},
     {value:'4', name:'Anulada'},
     {value:'5', name:'Pago completado'},
+    {value:'6', name:'Finalizada'},
   ];
   reporte: IPlanillaReport;
   constructor(private planillaService: PlanillaService, public modalService: NgbModal, private reportService: GenerateReportService) {

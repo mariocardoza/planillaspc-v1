@@ -1,0 +1,57 @@
+#sello_p{
+    position: absolute;
+    margin-top: -2.7em;
+    margin-left: 1.9rem;
+    color: #000000;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#elsello{
+    position: absolute;
+    margin-top: 12rem;
+    width: 100%;
+    @media(max-width: 667px){
+        margin-top: 30rem;
+    }
+}
+
+#sellito{
+    @media(min-width: 668px){
+        width: 151px;
+    }
+}
+
+mat-datepicker-toggle{
+    float: right;
+    margin-top: -2.5rem;
+}
+
+.full-width{
+    width: 100%;
+}
+
+::ng-deep .cdk-overlay-container {
+    z-index: 9999;
+}
+
+#contenido{
+    h4{
+        color: #000000;
+    }
+    P{
+        margin-bottom: 0;
+        color: #000000;
+    }
+    .hr{
+        margin: 0;
+    }
+    .hr2{
+        margin: 1rem;
+        border-top: 3px dotted #000;
+        opacity: 1;
+    }
+    .colector{
+        text-decoration: overline;
+    }
+}

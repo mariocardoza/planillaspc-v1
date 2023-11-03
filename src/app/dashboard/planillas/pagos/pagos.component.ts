@@ -42,8 +42,8 @@ export class PagosComponent implements OnInit {
   ];
   codigoEstados = [
     {value:'1', name:'En proceso'},
-    {value:'2', name:'Enviada'},
-    {value:'3', name:'Procesada'},
+    {value:'2', name:'Pendiente de emitir mandamiento de pago'},
+    {value:'3', name:'Mandamiento de pago emitido'},
     {value:'4', name:'Anulada'},
     {value:'5', name:'Pago completado'},
     {value:'6', name:'Finalizada'},

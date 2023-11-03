@@ -74,10 +74,16 @@
               Bitácora
             </a>
           </li>
-          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol != 'U'">
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'A'">
             <a routerLink="/dashboard/planillas/presentadas" class="menu-top">
               <i-feather name="dollar-sign" class="sidebarIcon"></i-feather>
-              Planillas pagadas
+              Emitir recibo de ingreso
+            </a>
+          </li>
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'A'">
+            <a routerLink="/dashboard/planillas/recibos" class="menu-top">
+              <i-feather name="dollar-sign" class="sidebarIcon"></i-feather>
+              Bitácora recibos de ingreso
             </a>
           </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol != 'U'">

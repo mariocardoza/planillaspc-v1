@@ -43,7 +43,7 @@ export class RepPlanillasComponent implements OnInit {
   ];
   codigoEstados = [
     {value:'1', name:'En proceso'},
-    {value:'2', name:'Pendiente emisión de pago'},
+    {value:'2', name:'Pendiente de emitir mandamiento de pago'},
     {value:'3', name:'Mandamiento de pago emitido'},
     {value:'4', name:'Anulada'},
     {value:'5', name:'Pago completado'},
@@ -267,13 +267,13 @@ export class RepPlanillasComponent implements OnInit {
               columns: [
                 {
                   table: {
-                    widths: [ '10%','70%','20%'],
+                    widths: [ '10%','68%','22%'],
                     body: [
                       [
                         { image: imagenes.imageTest, width:80, rowSpan:2 },
                         { text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA', alignment:'center', fontSize:'18', style:'headers', },
                         {
-                          image: this.sello, width:130, rowSpan:2,
+                          image: this.sello, width:150, rowSpan:2,
                         }
                       ],[
                         '',
@@ -345,9 +345,6 @@ export class RepPlanillasComponent implements OnInit {
               columns: [
                 {
                   text: 'CERTIFICO QUE LA INFORMACIÓN SUMINISTRADA EN ESTA PLANILLA ES CORRECTA Y QUE LA MISMA NO ME EXIME DE RESPONSABILIDAD LEGAL POR ERRORES O INEXACTITUDES',fontSize: 6,
-                },
-                {
-                  text:''
                 },
                 /*{
                   text: "NOMBRE DEL PAGADOR",fontSize: 6,

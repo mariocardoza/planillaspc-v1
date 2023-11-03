@@ -33,6 +33,8 @@ import { RepPlanillasComponent } from './reportes/rep-planillas/rep-planillas.co
 import { PagosComponent } from './planillas/pagos/pagos.component';
 import { PlanillasPagadasComponent } from './admin/planillas-pagadas/planillas-pagadas.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { RecibosIngresoComponent } from './admin/recibos-ingreso/recibos-ingreso.component';
+import { DashPage404Component } from './dash-page404/dash-page404.component';
 
 
 @NgModule({
@@ -61,6 +63,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     RepPlanillasComponent,
     PagosComponent,
     PlanillasPagadasComponent,
+    RecibosIngresoComponent,
+    DashPage404Component,
   ],
   imports: [
     CommonModule,

@@ -24,6 +24,8 @@ import { RepIndexComponent } from './reportes/rep-index/rep-index.component';
 import { RepPlanillasComponent } from './reportes/rep-planillas/rep-planillas.component';
 import { PagosComponent } from './planillas/pagos/pagos.component';
 import { PlanillasPagadasComponent } from './admin/planillas-pagadas/planillas-pagadas.component';
+import { DashPage404Component } from './dash-page404/dash-page404.component';
+import { RecibosIngresoComponent } from './admin/recibos-ingreso/recibos-ingreso.component';
 
 const routes: Routes = [
   {
@@ -99,6 +101,10 @@ const routes: Routes = [
     path:'planillas/presentadas',
     component: PlanillasPagadasComponent
   },
+  {
+    path:'planillas/recibos',
+    component: RecibosIngresoComponent
+  },
   //Empleados
   {
     path:'empleados',
@@ -127,7 +133,7 @@ const routes: Routes = [
   },
   {
     path: "**",
-    component: Page404Component
+    component: DashPage404Component
   }
 ];
 

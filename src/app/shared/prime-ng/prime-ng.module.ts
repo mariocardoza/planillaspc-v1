@@ -9,6 +9,7 @@ import { ToastModule } from 'primeng/toast';
 import { CalendarModule } from 'primeng/calendar';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import {MultiSelectModule} from 'primeng/multiselect';
+import { DividerModule } from "primeng/divider";
 
 @NgModule({
   declarations: [],
@@ -24,7 +25,8 @@ import {MultiSelectModule} from 'primeng/multiselect';
     ToastModule,
     CalendarModule,
     KeyFilterModule,
-    MultiSelectModule
+    MultiSelectModule,
+    DividerModule
   ]
 })
 export class PrimeNgModule { }

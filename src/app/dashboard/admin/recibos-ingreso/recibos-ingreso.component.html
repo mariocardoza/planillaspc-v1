@@ -171,6 +171,220 @@
             </form>
         </div>
     </ng-template>
+    <ng-template #modalRecibo let-recibo>
+        <div class="modal-header ">
+            <h4 class="text-center">Recibo de ingreso</h4>
+            <button class="close" aria-label="close" type="button" (click)="recibo.dismiss()"><span>&times;</span></button>
+        </div>
+        <div class="modal-body" id="contenido">
+            <div class="recibo">
+                <div class="row">
+                    <div class="col-2">
+                        <img src="./assets/images/logopgr.png" width="100" alt="sv">
+                    </div>
+                    <div class="col-8">
+                        <h4 class="text-center">Procuraduría General de la República</h4>
+                        <p class="text-center"><strong>{{mandamiento.nombrePA}}</strong></p>
+                        <p class="text-center">Unidad de Control de Fondos de Terceros</p>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-2">
+                        <div class="row">
+                            <div class="col-12"><p>&nbsp;</p></div>
+                            <div class="col-12"><p>N° de control:</p></div>
+                            <div class="col-12"><p>Empresa:</p></div>
+                            <div class="col-12"><p>Nombre:</p></div>
+                            <div class="col-12"><p>Valor en Letra:</p></div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-12"><p>{{mandamiento.nombreBanco}}</p></div>
+                            <div class="col-12"><p>{{mandamiento.codigoPlanillaVentanilla}}</p></div>
+                            <div class="col-12"><p>{{mandamiento.codigoPgr}}</p></div>
+                            <div class="col-12"><p>{{mandamiento.nombreComercial}}</p></div>
+                            <div class="col-12"><p>{{mandamiento.numeroLetra}}</p></div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-12"><p>Recibo de ingreso N°: {{mandamiento.numeroCorrelativoReciboIngreso}}</p></div>
+                            <div class="col-12"><p>Fecha de generación: {{ laFecha(hoy) }}</p></div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6"><p><strong>Por: US($):</strong></p></div>
+                                    <div class="col-6"><p><strong class="text-right">${{ mandamiento.monto }}</strong></p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="text-center"><strong>Cargo en caja</strong></p>
+                        <hr class="hr">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><p>Número de remesa: {{mandamiento.numeroRemesaPresentada}}</p></div>
+                    <div class="col-6"><p>Fecha de remesa: {{mandamiento.fechaRemesaPresentada | date:format:"dd/mm/YYYY"}}</p></div>
+                    <div class="col-12"><p>Observaciones: </p></div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <p class="text-center colector">
+                            COLECTOR ({{data.NombreCompletoUsuario}})
+                        </p>
+                    </div>
+                    <div class="col-12">
+                        <p class="text-center">
+                            DOY POR VÁLIDO EL RECIBO Y QUE ES CORRECTA LA DISTRIBUCIÓN QUE DEL MONTO SE HA HECHO
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr class="hr2">
+            <div class="recibo">
+                <div class="row">
+                    <div class="col-2">
+                        <img src="./assets/images/logopgr.png" width="100" alt="sv">
+                    </div>
+                    <div class="col-8">
+                        <h4 class="text-center">Procuraduría General de la República</h4>
+                        <p class="text-center"><strong>{{mandamiento.nombrePA}}</strong></p>
+                        <p class="text-center">Unidad de Control de Fondos de Terceros</p>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-2">
+                        <div class="row">
+                            <div class="col-12"><p>&nbsp;</p></div>
+                            <div class="col-12"><p>N° de control:</p></div>
+                            <div class="col-12"><p>Empresa:</p></div>
+                            <div class="col-12"><p>Nombre:</p></div>
+                            <div class="col-12"><p>Valor en Letra:</p></div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-12"><p>{{mandamiento.nombreBanco}}</p></div>
+                            <div class="col-12"><p>{{mandamiento.codigoPlanillaVentanilla}}</p></div>
+                            <div class="col-12"><p>{{mandamiento.codigoPgr}}</p></div>
+                            <div class="col-12"><p>{{mandamiento.nombreComercial}}</p></div>
+                            <div class="col-12"><p>{{mandamiento.numeroLetra}}</p></div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-12"><p>Recibo de ingreso N°: {{mandamiento.numeroCorrelativoReciboIngreso}}</p></div>
+                            <div class="col-12"><p>Fecha de generación: {{ laFecha(hoy) }}</p></div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6"><p><strong>Por: US($):</strong></p></div>
+                                    <div class="col-6"><p><strong class="text-right">${{ mandamiento.monto }}</strong></p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="text-center"><strong>Cargo en caja</strong></p>
+                        <hr class="hr">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><p>Número de remesa: {{mandamiento.numeroRemesaPresentada}}</p></div>
+                    <div class="col-6"><p>Fecha de remesa: {{mandamiento.fechaRemesaPresentada | date:format:"dd/mm/YYYY"}}</p></div>
+                    <div class="col-12"><p>Observaciones: </p></div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <p class="text-center colector">
+                            COLECTOR ({{data.NombreCompletoUsuario}})
+                        </p>
+                    </div>
+                    <div class="col-12">
+                        <p class="text-center">
+                            DOY POR VÁLIDO EL RECIBO Y QUE ES CORRECTA LA DISTRIBUCIÓN QUE DEL MONTO SE HA HECHO
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr class="hr2">
+            <div class="recibo">
+                <div class="row">
+                    <div class="col-2">
+                        <img src="./assets/images/logopgr.png" width="100" alt="sv">
+                    </div>
+                    <div class="col-8">
+                        <h4 class="text-center"><strong>Procuraduría General de la República</strong></h4>
+                        <p class="text-center"><strong>{{mandamiento.nombrePA}}</strong></p>
+                        <p class="text-center">Unidad de Control de Fondos de Terceros</p>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-2">
+                        <div class="row">
+                            <div class="col-12"><p>&nbsp;</p></div>
+                            <div class="col-12"><p>N° de control:</p></div>
+                            <div class="col-12"><p>Empresa:</p></div>
+                            <div class="col-12"><p>Nombre:</p></div>
+                            <div class="col-12"><p>Valor en Letra:</p></div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-12"><p>{{mandamiento.nombreBanco}}</p></div>
+                            <div class="col-12"><p>{{mandamiento.codigoPlanillaVentanilla}}</p></div>
+                            <div class="col-12"><p>{{mandamiento.codigoPgr}}</p></div>
+                            <div class="col-12"><p>{{mandamiento.nombreComercial}}</p></div>
+                            <div class="col-12"><p>{{mandamiento.numeroLetra}}</p></div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-12"><p>Recibo de ingreso N°: {{mandamiento.numeroCorrelativoReciboIngreso}}</p></div>
+                            <div class="col-12"><p>Fecha de generación: {{ laFecha(hoy) }}</p></div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6"><p><strong>Por: US($):</strong></p></div>
+                                    <div class="col-6"><p><strong class="text-right">${{ mandamiento.monto }}</strong></p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p class="text-center"><strong>Cargo en caja</strong></p>
+                        <hr class="hr">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><p>Número de remesa: {{mandamiento.numeroRemesaPresentada}}</p></div>
+                    <div class="col-6"><p>Fecha de remesa: {{mandamiento.fechaRemesaPresentada | date:format:"dd/mm/YYYY"}}</p></div>
+                    <div class="col-12"><p>Observaciones: </p></div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <p class="text-center colector">
+                            COLECTOR ({{data.NombreCompletoUsuario}})
+                        </p>
+                    </div>
+                    <div class="col-12">
+                        <p class="text-center">
+                            DOY POR VÁLIDO EL RECIBO Y QUE ES CORRECTA LA DISTRIBUCIÓN QUE DEL MONTO SE HA HECHO
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button label="Imprimir" icon="pi pi-print" pButton pRipple type="button" class="p-button-primary mx-1" (click)="imprimirReciboIngreso()"></button>
+        </div>
+    </ng-template>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12" style="position: relative;">
@@ -183,7 +397,7 @@
             </div>
             <div class="col-12">
                 <p-toast></p-toast>
-                <h2>Planillas pendiente de recibo de ingreso</h2>
+                <h2>Bitácora recibos de ingreso</h2>
             </div>
         </div>
         <div class="row">
@@ -245,7 +459,8 @@
                                 </td>
                                 <td><p-tag severity="{{claseEstadoPlanilla(mandamiento.codigoEstado)}}" value="{{buscarEstadoPlanilla(mandamiento.codigoEstado)}}"></p-tag></td>
                                 <td>
-                                    <button [loading]="loading" title="Imprimir comprobante" pButton (click)="imprimirComprobante(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-secondary m-1"></button>
+                                    <button [loading]="loading" title="Imprimir planilla" label="Planilla" pButton (click)="imprimirComprobante(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-secondary m-1"></button>
+                                    <button title="Imprimir recibo de ingreso" label="Recibo de ingreso" pButton (click)="reciboIngreso(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-secondary m-1"></button>
                                     <button *ngIf="mandamiento.rutaImagenComprobante != null && mandamiento.codigoEstado == 5" title="Registrar recibo de pago" pButton (click)="finalizarPlanilla(mandamiento.idEncabezado)" icon="pi pi-check" class="p-button-primary m-1"></button>
                                 </td>
                             </tr>

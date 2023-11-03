@@ -13,23 +13,26 @@ import { imagenes } from 'src/environments/images';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
 import { saveAs } from 'file-saver';
-import html2canvas from 'html2canvas';
 import { DashboardService } from 'src/app/core/service/dashboard.service';
 import { IUsuarios } from 'src/app/core/models/usuarios/usuarios';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
-  selector: 'app-planillas-pagadas',
-  templateUrl: './planillas-pagadas.component.html',
+  selector: 'app-recibos-ingreso',
+  templateUrl: './recibos-ingreso.component.html',
   providers: [MessageService],
-  styleUrls: ['./planillas-pagadas.component.scss']
+  styleUrls: ['./recibos-ingreso.component.scss']
 })
-export class PlanillasPagadasComponent implements OnInit {
+export class RecibosIngresoComponent implements OnInit {
   @ViewChild("modalComprobante") modalComprobante: ElementRef;
   @ViewChild("modalDocumento") modalDocumento: ElementRef;
   @ViewChild("modalVerDocumento") modalVerDocumento: ElementRef;
   @ViewChild("modalPresentacion") modalPresentacion: ElementRef;
+  @ViewChild("modalRecibo") modalRecibo: ElementRef;
   a = moment().subtract(-1, 'day').format("YYYY-MM-DD");
   unafecha: any;
+  hoy = moment();
   empresas: IUsuarios[];
   usuarios: any;
   imprimir: any;
@@ -143,7 +146,7 @@ export class PlanillasPagadasComponent implements OnInit {
   buscar(){
     if(this.filterForm.value.empresa){
       let empresa = this.filterForm.value.empresa;
-      this.planillaService.obtenerComprobantesPagados(this.data.CodigoPagaduria,this.data.CodigoRol,'5','', empresa, 0, 1000, 1,'idControl').subscribe((result) => {
+      this.planillaService.obtenerComprobantesPagados(this.data.CodigoPagaduria,this.data.CodigoRol,'6','', empresa, 0, 1000, 1,'fechaHora').subscribe((result) => {
         this.mandamientos = result.data;
         this.totalRecords = result.registros;
       });
@@ -151,7 +154,7 @@ export class PlanillasPagadasComponent implements OnInit {
   }
 
   limpiar(){
-    this.planillaService.obtenerComprobantesPagados(this.data.CodigoPagaduria,this.data.CodigoRol,'5','', '', 0, 1000, 1,'idControl').subscribe((result) => {
+    this.planillaService.obtenerComprobantesPagados(this.data.CodigoPagaduria,this.data.CodigoRol,'6','', '', 0, 1000, 1,'fechaHora').subscribe((result) => {
       this.mandamientos = result.data;
       this.totalRecords = result.registros;
     });
@@ -265,6 +268,25 @@ export class PlanillasPagadasComponent implements OnInit {
     });
   }
 
+  laFecha(date){
+    moment.locale('es');
+    let now;
+    if(date){
+      now = moment(date);
+    }else{
+      now= moment();
+    }
+    
+    //formato por defecto
+    console.log(now)
+
+    //formato predefinido, hay más opciones (ver enlace anterior)
+    console.log(now.format('LL'));
+
+    //formato pedido por el OP (los meses en español empiezan por minúscula)
+    return now.format('DD MMM YYYY');
+  }
+
   generarArray(array){
     const fecha = moment();
     console.log(this.imprimir)
@@ -304,13 +326,13 @@ export class PlanillasPagadasComponent implements OnInit {
               columns: [
                 {
                   table: {
-                    widths: [ '10%','70%','20%'],
+                    widths: [ '10%','68%','22%'],
                     body: [
                       [
                         { image: imagenes.imageTest, width:80, rowSpan:2 },
                         { text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA', alignment:'center', fontSize:'18', style:'headers', bold:true },
                         {
-                          image: this.sello, width:130, rowSpan:2,
+                          image: this.sello, width:150, rowSpan:2,
                         }
                       ],[
                         '',
@@ -383,9 +405,6 @@ export class PlanillasPagadasComponent implements OnInit {
                 {
                   text: 'CERTIFICO QUE LA INFORMACIÓN SUMINISTRADA EN ESTA PLANILLA ES CORRECTA Y QUE LA MISMA NO ME EXIME DE RESPONSABILIDAD LEGAL POR ERRORES O INEXACTITUDES',fontSize: 6,
                 },
-                {
-                  text:''
-                },
                 /*{
                   text: "NOMBRE DEL PAGADOR",fontSize: 6,
                 },{
@@ -418,9 +437,52 @@ export class PlanillasPagadasComponent implements OnInit {
         this.loading = false;
   }
 
+  reciboIngreso(idEncabezado: number){
+    this.planillaService.imprimirComprobante(idEncabezado).subscribe((result)=>{
+      if(result.success){
+        this.mandamiento = result.data;
+        this.barcode = this.mandamiento.codigoBarra;
+        let v = this.mandamiento.npe.match(/.{1,4}/g); 
+        this.npe = v.join(" "); 
+        this.modalService.open(this.modalRecibo,{ size: <any>'lg' });
+        //this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
+      }
+    })
+  }
+
+  imprimirReciboIngreso(){
+    const tabla = document.getElementById('contenido');
+    const DATA: HTMLElement = tabla!;
+    const doc = new jsPDF('p', 'pt', 'letter');
+    const options = {
+      background: 'white',
+      scale: 3
+    };
+    html2canvas(DATA, options).then((canvas) => {
+
+      const img = canvas.toDataURL('image/PNG');
+
+      // Add image Canvas to PDF
+      const bufferX = 15;
+      const bufferY = 15;
+      const imgProps = (doc as any).getImageProperties(img);
+      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+      /*const canvas2 = document.getElementById('barcode') as HTMLCanvasElement;
+      const jpegUrl = canvas2.toDataURL('image/jpeg');
+      doc.addImage(jpegUrl, 'JPEG', 100, 150, 350, 60);*/
+      return doc;
+    }).then((docResult) => {
+      //docResult.save(`${new Date().toISOString()}_mandamiento_pago.pdf`);
+      window.open(docResult.output('bloburl'), '_blank');
+
+    });
+  }
+
   obtenerComprobantes(){
     //this.lastTableLazyLoadEvent = event;
-    this.planillaService.obtenerComprobantesPagados(this.data.CodigoPagaduria,this.data.CodigoRol,'5','', '', 0, 1000, 1,'idControl').subscribe((result) => {
+    this.planillaService.obtenerComprobantesPagados(this.data.CodigoPagaduria,this.data.CodigoRol,'6','', '', 0, 1000, 1,'fechaHora').subscribe((result) => {
       this.mandamientos = result.data;
       this.totalRecords = result.registros;
     });

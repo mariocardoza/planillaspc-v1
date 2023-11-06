@@ -299,17 +299,20 @@ export class EditarPlanillaComponent implements OnInit {
   }
 
   onEditComplete(event){
-    //console.log(event.data)
+   // console.log(this.planilla)
     let empleado = event.data;
     this.planillaService.editarDetallePlanilla(empleado,this.token).subscribe((result)=>{
       //console.log(result['success'])
       if(result['success']){
         //this.getPlanilla(empleado.idEncabezado)
-        this.messageService.add({severity:'success', summary: 'Exito', detail:result['message']});
+        if(this.planilla.codigoEstado == '1'){
+          this.messageService.add({severity:'success', summary: 'Exito', detail:result['message']});
+        }
         this.planillaFormGroup.patchValue({Monto:result['monto']})
         this.total = result['monto'];
+        
       }else{
-        this.messageService.add({severity:'error', summary: 'Exito', detail:result['message']});
+        this.messageService.add({severity:'error', summary: 'Error', detail:result['message']});
       }
     })
   }

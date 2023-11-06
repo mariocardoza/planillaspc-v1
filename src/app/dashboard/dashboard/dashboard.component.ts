@@ -10,12 +10,25 @@ export class DashboardComponent implements OnInit {
   montos:number = 0;
   empleados: number = 0;
   data:any;
+  codigoEstados = [
+    {value:'1', name:'En proceso'},
+    {value:'2', name:'Pendiente de emitir mandamiento de pago'},
+    {value:'3', name:'Mandamiento de pago emitido'},
+    {value:'4', name:'Anulada'},
+    {value:'5', name:'Pago completado'},
+    {value:'6', name:'Finalizada'},
+  ];
   constructor(private dashboardService: DashboardService) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
    }
 
   ngOnInit(): void {
     this.obtenerEstadisticas();
+  }
+
+  buscarEstadoPlanilla(codigoEstado){
+    var valor = this.codigoEstados.find(e => e.value === codigoEstado);
+    return valor.name;
   }
 
   obtenerEstadisticas(){

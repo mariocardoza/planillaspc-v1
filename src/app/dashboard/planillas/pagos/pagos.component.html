@@ -104,7 +104,7 @@
     </ng-template>
     <ng-template #modalDocumento let-mDocumento>
         <div class="modal-header ">
-            <h4 class="text-center">Subir documento bancario</h4>
+            <h4 class="text-center">Subir comprobante de pago</h4>
             <button class="close" aria-label="close" type="button" (click)="mDocumento.dismiss()"><span>&times;</span></button>
         </div>
         <div class="modal-body">
@@ -187,15 +187,15 @@
                                 <td>{{ mandamiento.monto | currency:'USD' }}</td>
                                 <td>
                                     <div *ngIf="mandamiento.rutaImagenComprobante != null; else pending">
-                                        <button pButton pRipple type="button" label="Ver comprobante" icon="pi pi-eye" (click)="verEditarComprobante(mandamiento)" class="p-button-rounded p-button-text p-button-danger"></button>
+                                        <button pButton pRipple type="button" label="Ver comprobante de pago" icon="pi pi-eye" (click)="verEditarComprobante(mandamiento)" class="p-button-rounded p-button-text p-button-danger"></button>
                                     </div>
                                     <ng-template #pending>
-                                        <button pButton pRipple type="button" label="Subir comprobante" icon="pi pi-upload" (click)="agregarComprobante(mandamiento.idControl)" class="p-button-rounded p-button-text p-button-danger"></button>
+                                        <button pButton pRipple type="button" label="Subir comprobante de pago" icon="pi pi-upload" (click)="agregarComprobante(mandamiento.idControl)" class="p-button-rounded p-button-text p-button-danger"></button>
                                     </ng-template>
                                 </td>
                                 <td><p-tag severity="{{claseEstadoPlanilla(mandamiento.codigoEstado)}}" value="{{buscarEstadoPlanilla(mandamiento.codigoEstado)}}"></p-tag></td>
                                 <td>
-                                    <button title="Imprimir comprobante" pButton (click)="imprimirComprobante(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-secondary m-1"></button>
+                                    <button title="Ver comprobante de pago" pButton (click)="imprimirComprobante(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-secondary m-1"></button>
                                     <button *ngIf="mandamiento.rutaImagenComprobante != null && mandamiento.codigoEstado != 5" title="Registrar recibo de pago" pButton (click)="finalizarPlanilla(mandamiento.idEncabezado)" icon="pi pi-check" class="p-button-primary m-1"></button>
                                 </td>
                             </tr>

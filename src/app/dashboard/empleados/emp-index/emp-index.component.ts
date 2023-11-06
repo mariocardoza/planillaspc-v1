@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
 import { saveAs } from 'file-saver';
+import { PlanillaService } from 'src/app/core/service/planilla.service';
 
 @Component({
   selector: 'app-emp-index',
@@ -31,11 +32,12 @@ export class EmpIndexComponent implements OnInit {
   public response: { dbPath: '' }
   empleadoForm: FormGroup;
   empleadoFormDelete: FormGroup;
+  loadingDUI: boolean = false;
   sexos = [
     {value:'F', name:'Femenino'},
     {value:'M', name:'Masculino'},
   ];
-  constructor(private empleadosService: EmpleadosService,private formBuilder: FormBuilder,public modal: NgbModal,private messageService: MessageService, private fileService: FileDownloadService) {
+  constructor(private empleadosService: EmpleadosService,private planillaService: PlanillaService,private formBuilder: FormBuilder,public modal: NgbModal,private messageService: MessageService, private fileService: FileDownloadService) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     console.log(this.data)
    }
@@ -216,6 +218,24 @@ export class EmpIndexComponent implements OnInit {
       }else{
         this.loading = false;
       }
+    })
+  }
+
+  validarDui(){
+    this.loadingDUI = true;
+    let dui: string = (this.empleadoForm.value.DuiPasaporte);
+    const data = {
+      dui : dui,
+      codigoPagaduria: this.data.CodigoPagaduria,
+      codigoEmpresa: this.data.CodigoPGR
+    };
+    this.planillaService.buscarExpediente(data).subscribe((res)=>{
+      if(res.success){
+        
+      }else{
+        this.messageService.add({severity:'error',summary: 'Error',detail:'DUI inválido'})
+      }
+      this.loadingDUI = false;
     })
   }
 

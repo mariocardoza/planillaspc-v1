@@ -213,16 +213,18 @@ export class EditarPlanillaComponent implements OnInit {
     };
     this.planillaService.buscarExpediente(data).subscribe((res)=>{
       if(res.success){
-        this.hasExpedient = false;
+        this.hasExpedient = true;
+        this.messageService.add({severity:'success', summary: 'Exito', detail:'DUI válido'});
         //if(res.detalle.length  > 1){
-          this.empleadosPre = res.detalle 
+          //this.empleadosPre = res.detalle 
           
-          this.modal.open(this.modalEmpleados,{ size: <any>'xl' });
+          //this.modal.open(this.modalEmpleados,{ size: <any>'xl' });
         /*}else{
           this.empleadoForm.patchValue({CodigoExpediente:res.detalle[0].codigoExpediente})
         }*/
       }else{
         this.hasExpedient = true;
+        this.messageService.add({severity:'error', summary: 'Error', detail:'DUI inválido'});
       }
       this.loadingDUI = false;
     })

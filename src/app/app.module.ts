@@ -17,7 +17,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { PageLoaderComponent } from './layout/page-loader/page-loader.component';
 import { ProtectRoutesInterceptor } from './core/interceptors/protect-routes.interceptor';
 import { DisableControlDirective } from './core/directives/disable-control.directive';
-import  localeEs from '@angular/common/locales/es';
+import  localeEs from '@angular/common/locales/es-SV';
 import { registerLocaleData } from '@angular/common';
 registerLocaleData(localeEs, 'es');
 @NgModule({

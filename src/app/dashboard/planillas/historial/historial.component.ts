@@ -121,7 +121,7 @@ export class HistorialComponent implements OnInit {
   generarPlanilla(idEncabezado:number){
     Swal.fire({
       title: '¿Esta seguro?',
-      text: "Esta acción generará el comprobante de pago",
+      text: "Esta acción emitirá el Mandamiento de Pago",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

@@ -7,4 +7,6 @@ export interface IEmpleado {
     codigoExpediente?: number;
     expedienteFisico?: string;
     rutaDocumento?: string;
+    tipoDocumentoI?: string;
+    nombreDocumento?: string;
 }

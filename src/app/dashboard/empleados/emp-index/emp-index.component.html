@@ -8,9 +8,19 @@
     <div class="modal-body">
       <form class="validate-form" [formGroup]="empleadoForm" (ngSubmit)="isCreating ? onSubmitEmpleado() : editEmpleado()">
         <div class="row">
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+          <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
             <mat-form-field class="full-width" appearance="outline">
-              <mat-label>DUI o Pasaporte</mat-label>
+              <mat-label>Tipo de documento</mat-label>
+              <mat-select placeholder="Tipo de documento" formControlName="TipoDocumentoI">
+                <mat-option *ngFor="let documento of documentos" [value]="documento.tipoDocumentoI">
+                  {{documento.nombreDocumento}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>N° de documento</mat-label>
               <input type="hidden" formControlName="IdPersona">
               <input type="hidden" formControlName="CodigoEmpresa">
               <input matInput formControlName="DuiPasaporte" autocomplete="off" />
@@ -19,7 +29,7 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <div class="col-12 col-md-6" *ngIf="!editing">
+          <div class="col-12 col-md-2" *ngIf="!editing">
             <button mat-raised-button color="primary" [class.auth-spinner]="loadingDUI"
               class="auth-form-btn" [disabled]="loadingDUI" (click)="validarDui()" type="button">Validar DUI</button>
           </div>
@@ -173,7 +183,8 @@
                 <ng-template pTemplate="header">
                   <tr>
                     <th>N°</th>
-                    <th pSortableColumn="duiPasaporte">DUI <p-sortIcon field="duiPasaporte"></p-sortIcon></th>
+                    <th pSortableColumn="tipoDocumento">Documento <p-sortIcon field="tipoDocumento"></p-sortIcon></th>
+                    <th pSortableColumn="duiPasaporte">N° documento <p-sortIcon field="duiPasaporte"></p-sortIcon></th>
                     <th pSortableColumn="apellidos">Apellidos <p-sortIcon field="apellidos"></p-sortIcon></th>
                     <th pSortableColumn="nombres">Nombres <p-sortIcon field="nombres"></p-sortIcon></th>
                     <th pSortableColumn="codigoExpediente">N° expediente electrónico <p-sortIcon field="codigoExpediente"></p-sortIcon></th>
@@ -184,6 +195,7 @@
                 <ng-template pTemplate="body" let-empleado let-i="rowIndex">
                   <tr>
                     <td>{{i+1}}</td>
+                    <td>{{ empleado.nombreDocumento }}</td>
                     <td>{{ empleado.duiPasaporte }}</td>
                     <td>{{ empleado.apellidos }}</td>
                     <td>{{ empleado.nombres }}</td>

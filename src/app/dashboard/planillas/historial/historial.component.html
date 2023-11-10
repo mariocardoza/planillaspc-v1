@@ -131,7 +131,7 @@
                                 <td><p-tag severity="{{claseEstadoPlanilla(planilla.codigoEstado)}}" value="{{buscarEstadoPlanilla(planilla.codigoEstado)}}"></p-tag></td>
                                 <td>
                                     <button title="Anular planilla" *ngIf="planilla.codigoEstado <= 3" pButton (click)="anularPlanilla(planilla.idEncabezado)" icon="pi pi-times" class="p-button-warning mx-1"></button>
-                                    <button title="Visualizar planilla" pButton routerLink="/dashboard/planillas/{{planilla.idEncabezado}}/edit" icon="pi pi-eye" class="p-button-primary mx-1"></button>
+                                    <button title="Visualizar planilla" pButton (click)="vistaEditarPlanilla(planilla.idEncabezado)" icon="pi pi-eye" class="p-button-primary mx-1"></button>
                                     <button *ngIf="planilla.codigoEstado == 1" title="Guardar planilla" pButton (click)="procesarPlanilla(planilla.idEncabezado)" icon="pi pi-check" class="p-button-secondary mx-1"></button>
                                     <button *ngIf="planilla.codigoEstado == 2" title="Emitir mandamiento de pago" pButton (click)="generarPlanilla(planilla.idEncabezado)" icon="pi pi-money-bill" class="p-button-secondary mx-1"></button>
                                     <button *ngIf="planilla.codigoEstado == 3" title="Imprimir mandamiento de pago" pButton (click)="imprimirComprobante(planilla.idEncabezado)" icon="pi pi-print" class="p-button-secondary mx-1"></button>

@@ -5,6 +5,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { EncryptService } from 'src/app/core/service/encrypt.service';
+
 @Component({
   selector: 'app-clonar-planilla',
   templateUrl: './clonar-planilla.component.html',
@@ -47,7 +49,8 @@ export class ClonarPlanillaComponent implements OnInit {
     {value:'6', name:'Finalizada'},
   ];
   totalRecords: number = 0;
-  constructor(private planillaService: PlanillaService,public modal: NgbModal,private formBuilder: FormBuilder, private messageService: MessageService, private router: Router) {
+  constructor(private planillaService: PlanillaService,public modal: NgbModal,private formBuilder: FormBuilder, private messageService: MessageService, private router: Router,
+    private encryptService: EncryptService) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
@@ -99,7 +102,8 @@ export class ClonarPlanillaComponent implements OnInit {
       if(res['success']){
         this.modal.dismissAll();
         this.messageService.add({severity:'success', summary: 'Exito', detail:'Planilla correctamente clonada'});
-        this.router.navigate(['/dashboard/planillas/'+res['idEncabezado']+'/edit']);
+        const idEncrypt = this.encryptService.encrypt(res['idEncabezado']);
+        this.router.navigate(['/dashboard/planillas/'+idEncrypt+'/edit']);
       }
     })
   }
@@ -112,7 +116,7 @@ export class ClonarPlanillaComponent implements OnInit {
   }
 
   obtenerPlanillas(event: LazyLoadEvent){
-    this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'noMandamiento').subscribe((result) => {
+    this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'fechaHoraRegistro').subscribe((result) => {
       this.planillas = result['data'];
       this.totalRecords = result['registros'];
     });

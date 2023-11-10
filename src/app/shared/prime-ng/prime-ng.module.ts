@@ -10,6 +10,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import {MultiSelectModule} from 'primeng/multiselect';
 import { DividerModule } from "primeng/divider";
+import {TimelineModule} from 'primeng/timeline';
 
 @NgModule({
   declarations: [],
@@ -26,7 +27,8 @@ import { DividerModule } from "primeng/divider";
     CalendarModule,
     KeyFilterModule,
     MultiSelectModule,
-    DividerModule
+    DividerModule,
+    TimelineModule
   ]
 })
 export class PrimeNgModule { }

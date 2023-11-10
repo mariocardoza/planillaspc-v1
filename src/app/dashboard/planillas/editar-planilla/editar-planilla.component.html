@@ -255,7 +255,7 @@
     </div>
 </ng-template>
 <section class="content">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-12">
                 <p-toast></p-toast>
@@ -318,10 +318,25 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-12 timeline">
+                    <p-timeline [value]="codigoEstadosTimeline" layout="horizontal" align="bottom">
+                        <ng-template pTemplate="marker" let-estado>
+
+                            <span
+                                class="custom-marker p-shadow-2"
+                                [style.color]="buscarTrackPlanilla(estado.value) ? '#01DF01' : '#DF0101'">
+                                <i [ngClass]="buscarTrackPlanilla(estado.value) ? 'pi pi-check-circle' : 'pi pi-stop-circle'"></i>
+                            </span>
+                        </ng-template>
+                        <ng-template pTemplate="content" let-estado class="listo">
+                            {{estado.name}}
+                        </ng-template>
+                    </p-timeline>
+                </div>
                 <div class="col-12 my-4" *ngIf="codigoEstado == '1'">
-                    <button title="Actualizar planilla" pButton pRipple (click)="onSubmit()" class="primary mx-2" icon="pi pi-save" label="Actualizar planilla"></button>
+                    <button title="Actualizar planilla" pButton pRipple (click)="onSubmit()" class="primary mx-2" icon="pi pi-save" label="Actualizar observaciones"></button>
                     <button title="Registrar nuevo expediente" class="primary mx-2" pButton icon="pi pi-plus" pRipple type="button" label="Nuevo empleado" (click)="crearNuevo(agregarEmpleado)"></button>
-                    <button title="Procesar planilla" class="primary mx-2" pButton icon="pi pi-send" pRipple type="button" label="Enviar planilla" (click)="procesarPlanilla(planilla.idEncabezado)"></button>
+                    <button title="Procesar planilla" class="primary mx-2" pButton icon="pi pi-send" pRipple type="button" label="Procesar planilla" (click)="procesarPlanilla(planilla.idEncabezado)"></button>
                 </div>
             </div>
         </form>
@@ -331,7 +346,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 my-3" *ngIf="codigoTipoCuota != '1'">
-                <h4 class="text-center">Se le informa que el monto de la prestacion para este tipo de planilla debe distribuirse de manera proporcional por cada beneficiario.</h4>
+                <button *ngIf="codigoEstado == '1'" pButton pRipple class="info" label="Verificar distribución" (click)="verificarDistribucion(planilla.idEncabezado)"></button>
+                <h4 class="text-center m-4">Se le informa que el monto de la prestacion para este tipo de planilla debe distribuirse de manera proporcional por cada beneficiario.</h4>
             </div>
             <div class="col-12">
                 <button *ngIf="codigoEstado == '1'" pButton pRipple (click)="deleteSelected()">Eliminar seleccionados</button>
@@ -453,7 +469,7 @@
                                 <td class="td" [pEditableColumn]="empleado">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input" *ngIf="planilla.codigoEstado == 1">
-                                            <input pInputText pKeyFilter="money" style="width: 80%;"  [(ngModel)]="empleado.monto">
+                                            <input pInputText pKeyFilter="money" style="width: 100%;"  [(ngModel)]="empleado.monto">
                                         </ng-template>
                                         <ng-template pTemplate="output">
                                             {{empleado.monto | currency: 'USD'}}

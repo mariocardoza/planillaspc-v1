@@ -142,7 +142,7 @@
         <div class="row">
             <div class="col-12">
                 <p-toast></p-toast>
-                <h2 class="text-center">Pago de planillas</h2>
+                <h2 class="text-center">Pago de planillas (Subir comprobante de pago)</h2>
             </div>
         </div>
         
@@ -179,7 +179,7 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-i="rowIndex" let-mandamiento>
-                            <tr *ngIf="mandamiento.codigoEstado == 3 || mandamiento.codigoEstado == 5">
+                            <tr>
                                 <td>{{ i+1 }}</td>
                                 <td>{{ mandamiento.noMandamiento }}</td>
                                 <td>{{ mandamiento.descripcion }}</td>

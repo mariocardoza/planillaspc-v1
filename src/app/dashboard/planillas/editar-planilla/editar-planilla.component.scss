@@ -17,6 +17,19 @@ app-upload{
     }
 }
 
+.timeline{
+	.pi{
+		font-size: 1.5rem !important;
+	}
+	.p-timeline-event-content {
+		font-weight: bold !important;
+	}
+}
+
+.p-timeline-event-content {
+    font-weight: bold !important;
+}
+
 .btn-flotante {
 	font-size: 16px; /* Cambiar el tamaño de la tipografia */
 	text-transform: uppercase; /* Texto en mayusculas */

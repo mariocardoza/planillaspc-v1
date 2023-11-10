@@ -7,8 +7,8 @@ import { IMandamiento } from 'src/app/core/models/planillas/mandamiento';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-
-
+import { EncryptService } from 'src/app/core/service/encrypt.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-historial',
   templateUrl: './historial.component.html',
@@ -55,7 +55,7 @@ export class HistorialComponent implements OnInit {
   ];
   px2mmFactor: number;
   totalRecords: number = 0;
-  constructor(private planillaService: PlanillaService, private messageService: MessageService, public modalService: NgbModal) {
+  constructor(private planillaService: PlanillaService,private router: Router, private messageService: MessageService, public modalService: NgbModal, private encryptService: EncryptService) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
@@ -65,6 +65,16 @@ export class HistorialComponent implements OnInit {
   ngOnInit(): void {
     this.px2mmFactor = this.calcPx2MmFactor();
     
+  }
+
+  vistaEditarPlanilla(id){
+    const idEncrypt = this.encryptService.encrypt(id);
+    this.router.navigate(['/dashboard/planillas/'+idEncrypt+'/edit']);
+  }
+
+  encriptar(id){
+    const idEncrypt = this.encryptService.encrypt(id);
+    return idEncrypt;
   }
 
   calcPx2MmFactor() {

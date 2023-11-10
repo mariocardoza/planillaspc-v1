@@ -37,6 +37,7 @@ export class EmpIndexComponent implements OnInit {
     {value:'F', name:'Femenino'},
     {value:'M', name:'Masculino'},
   ];
+  documentos: any = [];
   constructor(private empleadosService: EmpleadosService,private planillaService: PlanillaService,private formBuilder: FormBuilder,public modal: NgbModal,private messageService: MessageService, private fileService: FileDownloadService) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     console.log(this.data)
@@ -57,6 +58,7 @@ export class EmpIndexComponent implements OnInit {
       IdPersona: ['', ''],
       RutaDocumento: ['', ''],
       CodigoEmpresa: [this.data.CodigoPGR, ''],
+      TipoDocumentoI: ['', Validators.required],
     });
 
     this.empleadoFormDelete = this.formBuilder.group({
@@ -90,6 +92,7 @@ export class EmpIndexComponent implements OnInit {
     this.empleadoForm.patchValue({DuiPasaporte:empleado.duiPasaporte});
     this.empleadoForm.patchValue({CodigoExpediente:empleado.codigoExpediente});
     this.empleadoForm.patchValue({ExpedienteFisico:empleado.expedienteFisico});
+    this.empleadoForm.patchValue({TipoDocumentoI:empleado.tipoDocumentoI});
     this.empleadoForm.patchValue({RutaDocumento:empleado.rutaDocumento});
     this.actualfile = empleado.rutaDocumento;
     console.log(this.actualfile)
@@ -214,6 +217,7 @@ export class EmpIndexComponent implements OnInit {
       if(res.success){
         this.empleados = res.data;
         this.totalRecords = res.total
+        this.documentos = res.documentos;
         this.loading = false
       }else{
         this.loading = false;

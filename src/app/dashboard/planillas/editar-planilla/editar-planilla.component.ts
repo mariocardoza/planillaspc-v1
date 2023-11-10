@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
 import { saveAs } from 'file-saver';
+import { EncryptService } from 'src/app/core/service/encrypt.service';
 
 @Component({
   selector: 'app-editar-planilla',
@@ -53,13 +54,24 @@ export class EditarPlanillaComponent implements OnInit {
     {value:'5', name:'Pago completado'},
     {value:'6', name:'Finalizada'},
   ];
+
+  codigoEstadosTimeline = [
+    {value:'1', name:'En proceso'},
+    {value:'2', name:'Pendiente de emitir mandamiento de pago'},
+    {value:'3', name:'Mandamiento de pago emitido'},
+    {value:'5', name:'Pago completado'},
+    {value:'6', name:'Finalizada'},
+  ];
+
+  track: any = [];
+
   editing: boolean = false;
   hasExpedient:boolean = false;
   actualfile:any = '';
   clonedEmpleado: { [s: string]: DetallePlanilla } = {};
   @ViewChild(Table, { read: Table }) pTable: Table;
   constructor(private formBuilder: FormBuilder,private route: ActivatedRoute, private planillaService: PlanillaService,private messageService: MessageService,public modal: NgbModal,
-    private fileService: FileDownloadService) { 
+    private fileService: FileDownloadService,private encryptService: EncryptService) { 
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     this.carpetaInstaciada = 'planillas/ordenes';
     if(this.data != null){
@@ -72,7 +84,7 @@ export class EditarPlanillaComponent implements OnInit {
 
 
   ngOnInit(): void {
-    let id = this.route.snapshot.params.id;
+    let id = this.encryptService.decrypt(this.route.snapshot.params.id);
     this.getPlanilla(id)
     this.planillaFormGroup = this.formBuilder.group({
       Periodo: ['', Validators.required],
@@ -349,6 +361,7 @@ export class EditarPlanillaComponent implements OnInit {
         this.planilla = result['data']
         this.empleados = this.planilla.detalles
         this.codigoEstado = this.planilla.codigoEstado;
+        this.track = result['track'];
         this.codigoTipoCuota = this.planilla.codigoTipoCuota;
         this.planillaFormGroup.patchValue({NoMandamiento:this.planilla.noMandamiento})
         this.planillaFormGroup.patchValue({Periodo:this.planilla.periodo})
@@ -439,5 +452,21 @@ export class EditarPlanillaComponent implements OnInit {
 		}), error => this.messageService.add({severity:'error', summary: 'Error', detail:''}), () => this.messageService.add({severity:'success', summary: 'Exito', detail:''})
   }
 
+  buscarTrackPlanilla(codigoEstado){
+    //console.log(this.track)
+    var valor = this.track.includes(codigoEstado);
+    //console.log(valor)
+    return valor;
+  }
+
+  verificarDistribucion(idEncabezado: number){
+    this.planillaService.verificarDistribucion(idEncabezado).subscribe((result) => {
+      if(result > 0){
+        this.messageService.add({severity:'error', summary: 'Error', detail:'Verifique la correcta distribucion de las prestaciones'});
+      }else{
+        this.messageService.add({severity:'success', summary: 'Exito', detail:'Distribución correcta'});
+      }
+    })
+  }
 
 }

@@ -93,6 +93,7 @@
                                 <th>Monto planilla</th>
                                 <th>Personal en planilla</th>
                                 <th>Estado</th>
+                                <th>Fecha generación</th>
                                 <th>Acción</th>
                             </tr>
                         </ng-template>
@@ -104,6 +105,7 @@
                                 <td>${{ planilla.monto }}</td>
                                 <td>{{ planilla.empleadosEnPlanilla }}</td>
                                 <td><p-tag severity="primary" value="{{buscarEstadoPlanilla(planilla.codigoEstado)}}"></p-tag></td>
+                                <td>{{ planilla.fechaHoraRegistro | date: 'dd/MM/yyyy hh:mm:ss' }}</td>
                                 <td>
                                     <p-button (click)="clonar(planilla,clonarPlanilla)" icon="pi pi-copy" styleClass="p-button-warning" label="Clonar planilla"></p-button>
                                 </td>

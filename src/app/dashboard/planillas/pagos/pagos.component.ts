@@ -73,7 +73,7 @@ export class PagosComponent implements OnInit {
 
   obtenerComprobantes(event: LazyLoadEvent){
     this.lastTableLazyLoadEvent = event;
-    this.planillaService.obtenerComprobantes(this.data.CodigoPGR,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'idControl').subscribe((result) => {
+    this.planillaService.obtenerComprobantes(this.data.CodigoPGR,'3',event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'fechaHoraRegistro').subscribe((result) => {
       this.mandamientos = result.data;
       this.totalRecords = result.registros;
     });

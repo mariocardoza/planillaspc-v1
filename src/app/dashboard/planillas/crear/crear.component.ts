@@ -13,6 +13,7 @@ import { DetallePlanilla, DetalleColumns } from 'src/app/core/models/detalle-pla
 import { DetalleEPlanilla } from 'src/app/core/models/detalle-e-planilla';
 import { MessageService } from 'primeng/api';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EncryptService } from 'src/app/core/service/encrypt.service';
 const moment = _moment;
 
 export const MY_FORMATS = {
@@ -105,7 +106,7 @@ export class CrearComponent implements OnInit {
   }
 
 
-  constructor(private planillaService: PlanillaService, private formBuilder: FormBuilder, private router: Router, private modalService: NgbModal) {
+  constructor(private planillaService: PlanillaService, private formBuilder: FormBuilder, private router: Router, private modalService: NgbModal, private encryptService :EncryptService) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
@@ -160,7 +161,9 @@ export class CrearComponent implements OnInit {
           this.isSuccess = true;
           this.modalService.dismissAll();
           this.message = result['message'];
-          this.router.navigate(['/dashboard/planillas/'+result['idEncabezado']+'/edit']);
+          const idEncrypt = this.encryptService.encrypt(result['idEncabezado']);
+          this.router.navigate(['/dashboard/planillas/'+idEncrypt+'/edit']);
+          //this.router.navigate(['/dashboard/planillas/'+result['idEncabezado']+'/edit']);
 
         }else{
           this.isError = true;

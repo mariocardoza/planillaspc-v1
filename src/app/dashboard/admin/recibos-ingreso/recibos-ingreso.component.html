@@ -187,6 +187,12 @@
                         <p class="text-center"><strong>{{mandamiento.nombrePA}}</strong></p>
                         <p class="text-center">Unidad de Control de Fondos de Terceros</p>
                     </div>
+                    <div class="col-2">
+                        <div class="position-relative">
+                            <img src="./assets/images/sello.png" width="120" alt="sello">
+                            <p class="lafechasello"><b>{{mandamiento.fechaHoy}}</b></p>
+                        </div>
+                    </div>
                 </div>
                 <div class="row mt-1">
                     <div class="col-2">
@@ -210,7 +216,7 @@
                     <div class="col-4">
                         <div class="row">
                             <div class="col-12"><p>Recibo de ingreso N°: {{mandamiento.numeroCorrelativoReciboIngreso}}</p></div>
-                            <div class="col-12"><p>Fecha de generación: {{ laFecha(hoy) }}</p></div>
+                            <div class="col-12"><p>Fecha de generación: {{ mandamiento.fechaHoy }}</p></div>
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-6"><p><strong>Por: US($):</strong></p></div>
@@ -228,8 +234,8 @@
                 </div>
                 <div class="row">
                     <div class="col-6"><p>Número de remesa: {{mandamiento.numeroRemesaPresentada}}</p></div>
-                    <div class="col-6"><p>Fecha de remesa: {{mandamiento.fechaRemesaPresentada | date:format:"dd/mm/YYYY"}}</p></div>
-                    <div class="col-12"><p>Observaciones: </p></div>
+                    <div class="col-6"><p>Fecha de remesa: {{mandamiento.fechaRemesaPresentada }}</p></div>
+                    <div class="col-12"><p>Observaciones: {{mandamiento.observaciones}}</p></div>
                 </div>
                 <div class="row mt-2">
                     <div class="col-12">
@@ -255,6 +261,12 @@
                         <p class="text-center"><strong>{{mandamiento.nombrePA}}</strong></p>
                         <p class="text-center">Unidad de Control de Fondos de Terceros</p>
                     </div>
+                    <div class="col-2">
+                        <div class="position-relative">
+                            <img src="./assets/images/sello.png" width="120" alt="sello">
+                            <p class="lafechasello"><b>{{mandamiento.fechaHoy}}</b></p>
+                        </div>
+                    </div>
                 </div>
                 <div class="row mt-1">
                     <div class="col-2">
@@ -278,7 +290,7 @@
                     <div class="col-4">
                         <div class="row">
                             <div class="col-12"><p>Recibo de ingreso N°: {{mandamiento.numeroCorrelativoReciboIngreso}}</p></div>
-                            <div class="col-12"><p>Fecha de generación: {{ laFecha(hoy) }}</p></div>
+                            <div class="col-12"><p>Fecha de generación: {{ mandamiento.fechaHoy }}</p></div>
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-6"><p><strong>Por: US($):</strong></p></div>
@@ -296,8 +308,8 @@
                 </div>
                 <div class="row">
                     <div class="col-6"><p>Número de remesa: {{mandamiento.numeroRemesaPresentada}}</p></div>
-                    <div class="col-6"><p>Fecha de remesa: {{mandamiento.fechaRemesaPresentada | date:format:"dd/mm/YYYY"}}</p></div>
-                    <div class="col-12"><p>Observaciones: </p></div>
+                    <div class="col-6"><p>Fecha de remesa: {{mandamiento.fechaRemesaPresentada }}</p></div>
+                    <div class="col-12"><p>Observaciones: {{mandamiento.observaciones}}</p></div>
                 </div>
                 <div class="row mt-2">
                     <div class="col-12">
@@ -323,6 +335,12 @@
                         <p class="text-center"><strong>{{mandamiento.nombrePA}}</strong></p>
                         <p class="text-center">Unidad de Control de Fondos de Terceros</p>
                     </div>
+                    <div class="col-2">
+                        <div class="position-relative">
+                            <img src="./assets/images/sello.png" width="120" alt="sello">
+                            <p class="lafechasello"><b>{{mandamiento.fechaHoy}}</b></p>
+                        </div>
+                    </div>
                 </div>
                 <div class="row mt-1">
                     <div class="col-2">
@@ -346,7 +364,7 @@
                     <div class="col-4">
                         <div class="row">
                             <div class="col-12"><p>Recibo de ingreso N°: {{mandamiento.numeroCorrelativoReciboIngreso}}</p></div>
-                            <div class="col-12"><p>Fecha de generación: {{ laFecha(hoy) }}</p></div>
+                            <div class="col-12"><p>Fecha de generación: {{ mandamiento.fechaHoy }}</p></div>
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-6"><p><strong>Por: US($):</strong></p></div>
@@ -364,8 +382,8 @@
                 </div>
                 <div class="row">
                     <div class="col-6"><p>Número de remesa: {{mandamiento.numeroRemesaPresentada}}</p></div>
-                    <div class="col-6"><p>Fecha de remesa: {{mandamiento.fechaRemesaPresentada | date:format:"dd/mm/YYYY"}}</p></div>
-                    <div class="col-12"><p>Observaciones: </p></div>
+                    <div class="col-6"><p>Fecha de remesa: {{mandamiento.fechaRemesaPresentada }}</p></div>
+                    <div class="col-12"><p>Observaciones: {{mandamiento.observaciones}} </p></div>
                 </div>
                 <div class="row mt-2">
                     <div class="col-12">

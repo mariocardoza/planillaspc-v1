@@ -1,7 +1,7 @@
 <section class="content">
     <div class="container">
         <div class="row ">
-          <div class="col-xl-3 col-lg-6">
+          <div class="col-xl-3 col-lg-6" *ngIf="data.CodigoRol == 'U'">
             <div class="card l-bg-cyan-dark">
               <div class="card-statistic-3">
                 <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
@@ -52,8 +52,12 @@
             </div-->
         </div>
         <div class="row justify-content-center">
-          <div class="col-5">
+          <div class="col-5" *ngIf="data.CodigoRol == 'U'">
             <h4>Se le recuerda presentar sus planillas a tiempo; máximo 5 días después de realizado el pago de salarios</h4>
+          </div>
+          <div class="col-5" *ngIf="data.CodigoRol == 'A'">
+            <h4>Listados de planillas pendientes de generar recibo de ingreso, ir a la opción de <strong>Emitir recibo de ingreso</strong></h4>
+            <h4 class="mt-4">Para imprimir el recibo de ingreso ir a la opción de: <strong>Bitácora recibos de ingreso</strong></h4>
           </div>
         </div>
         

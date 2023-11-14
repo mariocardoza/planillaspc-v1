@@ -376,23 +376,32 @@ export class EditarPlanillaComponent implements OnInit {
   }
 
   procesarPlanilla(idEncabezado: number){
-    Swal.fire({
-      title: '¿Esta seguro?',
-      text: "Esta acción guardará la planilla y ya no podrá hacer cambios en ella",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, Continuar',
-      cancelButtonText: 'No',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.planillaService.enviarPlanilla(idEncabezado).subscribe((result) => {
-          if(result.success){
-            this.getPlanilla(idEncabezado);
-            this.messageService.add({severity:'success', summary: 'Exito', detail:'Planilla enviada a la PGR con éxito'});
+    this.planillaService.verificarDistribucion(idEncabezado).subscribe((result) => {
+      if(result.cuantos > 0){
+        this.messageService.add({severity:'error', summary: 'Error', detail:'Verifique la correcta distribucion de las prestaciones'});
+        Swal.fire({
+          html: result.duis
+        });
+      }else{
+        Swal.fire({
+          title: '¿Esta seguro?',
+          text: "Esta acción guardará la planilla y ya no podrá hacer cambios en ella",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, Continuar',
+          cancelButtonText: 'No',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.planillaService.enviarPlanilla(idEncabezado).subscribe((result) => {
+              if(result.success){
+                this.getPlanilla(idEncabezado);
+                this.messageService.add({severity:'success', summary: 'Exito', detail:'Planilla enviada a la PGR con éxito'});
+              }
+            });  
           }
-        });  
+        })
       }
     })
   }
@@ -454,15 +463,38 @@ export class EditarPlanillaComponent implements OnInit {
 
   buscarTrackPlanilla(codigoEstado){
     //console.log(this.track)
-    var valor = this.track.includes(codigoEstado);
+    let estadoActual = this.codigoEstado;
+    let color = '';
+    if(estadoActual < codigoEstado){
+      //console.log("rojo "+ estadoActual+" "+codigoEstado)
+      color = '#DF0101'
+    }else{
+      if(estadoActual == codigoEstado && estadoActual != '6'){
+        //console.log("amarillo" + estadoActual+" "+codigoEstado)
+        color = '#dee314'
+      }else{
+        if(estadoActual == '6'){
+          //console.log("verde ultimo" + estadoActual+" "+codigoEstado)
+          color = '#01DF01'
+        }else{
+          //console.log("verde" + estadoActual+" "+codigoEstado)
+          color = '#01DF01'
+        }
+      }
+    }
+    return color;
+    /*var valor = this.track.includes(codigoEstado);
     //console.log(valor)
-    return valor;
+    return valor;*/
   }
 
   verificarDistribucion(idEncabezado: number){
     this.planillaService.verificarDistribucion(idEncabezado).subscribe((result) => {
-      if(result > 0){
+      if(result.cuantos > 0){
         this.messageService.add({severity:'error', summary: 'Error', detail:'Verifique la correcta distribucion de las prestaciones'});
+        Swal.fire({
+          html: result.duis
+        });
       }else{
         this.messageService.add({severity:'success', summary: 'Exito', detail:'Distribución correcta'});
       }

@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 })
 export class HistorialComponent implements OnInit {
   @ViewChild("modalComprobante") modalComprobante: ElementRef;
+  @ViewChild("modalEstados") modalEstados: ElementRef;
   planillas: any = [];
   mandamiento: IMandamiento;
   data:any;
@@ -53,8 +54,17 @@ export class HistorialComponent implements OnInit {
     {value:'5', name:'Pago completado'},
     {value:'6', name:'Finalizada'},
   ];
+  codigoEstadosTimeline = [
+    {value:'1', name:'En proceso'},
+    {value:'2', name:'Pendiente de emitir mandamiento de pago'},
+    {value:'3', name:'Mandamiento de pago emitido'},
+    {value:'5', name:'Pago completado'},
+    {value:'6', name:'Finalizada'},
+  ];
+  track: any = [];
   px2mmFactor: number;
   totalRecords: number = 0;
+  estadoActual
   constructor(private planillaService: PlanillaService,private router: Router, private messageService: MessageService, public modalService: NgbModal, private encryptService: EncryptService) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
@@ -65,6 +75,16 @@ export class HistorialComponent implements OnInit {
   ngOnInit(): void {
     this.px2mmFactor = this.calcPx2MmFactor();
     
+  }
+
+  verTrack(id){
+    this.planillaService.obtenerPlanilla(id,this.token).subscribe((result) => {
+      if(result['success']){
+        this.track = result['track'];
+        this.estadoActual = result['data'].codigoEstado;
+      }  
+    })
+    this.modalService.open(this.modalEstados,{ size: <any>'md' });
   }
 
   vistaEditarPlanilla(id){
@@ -97,25 +117,35 @@ export class HistorialComponent implements OnInit {
   }
 
   procesarPlanilla(idEncabezado){
-    Swal.fire({
-      title: '¿Esta seguro?',
-      text: "Esta acción guardará la planilla y ya no podrá hacer cambios en ella",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, Continuar',
-      cancelButtonText: 'No',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.planillaService.enviarPlanilla(idEncabezado).subscribe((result) => {
-          if(result.success){
-            this.obtenerPlanillas(this.lastTableLazyLoadEvent);
-            this.messageService.add({severity:'success', summary: 'Exito', detail:'Planilla enviada a la PGR con éxito'});
+    this.planillaService.verificarDistribucion(idEncabezado).subscribe((result) => {
+      if(result.cuantos > 0){
+        this.messageService.add({severity:'error', summary: 'Error', detail:'Verifique la correcta distribucion de las prestaciones'});
+        Swal.fire({
+          html: result.duis
+        });
+      }else{
+        Swal.fire({
+          title: '¿Esta seguro?',
+          text: "Esta acción guardará la planilla y ya no podrá hacer cambios en ella",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, Continuar',
+          cancelButtonText: 'No',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.planillaService.enviarPlanilla(idEncabezado).subscribe((result) => {
+              if(result.success){
+                this.obtenerPlanillas(this.lastTableLazyLoadEvent);
+                this.messageService.add({severity:'success', summary: 'Exito', detail:'Planilla enviada a la PGR con éxito'});
+              }
+            });  
           }
-        });  
+        })
       }
     })
+    
   }
 
   buscarTipoCuota(codigoTipoCuota){
@@ -232,6 +262,33 @@ export class HistorialComponent implements OnInit {
     }).then((docResult) => {
       docResult.save(`${new Date().toISOString()}_mandamiento_pago.pdf`);
     });
+  }
+
+  buscarTrackPlanilla(codigoEstado){
+    //console.log(this.track)
+    let color = '';
+    let estadoActual = this.estadoActual;
+    if(estadoActual < codigoEstado){
+      //console.log("rojo "+ estadoActual+" "+codigoEstado)
+      color = '#DF0101'
+    }else{
+      if(estadoActual == codigoEstado && estadoActual != '6'){
+        //console.log("amarillo" + estadoActual+" "+codigoEstado)
+        color = '#dee314'
+      }else{
+        if(estadoActual == '6'){
+          //console.log("verde ultimo" + estadoActual+" "+codigoEstado)
+          color = '#01DF01'
+        }else{
+          //console.log("verde" + estadoActual+" "+codigoEstado)
+          color = '#01DF01'
+        }
+      }
+    }
+    return color;
+    /*var valor = this.track.includes(codigoEstado);
+    //console.log(valor)
+    return valor;*/
   }
 
 }

@@ -173,6 +173,7 @@
                                 <th >Descripción </th>
                                 <th pSortableColumn="codigoTipoCuota">Tipo de pago <p-sortIcon field="codigoTipoCuota"></p-sortIcon></th>
                                 <th pSortableColumn="monto">Monto <p-sortIcon field="monto"></p-sortIcon></th>
+                                <th>Fecha generación</th>
                                 <th>Comprobante banco</th>
                                 <th pSortableColumn="codigoEstado">Estado <p-sortIcon field="codigoEstado"></p-sortIcon></th>
                                 <th>Acciones</th>
@@ -185,6 +186,7 @@
                                 <td>{{ mandamiento.descripcion }}</td>
                                 <td>{{ buscarTipoCuota(mandamiento.codigoTipoCuota) }}</td>
                                 <td>{{ mandamiento.monto | currency:'USD' }}</td>
+                                <td>{{ mandamiento.fechaHora | date: 'dd/MM/yyyy hh:mm:ss' }}</td>
                                 <td>
                                     <div *ngIf="mandamiento.rutaImagenComprobante != null; else pending">
                                         <button pButton pRipple type="button" label="Ver comprobante de pago" icon="pi pi-eye" (click)="verEditarComprobante(mandamiento)" class="p-button-rounded p-button-text p-button-danger"></button>

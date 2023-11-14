@@ -4,3 +4,17 @@ hr {
     border: medium none;
     border-top: 1px dashed black !important;
 }
+
+.card-estados{
+    align-items: center;
+    display: flex;
+    height: 110px;
+    justify-content: center;
+    /* width: 120px; */
+    border: 2px solid;
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 2px;
+    background: #dee2e6;
+    font-weight: bold;
+}

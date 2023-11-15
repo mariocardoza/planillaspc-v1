@@ -59,3 +59,11 @@ app-upload{
 		right: 20px;
 	}
 } 
+
+.readonly-wrapper {
+    cursor: wait;
+}
+
+.readonly-wrapper .readonly-block {
+    pointer-events: none;
+}

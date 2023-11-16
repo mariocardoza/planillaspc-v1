@@ -110,6 +110,8 @@ export class EmpIndexComponent implements OnInit {
     if(empleado.tipoDocumentoI == 'D'){
       this.esDui = true;
     }
+    this.empleadoForm.controls.RutaDocumento.setValidators(null);
+    this.empleadoForm.controls.RutaDocumento.updateValueAndValidity();
     console.log(this.actualfile)
     this.modal.open(modal,{ size: <any>'lg' })
     console.log(empleado)
@@ -126,7 +128,7 @@ export class EmpIndexComponent implements OnInit {
     }
     Swal.fire({
       title: '¿Esta seguro?',
-      text: "Esta acción eliminará el empleado de la empresa",
+      text: "Esta acción inactivará al empleado de la empresa",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -159,6 +161,8 @@ export class EmpIndexComponent implements OnInit {
     this.empleadoForm.patchValue({CodigoExpediente:''});
     this.empleadoForm.patchValue({ExpedienteFisico:''});
     this.empleadoForm.patchValue({RutaDocumento:''});
+    this.empleadoForm.controls.RutaDocumento.setValidators([Validators.required]);
+    this.empleadoForm.controls.RutaDocumento.updateValueAndValidity();
     this.actualfile = '';
     this.modal.open(modalEmpleados,{ size: <any>'lg' })
   }
@@ -179,19 +183,22 @@ export class EmpIndexComponent implements OnInit {
   }
 
   onSubmitEmpleado(){
-    const data = {
-      ...this.empleadoForm.value
-    }
-    this.empleadosService.registrarEmpleado(data).subscribe((result) => {
-      console.log(result.success)
-      if(result.success){
-        this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
-        this.buscarEmpleados();
-        this.modal.dismissAll();
-      }else{
-        this.messageService.add({severity:'error', summary: 'Error', detail:result.message});
+    if(this.empleadoForm.valid){
+      const data = {
+        ...this.empleadoForm.value
       }
-    })
+      this.empleadosService.registrarEmpleado(data).subscribe((result) => {
+        console.log(result.success)
+        if(result.success){
+          this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
+          this.buscarEmpleados();
+          this.modal.dismissAll();
+        }else{
+          this.messageService.add({severity:'error', summary: 'Error', detail:result.message});
+        }
+      })
+    }
+    
   }
 
   public uploadFinishedDocumento = (event) => {

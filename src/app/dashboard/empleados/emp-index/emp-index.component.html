@@ -100,12 +100,15 @@
           <div class="col-12">
             <app-files-upload-dir [Directorio]="carpetaInstaciada" [actualFile]="actualfile"
               (onUploadFinished)=uploadFinished($event) (onDownload)="downloadURLFile()"></app-files-upload-dir>
+              <mat-error *ngIf="empleadoForm.get('RutaDocumento')?.hasError('required')">
+                El documento es requerido
+              </mat-error>
           </div>
         </div>
         <div class="mt-2">
           <div style="text-align:center">
             <button mat-raised-button color="primary" [class.auth-spinner]="loading"
-              class="auth-form-btn" [disabled]="loading || !empleadoForm.valid  && !DuiValido" type="submit"><span *ngIf="isCreating; else isEditing">Registrar</span><ng-template #isEditing>Actualizar</ng-template></button>
+              class="auth-form-btn" [disabled]="loading || (!empleadoForm.valid  || !DuiValido)" type="submit"><span *ngIf="isCreating; else isEditing">Registrar</span><ng-template #isEditing>Actualizar</ng-template></button>
           </div>
         </div>
       </form>
@@ -142,7 +145,7 @@
     <div class="mt-2">
       <div style="text-align:center">
         <button mat-raised-button color="primary" [class.auth-spinner]="loading"
-          class="auth-form-btn" [disabled]="loading || !empleadoFormDelete.valid" type="submit">Eliminar</button>
+          class="auth-form-btn" [disabled]="loading || !empleadoFormDelete.valid" type="submit">Inactivar</button>
       </div>
     </div>
   </form>

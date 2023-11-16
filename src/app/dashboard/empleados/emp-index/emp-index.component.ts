@@ -33,6 +33,8 @@ export class EmpIndexComponent implements OnInit {
   empleadoForm: FormGroup;
   empleadoFormDelete: FormGroup;
   loadingDUI: boolean = false;
+  DuiValido: boolean = false;
+  esDui: boolean = false;
   sexos = [
     {value:'F', name:'Femenino'},
     {value:'M', name:'Masculino'},
@@ -68,6 +70,14 @@ export class EmpIndexComponent implements OnInit {
     });
   }
 
+  onChangeS(data) {
+    if(data.value == 'D'){
+      this.esDui = true;
+    }else{
+      this.esDui = false;
+    }
+  }
+
   actualizarEmpleados(){
     this.loading = true;
     this.empleadosService.refrescarEmpleados(this.data.CodigoPGR,this.data.CodigoPagaduria).subscribe((res)=>{
@@ -85,7 +95,9 @@ export class EmpIndexComponent implements OnInit {
 
   onEditInit(empleado: IEmpleado,modal){
     this.isCreating = false;
+    this.DuiValido = false;
     this.isEditing = true;
+    this.esDui = false;
     this.empleadoForm.patchValue({IdPersona:empleado.idPersona});
     this.empleadoForm.patchValue({Nombres:empleado.nombres});
     this.empleadoForm.patchValue({Apellidos:empleado.apellidos});
@@ -95,6 +107,9 @@ export class EmpIndexComponent implements OnInit {
     this.empleadoForm.patchValue({TipoDocumentoI:empleado.tipoDocumentoI});
     this.empleadoForm.patchValue({RutaDocumento:empleado.rutaDocumento});
     this.actualfile = empleado.rutaDocumento;
+    if(empleado.tipoDocumentoI == 'D'){
+      this.esDui = true;
+    }
     console.log(this.actualfile)
     this.modal.open(modal,{ size: <any>'lg' })
     console.log(empleado)
@@ -136,6 +151,7 @@ export class EmpIndexComponent implements OnInit {
   crearNuevo(modalEmpleados){
     this.isCreating = true;
     this.isEditing = false;
+    this.DuiValido = false;
     this.empleadoForm.patchValue({IdPersona:0});
     this.empleadoForm.patchValue({Nombres:''});
     this.empleadoForm.patchValue({Apellidos:''});
@@ -235,9 +251,11 @@ export class EmpIndexComponent implements OnInit {
     };
     this.planillaService.buscarExpediente(data).subscribe((res)=>{
       if(res.success){
-        
+        this.messageService.add({severity:'success',summary: 'Exito',detail:'DUI válido'})
+        this.DuiValido = true;
       }else{
         this.messageService.add({severity:'error',summary: 'Error',detail:'DUI inválido'})
+        this.DuiValido = false;
       }
       this.loadingDUI = false;
     })

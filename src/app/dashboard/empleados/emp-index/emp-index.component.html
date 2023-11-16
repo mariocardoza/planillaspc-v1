@@ -11,7 +11,7 @@
           <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Tipo de documento</mat-label>
-              <mat-select placeholder="Tipo de documento" formControlName="TipoDocumentoI">
+              <mat-select placeholder="Tipo de documento" formControlName="TipoDocumentoI" (selectionChange)="onChangeS($event)">
                 <mat-option *ngFor="let documento of documentos" [value]="documento.tipoDocumentoI">
                   {{documento.nombreDocumento}}
                 </mat-option>
@@ -23,7 +23,7 @@
               <mat-label>N° de documento</mat-label>
               <input type="hidden" formControlName="IdPersona">
               <input type="hidden" formControlName="CodigoEmpresa">
-              <input matInput formControlName="DuiPasaporte" autocomplete="off" />
+              <input matInput maxlength="30" formControlName="DuiPasaporte" autocomplete="off" />
               <mat-error *ngIf="empleadoForm.get('DuiPasaporte')?.hasError('required')">
                 El DUI o pasaporte es requerido
               </mat-error>
@@ -31,14 +31,14 @@
           </div>
           <div class="col-12 col-md-2" *ngIf="!editing">
             <button mat-raised-button color="primary" [class.auth-spinner]="loadingDUI"
-              class="auth-form-btn" [disabled]="loadingDUI" (click)="validarDui()" type="button">Validar DUI</button>
+              class="auth-form-btn" [disabled]="!esDui" (click)="validarDui()" type="button">Validar DUI</button>
           </div>
         </div>
         <div class="row">
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Número expediente electrónico (Coloque 0 si no lo conoce)</mat-label>
-              <input matInput formControlName="CodigoExpediente" autocomplete="off" pKeyFilter="int" />
+              <input matInput maxlength="9" formControlName="CodigoExpediente" autocomplete="off" pKeyFilter="int" />
               <mat-error *ngIf="empleadoForm.get('CodigoExpediente')?.hasError('required')">
                 El número de expediente es requerido (Coloque 0 si no lo conoce)
               </mat-error>
@@ -47,7 +47,7 @@
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Número expediente físico</mat-label>
-                <input matInput formControlName="ExpedienteFisico" autocomplete="off"  />
+                <input matInput maxlength="50" formControlName="ExpedienteFisico" autocomplete="off"  />
                 <mat-error *ngIf="empleadoForm.get('ExpedienteFisico')?.hasError('required')">
                   El número de expediente es requerido
                 </mat-error>
@@ -78,7 +78,7 @@
             <div class="col-12 col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Nombres empleado</mat-label>
-                    <input matInput formControlName="Nombres" autocomplete="off"/>
+                    <input matInput maxlength="50" formControlName="Nombres" autocomplete="off"/>
                     <mat-error *ngIf="empleadoForm.get('Nombres')?.hasError('required')">
                       Nombres del empleado son requeridos
                     </mat-error>
@@ -87,7 +87,7 @@
             <div class="col-12 col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Apellidos empleado</mat-label>
-                    <input matInput formControlName="Apellidos" autocomplete="off"/>
+                    <input matInput maxlength="50" formControlName="Apellidos" autocomplete="off"/>
                     <input formControlName="RutaDocumento" type="hidden"  placeholder="Adjunte la orden de descuento" readonly>
                     <mat-error *ngIf="empleadoForm.get('Apellidos')?.hasError('required')">
                         Los apellidos del empleado son requeridos
@@ -105,7 +105,7 @@
         <div class="mt-2">
           <div style="text-align:center">
             <button mat-raised-button color="primary" [class.auth-spinner]="loading"
-              class="auth-form-btn" [disabled]="loading || !empleadoForm.valid " type="submit"><span *ngIf="isCreating; else isEditing">Registrar</span><ng-template #isEditing>Actualizar</ng-template></button>
+              class="auth-form-btn" [disabled]="loading || !empleadoForm.valid  && !DuiValido" type="submit"><span *ngIf="isCreating; else isEditing">Registrar</span><ng-template #isEditing>Actualizar</ng-template></button>
           </div>
         </div>
       </form>
@@ -142,7 +142,7 @@
     <div class="mt-2">
       <div style="text-align:center">
         <button mat-raised-button color="primary" [class.auth-spinner]="loading"
-          class="auth-form-btn" [disabled]="loading || !empleadoFormDelete.valid " type="submit">Eliminar</button>
+          class="auth-form-btn" [disabled]="loading || !empleadoFormDelete.valid" type="submit">Eliminar</button>
       </div>
     </div>
   </form>

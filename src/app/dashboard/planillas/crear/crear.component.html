@@ -104,10 +104,26 @@
             
         <div class="row">
             <div class="col-12" id="container-table" style="height: 700px; overflow-y: auto;">
-                <p-table responsiveLayout="stack" [value]="planilla"
+                <p-table #dt responsiveLayout="stack" [value]="planilla"
              styleClass="p-datatable-striped"
              [paginator]="false" [rows]="10" [loading]="loading" [totalRecords]="cuantos" [scrollable]="true" 
+             [globalFilterFields]="['codigoExpediente', 'noExpediente','duiPersonaNatural','nombresPersonaNatural','nombresPersonaE','apellidosPersonaNatural','apellidosPersonaE']"
              scrollHeight="flex">
+             <ng-template pTemplate="caption">
+                <div style="text-align: right">
+                    <i 
+                        class="pi pi-search" 
+                        style="margin:4px 4px 0 0"> 
+                    </i>
+                    <input 
+                        type="text" 
+                        pInputText size="50" 
+                        placeholder="Digite el término a buscar"
+                        (input)=
+        "dt.filterGlobal($any($event.target).value, 'contains')" 
+                        style="width:auto" />
+                </div>
+            </ng-template>
         <ng-template pTemplate="header">
             <tr>
                 <th>N°</th>

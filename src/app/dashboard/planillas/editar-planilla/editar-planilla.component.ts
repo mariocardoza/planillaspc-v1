@@ -21,7 +21,10 @@ import { EncryptService } from 'src/app/core/service/encrypt.service';
 
 export class EditarPlanillaComponent implements OnInit {
   selectAll:boolean = false;
+  esDui: boolean = false;
+  DuiValido: boolean = false;
   carpetaInstaciada:string;
+  documentos: any = [];
   @ViewChild("listaEmpleados") modalEmpleados: ElementRef;
   public response: { dbPath: '' }
   total: number = 0;
@@ -80,9 +83,6 @@ export class EditarPlanillaComponent implements OnInit {
     
   }
 
-  
-
-
   ngOnInit(): void {
     let id = this.encryptService.decrypt(this.route.snapshot.params.id);
     this.getPlanilla(id)
@@ -112,7 +112,16 @@ export class EditarPlanillaComponent implements OnInit {
       IdDetalle: ['0', ''],
       IdEncabezado: ['', ''],
       OrdenDescuento: ['', Validators.required],
+      TipoDocumentoI: ['',Validators.required]
     });
+  }
+
+  onChangeS(data) {
+    if(data.value == 'D'){
+      this.esDui = true;
+    }else{
+      this.esDui = false;
+    }
   }
 
   onSubmit(){
@@ -151,6 +160,9 @@ export class EditarPlanillaComponent implements OnInit {
 
   crearNuevo(modal){
     this.editing = false;
+    this.DuiValido = false;
+    this.empleadoForm.controls.OrdenDescuento.setValidators([Validators.required]);
+    this.empleadoForm.controls.OrdenDescuento.updateValueAndValidity();
     this.empleadoForm.patchValue({DUIDemandado:''});
     this.empleadoForm.patchValue({OrdenDescuento:''});
     this.empleadoForm.patchValue({NombresDemandado:''});
@@ -170,7 +182,7 @@ export class EditarPlanillaComponent implements OnInit {
   onRowEditInit(empleado: DetallePlanilla,modal){
     this.editing = true;
     this.hasExpedient = true;
-    this.empleadoForm.controls.OrdenDescuento.setValidators(this.hasExpedient ? null : [Validators.required]);
+    this.empleadoForm.controls.OrdenDescuento.setValidators(null);
     this.empleadoForm.controls.OrdenDescuento.updateValueAndValidity();
     this.empleadoForm.patchValue({DUIDemandado:empleado.duIdemandado});
     this.empleadoForm.patchValue({NombresDemandado:empleado.nombresDemandado});
@@ -185,6 +197,11 @@ export class EditarPlanillaComponent implements OnInit {
     this.empleadoForm.patchValue({IdEncabezado:empleado.idEncabezado});
     this.empleadoForm.patchValue({IdDetalle:empleado.idDetalle});
     this.empleadoForm.patchValue({OrdenDescuento:empleado.ordenDescuento});
+    this.empleadoForm.patchValue({TipoDocumentoI:empleado.tipoDocumentoI})
+    if(empleado.tipoDocumentoI == 'D'){
+      this.esDui = true;
+      this.DuiValido = true;
+    }
     this.actualfile = empleado.ordenDescuento;
     this.modal.open(modal,{ size: <any>'lg' });
     
@@ -226,6 +243,7 @@ export class EditarPlanillaComponent implements OnInit {
     this.planillaService.buscarExpediente(data).subscribe((res)=>{
       if(res.success){
         this.hasExpedient = true;
+        this.DuiValido = true;
         this.messageService.add({severity:'success', summary: 'Exito', detail:'DUI válido'});
         //if(res.detalle.length  > 1){
           //this.empleadosPre = res.detalle 
@@ -237,11 +255,11 @@ export class EditarPlanillaComponent implements OnInit {
       }else{
         this.hasExpedient = true;
         this.messageService.add({severity:'error', summary: 'Error', detail:'DUI inválido'});
+        this.DuiValido = false;
       }
       this.loadingDUI = false;
     })
-    this.empleadoForm.controls.OrdenDescuento.setValidators(!this.hasExpedient ? null : [Validators.required]);
-    this.empleadoForm.controls.OrdenDescuento.updateValueAndValidity();
+    
   }
 
   AgregarAPlanilla(empleado){
@@ -253,6 +271,7 @@ export class EditarPlanillaComponent implements OnInit {
       apellidosDemandado: empleado.apellidosPersonaNatural,
       nombresDemandante: empleado.nombresPersonaE,
       apellidosDemandante: empleado.apellidosPersonaE,
+      tipoDocumentoI: empleado.tipoDocumentoI,
       monto: empleado.montoCR,
       noBeneficiarios: empleado.cantidadB,
       noExpediente: empleado.noExpediente,
@@ -302,6 +321,7 @@ export class EditarPlanillaComponent implements OnInit {
       noTarjeta: '',
       codigoExpediente: 0,
       observaciones: '',
+      tipoDocumentoI: '',
     };
     //console.log(newP)
     this.empleados.unshift(newP);
@@ -362,6 +382,8 @@ export class EditarPlanillaComponent implements OnInit {
         this.empleados = this.planilla.detalles
         this.codigoEstado = this.planilla.codigoEstado;
         this.track = result['track'];
+        this.documentos = result['documentos'];
+        console.log(this.documentos)
         this.codigoTipoCuota = this.planilla.codigoTipoCuota;
         this.planillaFormGroup.patchValue({NoMandamiento:this.planilla.noMandamiento})
         this.planillaFormGroup.patchValue({Periodo:this.planilla.periodo})
@@ -483,9 +505,6 @@ export class EditarPlanillaComponent implements OnInit {
       }
     }
     return color;
-    /*var valor = this.track.includes(codigoEstado);
-    //console.log(valor)
-    return valor;*/
   }
 
   verificarDistribucion(idEncabezado: number){

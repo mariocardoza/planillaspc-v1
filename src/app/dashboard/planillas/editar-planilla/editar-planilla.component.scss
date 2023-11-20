@@ -67,3 +67,7 @@ app-upload{
 .readonly-wrapper .readonly-block {
     pointer-events: none;
 }
+
+::ng-deep .cdk-overlay-container {
+    z-index: 9999;
+}

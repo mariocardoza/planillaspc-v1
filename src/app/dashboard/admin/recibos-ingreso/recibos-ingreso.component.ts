@@ -30,6 +30,7 @@ export class RecibosIngresoComponent implements OnInit {
   @ViewChild("modalVerDocumento") modalVerDocumento: ElementRef;
   @ViewChild("modalPresentacion") modalPresentacion: ElementRef;
   @ViewChild("modalRecibo") modalRecibo: ElementRef;
+  @ViewChild("modalEstados") modalEstados: ElementRef;
   a = moment().subtract(-1, 'day').format("YYYY-MM-DD");
   unafecha: any;
   hoy = moment();
@@ -69,6 +70,14 @@ export class RecibosIngresoComponent implements OnInit {
     {value:'5', name:'Pago completado'},
     {value:'6', name:'Finalizada'},
   ];
+  codigoEstadosTimeline = [
+    {value:'1', name:'En proceso'},
+    {value:'2', name:'Pendiente de emitir mandamiento de pago'},
+    {value:'3', name:'Mandamiento de pago emitido'},
+    {value:'5', name:'Pago completado'},
+    {value:'6', name:'Finalizada'},
+  ];
+  estadoActual:string;
   LarutaImagenComprobante: string;
   elCodigoEstado: string;
 
@@ -91,6 +100,16 @@ export class RecibosIngresoComponent implements OnInit {
         }))
       }
     });
+  }
+
+  verTrack(id){
+    let token = "ggf";
+    this.planillaService.obtenerPlanilla(id,token).subscribe((result) => {
+      if(result['success']){
+        this.estadoActual = result['data'].codigoEstado;
+      }  
+    })
+    this.modalService.open(this.modalEstados,{ size: <any>'md' });
   }
 
   finalizarPlanilla(idEncabezado: number){
@@ -569,6 +588,33 @@ export class RecibosIngresoComponent implements OnInit {
     this.fileService.downloadFile(strUrlFile).subscribe(response => {
 			saveAs(response, filename);
 		}), error => this.messageService.add({severity:'error', summary: 'Error', detail:''}), () => this.messageService.add({severity:'success', summary: 'Exito', detail:''})
+  }
+
+  buscarTrackPlanilla(codigoEstado){
+    //console.log(this.track)
+    let color = '';
+    let estadoActual = this.estadoActual;
+    if(estadoActual < codigoEstado){
+      //console.log("rojo "+ estadoActual+" "+codigoEstado)
+      color = '#DF0101'
+    }else{
+      if(estadoActual == codigoEstado && estadoActual != '6'){
+        //console.log("amarillo" + estadoActual+" "+codigoEstado)
+        color = '#dee314'
+      }else{
+        if(estadoActual == '6'){
+          //console.log("verde ultimo" + estadoActual+" "+codigoEstado)
+          color = '#01DF01'
+        }else{
+          //console.log("verde" + estadoActual+" "+codigoEstado)
+          color = '#01DF01'
+        }
+      }
+    }
+    return color;
+    /*var valor = this.track.includes(codigoEstado);
+    //console.log(valor)
+    return valor;*/
   }
 
 }

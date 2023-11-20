@@ -171,6 +171,54 @@
             </form>
         </div>
     </ng-template>
+    <ng-template #modalEstados let-estado>
+        <div class="modal-header ">
+            <h4 class="text-center">Estado de la planilla</h4>
+            <button class="close" aria-label="close" type="button" (click)="estado.dismiss()"><span>&times;</span></button>
+        </div>
+        <div class="modal-body" >
+            <div class="row">
+                <div class="col-12 timeline" *ngIf="codigoEstado != '4'">
+                    <p-timeline [value]="codigoEstadosTimeline" class="w-full md:w-20rem" align="alternate">
+                        <ng-template pTemplate="marker" let-estado>
+
+                            <span
+                                class="custom-marker p-shadow-2"
+                                [style.color]="buscarTrackPlanilla(estado.value)">
+                                <i [ngClass]="'pi pi-check-circle'"></i>
+                            </span>
+                        </ng-template>
+                        <ng-template pTemplate="content" let-estado class="listo">
+                            <strong>{{estado.name}}</strong>
+                        </ng-template>
+                    </p-timeline>
+                </div>
+            </div>
+            <!--div class="row" *ngIf="estadoActual != 4; else nuladas">
+                    <div class="col-6"  *ngFor="let estado of codigoEstadosTimeline">
+                        <div class="card-estados" [style.background]="buscarTrackPlanilla(estado.value)">
+                            <p class="text-center">{{estado.name}}<br>
+                                <i [ngClass]="'pi pi-check-circle'"></i>
+                            </p>
+                        </div>
+                    </div>
+            </div-->
+            <!--ng-template #nuladas>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card-estados" [style.background]="'#a2bfa2'">
+                            <p class="text-center">Anulada<br>
+                                <i [ngClass]="'pi pi-check-circle'"></i>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </ng-template-->
+        </div>
+        <div class="modal-footer">
+            <!--button label="Cerrar" icon="pi pi-times" pButton pRipple type="button" class="p-button-info mx-1" (click)="estado.dismiss()"></button-->
+        </div>
+    </ng-template>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12" style="position: relative;">
@@ -243,7 +291,7 @@
                                         <button pButton pRipple type="button" label="Subir comprobante" icon="pi pi-upload" (click)="agregarComprobante(mandamiento.idControl)" class="p-button-rounded p-button-text p-button-danger"></button>
                                     </ng-template>
                                 </td>
-                                <td><p-tag severity="{{claseEstadoPlanilla(mandamiento.codigoEstado)}}" value="{{buscarEstadoPlanilla(mandamiento.codigoEstado)}}"></p-tag></td>
+                                <td><p-tag severity="{{claseEstadoPlanilla(mandamiento.codigoEstado)}}" (click)="verTrack(mandamiento.idEncabezado)" value="{{buscarEstadoPlanilla(mandamiento.codigoEstado)}}"></p-tag></td>
                                 <td>
                                     <button [loading]="loading" title="Imprimir comprobante" pButton (click)="imprimirComprobante(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-secondary m-1"></button>
                                     <button *ngIf="mandamiento.rutaImagenComprobante != null && mandamiento.codigoEstado == 5" title="Registrar recibo de pago" pButton (click)="finalizarPlanilla(mandamiento.idEncabezado)" icon="pi pi-check" class="p-button-primary m-1"></button>

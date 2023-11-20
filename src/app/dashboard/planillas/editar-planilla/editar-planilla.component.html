@@ -1,26 +1,36 @@
 <ng-template #agregarEmpleado let-modal>
     <div class="modal-header modal-lg">
-      <h4 class="text-center">Agregar empleado</h4>
+      <h4 class="text-center">Agregar pago de empleado</h4>
       <button class="close" aria-label="close" type="button" (click)="modal.dismiss()"><span>&times;</span></button>
     </div>
     <div class="modal-body">
       <form class="validate-form" [formGroup]="empleadoForm" (ngSubmit)="onSubmitEmpleado()">
         <div class="row">
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-            <mat-form-field class="full-width" appearance="outline">
-              <mat-label>DUI</mat-label>
-              <input type="hidden" formControlName="IdDetalle">
-              <input type="hidden" formControlName="IdEncabezado">
-              <input matInput formControlName="DUIDemandado" autocomplete="off" [dropSpecialCharacters]="false" mask="00000000-0" maxlength="10"/>
-              <mat-error *ngIf="empleadoForm.get('DUIDemandado')?.hasError('required')">
-                El DUI en requerido
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-12 col-md-6" *ngIf="!editing">
-            <button mat-raised-button color="primary" [class.auth-spinner]="loadingDUI"
-              class="auth-form-btn" [disabled]="loadingDUI" (click)="buscarDui()" type="button">Validar DUI</button>
-          </div>
+            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+                <mat-form-field class="full-width" appearance="outline">
+                  <mat-label>Tipo de documento</mat-label>
+                  <mat-select placeholder="Tipo de documento" formControlName="TipoDocumentoI" (selectionChange)="onChangeS($event)">
+                    <mat-option *ngFor="let documento of documentos" [value]="documento.tipoDocumentoI">
+                      {{documento.nombreDocumento}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+                <mat-form-field class="full-width" appearance="outline">
+                <mat-label>N° de documento</mat-label>
+                <input type="hidden" formControlName="IdDetalle">
+                <input type="hidden" formControlName="IdEncabezado">
+                <input matInput formControlName="DUIDemandado" maxlength="30" autocomplete="off"/>
+                <mat-error *ngIf="empleadoForm.get('DUIDemandado')?.hasError('required')">
+                    El DUI en requerido
+                </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-12 col-md-2" >
+                <button mat-raised-button color="primary" [class.auth-spinner]="loadingDUI"
+                class="auth-form-btn" [disabled]="!esDui"  (click)="buscarDui()" type="button">Validar DUI</button>
+            </div>
         </div>
         <div class="row">
             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
@@ -124,7 +134,7 @@
         <div class="mt-2">
           <div style="text-align:center">
             <button mat-raised-button color="primary" [class.auth-spinner]="loading"
-              class="auth-form-btn" [disabled]="loading || !empleadoForm.valid " type="submit">Registrar</button>
+              class="auth-form-btn" [disabled]="loading || (!empleadoForm.valid || !DuiValido) " type="submit">Registrar</button>
           </div>
         </div>
       </form>
@@ -335,7 +345,7 @@
                 </div>
                 <div class="col-12 my-4" *ngIf="codigoEstado == '1'">
                     <button title="Actualizar planilla" pButton pRipple (click)="onSubmit()" class="primary mx-2" icon="pi pi-save" label="Actualizar observaciones"></button>
-                    <button title="Registrar nuevo expediente" class="primary mx-2" pButton icon="pi pi-plus" pRipple type="button" label="Nuevo empleado" (click)="crearNuevo(agregarEmpleado)"></button>
+                    <button title="Nuevo pago de empleado" class="primary mx-2" pButton icon="pi pi-plus" pRipple type="button" label="Nuevo pago de empleado" (click)="crearNuevo(agregarEmpleado)"></button>
                     <button title="Procesar planilla" class="primary mx-2" pButton icon="pi pi-send" pRipple type="button" label="Procesar planilla" (click)="procesarPlanilla(planilla.idEncabezado)"></button>
                 </div>
             </div>
@@ -375,7 +385,7 @@
                             <tr>
                                 <th><input class="todos" [(ngModel)]="selectAll" (change)="toggleSelectAll()" type="checkbox" value="1" selected> Selec. todos</th>
                                 <th>N°</th>
-                                <th style="width: 120px;" pSortableColumn="duIdemandado">DUI <p-sortIcon field="duIdemandado"></p-sortIcon></th>
+                                <th style="width: 120px;" pSortableColumn="duIdemandado">N° documento <p-sortIcon field="duIdemandado"></p-sortIcon></th>
                                 <th pSortableColumn="apellidosDemandado">Apellidos demandado <p-sortIcon field="apellidosDemandado"></p-sortIcon></th>
                                 <th pSortableColumn="nombresDemandado">Nombres demandado <p-sortIcon field="nombresDemandado"></p-sortIcon></th>
                                 <th>Apellidos demandante</th>

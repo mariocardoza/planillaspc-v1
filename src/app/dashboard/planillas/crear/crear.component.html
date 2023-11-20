@@ -63,7 +63,7 @@
                         <div class="col-12 col-md-4">
                             <mat-form-field class="full-width" appearance="fill">
                                 <mat-label>Periodo</mat-label>
-                                <input matInput [matDatepicker]="picker" formControlName="Periodo">
+                                <input matInput [matDatepicker]="picker" formControlName="Periodo" maxlength="7">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker startView="multi-year"
                                 (monthSelected)="setMonthAndYear($event, picker)"></mat-datepicker>
@@ -89,7 +89,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-3">
-                    <button (click)="onSubmit()" pButton class="primary" icon="pi pi-save" label="Generar planilla"></button> | 
+                    <button (click)="onSubmit()" [loading]="loadingC" [disabled]="loadingC || !planillaFormGroup.valid " pButton class="primary" icon="pi pi-save" label="Generar planilla"></button> | 
                     <button routerLink="/dashboard/planillas" pButton class="primary" icon="pi pi-angle-left" label="Atrás"></button>
                 </div> 
             </div>   
@@ -127,14 +127,14 @@
         <ng-template pTemplate="header">
             <tr>
                 <th>N°</th>
-                <th>DUI</th>
-                <th>Apellidos demandado</th>
-                <th>Nombres demandado</th>
+                <th pSortableColumn="duiPersonaNatural">DUI <p-sortIcon field="duiPersonaNatural"></p-sortIcon></th>
+                <th pSortableColumn="apellidosPersonaNatural">Apellidos demandado <p-sortIcon field="apellidosPersonaNatural"></p-sortIcon></th>
+                <th pSortableColumn="nombresPersonaNatural">Nombres demandado <p-sortIcon field="nombresPersonaNatural"></p-sortIcon></th>
                 <th>Apellidos demandante</th>
                 <th>Nombres demandante</th>
-                <th>Código expediente</th>
+                <th pSortableColumn="codigoExpediente">Código expediente <p-sortIcon field="codigoExpediente"></p-sortIcon></th>
                 <th>Número de expediente</th>
-                <th>Monto cuota</th>
+                <th pSortableColumn="montoCR">Monto cuota <p-sortIcon field="montoCR"></p-sortIcon></th>
                 <th>Número de beneficiarios</th>
             </tr>
         </ng-template>

@@ -83,6 +83,7 @@ export class CrearComponent implements OnInit {
     {value:'6', name:'Finalizada'},
   ];
   loading:boolean = true;
+  loadingC:boolean = false;
   cuantos:number = 0;
   displayedColumns: string[] = DetalleColumns.map((col) => col.key)
   columnsSchema: any = DetalleColumns
@@ -152,6 +153,7 @@ export class CrearComponent implements OnInit {
   }
 
   onSubmitC(){
+    this.loadingC = true;
     if(this.clonarFormGroup.valid){
       const data = {
         ...this.clonarFormGroup.value
@@ -168,19 +170,21 @@ export class CrearComponent implements OnInit {
         }else{
           this.isError = true;
           this.message = result['message'];
+          this.loadingC = false
         }
       })
     }
   }
 
   onSubmit(){
+    this.loadingC = true;
     if(this.planillaFormGroup.valid){
       let periodo = this.planillaFormGroup.value['Periodo']
       this.planillaFormGroup.patchValue({Periodo:periodo.format('MM/Y')})
       const data = {
         ...this.planillaFormGroup.value
       }
-
+      console.log(periodo.format('MM/Y'))
       let tipo = this.planillaFormGroup.value['CodigoTipoCuota'];
       let observacion = this.planillaFormGroup.value['Observacion'];
       if(tipo == '1'){
@@ -188,17 +192,21 @@ export class CrearComponent implements OnInit {
           if(result['success']){
             this.isSuccess = true;
             this.message = result['message'];
-            this.router.navigate(['/dashboard/planillas/'+result['idEncabezado']+'/edit']);
+            const idEncrypt = this.encryptService.encrypt(result['idEncabezado']);
+            this.router.navigate(['/dashboard/planillas/'+idEncrypt+'/edit']);
           }else{
             this.isError = true;
             this.message = result['message'];
+            this.loadingC = false;
           }
         })
         this.planillaFormGroup.patchValue({Periodo:periodo})
       }else{
+        this.loadingC = false;
         this.clonarFormGroup.patchValue({CodigoTipoCuota:tipo})
         this.clonarFormGroup.patchValue({Observacion:observacion})
         this.clonarFormGroup.patchValue({Periodo:periodo.format('MM/Y')})
+        this.planillaFormGroup.patchValue({Periodo:periodo})
         this.modalService.open(this.modalClonar,{ size: <any>'lg' });
       }
     }

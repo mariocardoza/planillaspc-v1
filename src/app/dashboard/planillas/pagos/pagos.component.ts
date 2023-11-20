@@ -19,6 +19,7 @@ export class PagosComponent implements OnInit {
   @ViewChild("modalComprobante") modalComprobante: ElementRef;
   @ViewChild("modalDocumento") modalDocumento: ElementRef;
   @ViewChild("modalVerDocumento") modalVerDocumento: ElementRef;
+  @ViewChild("modalEstados") modalEstados: ElementRef;
   mandamientos: IMandamiento[];
   loading: boolean = false;
   mandamiento: IMandamiento;
@@ -31,8 +32,10 @@ export class PagosComponent implements OnInit {
   actualFile:any = '';
   public response: { dbPath: '' }
   comprobanteForm: FormGroup;
+  track: any = [];
   private lastTableLazyLoadEvent: LazyLoadEvent;
   data:any;
+  estadoActual:string;
   tipoCuotas = [
     {value:'1', name:'Cuota alimenticia'},
     {value:'2', name:'Bonificaciones'},
@@ -45,6 +48,13 @@ export class PagosComponent implements OnInit {
     {value:'2', name:'Pendiente de emitir mandamiento de pago'},
     {value:'3', name:'Mandamiento de pago emitido'},
     {value:'4', name:'Anulada'},
+    {value:'5', name:'Pago completado'},
+    {value:'6', name:'Finalizada'},
+  ];
+  codigoEstadosTimeline = [
+    {value:'1', name:'En proceso'},
+    {value:'2', name:'Pendiente de emitir mandamiento de pago'},
+    {value:'3', name:'Mandamiento de pago emitido'},
     {value:'5', name:'Pago completado'},
     {value:'6', name:'Finalizada'},
   ];
@@ -63,6 +73,17 @@ export class PagosComponent implements OnInit {
       CodInstitucionFinanciera:['',Validators.required],
       IdTabla: ['',Validators.required]
     });
+  }
+
+  verTrack(id){
+    let token = "ggf";
+    this.planillaService.obtenerPlanilla(id,token).subscribe((result) => {
+      if(result['success']){
+        this.track = result['track'];
+        this.estadoActual = result['data'].codigoEstado;
+      }  
+    })
+    this.modalService.open(this.modalEstados,{ size: <any>'md' });
   }
 
   obtenerBancos(){
@@ -181,6 +202,33 @@ export class PagosComponent implements OnInit {
       this.comprobanteForm.patchValue({RutaDocumento:this.verC.rutaImagenComprobante})
       this.modalService.open(this.modalVerDocumento,{ size: <any>'lg' });
     }
+  }
+
+  buscarTrackPlanilla(codigoEstado){
+    //console.log(this.track)
+    let color = '';
+    let estadoActual = this.estadoActual;
+    if(estadoActual < codigoEstado){
+      //console.log("rojo "+ estadoActual+" "+codigoEstado)
+      color = '#DF0101'
+    }else{
+      if(estadoActual == codigoEstado && estadoActual != '6'){
+        //console.log("amarillo" + estadoActual+" "+codigoEstado)
+        color = '#dee314'
+      }else{
+        if(estadoActual == '6'){
+          //console.log("verde ultimo" + estadoActual+" "+codigoEstado)
+          color = '#01DF01'
+        }else{
+          //console.log("verde" + estadoActual+" "+codigoEstado)
+          color = '#01DF01'
+        }
+      }
+    }
+    return color;
+    /*var valor = this.track.includes(codigoEstado);
+    //console.log(valor)
+    return valor;*/
   }
 
   finalizarPlanilla(idEncabezado: number){

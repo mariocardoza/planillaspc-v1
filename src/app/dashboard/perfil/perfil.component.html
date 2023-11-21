@@ -1,6 +1,7 @@
 <section class="content">
-    <div class="container">
-        <div class="row justify-content-center mt-4">
+    <div class="container-fluid">
+        <p-panel>
+          <div class="row justify-content-center mt-4">
             <div class="col-5">
               <div *ngIf="isSuccess" class="alert alert-success">{{message}}</div>
               <div *ngIf="isError" class="alert alert-error">{{message}}</div>
@@ -73,7 +74,7 @@
                                                     <mat-label>Imagen del NIT</mat-label>
                                                     <input matInput formControlName="ImagenNIT"  placeholder="Imagen NIT" readonly>
                                                     <app-upload (onUploadFinished)=uploadFinishedNITEmp($event)></app-upload>
-                                                    <button pButton (click)="descargarArchivo(persona.imagenNIT)">Ver documento</button>
+                                                    <button pButton (click)="descargarArchivo(persona.imagenNIT)" class="p-button-raised p-button-rounded p-button-outlined p-button-help">Ver documento</button>
                                                     </mat-form-field>
                                                 </div>
                                             </div>
@@ -195,8 +196,8 @@
                                               </div>
                                               <div class="row justify-content-center">
                                                 <div class="col-12">
-                                                  <button class="btn btn-primary" mat-button (click)="onSubmit()">Guardar</button> | 
-                                                  <a routerLink="/dashboard" class="btn btn-primary" mat-button >Atrás</a>
+                                                  <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" (click)="onSubmit()">Guardar</button> | 
+                                                  <button routerLink="/dashboard" class="p-button-raised p-button-rounded p-button-outlined p-button-info" pButton >Atrás</button>
                                                 </div>
                                               </div>
                                         </mat-card-content>
@@ -256,8 +257,8 @@
                                             </div>
                                             <div class="row justify-content-center">
                                                 <div class="col-12">
-                                                  <button class="btn btn-primary" mat-button (click)="onSubmitPassword()">Guardar</button> | 
-                                                  <a routerLink="/dashboard" class="btn btn-primary" mat-button >Atrás</a>
+                                                  <button class="p-button-raised p-button-rounded p-button-outlined p-button-success" pButton (click)="onSubmitPassword()">Guardar</button> | 
+                                                  <button routerLink="/dashboard" class="p-button-raised p-button-rounded p-button-outlined p-button-info" pButton >Atrás</button>
                                                 </div>
                                             </div>
                                             
@@ -325,8 +326,8 @@
                             </div>
                             <div class="row justify-content-center">
                                 <div class="col-12">
-                                  <button class="btn btn-primary" mat-button (click)="onSubmitPassword()">Guardar</button> | 
-                                  <a routerLink="/dashboard" class="btn btn-primary" mat-button >Atrás</a>
+                                  <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" pButton (click)="onSubmitPassword()">Guardar</button> | 
+                                  <button routerLink="/dashboard" class="p-button-raised p-button-rounded p-button-outlined p-button-info" pButton >Atrás</button>
                                 </div>
                             </div>
                             
@@ -338,6 +339,7 @@
             
             
         </div>
+        </p-panel>
     </div>
 </section>
 

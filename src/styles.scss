@@ -51,6 +51,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 }
 
 aside{
-  position: sticky;
+  position: fixed;
 }
-  
+
+section.content{
+  margin: 70px 27px 0 260px;
+  min-height: calc(100vh - 76px);
+  transition: 0.5s;
+}
+
+.p-column-title{
+  font-weight: bold !important;
+}

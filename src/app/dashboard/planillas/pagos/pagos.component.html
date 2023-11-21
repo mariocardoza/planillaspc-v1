@@ -187,76 +187,79 @@
         </div>
     </ng-template>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <p-toast></p-toast>
-                <h2 class="text-center">Pago de planillas (Subir comprobante de pago)</h2>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <p-table #myTab [value]="mandamientos" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="obtenerComprobantes($event)" [totalRecords]="totalRecords"
-                    [globalFilterFields]="['noMandamiento', 'periodo']">
-                        <ng-template pTemplate="caption">
-                            <div style="text-align: right">
-                                <i 
-                                    class="pi pi-search" 
-                                    style="margin:4px 4px 0 0"> 
-                                </i>
-                                <input 
-                                    type="text" 
-                                    pInputText size="50" 
-                                    placeholder="No de mandamiento"
-                                    (input)=
-                    "myTab.filterGlobal($any($event.target).value, 'contains')" 
-                                    style="width:auto" />
-                            </div>
-                        </ng-template>
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th pSortableColumn="idControl">N° <p-sortIcon field="idControl"></p-sortIcon></th>
-                                <th pSortableColumn="noMandamiento">N° de mandamiento <p-sortIcon field="noMandamiento"></p-sortIcon></th>
-                                <th >Descripción </th>
-                                <th pSortableColumn="codigoTipoCuota">Tipo de pago <p-sortIcon field="codigoTipoCuota"></p-sortIcon></th>
-                                <th pSortableColumn="monto">Monto <p-sortIcon field="monto"></p-sortIcon></th>
-                                <th>Fecha generación</th>
-                                <th>Comprobante banco</th>
-                                <th pSortableColumn="codigoEstado">Estado <p-sortIcon field="codigoEstado"></p-sortIcon></th>
-                                <th>Acciones</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-i="rowIndex" let-mandamiento>
-                            <tr>
-                                <td>{{ i+1 }}</td>
-                                <td>{{ mandamiento.noMandamiento }}</td>
-                                <td>{{ mandamiento.descripcion }}</td>
-                                <td>{{ buscarTipoCuota(mandamiento.codigoTipoCuota) }}</td>
-                                <td>{{ mandamiento.monto | currency:'USD' }}</td>
-                                <td>{{ mandamiento.fechaHora | date: 'dd/MM/yyyy hh:mm:ss' }}</td>
-                                <td>
-                                    <div *ngIf="mandamiento.rutaImagenComprobante != null; else pending">
-                                        <button pButton pRipple type="button" label="Ver comprobante de pago" icon="pi pi-eye" (click)="verEditarComprobante(mandamiento)" class="p-button-rounded p-button-text p-button-danger"></button>
-                                    </div>
-                                    <ng-template #pending>
-                                        <button pButton pRipple type="button" label="Subir comprobante de pago" icon="pi pi-upload" (click)="agregarComprobante(mandamiento.idControl)" class="p-button-rounded p-button-text p-button-danger"></button>
-                                    </ng-template>
-                                </td>
-                                <td><p-tag severity="{{claseEstadoPlanilla(mandamiento.codigoEstado)}}" (click)="verTrack(mandamiento.idEncabezado)" value="{{buscarEstadoPlanilla(mandamiento.codigoEstado)}}"></p-tag></td>
-                                <td>
-                                    <button title="Ver comprobante de pago" pButton (click)="imprimirComprobante(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-secondary m-1"></button>
-                                    <button *ngIf="mandamiento.rutaImagenComprobante != null && mandamiento.codigoEstado != 5" title="Registrar recibo de pago" pButton (click)="finalizarPlanilla(mandamiento.idEncabezado)" icon="pi pi-check" class="p-button-primary m-1"></button>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
+        <p-panel>
+            <div class="row">
                 <div class="col-12">
-                    <p-button icon="pi pi-angle-left" routerLink="/dashboard/planillas" label="Atrás"></p-button>
+                    <p-toast></p-toast>
+                    <h2 class="text-center">Pago de planillas (Subir comprobante de pago)</h2>
                 </div>
             </div>
-        </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <p-table #myTab [value]="mandamientos" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="obtenerComprobantes($event)" [totalRecords]="totalRecords"
+                        [globalFilterFields]="['noMandamiento', 'periodo']">
+                            <ng-template pTemplate="caption">
+                                <div style="text-align: right">
+                                    <i 
+                                        class="pi pi-search" 
+                                        style="margin:4px 4px 0 0"> 
+                                    </i>
+                                    <input 
+                                        type="text" 
+                                        pInputText
+                                        placeholder="No de mandamiento"
+                                        (input)=
+                        "myTab.filterGlobal($any($event.target).value, 'contains')" 
+                                        style="width:auto" />
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th pSortableColumn="idControl">N° <p-sortIcon field="idControl"></p-sortIcon></th>
+                                    <th pSortableColumn="noMandamiento">N° de mandamiento <p-sortIcon field="noMandamiento"></p-sortIcon></th>
+                                    <th >Descripción </th>
+                                    <th pSortableColumn="codigoTipoCuota">Tipo de pago <p-sortIcon field="codigoTipoCuota"></p-sortIcon></th>
+                                    <th pSortableColumn="monto">Monto <p-sortIcon field="monto"></p-sortIcon></th>
+                                    <th>Fecha generación</th>
+                                    <th>Comprobante banco</th>
+                                    <th pSortableColumn="codigoEstado">Estado <p-sortIcon field="codigoEstado"></p-sortIcon></th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-i="rowIndex" let-mandamiento>
+                                <tr>
+                                    <td><span class="p-column-title">N°</span>{{ i+1 }}</td>
+                                    <td><span class="p-column-title">N° de mandamiento</span>{{ mandamiento.noMandamiento }}</td>
+                                    <td><span class="p-column-title">Descripción</span>{{ mandamiento.descripcion }}</td>
+                                    <td><span class="p-column-title">Tipo de pago</span>{{ buscarTipoCuota(mandamiento.codigoTipoCuota) }}</td>
+                                    <td><span class="p-column-title">Monto</span>{{ mandamiento.monto | currency:'USD' }}</td>
+                                    <td><span class="p-column-title">Fecha generación</span>{{ mandamiento.fechaHora | date: 'dd/MM/yyyy hh:mm:ss' }}</td>
+                                    <td>
+                                        <span class="p-column-title">Comprobante del banco</span>
+                                        <div *ngIf="mandamiento.rutaImagenComprobante != null; else pending">
+                                            <button pButton pRipple type="button" label="Ver comprobante de pago" icon="pi pi-eye" (click)="verEditarComprobante(mandamiento)" class="p-button-rounded p-button-text p-button-danger"></button>
+                                        </div>
+                                        <ng-template #pending>
+                                            <button pButton pRipple type="button" label="Subir comprobante de pago" icon="pi pi-upload" (click)="agregarComprobante(mandamiento.idControl)" class="p-button-rounded p-button-text p-button-danger"></button>
+                                        </ng-template>
+                                    </td>
+                                    <td><p-tag severity="{{claseEstadoPlanilla(mandamiento.codigoEstado)}}" (click)="verTrack(mandamiento.idEncabezado)" value="{{buscarEstadoPlanilla(mandamiento.codigoEstado)}}"></p-tag></td>
+                                    <td>
+                                        <button title="Ver comprobante de pago" pButton (click)="imprimirComprobante(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-raised p-button-rounded p-button-outlined p-button-secondary m-1"></button>
+                                        <button *ngIf="mandamiento.rutaImagenComprobante != null && mandamiento.codigoEstado != 5" title="Registrar recibo de pago" pButton (click)="finalizarPlanilla(mandamiento.idEncabezado)" icon="pi pi-check" class="p-button-raised p-button-rounded p-button-outlined p-button-help m-1"></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                    <div class="col-12">
+                        <button pButton icon="pi pi-angle-left" class="p-button-raised p-button-rounded p-button-outlined p-button-info" routerLink="/dashboard/planillas" label="Atrás"></button>
+                    </div>
+                </div>
+            </div>
+        </p-panel>
     </div>
 </section>
 

@@ -21,7 +21,8 @@
   </ng-template>
 <section class="content">
     <div class="container-fluid">
-        <div class="row">
+        <p-panel>
+          <div class="row">
             <div class="col-12">
                 <h3 class="text-center">Listado de usuarios pendientes de revisión de información por parte de la Gerencia de Control de Fondos de Terceros</h3>
             </div>
@@ -46,48 +47,19 @@
                     <td>{{ ri+1 }}</td>
                     <td>{{ usuario.usuario }}</td>
                     <td>{{ usuario.nit }}</td>
-                    <td><a href="#" (click)="descargarArchivo(usuario.imagenNIT)">Ver</a></td>
+                    <td><button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-help" icon="pi pi-eye" label="Ver NIT" (click)="descargarArchivo(usuario.imagenNIT)"></button></td>
                     <td>{{ usuario.nombreComercial }}</td>
                     <td>{{ usuario.fechaRegistro | date }}</td>
                     <td>{{ usuario.fechaHoraTerminos | date :"dd/MM/yyyy HH:mm:ss" }}</td>
                     <td>
-                        <button (click)="activarUsuario(usuario.idUsuario)" pButton icon="pi pi-check" class="p-button-primary"></button> | 
-                        <a routerLink="/dashboard/editar-usuario/{{ usuario.codigoEmpresa}}" pButton icon="pi pi-user-edit" class="p-button-warning"></a>
+                        <button (click)="activarUsuario(usuario.idUsuario)" pButton icon="pi pi-check" class="p-button-raised p-button-rounded p-button-outlined p-button-primary"></button> | 
+                        <button routerLink="/dashboard/editar-usuario/{{ usuario.codigoEmpresa}}" pButton icon="pi pi-user-edit" class="p-button-raised p-button-rounded p-button-outlined p-button-warning"></button>
                     </td>
                 </tr>
                 </ng-template>
               </p-table>
-                <!--table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>N°</th>
-                            <th>Codigo de la persona</th>
-                            <th>Usuario (acceso al sistema)</th>
-                            <th>NIT</th>
-                            <th>Imagen NIT</th>
-                            <th>Nombre de la empresa</th>
-                            <th>Fecha de registro</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                
-                    <tbody>
-                        <tr *ngFor="let usuario of usuarios; let i = index">
-                            <td>{{ i+1 }}</td>
-                            <td>{{ usuario.codigoEmpresa }}</td>
-                            <td>{{ usuario.usuario }}</td>
-                            <td>{{ usuario.nit }}</td>
-                            <td><a href="#" (click)="descargarArchivo(usuario.imagenNIT)">Ver</a></td>
-                            <td>{{ usuario.nombreComercial }}</td>
-                            <td>{{ usuario.fechaRegistro | date }}</td>
-                            <td>
-                                <a href="/dashboard/editar-usuario/{{ usuario.codigoEmpresa}}" class="btn btn-warning btn-sm"><mat-icon>edit</mat-icon></a> | 
-                                <button (click)="activarUsuario(usuario.codigoEmpresa)" class="btn btn-primary btn-sm"><mat-icon>check</mat-icon></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table-->
             </div>
         </div>
+        </p-panel>
     </div>
 </section>

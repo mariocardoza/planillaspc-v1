@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
   }
 
   obtenerEstadisticas(){
-    this.dashboardService.estadisticasDashboard(this.data.CodigoEmpresa).subscribe((res)=>{
+    this.dashboardService.estadisticasDashboard(this.data.CodigoEmpresa, this.data.CodigoRol).subscribe((res)=>{
       console.log(res)
       if(res.success){
         this.planillas = res.planillas;

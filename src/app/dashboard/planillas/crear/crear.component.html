@@ -35,222 +35,223 @@
         <div class="modal-footer"></div>
     </ng-template>
     <div class="container-fluid">
-        <p-toast></p-toast>
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <h2 class="text-center">Registrar una nueva planilla</h2>
-            </div>
-            <div class="col-5">
-                <div *ngIf="isSuccess" class="alert alert-success">{{message}}</div>
-                <div *ngIf="isError" class="alert alert-error">{{message}}</div>
-            </div>
-        </div>
-            <form [formGroup]="planillaFormGroup">
-                <input readonly type="hidden" formControlName="CodigoEstado">
-                <input readonly type="hidden" formControlName="CodigoPagaduria">
-                <input readonly type="hidden" formControlName="CodigoEmpresa">
-                <input readonly type="hidden" formControlName="CodigoPGR">
-            
-            <div class="row">
-                <div class="col-12 col-md-9">
-                    <div class="row mt-2">
-                        <div class="col-12 col-md-4">
-                            <mat-form-field class="full-width" appearance="fill">
-                                <mat-label>N° de planilla</mat-label>
-                                <input matInput type="text" readonly formControlName="NoMandamiento">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <mat-form-field class="full-width" appearance="fill">
-                                <mat-label>Periodo</mat-label>
-                                <input matInput [matDatepicker]="picker" formControlName="Periodo" maxlength="7">
-                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                <mat-datepicker #picker startView="multi-year"
-                                (monthSelected)="setMonthAndYear($event, picker)"></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <mat-form-field class="full-width" appearance="fill">
-                                <mat-label>Tipo de cuota</mat-label>
-                                <mat-select formControlName="CodigoTipoCuota">
-                                    <mat-option selected></mat-option>
-                                    <mat-option *ngFor="let tipo of tipoCuotas" [value]="tipo.value">{{ tipo.name }}</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <mat-form-field appearance="fill" class="full-width">
-                                <mat-label>Observaciones</mat-label>
-                                <textarea matInput formControlName="Observacion"></textarea>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-3">
-                    <button (click)="onSubmit()" [loading]="loadingC" [disabled]="loadingC || !planillaFormGroup.valid " pButton class="primary" icon="pi pi-save" label="Generar planilla"></button> | 
-                    <button routerLink="/dashboard/planillas" pButton class="primary" icon="pi pi-angle-left" label="Atrás"></button>
-                </div> 
-            </div>   
-
-             
-            <div class="row">
+        <p-panel>
+            <p-toast></p-toast>
+            <div class="row justify-content-center">
                 <div class="col-12">
-                    
+                    <h2 class="text-center">Registrar una nueva planilla</h2>
+                </div>
+                <div class="col-5">
+                    <div *ngIf="isSuccess" class="alert alert-success">{{message}}</div>
+                    <div *ngIf="isError" class="alert alert-error">{{message}}</div>
                 </div>
             </div>
-        </form>
-            
-        <div class="row">
-            <div class="col-12" id="container-table" style="height: 700px; overflow-y: auto;">
-                <p-table #dt responsiveLayout="stack" [value]="planilla"
-             styleClass="p-datatable-striped"
-             [paginator]="false" [rows]="10" [loading]="loading" [totalRecords]="cuantos" [scrollable]="true" 
-             [globalFilterFields]="['codigoExpediente', 'noExpediente','duiPersonaNatural','nombresPersonaNatural','nombresPersonaE','apellidosPersonaNatural','apellidosPersonaE']"
-             scrollHeight="flex">
-             <ng-template pTemplate="caption">
-                <div style="text-align: right">
-                    <i 
-                        class="pi pi-search" 
-                        style="margin:4px 4px 0 0"> 
-                    </i>
-                    <input 
-                        type="text" 
-                        pInputText size="50" 
-                        placeholder="Digite el término a buscar"
-                        (input)=
-        "dt.filterGlobal($any($event.target).value, 'contains')" 
-                        style="width:auto" />
+                <form [formGroup]="planillaFormGroup">
+                    <input readonly type="hidden" formControlName="CodigoEstado">
+                    <input readonly type="hidden" formControlName="CodigoPagaduria">
+                    <input readonly type="hidden" formControlName="CodigoEmpresa">
+                    <input readonly type="hidden" formControlName="CodigoPGR">
+                
+                <div class="row">
+                    <div class="col-12 col-md-9">
+                        <div class="row mt-2">
+                            <div class="col-12 col-md-4">
+                                <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>N° de planilla</mat-label>
+                                    <input matInput type="text" readonly formControlName="NoMandamiento">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Periodo</mat-label>
+                                    <input matInput [matDatepicker]="picker" formControlName="Periodo" maxlength="7">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker startView="multi-year"
+                                    (monthSelected)="setMonthAndYear($event, picker)"></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <mat-form-field class="full-width" appearance="fill">
+                                    <mat-label>Tipo de cuota</mat-label>
+                                    <mat-select formControlName="CodigoTipoCuota">
+                                        <mat-option selected></mat-option>
+                                        <mat-option *ngFor="let tipo of tipoCuotas" [value]="tipo.value">{{ tipo.name }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Observaciones</mat-label>
+                                    <textarea matInput formControlName="Observacion"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <button (click)="onSubmit()" [loading]="loadingC" [disabled]="loadingC || !planillaFormGroup.valid " pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" icon="pi pi-save" label="Generar planilla"></button> | 
+                        <button routerLink="/dashboard/planillas" pButton class="p-button-raised p-button-rounded p-button-outlined p-button-info" icon="pi pi-angle-left" label="Atrás"></button>
+                    </div> 
+                </div>   
+
+                
+                <div class="row">
+                    <div class="col-12">
+                        
+                    </div>
+                </div>
+            </form>
+                
+            <div class="row">
+                <div class="col-12" id="container-table" style="height: 700px; overflow-y: auto;">
+                    <p-table #dt responsiveLayout="stack" [value]="planilla"
+                styleClass="p-datatable-striped"
+                [paginator]="false" [rows]="10" [loading]="loading" [totalRecords]="cuantos" [scrollable]="true" 
+                [globalFilterFields]="['codigoExpediente', 'noExpediente','duiPersonaNatural','nombresPersonaNatural','nombresPersonaE','apellidosPersonaNatural','apellidosPersonaE']"
+                scrollHeight="flex">
+                <ng-template pTemplate="caption">
+                    <div style="text-align: right">
+                        <i 
+                            class="pi pi-search" 
+                            style="margin:4px 4px 0 0"> 
+                        </i>
+                        <input 
+                            type="text" 
+                            pInputText 
+                            placeholder="Digite el término a buscar"
+                            (input)=
+            "dt.filterGlobal($any($event.target).value, 'contains')" 
+                            style="width:auto" />
+                    </div>
+                </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>N°</th>
+                    <th pSortableColumn="duiPersonaNatural">DUI <p-sortIcon field="duiPersonaNatural"></p-sortIcon></th>
+                    <th pSortableColumn="apellidosPersonaNatural">Apellidos demandado <p-sortIcon field="apellidosPersonaNatural"></p-sortIcon></th>
+                    <th pSortableColumn="nombresPersonaNatural">Nombres demandado <p-sortIcon field="nombresPersonaNatural"></p-sortIcon></th>
+                    <th>Apellidos demandante</th>
+                    <th>Nombres demandante</th>
+                    <th pSortableColumn="codigoExpediente">Código expediente <p-sortIcon field="codigoExpediente"></p-sortIcon></th>
+                    <th>Número de expediente</th>
+                    <th pSortableColumn="montoCR">Monto cuota <p-sortIcon field="montoCR"></p-sortIcon></th>
+                    <th>Número de beneficiarios</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-i="rowIndex" let-tableRow sortMode="multiple">
+                <tr>
+                    <td>{{i+1}}</td>
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText [dropSpecialCharacters]="false" mask="00000000-0" maxlength="10" type="text" [(ngModel)]="tableRow.duiPersonaNatural">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{tableRow.duiPersonaNatural}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="tableRow.apellidosPersonaNatural">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{tableRow.apellidosPersonaNatural}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="tableRow.nombresPersonaNatural">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{tableRow.nombresPersonaNatural}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="tableRow.apellidosPersonaE">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{tableRow.apellidosPersonaE}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="tableRow.nombresPersonaE">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{tableRow.nombresPersonaE}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" style="width: 50%;"  [(ngModel)]="tableRow.codigoExpediente">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{tableRow.codigoExpediente}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" style="width: 50%;"  [(ngModel)]="tableRow.noExpediente">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{tableRow.noExpediente}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText pKeyFilter="money" style="width: 50%;"  [(ngModel)]="tableRow.montoCR">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{tableRow.montoCR | currency: 'USD'}}
+                            </ng-template>
+                        </p-cellEditor>
+                    
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText pKeyFilter="int" style="width: 50%;"  [(ngModel)]="tableRow.cantidadB">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{tableRow.cantidadB}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="4">No se encontraron resultados.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="d-md-inline-flex justify-content-md-between w-100">
+                    <div class="my-auto">
+                        Se han encontrado {{ planilla ? planilla.length : 0 }} registros.
+                    </div>
                 </div>
             </ng-template>
-        <ng-template pTemplate="header">
-            <tr>
-                <th>N°</th>
-                <th pSortableColumn="duiPersonaNatural">DUI <p-sortIcon field="duiPersonaNatural"></p-sortIcon></th>
-                <th pSortableColumn="apellidosPersonaNatural">Apellidos demandado <p-sortIcon field="apellidosPersonaNatural"></p-sortIcon></th>
-                <th pSortableColumn="nombresPersonaNatural">Nombres demandado <p-sortIcon field="nombresPersonaNatural"></p-sortIcon></th>
-                <th>Apellidos demandante</th>
-                <th>Nombres demandante</th>
-                <th pSortableColumn="codigoExpediente">Código expediente <p-sortIcon field="codigoExpediente"></p-sortIcon></th>
-                <th>Número de expediente</th>
-                <th pSortableColumn="montoCR">Monto cuota <p-sortIcon field="montoCR"></p-sortIcon></th>
-                <th>Número de beneficiarios</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-i="rowIndex" let-tableRow sortMode="multiple">
-            <tr>
-                <td>{{i+1}}</td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText [dropSpecialCharacters]="false" mask="00000000-0" maxlength="10" type="text" [(ngModel)]="tableRow.duiPersonaNatural">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{tableRow.duiPersonaNatural}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="tableRow.apellidosPersonaNatural">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{tableRow.apellidosPersonaNatural}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="tableRow.nombresPersonaNatural">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{tableRow.nombresPersonaNatural}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="tableRow.apellidosPersonaE">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{tableRow.apellidosPersonaE}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" [(ngModel)]="tableRow.nombresPersonaE">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{tableRow.nombresPersonaE}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" style="width: 50%;"  [(ngModel)]="tableRow.codigoExpediente">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{tableRow.codigoExpediente}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText type="text" style="width: 50%;"  [(ngModel)]="tableRow.noExpediente">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{tableRow.noExpediente}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText pKeyFilter="money" style="width: 50%;"  [(ngModel)]="tableRow.montoCR">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{tableRow.montoCR | currency: 'USD'}}
-                        </ng-template>
-                    </p-cellEditor>
-                   
-                <td>
-                    <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <input pInputText pKeyFilter="int" style="width: 50%;"  [(ngModel)]="tableRow.cantidadB">
-                        </ng-template>
-                        <ng-template pTemplate="output">
-                            {{tableRow.cantidadB}}
-                        </ng-template>
-                    </p-cellEditor>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-            <tr>
-                <td colspan="4">No se encontraron resultados.</td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="summary">
-            <div class="d-md-inline-flex justify-content-md-between w-100">
-                <div class="my-auto">
-                    Se han encontrado {{ planilla ? planilla.length : 0 }} registros.
+            
+        </p-table>
                 </div>
             </div>
-        </ng-template>
-        
-    </p-table>
-            </div>
-        </div>
-        
+        </p-panel>        
     </div>
 </section>

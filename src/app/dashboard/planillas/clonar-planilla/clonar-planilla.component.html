@@ -78,7 +78,7 @@
                             </i>
                             <input 
                                 type="text" 
-                                pInputText size="50" 
+                                pInputText
                                 placeholder="No de mandamiento"
                                 (input)=
                 "myTab.filterGlobal($any($event.target).value, 'contains')" 
@@ -91,7 +91,7 @@
                                 <th pSortableColumn="periodo">Periodo <p-sortIcon field="periodo"></p-sortIcon></th>
                                 <th pSortableColumn="codigoTipoCuota">Tipo <p-sortIcon field="codigoTipoCuota"></p-sortIcon></th>
                                 <th>Monto planilla</th>
-                                <th>Personal en planilla</th>
+                                <th>Expedientes en planilla</th>
                                 <th>Estado</th>
                                 <th>Fecha generación</th>
                                 <th>Acción</th>
@@ -99,22 +99,22 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-planilla>
                             <tr>
-                                <td>{{ planilla.noMandamiento }}</td>
-                                <td>{{ planilla.periodo }}</td>
-                                <td>{{ buscarTipoCuota(planilla.codigoTipoCuota) }}</td>
-                                <td>${{ planilla.monto }}</td>
-                                <td>{{ planilla.empleadosEnPlanilla }}</td>
-                                <td><p-tag severity="primary" value="{{buscarEstadoPlanilla(planilla.codigoEstado)}}"></p-tag></td>
-                                <td>{{ planilla.fechaHoraRegistro | date: 'dd/MM/yyyy hh:mm:ss' }}</td>
+                                <td><span class="p-column-title">N° de mandamiento</span>{{ planilla.noMandamiento }}</td>
+                                <td><span class="p-column-title">Periodo</span>{{ planilla.periodo }}</td>
+                                <td><span class="p-column-title">Tipo</span>{{ buscarTipoCuota(planilla.codigoTipoCuota) }}</td>
+                                <td><span class="p-column-title">Monto planilla</span>${{ planilla.monto }}</td>
+                                <td><span class="p-column-title">Expedientes en planilla</span>{{ planilla.empleadosEnPlanilla }}</td>
+                                <td><span class="p-column-title">Estado</span><p-tag severity="primary" value="{{buscarEstadoPlanilla(planilla.codigoEstado)}}"></p-tag></td>
+                                <td><span class="p-column-title">Fecha generación</span>{{ planilla.fechaHoraRegistro | date: 'dd/MM/yyyy hh:mm:ss' }}</td>
                                 <td>
-                                    <p-button (click)="clonar(planilla,clonarPlanilla)" icon="pi pi-copy" styleClass="p-button-warning" label="Clonar planilla"></p-button>
+                                    <button pButton (click)="clonar(planilla,clonarPlanilla)" icon="pi pi-copy" class="p-button-raised p-button-rounded p-button-outlined p-button-help" label="Clonar planilla"></button>
                                 </td>
                             </tr>
                         </ng-template>
                     </p-table>
                 </div>
                 <div class="col-12">
-                    <p-button icon="pi pi-angle-left" routerLink="/dashboard/planillas" label="Atrás"></p-button>
+                    <button pButton icon="pi pi-angle-left" class="p-button-raised p-button-rounded p-button-outlined p-button-info" routerLink="/dashboard/planillas" label="Atrás"></button>
                 </div>
             </div>
         </div>

@@ -224,7 +224,7 @@ export class EditarPlanillaComponent implements OnInit {
             this.messageService.add({severity:'success', summary: 'Exito', detail:res['message']});
             this.getPlanilla(idEncabezado)
           }else{
-            this.messageService.add({severity:'error', summary: 'Exito', detail:res['message']});
+            this.messageService.add({severity:'error', summary: 'Error', detail:res['message']});
           }
         })
       }
@@ -287,7 +287,7 @@ export class EditarPlanillaComponent implements OnInit {
         this.messageService.add({severity:'success', summary: 'Exito', detail:result['message']});
         this.modal.dismissAll()
       }else{
-        this.messageService.add({severity:'error', summary: 'Exito', detail:result['message']});
+        this.messageService.add({severity:'error', summary: 'Error', detail:result['message']});
       }
     })
 
@@ -361,7 +361,7 @@ export class EditarPlanillaComponent implements OnInit {
         this.getPlanilla(empleado.idEncabezado)
         this.messageService.add({severity:'success', summary: 'Exito', detail:result['message']});
       }else{
-        this.messageService.add({severity:'error', summary: 'Exito', detail:result['message']});
+        this.messageService.add({severity:'error', summary: 'Error', detail:result['message']});
       }
     })
   }
@@ -457,13 +457,13 @@ export class EditarPlanillaComponent implements OnInit {
               this.messageService.add({severity:'success', summary: 'Exito', detail:res['message']});
               this.getPlanilla(this.planilla.idEncabezado)
             }else{
-              this.messageService.add({severity:'error', summary: 'Exito', detail:res['message']});
+              this.messageService.add({severity:'error', summary: 'Error', detail:res['message']});
             }
           }))
         }
       })
     }else{
-      this.messageService.add({severity:'error', summary: 'Exito', detail:'Debe seleccionar al menos un empleado a eliminar'});
+      this.messageService.add({severity:'info', summary: 'Aviso', detail:'Debe seleccionar al menos un empleado a eliminar'});
     }
   }
 
@@ -493,7 +493,7 @@ export class EditarPlanillaComponent implements OnInit {
     }else{
       if(estadoActual == codigoEstado && estadoActual != '6'){
         //console.log("amarillo" + estadoActual+" "+codigoEstado)
-        color = '#dee314'
+        color = '#DF0101'
       }else{
         if(estadoActual == '6'){
           //console.log("verde ultimo" + estadoActual+" "+codigoEstado)

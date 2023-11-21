@@ -1,97 +1,99 @@
 <section class="content">
-    <div class="container">
-        <div class="row justify-content-center mt-4">
-            <div class="col-5">
-              <div *ngIf="isSuccess" class="alert alert-success">{{message}}</div>
-              <div *ngIf="isError" class="alert alert-error">{{message}}</div>
-            </div>
-
-            <div class="col-12">
-                <form [formGroup]="userFormGroup">
-                    <mat-card>
-                        <mat-card-header><h3>Edite la información del administrador</h3></mat-card-header>
-                        <mat-card-content>
-                            <div class="row">
-                                <div class="col-12 col-md-6">
-                                  <mat-form-field class="full-width" appearance="fill">
-                                    <mat-label>Usuario</mat-label>
-
-                                    <mat-select placeholder="Listado de usuarios" formControlName="Username" #singleSelect>
-
-                                      <mat-option >
-                                          <ngx-mat-select-search [formControl]="itemFilterCtrl" placeholderLabel="Busque un usuario"
-                                              noEntriesFoundLabel="No hay resultados"></ngx-mat-select-search>
-                                      </mat-option>
-                          
-                                      <mat-option *ngFor="let item of filteredUsers | async" [value]="item.code">
-                                          {{item.name}}
-                                      </mat-option>
-                          
-                                  </mat-select>
-                                    <!--input matInput placeholder="Usuario" formControlName="Username" required-->
-                                    <input formControlName="NIT" type="hidden">
-                                    <input formControlName="CodigoEmpresa" type="hidden">
-                                    <input formControlName="IdUsuario" type="hidden">
-                                    <mat-error *ngIf="userFormGroup.get('Username')?.hasError('required')">
-                                        Digite el correo electrónico
-                                    </mat-error>
-                                  </mat-form-field>
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <mat-form-field class="full-width" appearance="fill">
-                                        <mat-label>Procuraduría donde realiza el pago</mat-label>
-                                        <input type="text"
-                                          placeholder="Pick one"
-                                          aria-label="Number"
-                                          matInput
-                                          formControlName="CodigoPagaduria"
-                                          [matAutocomplete]="auto">
-                                          <mat-autocomplete #auto="matAutocomplete">
-                                            <mat-option *ngFor="let option of unidades" [value]="option.codigoUnidadOrganizacional.trim()">
-                                              {{option.pagaduria}}
-                                            </mat-option>
-                                          </mat-autocomplete>
-                                          <mat-error *ngIf="userFormGroup.get('CodigoPagaduria')?.hasError('required')">
-                                            Seleccione una pagaduría
+    <div class="container-fluid">
+        <p-panel>
+            <div class="row justify-content-center mt-4">
+                <div class="col-5">
+                  <div *ngIf="isSuccess" class="alert alert-success">{{message}}</div>
+                  <div *ngIf="isError" class="alert alert-error">{{message}}</div>
+                </div>
+    
+                <div class="col-12">
+                    <form [formGroup]="userFormGroup">
+                        <mat-card>
+                            <mat-card-header><h3>Edite la información del administrador</h3></mat-card-header>
+                            <mat-card-content>
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                      <mat-form-field class="full-width" appearance="fill">
+                                        <mat-label>Usuario</mat-label>
+    
+                                        <mat-select placeholder="Listado de usuarios" formControlName="Username" #singleSelect>
+    
+                                          <mat-option >
+                                              <ngx-mat-select-search [formControl]="itemFilterCtrl" placeholderLabel="Busque un usuario"
+                                                  noEntriesFoundLabel="No hay resultados"></ngx-mat-select-search>
+                                          </mat-option>
+                              
+                                          <mat-option *ngFor="let item of filteredUsers | async" [value]="item.code">
+                                              {{item.name}}
+                                          </mat-option>
+                              
+                                      </mat-select>
+                                        <!--input matInput placeholder="Usuario" formControlName="Username" required-->
+                                        <input formControlName="NIT" type="hidden">
+                                        <input formControlName="CodigoEmpresa" type="hidden">
+                                        <input formControlName="IdUsuario" type="hidden">
+                                        <mat-error *ngIf="userFormGroup.get('Username')?.hasError('required')">
+                                            Digite el correo electrónico
                                         </mat-error>
                                       </mat-form-field>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <mat-form-field class="full-width" appearance="fill">
+                                            <mat-label>Procuraduría donde realiza el pago</mat-label>
+                                            <input type="text"
+                                              placeholder="Pick one"
+                                              aria-label="Number"
+                                              matInput
+                                              formControlName="CodigoPagaduria"
+                                              [matAutocomplete]="auto">
+                                              <mat-autocomplete #auto="matAutocomplete">
+                                                <mat-option *ngFor="let option of unidades" [value]="option.codigoUnidadOrganizacional.trim()">
+                                                  {{option.pagaduria}}
+                                                </mat-option>
+                                              </mat-autocomplete>
+                                              <mat-error *ngIf="userFormGroup.get('CodigoPagaduria')?.hasError('required')">
+                                                Seleccione una pagaduría
+                                            </mat-error>
+                                          </mat-form-field>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12 col-md-6">
-                                    <mat-form-field class="full-width" appearance="fill">
-                                        <mat-label>Clave</mat-label>
-                                        <input matInput placeholder="Clave" formControlName="Password" required type="password" autocomplete="off">
-                                        <mat-error *ngIf="userFormGroup.get('Password')?.hasError('passwordStrength')">
-                                            {{userFormGroup.get('Password')?.errors['passwordStrength']}}
-                                        </mat-error>
-                                        <mat-error *ngIf="userFormGroup.get('Password')?.hasError('required')">
-                                            Digite una clave segura
-                                        </mat-error>
-                                    </mat-form-field>
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <mat-form-field class="full-width" appearance="fill">
+                                            <mat-label>Clave</mat-label>
+                                            <input matInput placeholder="Clave" formControlName="Password" required type="password" autocomplete="off">
+                                            <mat-error *ngIf="userFormGroup.get('Password')?.hasError('passwordStrength')">
+                                                {{userFormGroup.get('Password')?.errors['passwordStrength']}}
+                                            </mat-error>
+                                            <mat-error *ngIf="userFormGroup.get('Password')?.hasError('required')">
+                                                Digite una clave segura
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                
+                                    <div class="col-12 col-md-6">
+                                        <mat-form-field class="full-width" appearance="fill">
+                                            <mat-label>Confirmar clave</mat-label>
+                                            <input matInput placeholder="Confirmar clave" type="password" formControlName="ConfirmPassword" required autocomplete="off">
+                                            <mat-error *ngIf="userFormGroup.controls['ConfirmPassword'].pristine || userFormGroup.controls['ConfirmPassword'].errors?.MatchPassword">La clave confirmada no es igual</mat-error>
+                                        </mat-form-field>
+                                    </div>
                                 </div>
-                            
-                                <div class="col-12 col-md-6">
-                                    <mat-form-field class="full-width" appearance="fill">
-                                        <mat-label>Confirmar clave</mat-label>
-                                        <input matInput placeholder="Confirmar clave" type="password" formControlName="ConfirmPassword" required autocomplete="off">
-                                        <mat-error *ngIf="userFormGroup.controls['ConfirmPassword'].pristine || userFormGroup.controls['ConfirmPassword'].errors?.MatchPassword">La clave confirmada no es igual</mat-error>
-                                    </mat-form-field>
+                                <div class="row justify-content-center mt-4">
+                                    <div class="col-12">
+                                      <button class="p-button-raised p-button-rounded p-button-outlined p-button-success" pButton (click)="onSubmit()">Guardar</button> | 
+                                      <button routerLink="/dashboard" class="p-button-raised p-button-rounded p-button-outlined p-button-info" pButton>Atrás</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row justify-content-center mt-4">
-                                <div class="col-12">
-                                  <button class="btn btn-primary" mat-button (click)="onSubmit()">Guardar</button> | 
-                                  <a routerLink="/dashboard" class="btn btn-primary" mat-button >Atrás</a>
-                                </div>
-                            </div>
-                            
-                        </mat-card-content>
-                    </mat-card>
-                    
-                </form>
+                                
+                            </mat-card-content>
+                        </mat-card>
+                        
+                    </form>
+                </div>
             </div>
-        </div>
+        </p-panel>
     </div>
 </section>
 

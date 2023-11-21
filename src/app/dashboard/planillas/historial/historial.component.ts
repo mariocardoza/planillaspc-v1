@@ -266,15 +266,15 @@ export class HistorialComponent implements OnInit {
 
   buscarTrackPlanilla(codigoEstado){
     //console.log(this.track)
-    let color = '';
     let estadoActual = this.estadoActual;
+    let color = '';
     if(estadoActual < codigoEstado){
       //console.log("rojo "+ estadoActual+" "+codigoEstado)
       color = '#DF0101'
     }else{
       if(estadoActual == codigoEstado && estadoActual != '6'){
         //console.log("amarillo" + estadoActual+" "+codigoEstado)
-        color = '#dee314'
+        color = '#DF0101'
       }else{
         if(estadoActual == '6'){
           //console.log("verde ultimo" + estadoActual+" "+codigoEstado)

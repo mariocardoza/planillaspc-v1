@@ -152,7 +152,8 @@
 </div>
 <div class="modal-footer"></div>
 </ng-template>
-    <div class="container-fluid">
+    <p-panel>
+      <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <h3 class="text-center">Listado de empleados con expendientes</h3>
@@ -160,8 +161,8 @@
         </div>
         <div class="row">
           <div class="col-12 my-4">
-              <button pButton icon="pi pi-plus" pRipple type="button" label="Nuevo empleado" (click)="crearNuevo(agregarEmpleado)"></button>
-              <button class="p-button-success mx-4" [loading]="loading" pButton icon="pi pi-refresh" pRipple type="button" label="Actualizar empleados" (click)="actualizarEmpleados()"></button>
+              <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-help" icon="pi pi-plus" pRipple type="button" label="Nuevo empleado" (click)="crearNuevo(agregarEmpleado)"></button>
+              <button class="p-button-raised p-button-rounded p-button-outlined p-button-success mx-4" [loading]="loading" pButton icon="pi pi-refresh" pRipple type="button" label="Actualizar empleados" (click)="actualizarEmpleados()"></button>
           </div>
       </div>
         <div class="row mt-4">
@@ -176,7 +177,7 @@
                       </i>
                       <input 
                           type="text" 
-                          pInputText size="50" 
+                          pInputText  
                           placeholder="Digite el término a buscar"
                           (input)=
           "dt.filterGlobal($any($event.target).value, 'contains')" 
@@ -197,16 +198,16 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-empleado let-i="rowIndex">
                   <tr>
-                    <td>{{i+1}}</td>
-                    <td>{{ empleado.nombreDocumento }}</td>
-                    <td>{{ empleado.duiPasaporte }}</td>
-                    <td>{{ empleado.apellidos }}</td>
-                    <td>{{ empleado.nombres }}</td>
-                    <td>{{ empleado.codigoExpediente }}</td>
-                    <td>{{ empleado.expedienteFisico }}</td>
+                    <td><span class="p-column-title">N°</span>{{ i+1 }}</td>
+                    <td><span class="p-column-title">Documento</span>{{ empleado.nombreDocumento }}</td>
+                    <td><span class="p-column-title">DUI</span>{{ empleado.duiPasaporte }}</td>
+                    <td><span class="p-column-title">Apellidos</span>{{ empleado.apellidos }}</td>
+                    <td><span class="p-column-title">Nombres</span>{{ empleado.nombres }}</td>
+                    <td><span class="p-column-title">N° expediente electrónico</span>{{ empleado.codigoExpediente }}</td>
+                    <td><span class="p-column-title">N° expediente físico</span>{{ empleado.expedienteFisico }}</td>
                     <td>
-                      <button pButton pRipple type="button"  icon="pi pi-pencil" (click)="onEditInit(empleado,agregarEmpleado)" class="p-button-rounded p-button-text"></button>
-                      <button pButton pRipple type="button"  icon="pi pi-trash" (click)="onDeleteModal(empleado.idRegistro)" class="p-button-rounded p-button-danger p-button-text"></button>
+                      <button pButton pRipple icon="pi pi-pencil" (click)="onEditInit(empleado,agregarEmpleado)" class="p-button-raised p-button-rounded p-button-outlined"></button>
+                      <button pButton pRipple  icon="pi pi-trash" (click)="onDeleteModal(empleado.idRegistro)" class="p-button-raised p-button-rounded p-button-outlined p-button-danger"></button>
                     </td>
                 </tr>
                 </ng-template>
@@ -214,4 +215,5 @@
             </div>
         </div>
     </div>
+    </p-panel>
 </section>

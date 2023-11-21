@@ -1,65 +1,69 @@
 <section class="content">
-    <div class="container">
-        <div class="row ">
-          <div class="col-xl-3 col-lg-6" *ngIf="data.CodigoRol == 'U'">
-            <div class="card l-bg-cyan-dark">
-              <div class="card-statistic-3">
-                <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
-                <div class="card-content">
-                  <h4 class="card-title">Empleados (expedientes)</h4>
-                  <span class="data-1">{{empleados}}</span>
-                  <mat-progress-bar mode="determinate"
-                    class="progress-m progress-round progress-shadow l-purple-progress mt-2 mb-2" value="{{empleados}}">
-                  </mat-progress-bar>
-                </div>
-              </div>
-            </div>
-          </div>
-            <div *ngFor="let planilla of planillas" class="col-xl-3 col-lg-6">
-              <div class="card l-bg-green-dark">
+    <div class="container-fluid">
+        <p-panel header="Estadísticas" [toggleable]="true">
+          <div class="row ">
+            <div class="col-xl-3 col-lg-6" *ngIf="data.CodigoRol == 'U'">
+              <div class="card l-bg-cyan-dark">
                 <div class="card-statistic-3">
-                  <div class="card-icon card-icon-large"><i class="fa fa-briefcase"></i></div>
+                  <div class="card-icon card-icon-large"><i class="fas fa-users"></i></div>
                   <div class="card-content">
-                    <h4 class="card-title">Planillas en estado: <br><strong>{{ buscarEstadoPlanilla(planilla.tipo) }}</strong></h4>
-                    <span class="data-1">{{planilla.count}}</span><br>
+                    <h4 class="card-title">Empleados (expedientes)</h4>
+                    <span class="data-1">{{empleados}}</span>
                     <mat-progress-bar mode="determinate"
-                      class="progress-m progress-round progress-shadow l-orange-progress mt-2 mb-2" value="{{planilla.count}}">
+                      class="progress-m progress-round progress-shadow l-purple-progress mt-2 mb-2" value="{{empleados}}">
                     </mat-progress-bar>
-                    <p class="mb-0 text-sm">
-                      Monto: {{planilla.sumatoria | currency : 'USD'}}
-                    </p>
                   </div>
                 </div>
               </div>
             </div>
-            
-            <!--div class="col-xl-3 col-lg-6">
-              <div class="card l-bg-orange-dark">
-                <div class="card-statistic-3">
-                  <div class="card-icon card-icon-large"><i class="fa fa-money-bill-alt"></i></div>
-                  <div class="card-content">
-                    <h4 class="card-title">Pagado</h4>
-                    <span class="data-1">{{ montos | currency: 'USD'}}</span>
-                    <mat-progress-bar mode="determinate"
-                      class="progress-m progress-round progress-shadow l-sky-progress mt-2 mb-2" value="40">
-                    </mat-progress-bar>
-                    <p class="mb-0 text-sm">
-                      
-                    </p>
+              <div *ngFor="let planilla of planillas" class="col-xl-3 col-lg-6">
+                <div class="card l-bg-green-dark">
+                  <div class="card-statistic-3">
+                    <div class="card-icon card-icon-large"><i class="fa fa-briefcase"></i></div>
+                    <div class="card-content">
+                      <h4 class="card-title">Planillas en estado: <br><strong>{{ buscarEstadoPlanilla(planilla.tipo) }}</strong></h4>
+                      <span class="data-1">{{planilla.count}}</span><br>
+                      <mat-progress-bar mode="determinate"
+                        class="progress-m progress-round progress-shadow l-orange-progress mt-2 mb-2" value="{{planilla.count}}">
+                      </mat-progress-bar>
+                      <p class="mb-0 text-sm">
+                        Monto: {{planilla.sumatoria | currency : 'USD'}}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div-->
-        </div>
-        <div class="row justify-content-center">
-          <div class="col-5" *ngIf="data.CodigoRol == 'U'">
-            <h4>Se le recuerda presentar sus planillas a tiempo; máximo 5 días después de realizado el pago de salarios</h4>
+              
+              <!--div class="col-xl-3 col-lg-6">
+                <div class="card l-bg-orange-dark">
+                  <div class="card-statistic-3">
+                    <div class="card-icon card-icon-large"><i class="fa fa-money-bill-alt"></i></div>
+                    <div class="card-content">
+                      <h4 class="card-title">Pagado</h4>
+                      <span class="data-1">{{ montos | currency: 'USD'}}</span>
+                      <mat-progress-bar mode="determinate"
+                        class="progress-m progress-round progress-shadow l-sky-progress mt-2 mb-2" value="40">
+                      </mat-progress-bar>
+                      <p class="mb-0 text-sm">
+                        
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div-->
           </div>
-          <div class="col-5" *ngIf="data.CodigoRol == 'A'">
-            <h4>Listados de planillas pendientes de generar recibo de ingreso, ir a la opción de <strong>Emitir recibo de ingreso</strong></h4>
-            <h4 class="mt-4">Para imprimir el recibo de ingreso ir a la opción de: <strong>Bitácora recibos de ingreso</strong></h4>
+        </p-panel>
+        <br>
+        <p-panel header="Información">
+          <div class="row justify-content-center">
+            <div class="col-12 col-lg-5" *ngIf="data.CodigoRol == 'U'">
+              <h4>Se le recuerda presentar sus planillas a tiempo; máximo 5 días después de realizado el pago de salarios</h4>
+            </div>
+            <div class="col-12 col-lg-5" *ngIf="data.CodigoRol == 'A'">
+              <h4>Listados de planillas pendientes de generar recibo de ingreso, ir a la opción de <strong>Emitir recibo de ingreso</strong></h4>
+              <h4 class="mt-4">Para imprimir el recibo de ingreso ir a la opción de: <strong>Bitácora recibos de ingreso</strong></h4>
+            </div>
           </div>
-        </div>
-        
+        </p-panel>
     </div>
 </section>

@@ -11,6 +11,7 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import {MultiSelectModule} from 'primeng/multiselect';
 import { DividerModule } from "primeng/divider";
 import {TimelineModule} from 'primeng/timeline';
+import {PanelModule} from 'primeng/panel';
 
 @NgModule({
   declarations: [],
@@ -28,7 +29,8 @@ import {TimelineModule} from 'primeng/timeline';
     KeyFilterModule,
     MultiSelectModule,
     DividerModule,
-    TimelineModule
+    TimelineModule,
+    PanelModule
   ]
 })
 export class PrimeNgModule { }

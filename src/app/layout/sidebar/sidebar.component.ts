@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Renderer2, Inject } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, Inject, HostListener } from '@angular/core';
 import { ICredencial } from 'src/app/core/models/credencial';
 import { DOCUMENT } from "@angular/common";
 import { DashboardService } from 'src/app/core/service/dashboard.service';
@@ -11,6 +11,8 @@ export class SidebarComponent implements OnInit {
   usuario: ICredencial;
   token: string;
   listMaxHeight: string;
+  headerHeight = 60;
+  public innerHeight: any;
   listMaxWidth: string;
   numeroPendientes: number = 0;
   menu: any[]= [
@@ -39,10 +41,18 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.contarPendientes()
+    this.initLeftSidebar();
   }
 
   rutaOp(opcion: any){
     return null;
+  }
+
+  initLeftSidebar() {
+    const me = this;
+    // Set menu height
+    me.setMenuHeight();
+    me.checkStatuForResize(true);
   }
 
   mouseHover(e) {
@@ -53,12 +63,39 @@ export class SidebarComponent implements OnInit {
     }
   }
 
+  checkStatuForResize(firstTime) {
+    if (window.innerWidth < 1170) {
+      this.renderer.addClass(this.document.body, "ls-closed");
+    } else {
+      this.renderer.removeClass(this.document.body, "ls-closed");
+    }
+  }
+
   contarPendientes(){
     this.dashboardService.usersPending(this.token,this.usuario.CodigoRol,this.usuario.CodigoPagaduria,0,10).subscribe((res)=>{
       if(res.success){
         this.numeroPendientes = res.registros
       }
     })
+  }
+
+  @HostListener("window:resize", ["$event"])
+  windowResizecall(event) {
+    this.setMenuHeight();
+    this.checkStatuForResize(false);
+  }
+  @HostListener("document:mousedown", ["$event"])
+  onGlobalClick(event): void {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.renderer.removeClass(this.document.body, "overlay-open");
+    }
+  }
+
+  setMenuHeight() {
+    this.innerHeight = window.innerHeight;
+    const height = this.innerHeight - this.headerHeight;
+    this.listMaxHeight = height + "";
+    this.listMaxWidth = "500px";
   }
 
   mouseOut(e) {

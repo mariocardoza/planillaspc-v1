@@ -452,92 +452,94 @@
         </div>
     </ng-template>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12" style="position: relative;">
-                <div id="elsello">
-                    <div id="sellito" style="position: relative;">
-                        <img src="./assets/images/sello.png" width="150" alt="">
-                        <p id="sello_p">{{unafecha}} </p>
+        <p-panel>
+            <div class="row">
+                <div class="col-12" style="position: relative;">
+                    <div id="elsello">
+                        <div id="sellito" style="position: relative;">
+                            <img src="./assets/images/sello.png" width="150" alt="">
+                            <p id="sello_p">{{unafecha}} </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <p-toast></p-toast>
+                    <h2>Bitácora recibos de ingreso</h2>
+                </div>
+            </div>
+            <div class="row">
+                <form action="" [formGroup]="filterForm" (ngSubmit)="buscar()">
+                    Seleccione una empresa<br>
+                    <p-dropdown formControlName="empresa" [options]="usuarios" optionLabel="name" optionValue="code" placeholder="Seleccione empresa"></p-dropdown><br>
+                    <p-button styleClass="p-button-raised p-button-rounded p-button-outlined m-2" label="Buscar" type="submit"></p-button>
+                    <p-button styleClass="p-button-raised p-button-rounded p-button-outlined p-button-secondary m-2" type="button" (click)="limpiar()" label="Limpiar"></p-button>
+                </form>
+                <div class="col-12">
+                    <div class="card">
+                        <p-table #myTab [value]="mandamientos" [paginator]="true" [rows]="10" [totalRecords]="totalRecords"
+                        [globalFilterFields]="['noMandamiento', 'periodo','nombreComercial']" [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} registros">
+                            <ng-template pTemplate="caption">
+                                <div style="text-align: right">
+                                    <i 
+                                        class="pi pi-search" 
+                                        style="margin:4px 4px 0 0"> 
+                                    </i>
+                                    <input 
+                                        type="text" 
+                                        pInputText
+                                        placeholder="Término a buscar"
+                                        (input)=
+                        "myTab.filterGlobal($any($event.target).value, 'contains')" 
+                                        style="width:auto" />
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th pSortableColumn="idControl">N° <p-sortIcon field="idControl"></p-sortIcon></th>
+                                    <th pSortableColumn="noMandamiento">N° de mandamiento <p-sortIcon field="noMandamiento"></p-sortIcon></th>
+                                    <th >Descripción </th>
+                                    <th>Empresa</th>
+                                    <th pSortableColumn="codigoPGR">Código de empresa PGR <p-sortIcon field="codigoPGR"></p-sortIcon></th>
+                                    <th pSortableColumn="codigoTipoCuota">Tipo de pago <p-sortIcon field="codigoTipoCuota"></p-sortIcon></th>
+                                    <th pSortableColumn="monto">Monto <p-sortIcon field="monto"></p-sortIcon></th>
+                                    <th>Comprobante banco</th>
+                                    <th pSortableColumn="codigoEstado">Estado <p-sortIcon field="codigoEstado"></p-sortIcon></th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-i="rowIndex" let-mandamiento>
+                                <tr *ngIf="mandamiento.codigoEstado >= 3">
+                                    <td>{{ i+1 }}</td>
+                                    <td>{{ mandamiento.noMandamiento }}</td>
+                                    <td>{{ mandamiento.descripcion }}</td>
+                                    <td>{{ mandamiento.nombreComercial }}</td>
+                                    <td>{{ mandamiento.codigoPGR }}</td>
+                                    <td>{{ buscarTipoCuota(mandamiento.codigoTipoCuota) }}</td>
+                                    <td>{{ mandamiento.monto | currency:'USD' }}</td>
+                                    <td>
+                                        <div *ngIf="mandamiento.rutaImagenComprobante != null; else pending">
+                                            <button pButton pRipple type="button" label="Ver comprobante" icon="pi pi-eye" (click)="verEditarComprobante(mandamiento)" class="p-button-rounded p-button-text p-button-danger"></button>
+                                        </div>
+                                        <ng-template #pending>
+                                            <button pButton pRipple type="button" label="Subir comprobante" icon="pi pi-upload" (click)="agregarComprobante(mandamiento.idControl)" class="p-button-rounded p-button-text p-button-danger"></button>
+                                        </ng-template>
+                                    </td>
+                                    <td><p-tag severity="{{claseEstadoPlanilla(mandamiento.codigoEstado)}}" (click)="verTrack(mandamiento.idEncabezado)" value="{{buscarEstadoPlanilla(mandamiento.codigoEstado)}}"></p-tag></td>
+                                    <td>
+                                        <button [loading]="loading" title="Imprimir planilla" label="Planilla" pButton (click)="imprimirComprobante(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-raised p-button-rounded p-button-outlined p-button-help m-1"></button>
+                                        <button title="Imprimir recibo de ingreso" label="Recibo de ingreso" pButton (click)="reciboIngreso(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-raised p-button-rounded p-button-outlined p-button-help m-1"></button>
+                                        <button *ngIf="mandamiento.rutaImagenComprobante != null && mandamiento.codigoEstado == 5" title="Registrar recibo de pago" pButton (click)="finalizarPlanilla(mandamiento.idEncabezado)" icon="pi pi-check" class="p-button-raised p-button-rounded p-button-outlined p-button-primary m-1"></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                    <div class="col-12">
+                        <p-button icon="pi pi-angle-left" styleClass="p-button-raised p-button-rounded p-button-outlined" routerLink="/dashboard/planillas" label="Atrás"></p-button>
                     </div>
                 </div>
             </div>
-            <div class="col-12">
-                <p-toast></p-toast>
-                <h2>Bitácora recibos de ingreso</h2>
-            </div>
-        </div>
-        <div class="row">
-            <form action="" [formGroup]="filterForm" (ngSubmit)="buscar()">
-                Seleccione una empresa<br>
-                <p-dropdown formControlName="empresa" [options]="usuarios" optionLabel="name" optionValue="code" placeholder="Seleccione empresa"></p-dropdown><br>
-                <p-button styleClass="m-2" label="Buscar" type="submit"></p-button>
-                <p-button styleClass="p-button-secondary m-2" type="button" (click)="limpiar()" label="Limpiar"></p-button>
-            </form>
-            <div class="col-12">
-                <div class="card">
-                    <p-table #myTab [value]="mandamientos" [paginator]="true" [rows]="10" [totalRecords]="totalRecords"
-                    [globalFilterFields]="['noMandamiento', 'periodo','nombreComercial']" [showCurrentPageReport]="true" currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} registros">
-                        <ng-template pTemplate="caption">
-                            <div style="text-align: right">
-                                <i 
-                                    class="pi pi-search" 
-                                    style="margin:4px 4px 0 0"> 
-                                </i>
-                                <input 
-                                    type="text" 
-                                    pInputText
-                                    placeholder="Término a buscar"
-                                    (input)=
-                    "myTab.filterGlobal($any($event.target).value, 'contains')" 
-                                    style="width:auto" />
-                            </div>
-                        </ng-template>
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th pSortableColumn="idControl">N° <p-sortIcon field="idControl"></p-sortIcon></th>
-                                <th pSortableColumn="noMandamiento">N° de mandamiento <p-sortIcon field="noMandamiento"></p-sortIcon></th>
-                                <th >Descripción </th>
-                                <th>Empresa</th>
-                                <th pSortableColumn="codigoPGR">Código de empresa PGR <p-sortIcon field="codigoPGR"></p-sortIcon></th>
-                                <th pSortableColumn="codigoTipoCuota">Tipo de pago <p-sortIcon field="codigoTipoCuota"></p-sortIcon></th>
-                                <th pSortableColumn="monto">Monto <p-sortIcon field="monto"></p-sortIcon></th>
-                                <th>Comprobante banco</th>
-                                <th pSortableColumn="codigoEstado">Estado <p-sortIcon field="codigoEstado"></p-sortIcon></th>
-                                <th>Acciones</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-i="rowIndex" let-mandamiento>
-                            <tr *ngIf="mandamiento.codigoEstado >= 3">
-                                <td>{{ i+1 }}</td>
-                                <td>{{ mandamiento.noMandamiento }}</td>
-                                <td>{{ mandamiento.descripcion }}</td>
-                                <td>{{ mandamiento.nombreComercial }}</td>
-                                <td>{{ mandamiento.codigoPGR }}</td>
-                                <td>{{ buscarTipoCuota(mandamiento.codigoTipoCuota) }}</td>
-                                <td>{{ mandamiento.monto | currency:'USD' }}</td>
-                                <td>
-                                    <div *ngIf="mandamiento.rutaImagenComprobante != null; else pending">
-                                        <button pButton pRipple type="button" label="Ver comprobante" icon="pi pi-eye" (click)="verEditarComprobante(mandamiento)" class="p-button-rounded p-button-text p-button-danger"></button>
-                                    </div>
-                                    <ng-template #pending>
-                                        <button pButton pRipple type="button" label="Subir comprobante" icon="pi pi-upload" (click)="agregarComprobante(mandamiento.idControl)" class="p-button-rounded p-button-text p-button-danger"></button>
-                                    </ng-template>
-                                </td>
-                                <td><p-tag severity="{{claseEstadoPlanilla(mandamiento.codigoEstado)}}" (click)="verTrack(mandamiento.idEncabezado)" value="{{buscarEstadoPlanilla(mandamiento.codigoEstado)}}"></p-tag></td>
-                                <td>
-                                    <button [loading]="loading" title="Imprimir planilla" label="Planilla" pButton (click)="imprimirComprobante(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-secondary m-1"></button>
-                                    <button title="Imprimir recibo de ingreso" label="Recibo de ingreso" pButton (click)="reciboIngreso(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-secondary m-1"></button>
-                                    <button *ngIf="mandamiento.rutaImagenComprobante != null && mandamiento.codigoEstado == 5" title="Registrar recibo de pago" pButton (click)="finalizarPlanilla(mandamiento.idEncabezado)" icon="pi pi-check" class="p-button-primary m-1"></button>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-                <div class="col-12">
-                    <p-button icon="pi pi-angle-left" routerLink="/dashboard/planillas" label="Atrás"></p-button>
-                </div>
-            </div>
-        </div>
+        </p-panel>
     </div>
 </section>
 

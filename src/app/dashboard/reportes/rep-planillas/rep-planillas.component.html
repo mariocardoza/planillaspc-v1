@@ -94,7 +94,7 @@
                                 </i>
                                 <input 
                                     type="text" 
-                                    pInputText size="50" 
+                                    pInputText
                                     placeholder="No de mandamiento"
                                     (input)=
                     "myTab.filterGlobal($any($event.target).value, 'contains')" 
@@ -107,7 +107,7 @@
                                 <th pSortableColumn="periodo">Periodo <p-sortIcon field="periodo"></p-sortIcon></th>
                                 <th pSortableColumn="codigoTipoCuota">Tipo <p-sortIcon field="codigoTipoCuota"></p-sortIcon></th>
                                 <th>Monto planilla</th>
-                                <th>Personal en planilla</th>
+                                <th>Expedientes en planilla</th>
                                 <th>Fecha presentación</th>
                                 <th pSortableColumn="codigoEstado">Estado <p-sortIcon field="codigoEstado"></p-sortIcon></th>
                                 <th>Acción</th>
@@ -115,15 +115,15 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-planilla>
                             <tr *ngIf="planilla.codigoEstado >= 5">
-                                <td>{{ planilla.noMandamiento }}</td>
-                                <td>{{ planilla.periodo }}</td>
-                                <td>{{ buscarTipoCuota(planilla.codigoTipoCuota) }}</td>
-                                <td>${{ planilla.monto }}</td>
-                                <td>{{ planilla.empleadosEnPlanilla }}</td>
-                                <td>{{ planilla.fechaEnvio  }}</td>
-                                <td><p-tag severity="{{claseEstadoPlanilla(planilla.codigoEstado)}}" value="{{buscarEstadoPlanilla(planilla.codigoEstado)}}"></p-tag></td>
+                                <td><span class="p-column-title">N° de mandamiento</span>{{ planilla.noMandamiento }}</td>
+                                <td><span class="p-column-title">Periodo</span>{{ planilla.periodo }}</td>
+                                <td><span class="p-column-title">Tipo</span>{{ buscarTipoCuota(planilla.codigoTipoCuota) }}</td>
+                                <td><span class="p-column-title">Monto planilla</span>${{ planilla.monto }}</td>
+                                <td><span class="p-column-title">Expedientes en planilla</span>{{ planilla.empleadosEnPlanilla }}</td>
+                                <td><span class="p-column-title">Fecha presentación</span>{{ planilla.fechaEnvio  }}</td>
+                                <td><span class="p-column-title">Estado</span><p-tag severity="{{claseEstadoPlanilla(planilla.codigoEstado)}}" value="{{buscarEstadoPlanilla(planilla.codigoEstado)}}"></p-tag></td>
                                 <td>
-                                    <button [loading]="loading" title="Imprimir comprobante" pButton (click)="imprimirComprobante(planilla.idEncabezado)" icon="pi pi-print" class="p-button-secondary mx-1"></button>
+                                    <button [loading]="loading" title="Imprimir comprobante" pButton (click)="imprimirComprobante(planilla.idEncabezado)" icon="pi pi-print" class="p-button-raised p-button-rounded p-button-outlined p-button-help mx-1"></button>
                                 </td>
                             </tr>
                         </ng-template>

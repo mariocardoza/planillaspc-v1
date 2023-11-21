@@ -146,8 +146,8 @@ export class DashboardService {
     }))
   }
 
-  estadisticasDashboard(codigoEmpresa:number):Observable<any>{
-    const url = endpoint.api.dashboard+"/estadisticas/"+codigoEmpresa
+  estadisticasDashboard(codigoEmpresa:number, codigoRol:string):Observable<any>{
+    const url = endpoint.api.dashboard+"/estadisticas/"+codigoEmpresa+"/"+codigoRol
     let headers = new HttpHeaders({'Content-Type' : 'application/json'})
     return this.http.get(url,{headers: headers}).pipe(tap((result) => {
       return result;

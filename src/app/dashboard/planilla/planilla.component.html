@@ -1,43 +1,45 @@
 <section class="content">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="text-center">Seleccione una opción</h2>
+    <div class="container-fluid">
+        <p-panel header="Menu de planillas">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="text-center">Seleccione una opción</h2>
+                </div>
             </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-3" (click)="crear()">
-                <p-card class="pointer text-center">
-                    <h3 class="m-0 text-center">
-                        Crear planilla
-                    </h3>
-                    <mat-icon class="mt-2">add</mat-icon>
-                </p-card>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-3 my-2" (click)="crear()">
+                    <p-card class="pointer text-center">
+                        <h3 class="m-0 text-center">
+                            Crear planilla
+                        </h3>
+                        <mat-icon class="mt-2">add</mat-icon>
+                    </p-card>
+                </div>
+                <div class="col-12 col-md-3 my-2" routerLink="/dashboard/planillas/clonar">
+                    <p-card class="pointer text-center">
+                        <h3 class="m-0 text-center">
+                            Clonar planilla
+                        </h3>
+                        <mat-icon class="mt-2">file_copy</mat-icon>
+                    </p-card>
+                </div>
+                <!--div class="col-12 col-md-3" routerLink="/dashboard/planillas/importar">
+                    <p-card class="pointer text-center">
+                        <h3 class="m-0 text-center">
+                            Cargar planilla excel
+                        </h3>
+                        <mat-icon class="mt-2">cloud_upload</mat-icon>
+                    </p-card>
+                </div-->
+                <div class="col-12 col-md-3 my-2" (click)="historial()">
+                    <p-card class="pointer text-center">
+                        <h3 class="m-0 text-center">
+                            Historico de planillas
+                        </h3>
+                        <mat-icon class="mt-2">history</mat-icon>
+                    </p-card>
+                </div>
             </div>
-            <div class="col-12 col-md-3" routerLink="/dashboard/planillas/clonar">
-                <p-card class="pointer text-center">
-                    <h3 class="m-0 text-center">
-                        Clonar planilla
-                    </h3>
-                    <mat-icon class="mt-2">file_copy</mat-icon>
-                </p-card>
-            </div>
-            <!--div class="col-12 col-md-3" routerLink="/dashboard/planillas/importar">
-                <p-card class="pointer text-center">
-                    <h3 class="m-0 text-center">
-                        Cargar planilla excel
-                    </h3>
-                    <mat-icon class="mt-2">cloud_upload</mat-icon>
-                </p-card>
-            </div-->
-            <div class="col-12 col-md-3" (click)="historial()">
-                <p-card class="pointer text-center">
-                    <h3 class="m-0 text-center">
-                        Historico de planillas
-                    </h3>
-                    <mat-icon class="mt-2">history</mat-icon>
-                </p-card>
-            </div>
-        </div>
+        </p-panel>
     </div>
 </section>

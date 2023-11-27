@@ -172,6 +172,11 @@ export class FilesUploadDirComponent implements OnInit {
     this.modalService.open(content, { ariaLabelledBy: "modal-basic-title", size: "xl" });
   }
 
+  visualizarImage(content){
+    console.log(content)
+    this.modalService.open(content, { ariaLabelledBy: "modal-basic-title", size: "xl" });
+  }
+
 
   getTypeFile(name: String) {
     return name.substring(name.lastIndexOf('.') + 1);

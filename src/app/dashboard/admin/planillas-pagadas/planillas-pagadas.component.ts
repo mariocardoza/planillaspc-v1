@@ -538,7 +538,7 @@ export class PlanillasPagadasComponent implements OnInit {
     }else{
       if(estadoActual == codigoEstado && estadoActual != '6'){
         //console.log("amarillo" + estadoActual+" "+codigoEstado)
-        color = '#dee314'
+        color = '#01DF01'
       }else{
         if(estadoActual == '6'){
           //console.log("verde ultimo" + estadoActual+" "+codigoEstado)

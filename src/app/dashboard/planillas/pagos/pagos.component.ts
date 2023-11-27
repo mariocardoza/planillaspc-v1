@@ -8,6 +8,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
 import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-pagos',
@@ -214,7 +216,7 @@ export class PagosComponent implements OnInit {
     }else{
       if(estadoActual == codigoEstado && estadoActual != '6'){
         //console.log("amarillo" + estadoActual+" "+codigoEstado)
-        color = '#dee314'
+        color = '#01DF01'
       }else{
         if(estadoActual == '6'){
           //console.log("verde ultimo" + estadoActual+" "+codigoEstado)
@@ -254,6 +256,34 @@ export class PagosComponent implements OnInit {
         })
       }
     })
+  }
+
+  imprimirPDF(){
+    const tabla = document.getElementById('contenido');
+    const DATA: HTMLElement = tabla!;
+    const doc = new jsPDF('p', 'pt', 'a4');
+    const options = {
+      background: 'white',
+      scale: 3
+    };
+    html2canvas(DATA, options).then((canvas) => {
+
+      const img = canvas.toDataURL('image/PNG');
+
+      // Add image Canvas to PDF
+      const bufferX = 15;
+      const bufferY = 15;
+      const imgProps = (doc as any).getImageProperties(img);
+      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+      /*const canvas2 = document.getElementById('barcode') as HTMLCanvasElement;
+      const jpegUrl = canvas2.toDataURL('image/jpeg');
+      doc.addImage(jpegUrl, 'JPEG', 100, 150, 350, 60);*/
+      return doc;
+    }).then((docResult) => {
+      docResult.save(`${new Date().toISOString()}_mandamiento_pago.pdf`);
+    });
   }
 
 }

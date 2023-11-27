@@ -24,13 +24,28 @@
         <p-panel>
           <div class="row">
             <div class="col-12">
-                <h3 class="text-center">Bitácora de movimientos en personas jurídicas</h3>
+                <h3 class="text-center">Bitácora de movimientos de personas jurídicas</h3>
             </div>
           </div>
           <div class="row mt-4">
               <div class="col-12">
-                <p-table [value]="bitacoras" [paginator]="true" [loading]="loading" [rows]="10" [lazy]="true" (onLazyLoad)="buscarBitacoras($event)" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 25, 50, 100]"
-                [globalFilterFields]="['NIT']">
+                <p-table #myTab [value]="bitacoras" [paginator]="true" [loading]="loading" [rows]="10" [lazy]="true" (onLazyLoad)="buscarBitacoras($event)" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 25, 50, 100]"
+                [globalFilterFields]="['nit','codigoPGR']">
+                <ng-template pTemplate="caption">
+                  <div style="text-align: right">
+                      <i 
+                          class="pi pi-search" 
+                          style="margin:4px 4px 0 0"> 
+                      </i>
+                      <input 
+                          type="text" 
+                          pInputText
+                          placeholder="Término a buscar"
+                          (input)=
+          "myTab.filterGlobal($any($event.target).value, 'contains')" 
+                          style="width:auto" />
+                  </div>
+              </ng-template>
                   <ng-template pTemplate="header">
                     <tr>
                       <th>N°</th>

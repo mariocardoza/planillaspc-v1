@@ -383,7 +383,7 @@ export class EditarPlanillaComponent implements OnInit {
         this.codigoEstado = this.planilla.codigoEstado;
         this.track = result['track'];
         this.documentos = result['documentos'];
-        console.log(this.documentos)
+        //console.log(this.documentos)
         this.codigoTipoCuota = this.planilla.codigoTipoCuota;
         this.planillaFormGroup.patchValue({NoMandamiento:this.planilla.noMandamiento})
         this.planillaFormGroup.patchValue({Periodo:this.planilla.periodo})
@@ -493,7 +493,7 @@ export class EditarPlanillaComponent implements OnInit {
     }else{
       if(estadoActual == codigoEstado && estadoActual != '6'){
         //console.log("amarillo" + estadoActual+" "+codigoEstado)
-        color = '#DF0101'
+        color = '#01DF01'
       }else{
         if(estadoActual == '6'){
           //console.log("verde ultimo" + estadoActual+" "+codigoEstado)

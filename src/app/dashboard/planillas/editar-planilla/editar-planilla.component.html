@@ -6,7 +6,7 @@
     <div class="modal-body">
       <form class="validate-form" [formGroup]="empleadoForm" (ngSubmit)="onSubmitEmpleado()">
         <div class="row">
-            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                 <mat-form-field class="full-width" appearance="outline">
                   <mat-label>Tipo de documento</mat-label>
                   <mat-select placeholder="Tipo de documento" formControlName="TipoDocumentoI" (selectionChange)="onChangeS($event)">
@@ -16,27 +16,24 @@
                   </mat-select>
                 </mat-form-field>
             </div>
-            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                 <mat-form-field class="full-width" appearance="outline">
                 <mat-label>N° de documento</mat-label>
                 <input type="hidden" formControlName="IdDetalle">
                 <input type="hidden" formControlName="IdEncabezado">
-                <input matInput formControlName="DUIDemandado" maxlength="30" autocomplete="off"/>
+                <input matInput formControlName="DUIDemandado" maxlength="30" autocomplete="off" *ngIf="esDui" mask="00000000-0" [dropSpecialCharacters]="false" [showMaskTyped]="true"/>
+                <input matInput formControlName="DUIDemandado" maxlength="30" autocomplete="off" *ngIf="!esDui"/>
                 <mat-error *ngIf="empleadoForm.get('DUIDemandado')?.hasError('required')">
                     El DUI en requerido
                 </mat-error>
                 </mat-form-field>
-            </div>
-            <div class="col-12 col-md-2" >
-                <button mat-raised-button color="primary" [class.auth-spinner]="loadingDUI"
-                class="auth-form-btn" [disabled]="!esDui"  (click)="buscarDui()" type="button">Validar DUI</button>
             </div>
         </div>
         <div class="row">
             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Código expediente electrónico (0 si no lo conoce)</mat-label>
-                <input [readonly]="!hasExpedient" matInput maxlength="9" formControlName="CodigoExpediente" autocomplete="off" pKeyFilter="int" />
+                <input matInput maxlength="9" formControlName="CodigoExpediente" autocomplete="off" pKeyFilter="int" />
                 <mat-error *ngIf="empleadoForm.get('CodigoExpediente')?.hasError('required')">
                   El código de expediente es requerido
                 </mat-error>
@@ -45,7 +42,7 @@
             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                 <mat-form-field class="full-width" appearance="outline">
                   <mat-label>Número expediente físico</mat-label>
-                  <input [readonly]="!hasExpedient" matInput maxlength="50" formControlName="NoExpediente" autocomplete="off"  />
+                  <input matInput maxlength="50" formControlName="NoExpediente" autocomplete="off"  />
                   <mat-error *ngIf="empleadoForm.get('NoExpediente')?.hasError('required')">
                     El número de expediente es requerido
                   </mat-error>
@@ -54,7 +51,7 @@
               <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                 <mat-form-field class="full-width" appearance="outline">
                   <mat-label>Número tarjeta física</mat-label>
-                  <input [readonly]="!hasExpedient" matInput formControlName="NoTarjeta" autocomplete="off"/>
+                  <input matInput formControlName="NoTarjeta" autocomplete="off"/>
                   <mat-error *ngIf="empleadoForm.get('NoTarjeta')?.hasError('required')">
                     El número de tarjeta física es requerido
                   </mat-error>
@@ -65,7 +62,7 @@
             <div class="col-12 col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Nombres demandado</mat-label>
-                    <input [readonly]="!hasExpedient" matInput maxlength="50" formControlName="NombresDemandado" autocomplete="off"/>
+                    <input matInput maxlength="50" formControlName="NombresDemandado" autocomplete="off"/>
                     <mat-error *ngIf="empleadoForm.get('NombresDemandado')?.hasError('required')">
                       Nombres del demandado son requeridos
                     </mat-error>
@@ -74,7 +71,7 @@
             <div class="col-12 col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Apellidos demandado</mat-label>
-                    <input [readonly]="!hasExpedient" matInput maxlength="50" formControlName="ApellidosDemandado" autocomplete="off"/>
+                    <input matInput maxlength="50" formControlName="ApellidosDemandado" autocomplete="off"/>
                     <mat-error *ngIf="empleadoForm.get('ApellidosDemandado')?.hasError('required')">
                         Los apellidos del demandado son requeridos
                     </mat-error>
@@ -85,7 +82,7 @@
             <div class="col-12 col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Nombres demandante</mat-label>
-                    <input [readonly]="!hasExpedient" matInput maxlength="50" formControlName="NombresDemandante" autocomplete="off"/>
+                    <input matInput maxlength="50" formControlName="NombresDemandante" autocomplete="off"/>
                     <mat-error *ngIf="empleadoForm.get('NombresDemandante')?.hasError('required')">
                        Los nombres del demandante son requeridos
                     </mat-error>
@@ -94,7 +91,7 @@
             <div class="col-12 col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Apellido demandante</mat-label>
-                    <input [readonly]="!hasExpedient" matInput maxlength="50" formControlName="ApellidosDemandante" autocomplete="off"/>
+                    <input matInput maxlength="50" formControlName="ApellidosDemandante" autocomplete="off"/>
                     <mat-error *ngIf="empleadoForm.get('ApellidosDemandante')?.hasError('required')">
                       El apellido del demandante es requerido
                     </mat-error>
@@ -105,7 +102,7 @@
             <div class="col-12 col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Monto de la cuota</mat-label>
-                    <input [readonly]="!hasExpedient" [disableControl]="!hasExpedient" matInput pKeyFilter="money" formControlName="Monto" autocomplete="off"/>
+                    <input matInput pKeyFilter="money" formControlName="Monto" autocomplete="off"/>
                     <mat-error *ngIf="empleadoForm.get('Monto')?.hasError('required')">
                        El monto es requerido
                     </mat-error>
@@ -114,7 +111,7 @@
             <div class="col-12 col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>No Beneficiarios</mat-label>
-                    <input [readonly]="!hasExpedient" [disableControl]="hasExpedientl" matInput pKeyFilter="int" formControlName="NoBeneficiarios" autocomplete="off"/>
+                    <input matInput pKeyFilter="int" formControlName="NoBeneficiarios" autocomplete="off"/>
                     <mat-error *ngIf="empleadoForm.get('NoBeneficiarios')?.hasError('required')">
                       El número de beneficiarios es requerido
                     </mat-error>
@@ -125,7 +122,7 @@
             <div class="col-12">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Adjunte orden de descuento (.pdf,.png,.jpg)</mat-label>
-                    <input [readonly]="true" [disableControl]="hasExpedient" type="text" matInput formControlName="OrdenDescuento"  placeholder="Adjunte la orden de descuento" readonly>
+                    <input [readonly]="true" type="text" matInput formControlName="OrdenDescuento"  placeholder="Adjunte la orden de descuento" readonly>
                     <app-files-upload-dir [Directorio]="carpetaInstaciada" [actualFile]="actualfile"
           (onUploadFinished)=uploadFinishedOrdenDescuento($event) (onDownload)="downloadURLFile()"></app-files-upload-dir>
                   </mat-form-field>
@@ -134,7 +131,7 @@
         <div class="mt-2">
           <div style="text-align:center">
             <button mat-raised-button color="primary" [class.auth-spinner]="loading"
-              class="auth-form-btn" [disabled]="loading || (!empleadoForm.valid || !DuiValido) " type="submit">Registrar</button>
+              class="auth-form-btn" [disabled]="loading || !empleadoForm.valid " type="submit">Registrar</button>
           </div>
         </div>
       </form>

@@ -5,3 +5,10 @@
 ::ng-deep .cdk-overlay-container {
     z-index: 9999;
 }
+
+hr {
+    width: 95%;
+    height: 0;
+    border: medium none;
+    border-top: 1px dashed black !important;
+}

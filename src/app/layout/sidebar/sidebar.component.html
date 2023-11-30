@@ -86,6 +86,12 @@
               Bitácora recibos de ingreso
             </a>
           </li>
+          <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol == 'A'">
+            <a routerLink="/dashboard/empleados/mantenimiento" class="menu-top">
+              <i-feather name="users" class="sidebarIcon"></i-feather>
+              Mantenimiento de empleados
+            </a>
+          </li>
           <li class="sidebar-user-panel" *ngIf="usuario.CodigoRol != 'U'">
             <a routerLink="/dashboard/usuarios-activos" class="menu-top">
               <i-feather name="user-plus" class="sidebarIcon"></i-feather>

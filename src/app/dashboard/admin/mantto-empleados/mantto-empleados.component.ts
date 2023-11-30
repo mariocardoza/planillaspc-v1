@@ -9,14 +9,15 @@ import * as moment from 'moment';
 import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
 import { saveAs } from 'file-saver';
 import { PlanillaService } from 'src/app/core/service/planilla.service';
+import { DashboardService } from 'src/app/core/service/dashboard.service';
 
 @Component({
-  selector: 'app-emp-index',
-  templateUrl: './emp-index.component.html',
+  selector: 'app-mantto-empleados',
+  templateUrl: './mantto-empleados.component.html',
   providers: [MessageService],
-  styleUrls: ['./emp-index.component.scss']
+  styleUrls: ['./mantto-empleados.component.scss']
 })
-export class EmpIndexComponent implements OnInit {
+export class ManttoEmpleadosComponent implements OnInit {
   @ViewChild("eliminarEmpleado") modalEliminarEmpleado: ElementRef;
   a = moment().subtract(18, 'year').format("YYYY-MM-DD");
   carpetaInstaciada: string;
@@ -35,20 +36,24 @@ export class EmpIndexComponent implements OnInit {
   loadingDUI: boolean = false;
   DuiValido: boolean = false;
   esDui: boolean = false;
+  filterForm: FormGroup;
   sexos = [
     {value:'F', name:'Femenino'},
     {value:'M', name:'Masculino'},
   ];
   documentos: any = [];
-  constructor(private empleadosService: EmpleadosService,private planillaService: PlanillaService,private formBuilder: FormBuilder,public modal: NgbModal,private messageService: MessageService, private fileService: FileDownloadService) {
+  empresas: any = [];
+  usuarios: any = [];
+  constructor(private dashboardService: DashboardService,private empleadosService: EmpleadosService,private planillaService: PlanillaService,private formBuilder: FormBuilder,public modal: NgbModal,private messageService: MessageService, private fileService: FileDownloadService) { 
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
-    //console.log(this.data)
-   }
+  }
 
   ngOnInit(): void {
     this.carpetaInstaciada = "empresas/empleados";
     this.carpetaInstaciada2 = "empresas/empleados/cesados";
-    this.buscarEmpleados()
+    this.buscarEmpleados(5)
+    this.obtenerEmpresas()
+    this.loading = false
     this.empleadoForm = this.formBuilder.group({
       DuiPasaporte: ['', Validators.required],
       Nombres: ['', Validators.required],
@@ -59,7 +64,7 @@ export class EmpIndexComponent implements OnInit {
       ExpedienteFisico: ['', ''],
       IdPersona: ['', ''],
       RutaDocumento: ['', ''],
-      CodigoEmpresa: [this.data.CodigoPGR, ''],
+      CodigoEmpresa: ['', ''],
       TipoDocumentoI: ['', Validators.required],
     });
 
@@ -67,6 +72,37 @@ export class EmpIndexComponent implements OnInit {
       IdRegistro: ['',Validators.required],
       FechaCesacion: ['',Validators.required],
       RutaDocumentoCesado: ['',Validators.required]
+    });
+
+    this.filterForm = this.formBuilder.group({
+      empresa:['','']
+    });
+  }
+
+  buscar(){
+    if(this.filterForm.value.empresa){
+      let empresa = this.filterForm.value.empresa;
+      this.buscarEmpleados(empresa)
+    }
+  }
+
+  limpiar(){
+    /*this.planillaService.obtenerComprobantesPagados(this.data.CodigoPagaduria,this.data.CodigoRol,'6','', '', 0, 1000, 1,'fechaHora').subscribe((result) => {
+      this.empleadosService = result.data;
+      this.totalRecords = result.registros;
+    });*/
+  }
+
+  obtenerEmpresas(){
+    let token = "gdfd";
+    this.dashboardService.usersActiveAsync(token,this.data.CodigoRol,this.data.CodigoPagaduria,1,100).subscribe((res) => {
+      if(res.success){
+        this.empresas = res.data;
+        this.usuarios = this.empresas.map(e => ({
+          code: e.codigoPGR,
+          name: e.nombreComercial
+        }))
+      }
     });
   }
 
@@ -84,7 +120,7 @@ export class EmpIndexComponent implements OnInit {
       if(res.success){
         this.messageService.add({severity:'success', summary: 'Exito', detail:res.message});
         this.loading = false;
-        this.buscarEmpleados();
+        //this.buscarEmpleados();
       }else{
         this.messageService.add({severity:'danger', summary: 'Error', detail:res.message});
         this.loading = false;
@@ -140,7 +176,7 @@ export class EmpIndexComponent implements OnInit {
         this.empleadosService.descactivarEmpleado(data).subscribe((result) => {
           if(result.success){
             this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
-            this.buscarEmpleados();
+            //this.buscarEmpleados();
             this.modal.dismissAll();
           }else{
             this.messageService.add({severity:'error', summary: 'Exito', detail:result.message});
@@ -171,10 +207,11 @@ export class EmpIndexComponent implements OnInit {
     const data = {
       ...this.empleadoForm.value
     }
+    let empresa = this.empleadoForm.value.CodigoEmpresa;
     this.empleadosService.actualizarEmpleado(data).subscribe((result) => {
       if(result.success){
         this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
-        this.buscarEmpleados();
+        this.buscarEmpleados(empresa);
         this.modal.dismissAll();
       }else{
         this.messageService.add({severity:'error', summary: 'Error', detail:result.message});
@@ -187,11 +224,12 @@ export class EmpIndexComponent implements OnInit {
       const data = {
         ...this.empleadoForm.value
       }
+      let empresa = this.empleadoForm.value.CodigoEmpresa;
       this.empleadosService.registrarEmpleado(data).subscribe((result) => {
         console.log(result.success)
         if(result.success){
           this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
-          this.buscarEmpleados();
+          this.buscarEmpleados(empresa);
           this.modal.dismissAll();
         }else{
           this.messageService.add({severity:'error', summary: 'Error', detail:result.message});
@@ -235,8 +273,8 @@ export class EmpIndexComponent implements OnInit {
 		}), error => this.messageService.add({severity:'error', summary: 'Error', detail:''}), () => this.messageService.add({severity:'success', summary: 'Exito', detail:''})
   }
 
-  buscarEmpleados(){
-    this.empleadosService.buscarEmpleadosEmpresa(this.data.CodigoPGR,this.data.CodigoPagaduria).subscribe((res)=>{
+  buscarEmpleados(codigoPgr){
+    this.empleadosService.buscarEmpleadosEmpresa(codigoPgr,this.data.CodigoPagaduria).subscribe((res)=>{
       if(res.success){
         this.empleados = res.data;
         this.totalRecords = res.total

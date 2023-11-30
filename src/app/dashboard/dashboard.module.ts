@@ -35,6 +35,7 @@ import { PlanillasPagadasComponent } from './admin/planillas-pagadas/planillas-p
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { RecibosIngresoComponent } from './admin/recibos-ingreso/recibos-ingreso.component';
 import { DashPage404Component } from './dash-page404/dash-page404.component';
+import { ManttoEmpleadosComponent } from './admin/mantto-empleados/mantto-empleados.component';
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import { DashPage404Component } from './dash-page404/dash-page404.component';
     PlanillasPagadasComponent,
     RecibosIngresoComponent,
     DashPage404Component,
+    ManttoEmpleadosComponent,
   ],
   imports: [
     CommonModule,

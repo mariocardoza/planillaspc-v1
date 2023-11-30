@@ -26,6 +26,7 @@ import { PagosComponent } from './planillas/pagos/pagos.component';
 import { PlanillasPagadasComponent } from './admin/planillas-pagadas/planillas-pagadas.component';
 import { DashPage404Component } from './dash-page404/dash-page404.component';
 import { RecibosIngresoComponent } from './admin/recibos-ingreso/recibos-ingreso.component';
+import { ManttoEmpleadosComponent } from './admin/mantto-empleados/mantto-empleados.component';
 
 const routes: Routes = [
   {
@@ -113,6 +114,10 @@ const routes: Routes = [
   {
     path: 'empleados/inactivos',
     component: EmpdIndexComponent
+  },
+  {
+    path: 'empleados/mantenimiento',
+    component: ManttoEmpleadosComponent,
   },
   {
     path: 'legal',

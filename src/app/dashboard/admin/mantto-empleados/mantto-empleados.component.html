@@ -1,0 +1,231 @@
+<section class="content">
+    <p-toast></p-toast>
+    <ng-template #agregarEmpleado let-modal>
+      <div class="modal-header modal-lg">
+        <h4 class="text-center"><span *ngIf="isCreating; else isEditing">Agregar</span><ng-template #isEditing>Editar</ng-template> empleado</h4>
+        <button class="close" aria-label="close" type="button" (click)="modal.dismiss()"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form class="validate-form" [formGroup]="empleadoForm" (ngSubmit)="isCreating ? onSubmitEmpleado() : editEmpleado()">
+          <div class="row">
+            <div class="col-12 col-lg-6">
+              <mat-label>Empresa</mat-label><br>
+              <p-dropdown formControlName="CodigoEmpresa" [options]="usuarios" optionLabel="name" optionValue="code" placeholder="Seleccione empresa"></p-dropdown><br>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Tipo de documento</mat-label>
+                <mat-select placeholder="Tipo de documento" formControlName="TipoDocumentoI" (selectionChange)="onChangeS($event)">
+                  <mat-option *ngFor="let documento of documentos" [value]="documento.tipoDocumentoI">
+                    {{documento.nombreDocumento}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>N° de documento</mat-label>
+                <input type="hidden" formControlName="IdPersona">
+                <input type="hidden" formControlName="CodigoEmpresa">
+                <input matInput maxlength="30" formControlName="DuiPasaporte" placeholder="N° de DUI" autocomplete="off" mask="00000000-0" [dropSpecialCharacters]="false" [showMaskTyped]="true" *ngIf="esDui" />
+                <input matInput maxlength="30" formControlName="DuiPasaporte" placeholder="N° de documento" autocomplete="off" *ngIf="!esDui" />
+                <mat-error *ngIf="empleadoForm.get('DuiPasaporte')?.hasError('required')">
+                  El DUI o pasaporte es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>            
+          </div>
+          <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Número expediente electrónico (Coloque 0 si no lo conoce)</mat-label>
+                <input matInput maxlength="9" formControlName="CodigoExpediente" autocomplete="off" pKeyFilter="int" />
+                <mat-error *ngIf="empleadoForm.get('CodigoExpediente')?.hasError('required')">
+                  El número de expediente es requerido (Coloque 0 si no lo conoce)
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <mat-form-field class="full-width" appearance="outline">
+                  <mat-label>Número expediente físico</mat-label>
+                  <input matInput maxlength="50" formControlName="ExpedienteFisico" autocomplete="off"  />
+                  <mat-error *ngIf="empleadoForm.get('ExpedienteFisico')?.hasError('required')">
+                    El número de expediente es requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+          </div>
+          <div class="row" *ngIf="isCreating">
+            <div class="col-12 col-md-6">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Fecha de nacimiento</mat-label>
+                <input matInput [matDatepicker]="picker" [max]="a" formControlName="FechaNacimiento">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-md-6">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Sexo</mat-label>
+                <mat-select placeholder="Sexo" formControlName="Sexo">
+                  <mat-option *ngFor="let sexo of sexos" [value]="sexo.value">
+                    {{sexo.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-12 col-md-6">
+                  <mat-form-field class="full-width" appearance="outline">
+                      <mat-label>Nombres empleado</mat-label>
+                      <input matInput maxlength="50" formControlName="Nombres" autocomplete="off"/>
+                      <mat-error *ngIf="empleadoForm.get('Nombres')?.hasError('required')">
+                        Nombres del empleado son requeridos
+                      </mat-error>
+                  </mat-form-field>
+              </div>
+              <div class="col-12 col-md-6">
+                  <mat-form-field class="full-width" appearance="outline">
+                      <mat-label>Apellidos empleado</mat-label>
+                      <input matInput maxlength="50" formControlName="Apellidos" autocomplete="off"/>
+                      <input formControlName="RutaDocumento" type="hidden"  placeholder="Adjunte la orden de descuento" readonly>
+                      <mat-error *ngIf="empleadoForm.get('Apellidos')?.hasError('required')">
+                          Los apellidos del empleado son requeridos
+                      </mat-error>
+                  </mat-form-field>
+              </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-12">
+              <app-files-upload-dir [Directorio]="carpetaInstaciada" [actualFile]="actualfile"
+                (onUploadFinished)=uploadFinished($event) (onDownload)="downloadURLFile()"></app-files-upload-dir>
+                <mat-error *ngIf="empleadoForm.get('RutaDocumento')?.hasError('required')">
+                  El documento es requerido
+                </mat-error>
+            </div>
+          </div>
+          <div class="mt-2">
+            <div style="text-align:center">
+              <button mat-raised-button color="primary" [class.auth-spinner]="loading"
+                class="auth-form-btn" [disabled]="loading || !empleadoForm.valid" type="submit"><span *ngIf="isCreating; else isEditing">Registrar</span><ng-template #isEditing>Actualizar</ng-template></button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer"></div>
+  </ng-template>
+  <ng-template #eliminarEmpleado let-modalEliminar>
+  <div class="modal-header ">
+    <h4 class="text-center">Desactivar empleado</h4>
+    <button class="close" aria-label="close" type="button" (click)="modalEliminar.dismiss()"><span>&times;</span></button>
+  </div>
+  <div class="modal-body">
+    <form class="validate-form" [formGroup]="empleadoFormDelete" (ngSubmit)="onDelete()">
+      
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Fecha de cesación</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="FechaCesacion">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <input type="hidden" formControlName="IdRegistro">
+          <input formControlName="RutaDocumentoCesado" type="hidden"  placeholder="Adjunte la orden de descuento" readonly>
+          <app-files-upload-dir [Directorio]="carpetaInstaciada2" [actualFile]="actualfile2"
+            (onUploadFinished)=uploadFinished2($event) (onDownload)="downloadURLFile2()"></app-files-upload-dir>
+        </div>
+      </div>
+      <div class="mt-2">
+        <div style="text-align:center">
+          <button mat-raised-button color="primary" [class.auth-spinner]="loading"
+            class="auth-form-btn" [disabled]="loading || !empleadoFormDelete.valid" type="submit">Inactivar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer"></div>
+  </ng-template>
+      <p-panel>
+        <div class="container-fluid">
+          <div class="row">
+              <div class="col-12">
+                  <h3 class="text-center">Listado de empleados con expendientes</h3>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+                <form action="" [formGroup]="filterForm" (ngSubmit)="buscar()">
+                    Seleccione una empresa<br>
+                    <p-dropdown formControlName="empresa" [options]="usuarios" optionLabel="name" optionValue="code" placeholder="Seleccione empresa"></p-dropdown><br>
+                    <p-button styleClass="p-button-raised p-button-rounded p-button-outlined m-2" label="Buscar" type="submit"></p-button>
+                    <p-button styleClass="p-button-raised p-button-rounded p-button-outlined p-button-secondary m-2" type="button" (click)="limpiar()" label="Limpiar"></p-button>
+                </form>
+            </div>
+            <div class="col-12 my-4">
+                <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-help" icon="pi pi-plus" pRipple type="button" label="Nuevo empleado" (click)="crearNuevo(agregarEmpleado)"></button>
+                <!--button class="p-button-raised p-button-rounded p-button-outlined p-button-success mx-4" [loading]="loading" pButton icon="pi pi-refresh" pRipple type="button" label="Actualizar empleados" (click)="actualizarEmpleados()"></button-->
+            </div>
+        </div>
+          <div class="row mt-4">
+              <div class="col-12">
+                <p-table #dt [value]="empleados" [paginator]="true" [loading]="loading" [rows]="10" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 25, 50, 100]"
+                [globalFilterFields]="['duiPasaporte', 'nombres','apellidos','codigoExpediente','expedienteFisico']">
+                  <ng-template pTemplate="caption">
+                    <div style="text-align: right">
+                        <i 
+                            class="pi pi-search" 
+                            style="margin:4px 4px 0 0"> 
+                        </i>
+                        <input 
+                            type="text" 
+                            pInputText  
+                            placeholder="Digite el término a buscar"
+                            (input)=
+            "dt.filterGlobal($any($event.target).value, 'contains')" 
+                            style="width:auto" />
+                    </div>
+                </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>N°</th>
+                      <th>Documento</th>
+                      <th pSortableColumn="duiPasaporte">N° documento <p-sortIcon field="duiPasaporte"></p-sortIcon></th>
+                      <th pSortableColumn="apellidos">Apellidos <p-sortIcon field="apellidos"></p-sortIcon></th>
+                      <th pSortableColumn="nombres">Nombres <p-sortIcon field="nombres"></p-sortIcon></th>
+                      <th pSortableColumn="codigoExpediente">N° expediente electrónico <p-sortIcon field="codigoExpediente"></p-sortIcon></th>
+                      <th pSortableColumn="expedienteFisico">N° expediente físico <p-sortIcon field="expedienteFisico"></p-sortIcon></th>
+                      <th></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-empleado let-i="rowIndex">
+                    <tr>
+                      <td><span class="p-column-title">N°</span>{{ i+1 }}</td>
+                      <td><span class="p-column-title">Documento</span>{{ empleado.nombreDocumento }}</td>
+                      <td><span class="p-column-title">DUI</span>{{ empleado.duiPasaporte }}</td>
+                      <td><span class="p-column-title">Apellidos</span>{{ empleado.apellidos }}</td>
+                      <td><span class="p-column-title">Nombres</span>{{ empleado.nombres }}</td>
+                      <td><span class="p-column-title">N° expediente electrónico</span>{{ empleado.codigoExpediente }}</td>
+                      <td><span class="p-column-title">N° expediente físico</span>{{ empleado.expedienteFisico }}</td>
+                      <td>
+                        <button pButton pRipple icon="pi pi-pencil" (click)="onEditInit(empleado,agregarEmpleado)" class="p-button-raised p-button-rounded p-button-outlined"></button>
+                        <button pButton pRipple  icon="pi pi-trash" (click)="onDeleteModal(empleado.idRegistro)" class="p-button-raised p-button-rounded p-button-outlined p-button-danger"></button>
+                      </td>
+                  </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+          </div>
+      </div>
+      </p-panel>
+  </section>

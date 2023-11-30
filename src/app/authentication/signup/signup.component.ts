@@ -284,7 +284,7 @@ export class SignupComponent implements OnInit {
         if(res.success){
           this.router.navigate(['/authentication/signup-complete']);
         }else{
-          this.error ="Ocurrió un error al registrar la informacion, revise nuevamente."
+          this.error =res.message
         }
       },(error) => {
         console.log(error.error.errors)

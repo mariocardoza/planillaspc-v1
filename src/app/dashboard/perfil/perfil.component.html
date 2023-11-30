@@ -94,17 +94,11 @@
                                                 <div class="col-12 col-md-4">
                                                   <mat-form-field class="full-width" appearance="fill">
                                                     <mat-label>Procuraduría donde realiza el pago</mat-label>
-                                                    <input type="text"
-                                                      placeholder="Pick one"
-                                                      aria-label="Number"
-                                                      matInput
-                                                      formControlName="Pagaduria"
-                                                      [matAutocomplete]="auto">
-                                                      <mat-autocomplete #auto="matAutocomplete">
-                                                        <mat-option *ngFor="let option of unidades" [value]="option.codigoPagaduria.trim()">
-                                                          {{option.pagaduria}}
-                                                        </mat-option>
-                                                      </mat-autocomplete>
+                                                    <mat-select placeholder="Seleccione una procuraduria" formControlName="Pagaduria">
+                                                      <mat-option *ngFor="let unidad of unidades" [value]="unidad.codigoPagaduria.trim()">
+                                                        {{unidad.pagaduria.substring(28)}}
+                                                      </mat-option>
+                                                    </mat-select>
                                                       <mat-error *ngIf="userFormGroup.get('CodigoPagaduria')?.hasError('required')">
                                                         Seleccione una pagaduría
                                                     </mat-error>
@@ -223,17 +217,12 @@
                                                 <div class="col-12 col-md-6">
                                                   <mat-form-field class="full-width" appearance="fill">
                                                     <mat-label>Procuraduría donde realiza el pago</mat-label>
-                                                    <input type="text"
-                                                      placeholder="Pick one"
-                                                      aria-label="Number"
-                                                      matInput
-                                                      formControlName="CodigoPagaduria"
-                                                      [matAutocomplete]="auto">
-                                                      <mat-autocomplete #auto="matAutocomplete">
-                                                        <mat-option *ngFor="let option of unidades" [value]="option.codigoPagaduria.trim()">
-                                                          {{option.pagaduria}}
-                                                        </mat-option>
-                                                      </mat-autocomplete>
+                                                    <mat-select placeholder="Seleccione una procuraduria" formControlName="CodigoPagaduria">
+                                                      <mat-option *ngFor="let unidad of unidades" [value]="unidad.codigoUnidadOrganizacional.trim()">
+                                                        {{unidad.pagaduria.substring(28)}}
+                                                      </mat-option>
+                                                    </mat-select>
+                                                  
                                                       <mat-error *ngIf="userFormGroup.get('CodigoPagaduria')?.hasError('required')">
                                                         Seleccione una pagaduría
                                                     </mat-error>
@@ -288,17 +277,12 @@
                                 <div class="col-12 col-md-6">
                                   <mat-form-field class="full-width" appearance="fill">
                                       <mat-label>Procuraduría donde realiza el pago</mat-label>
-                                      <input type="text"
-                                        placeholder="Pick one"
-                                        aria-label="Number"
-                                        matInput
-                                        formControlName="CodigoPagaduria"
-                                        [matAutocomplete]="auto">
-                                        <mat-autocomplete #auto="matAutocomplete">
-                                          <mat-option *ngFor="let option of unidades" [value]="option.codigoPagaduria.trim()">
-                                            {{option.pagaduria}}
-                                          </mat-option>
-                                        </mat-autocomplete>
+                                      <mat-select placeholder="Seleccione una procuraduria" formControlName="CodigoPagaduria">
+                                        <mat-option *ngFor="let unidad of unidades" [value]="unidad.codigoUnidadOrganizacional.trim()">
+                                          {{unidad.pagaduria.substring(28)}}
+                                        </mat-option>
+                                      </mat-select>
+                                      
                                         <mat-error *ngIf="userFormGroup.get('CodigoPagaduria')?.hasError('required')">
                                           Seleccione una pagaduría
                                       </mat-error>

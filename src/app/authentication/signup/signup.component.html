@@ -30,7 +30,7 @@
                         </ol>
                       </div>
                       <div class="mt-2">
-                        <button class="btn btn-primary" mat-button matStepperNext>Siguiente</button>
+                        <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" matStepperNext>Siguiente</button>
                       </div>
                     </mat-card-content>
                   </mat-card>
@@ -57,7 +57,7 @@
                       <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Nombre comercial</mat-label>
-                          <input matInput placeholder="Nombre comercial" formControlName="NombreComercial" required>
+                          <input matInput placeholder="Nombre comercial" maxlength="200" formControlName="NombreComercial" required>
                           <mat-error *ngIf="personaJuridicaFormGroup.get('NombreComercial')?.hasError('required')">El nombre comercial es requerido</mat-error>
                         </mat-form-field>
                       </div>
@@ -66,7 +66,7 @@
                       <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Razón social</mat-label>
-                          <input matInput placeholder="Razón social" formControlName="RazonSocial" required>
+                          <input matInput placeholder="Razón social" formControlName="RazonSocial" maxlength="200" required>
                           <mat-error *ngIf="personaJuridicaFormGroup.get('RazonSocial')?.hasError('required')">La razón social es requerido</mat-error>
                         </mat-form-field>
                       </div>
@@ -74,7 +74,7 @@
                       <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Código en PGR</mat-label>
-                          <input matInput placeholder="Codigo en PGR" pKeyFilter="int" formControlName="codigoPGR" required>
+                          <input matInput placeholder="Codigo en PGR" pKeyFilter="int" formControlName="codigoPGR" maxlength="30" required>
                           <mat-error *ngIf="personaJuridicaFormGroup.get('codigoPGR')?.hasError('required')">El código de empresa en la PGR es requerido</mat-error>
                         </mat-form-field>
                       </div>
@@ -103,7 +103,7 @@
                       <div class="col-12 col-md-6">
                           <mat-form-field class="full-width" appearance="fill">
                             <mat-label>Correo electrónico empresarial</mat-label>
-                            <input matInput type="email" placeholder="Correo electrónico empresarial" formControlName="MedioContactoPersona">
+                            <input matInput type="email" placeholder="Correo electrónico empresarial" maxlength="100" formControlName="MedioContactoPersona">
                             <mat-error *ngIf="personaJuridicaFormGroup.get('MedioContactoPersona')?.hasError('required')">El correo electrónico es requerido</mat-error>
                           </mat-form-field>
                       </div>
@@ -117,8 +117,8 @@
                     </div>
                     <div class="d-grid gap-2 d-md-block" *ngIf="!nitExiste">
                       <p>Continuar a datos del representante legal</p>
-                      <button class="btn btn-primary" mat-button matStepperPrevious>Atras</button> | 
-                      <button class="btn btn-primary" mat-button matStepperNext>Siguiente</button>
+                      <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" matStepperPrevious>Atras</button> | 
+                      <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" matStepperNext>Siguiente</button>
                     </div>
                     <div class="row mt-2 text-center" *ngIf="nitExiste">
                       <p class="auth-signup-text text-muted pb-0">
@@ -148,21 +148,21 @@
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Primer nombre</mat-label>
-                          <input matInput placeholder="Nombres" formControlName="Nombre1"
+                          <input matInput placeholder="Nombres" maxlength="20" formControlName="Nombre1"
                                  required>
                         </mat-form-field>
                       </div>
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Segundo nombre</mat-label>
-                          <input matInput placeholder="Nombres" formControlName="Nombre2"
+                          <input matInput placeholder="Nombres" maxlength="20" formControlName="Nombre2"
                                  >
                         </mat-form-field>
                       </div>
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Tercer nombre</mat-label>
-                          <input matInput placeholder="Nombres" formControlName="Nombre3"
+                          <input matInput placeholder="Nombres" maxlength="20" formControlName="Nombre3"
                                  >
                         </mat-form-field>
                       </div>
@@ -171,21 +171,21 @@
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Primer apellido</mat-label>
-                          <input matInput placeholder="Apellidos" formControlName="Apellido1"
+                          <input matInput placeholder="Apellidos" maxlength="20" formControlName="Apellido1"
                                  required>
                         </mat-form-field>
                       </div>
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Segundo apellido</mat-label>
-                          <input matInput placeholder="Apellidos" formControlName="Apellido2"
+                          <input matInput placeholder="Apellidos" maxlength="20" formControlName="Apellido2"
                                  >
                         </mat-form-field>
                       </div>
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Apellido de casada</mat-label>
-                          <input matInput placeholder="Apellidos" formControlName="ApellidoCasada"
+                          <input matInput placeholder="Apellidos" maxlength="20" formControlName="ApellidoCasada"
                                  >
                         </mat-form-field>
                       </div>
@@ -215,17 +215,11 @@
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Procuraduría donde realiza el pago</mat-label>
-                          <input type="text"
-                            placeholder="Pick one"
-                            aria-label="Number"
-                            matInput
-                            formControlName="Pagaduria"
-                            [matAutocomplete]="auto">
-                            <mat-autocomplete #auto="matAutocomplete">
-                              <mat-option *ngFor="let option of unidades" [value]="option.codigoPagaduria.trim()">
-                                {{option.pagaduria}}
-                              </mat-option>
-                            </mat-autocomplete>
+                          <mat-select placeholder="Seleccione una procuraduria" formControlName="Pagaduria">
+                            <mat-option *ngFor="let unidad of unidades" [value]="unidad.codigoPagaduria.trim()">
+                              {{unidad.pagaduria.substring(28)}}
+                            </mat-option>
+                          </mat-select>
                         </mat-form-field>
                       </div>
 
@@ -234,8 +228,8 @@
                       
                     </div>
                     <div>
-                      <button class="btn btn-primary" mat-button matStepperPrevious>Atrás</button> | 
-                      <button class="btn btn-primary" mat-button matStepperNext>Siguiente</button>
+                      <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" mat-button matStepperPrevious>Atrás</button> | 
+                      <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" matStepperNext>Siguiente</button>
                     </div>
                   </form>
                 </mat-step>
@@ -267,7 +261,7 @@
                       <div class="col">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Correo electrónico de acceso</mat-label>
-                          <input matInput placeholder="Correo electrónico de acceso" formControlName="Username"
+                          <input matInput placeholder="Correo electrónico de acceso" maxlength="100" formControlName="Username"
                                  required>
                         </mat-form-field>
                       </div>
@@ -304,8 +298,8 @@
                       </div>
                     </div>
                     <div class="mt-2">
-                      <button class="btn btn-primary" mat-button matStepperPrevious>Atrás</button> |  
-                      <button class="btn btn-primary" mat-button matStepperNext>Siguiente</button>
+                      <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" matStepperPrevious>Atrás</button> |  
+                      <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" matStepperNext>Siguiente</button>
                     </div>
                   </form>
                 </mat-step>
@@ -332,7 +326,7 @@
                               <li>Para utilizar la Plataforma EPlanilla, el personal de la empresa o Institución Pública y Privada correspondiente, deberá realizar un registro de información a efectos de generar un usuario y una clave, debiendo suministrar en el registro datos de carácter obligatorio como son: a) Razón Social o denominación Legal de la empresa o institución; b) Nombre Comercial de la empresa o Abreviaturas; c)Número de Identificación Tributaria d) No. Matricula de Empresa; e)Dirección; municipio o distrito y departamento; f) Contacto: Nombre y Apellido de la persona responsable de elaborar la planilla Teléfono, y Correo. G) Representante Legal, dependencias a nivel nacional señalando los datos antes mencionados. </li>
                               <li>La empresa o institución Pública y Privada al momento de designar otra persona para el uso de plataforma de Planilla Única deberá informarlo a la Procuraduría General de la República para la actualización de datos del responsable y su actualización de cambio de usuario y clave. En el caso que la Empresa o Institución Pública y Privada tenga más de una sucursal ò dependencia, deberá tener más de un usuario, para cada sucursal, o dependencias.</li>
                               <li>El crear un usuario no implica el acceso a EPlanilla. El personal correspondiente de la Procuraduría General de la República validará en la plataforma que el usuario y la documentación proporcionada es la correcta. Una vez el personal de la empresa o institución pública y privada, cumpla con los requisitos del registro, el personal de la Procuraduría General de la República, enviará vía correo electrónico el mensaje indicando que el usuario habilitado o dado de alta, permitiendo utilizar EPlanilla. En dicho correo electrónico se entregará un Código o Numero de Pago Electrónico.</li>
-                              <li>Para Inhabilitar o dar de baja a un usuario EPlanilla el personal de la empresa o institución pública y privada, deberá solicitarlo, vía correo electrónico, al personal correspondiente en la Procuraduría General de la Republica. El correo electrónico es <a href="mailto:soporteeplanilla@pgres.gob.sv">soporteeplanilla@pgres.gob.sv</a> </li>
+                              <li>Para Inhabilitar o dar de baja a un usuario EPlanilla el personal de la empresa o institución pública y privada, deberá solicitarlo, vía correo electrónico, al personal correspondiente en la Procuraduría General de la Republica. El correo electrónico es <a href="mailto:eplanilla@pgres.gob.sv">eplanilla@pgres.gob.sv</a> </li>
                               <li>La información que administra EPlanilla es de uso confidencial. El personal de la Procuraduría General de la República y toda persona que acceda en virtud de sus funciones acceda a la plataforma, se compromete a utilizar los datos personales para los usos a favor de las personas beneficiarias de la pensión alimenticia. Para Toda persona que en virtud de sus funciones acceda a la plataforma</li>
                             </ol>
                             <strong>II.	Requisitos a cumplir por parte de las empresas o instituciones públicas y privadas</strong><br>
@@ -413,8 +407,8 @@
                         <mat-checkbox class="example-margin" formControlName="Terminos" value="1" (change)="checkValue($event)">Acepto los términos y condiciones</mat-checkbox>
                       </section>
                       <div class="mt-2">
-                        <button class="btn btn-primary" mat-button matStepperPrevious>Atras</button> | 
-                        <button class="btn btn-primary" *ngIf="accepted" mat-button matStepperNext>Siguiente</button>                    
+                        <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" matStepperPrevious>Atras</button> | 
+                        <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" *ngIf="accepted" matStepperNext>Siguiente</button>                    
                       </div>
                     </mat-card>
 
@@ -434,11 +428,14 @@
                         cualquier dudo o sugerencia comunicarse al teléfono <a href='tel:2271- 5771'>2271- 5771</a>
                       </p>
                     </mat-card-content>
+                    <br>
+                    <div>
+                      <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" matStepperPrevious>Atras</button> | 
+                      <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" (click)="onSubmit()">Guardar</button>
+                    </div>
+                    <br>
                   </mat-card>
-                  <div>
-                    <button class="btn btn-primary" mat-button matStepperPrevious>Atras</button> | 
-                    <button class="btn btn-primary" mat-button (click)="onSubmit()">Guardar</button>
-                  </div>
+                  
                 </mat-step>
               </mat-stepper>
               <div class="w-full p-t-25 text-center">

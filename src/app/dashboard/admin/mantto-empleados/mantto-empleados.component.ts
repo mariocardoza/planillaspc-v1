@@ -91,6 +91,7 @@ export class ManttoEmpleadosComponent implements OnInit {
       this.empleadosService = result.data;
       this.totalRecords = result.registros;
     });*/
+    this.buscarEmpleados(-7)
   }
 
   obtenerEmpresas(){

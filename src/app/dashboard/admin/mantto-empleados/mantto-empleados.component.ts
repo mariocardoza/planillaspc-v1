@@ -142,6 +142,7 @@ export class ManttoEmpleadosComponent implements OnInit {
     this.empleadoForm.patchValue({ExpedienteFisico:empleado.expedienteFisico});
     this.empleadoForm.patchValue({TipoDocumentoI:empleado.tipoDocumentoI});
     this.empleadoForm.patchValue({RutaDocumento:empleado.rutaDocumento});
+    this.empleadoForm.patchValue({CodigoEmpresa:empleado.codigoEmpresaPGR})
     this.actualfile = empleado.rutaDocumento;
     if(empleado.tipoDocumentoI == 'D'){
       this.esDui = true;

@@ -9,4 +9,5 @@ export interface IEmpleado {
     rutaDocumento?: string;
     tipoDocumentoI?: string;
     nombreDocumento?: string;
+    codigoEmpresaPGR?: number
 }

@@ -111,6 +111,7 @@ export class PlanillasPagadasComponent implements OnInit {
   }
 
   onReciboIngreso(){
+    this.loading = true;
     const data = {
       ...this.reciboIngresoForm.value
     }
@@ -118,9 +119,11 @@ export class PlanillasPagadasComponent implements OnInit {
       if(res.errorNumber == 0){
         this.messageService.add({severity:'success', summary: 'Exito', detail:'Se agregó correctamente el recibo de ingreso'})
         this.modalService.dismissAll();
+        this.loading = false;
         this.obtenerComprobantes();
       }else{
         this.messageService.add({sticky: true,severity:'error', summary: 'Error', detail:res.errorMessage})
+        this.loading = false
       }
     });
   }

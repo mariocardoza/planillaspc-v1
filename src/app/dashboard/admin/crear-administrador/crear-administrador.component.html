@@ -39,17 +39,12 @@
                                     <div class="col-12 col-md-6">
                                         <mat-form-field class="full-width" appearance="fill">
                                             <mat-label>Procuraduría donde administrada los pagos</mat-label>
-                                            <input type="text"
-                                              placeholder="Pick one"
-                                              aria-label="Number"
-                                              matInput
-                                              formControlName="CodigoPagaduria"
-                                              [matAutocomplete]="auto">
-                                              <mat-autocomplete #auto="matAutocomplete">
-                                                <mat-option *ngFor="let option of unidades" [value]="option.codigoUnidadOrganizacional.trim()">
-                                                  {{option.pagaduria}}
+                                            <mat-select placeholder="Seleccione una procuraduria" formControlName="CodigoPagaduria">
+                                                <mat-option *ngFor="let unidad of unidades" [value]="unidad.codigoUnidadOrganizacional.trim()">
+                                                  {{unidad.pagaduria.substring(28)}}
                                                 </mat-option>
-                                              </mat-autocomplete>
+                                            </mat-select>
+                                            
                                               <mat-error *ngIf="userFormGroup.get('CodigoPagaduria')?.hasError('required')">
                                                 Seleccione una pagaduría
                                             </mat-error>
@@ -81,7 +76,7 @@
                                 <div class="row justify-content-center mt-4">
                                     <div class="col-12">
                                       <button class="p-button-raised p-button-rounded p-button-outlined p-button-success" pButton (click)="onSubmit()">Guardar</button> | 
-                                      <button routerLink="/dashboard" class="p-button-raised p-button-rounded p-button-outlined p-button-info" pButton >Atrás</button>
+                                      <button routerLink="/dashboard/administradores" class="p-button-raised p-button-rounded p-button-outlined p-button-info" pButton >Atrás</button>
                                     </div>
                                 </div>
                                 

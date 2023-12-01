@@ -470,7 +470,7 @@
             <div class="row">
                 <form action="" [formGroup]="filterForm" (ngSubmit)="buscar()">
                     Seleccione una empresa<br>
-                    <p-dropdown formControlName="empresa" [options]="usuarios" optionLabel="name" optionValue="code" placeholder="Seleccione empresa"></p-dropdown><br>
+                    <p-dropdown [style]="{'minWidth':'25%'}" formControlName="empresa" [options]="usuarios" optionLabel="name" optionValue="code" placeholder="Seleccione empresa"></p-dropdown><br>
                     <p-button styleClass="p-button-raised p-button-rounded p-button-outlined m-2" label="Buscar" type="submit"></p-button>
                     <p-button styleClass="p-button-raised p-button-rounded p-button-outlined p-button-secondary m-2" type="button" (click)="limpiar()" label="Limpiar"></p-button>
                 </form>

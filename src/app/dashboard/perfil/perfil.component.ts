@@ -9,9 +9,11 @@ import { PasswordStrengthValidator } from 'src/app/core/validators/password-stre
 import { PasswordValidation } from 'src/app/core/validators/password-validator';
 import { NgbAlertModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationService } from 'src/app/core/service/authentication.service';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
+  providers: [MessageService],
   styleUrls: ['./perfil.component.scss']
 })
 export class PerfilComponent implements OnInit {
@@ -38,7 +40,8 @@ export class PerfilComponent implements OnInit {
     private dashboardService: DashboardService,
     private formBuilder: FormBuilder,
     private fileService: FileDownloadService,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private messageService: MessageService
   ) { 
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
@@ -68,16 +71,19 @@ export class PerfilComponent implements OnInit {
       }
       this.dashboardService.editUser(postData,this.token).subscribe((result) => {
         if(result.success){
-          this.isSuccess = true;
-          this.message = result.message
+         // this.isSuccess = true;
+          this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
+          //this.message = result.message
         }else{
-          this.isSuccess = false;
-          this.message = result.message
+          //this.isSuccess = false;
+          this.messageService.add({severity:'error', summary: 'Error', detail:result.message});
+          //this.message = result.message
         }
       })
     }else{
-      this.isSuccess = false;
-      this.message = "No se puede actualizar, intente más tarde."
+      //this.isSuccess = false;
+      //this.message = "No se puede actualizar, intente más tarde."
+      this.messageService.add({severity:'error', summary: 'Error', detail:'No se puede actualizar, intente más tarde.'});
     }
   }
 
@@ -189,21 +195,26 @@ export class PerfilComponent implements OnInit {
       }
       this.dashboardService.updatePassword(postData,this.token).subscribe((res)=>{
         if(res.success){
-          this.isSuccess = true;
-          this.message = res.message
+          //this.isSuccess = true;
+          //this.message = res.message
+          this.messageService.add({severity:'success', summary: 'Exito', detail:res.message});
           this.userFormGroup.reset();
           this.userFormGroup.patchValue({Username:this.data.Usuario});
           this.userFormGroup.patchValue({IdUsuario:this.data.IdUsuario});
           this.userFormGroup.patchValue({CodigoEmpresa:this.data.CodigoEmpresa});
           this.userFormGroup.patchValue({CodigoPagaduria:this.data.CodigoPagaduria});
         }else{
-          this.isError = true;
-          this.message = res.message
+          //this.isError = true;
+         // this.message = res.message
+          this.messageService.add({severity:'error', summary: 'Error', detail:res.message});
         }
       })
     }else{
-      this.isError = true;
-      this.message = "Revise la información"
+      //this.isError = true;
+      //this.message = "Revise la información"
+      
+      this.messageService.add({severity:'error', summary: 'Error', detail:'Revise la información, luego intente nuevamente.'});
+      
     }
 
     setTimeout(() => {

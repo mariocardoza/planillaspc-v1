@@ -30,7 +30,7 @@
           <div class="row mt-4">
               <div class="col-12">
                 <p-table #myTab [value]="bitacoras" [paginator]="true" [loading]="loading" [rows]="10" [lazy]="true" (onLazyLoad)="buscarBitacoras($event)" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 25, 50, 100]"
-                [globalFilterFields]="['nit','codigoPGR']">
+                [globalFilterFields]="['nit','codigoPGR']" [showCurrentPageReport]="true"  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros">
                 <ng-template pTemplate="caption">
                   <div style="text-align: right">
                       <i 

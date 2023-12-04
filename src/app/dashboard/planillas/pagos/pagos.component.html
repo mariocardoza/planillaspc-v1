@@ -199,7 +199,7 @@
                 <div class="col-12">
                     <div class="card">
                         <p-table #myTab [value]="mandamientos" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="obtenerComprobantes($event)" [totalRecords]="totalRecords"
-                        [globalFilterFields]="['noMandamiento', 'periodo']">
+                        [globalFilterFields]="['noMandamiento', 'periodo']" [showCurrentPageReport]="true"  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros">
                             <ng-template pTemplate="caption">
                                 <div style="text-align: right">
                                     <i 

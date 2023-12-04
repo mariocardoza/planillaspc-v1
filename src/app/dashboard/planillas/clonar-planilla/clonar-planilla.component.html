@@ -69,7 +69,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <p-table #myTab [value]="planillas" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="obtenerPlanillas($event)" [totalRecords]="totalRecords">
+                    <p-table #myTab [value]="planillas" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="obtenerPlanillas($event)" [totalRecords]="totalRecords"
+                    [showCurrentPageReport]="true"  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros">
                       <ng-template pTemplate="caption">
                         <div style="text-align: right">
                             <i 

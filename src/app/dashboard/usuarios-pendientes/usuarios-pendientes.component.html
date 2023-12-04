@@ -29,7 +29,7 @@
         </div>
         <div class="row mt-4">
             <div class="col-12">
-              <p-table [value]="usuarios" [paginator]="true" [rows]="10" [lazy]="true" (onLazyLoad)="buscarUsuarios($event)" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 25, 50, 100]">
+              <p-table [value]="usuarios" [paginator]="true" [showCurrentPageReport]="true"  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros" [rows]="10" [lazy]="true" (onLazyLoad)="buscarUsuarios($event)" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10, 25, 50, 100]">
                 <ng-template pTemplate="header">
                   <tr>
                     <th>N°</th>

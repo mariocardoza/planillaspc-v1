@@ -6,9 +6,11 @@ import * as moment from 'moment';
 import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
 import { saveAs} from 'file-saver';
 import { AuthenticationService } from 'src/app/core/service/authentication.service';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-editar-usuario',
   templateUrl: './editar-usuario.component.html',
+  providers: [MessageService],
   styleUrls: ['./editar-usuario.component.scss']
 })
 export class EditarUsuarioComponent implements OnInit {
@@ -30,7 +32,8 @@ export class EditarUsuarioComponent implements OnInit {
     private dashboardService: DashboardService,
     private formBuilder: FormBuilder,
     private fileService: FileDownloadService,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private messageService: MessageService 
     ) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
@@ -120,11 +123,14 @@ export class EditarUsuarioComponent implements OnInit {
       this.dashboardService.editUser(data,this.token).subscribe((res) => {
         console.log(res)
         if(res.success){
-          this.isSuccess = true;
+          //this.isSuccess = true;
+          this.messageService.add({severity:'success', summary: 'Exito', detail:res.message});
+        }else{
+          this.messageService.add({severity:'error', summary: 'Error', detail:res.message}); 
         }
       })
     }else{
-
+      this.messageService.add({severity:'error', summary: 'Error', detail:'Revise la información, luego intente nuevamente.'});
     }
 
     

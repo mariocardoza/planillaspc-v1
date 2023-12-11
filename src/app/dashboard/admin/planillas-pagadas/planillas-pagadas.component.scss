@@ -1,15 +1,19 @@
 #sello_p{
     position: absolute;
     margin-top: -2.7em;
-    margin-left: 1.9rem;
+    margin-left: 2.9rem;
     color: #000000;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 18px;
+}
+.panel{
+    z-index: 1;
 }
 
 #elsello{
     position: absolute;
-    margin-top: 12rem;
+    z-index: 0;
+    margin-top: 16rem;
     width: 100%;
     @media(max-width: 667px){
         margin-top: 30rem;
@@ -18,7 +22,7 @@
 
 #sellito{
     @media(min-width: 668px){
-        width: 151px;
+        width: 200px;
     }
 }
 

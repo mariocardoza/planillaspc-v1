@@ -202,12 +202,28 @@ export class CrearComponent implements OnInit {
         })
         this.planillaFormGroup.patchValue({Periodo:periodo})
       }else{
-        this.loadingC = false;
-        this.clonarFormGroup.patchValue({CodigoTipoCuota:tipo})
-        this.clonarFormGroup.patchValue({Observacion:observacion})
-        this.clonarFormGroup.patchValue({Periodo:periodo.format('MM/Y')})
-        this.planillaFormGroup.patchValue({Periodo:periodo})
-        this.modalService.open(this.modalClonar,{ size: <any>'lg' });
+        if(this.data.TipoEmpresa == 'R'){
+          this.planillaService.guardarPlanilla(data,this.token).subscribe((result) => {
+            if(result['success']){
+              this.isSuccess = true;
+              this.message = result['message'];
+              const idEncrypt = this.encryptService.encrypt(result['idEncabezado']);
+              this.router.navigate(['/dashboard/planillas/'+idEncrypt+'/edit']);
+            }else{
+              this.isError = true;
+              this.message = result['message'];
+              this.loadingC = false;
+            }
+          })
+          this.planillaFormGroup.patchValue({Periodo:periodo})
+        }else{
+          this.loadingC = false;
+          this.clonarFormGroup.patchValue({CodigoTipoCuota:tipo})
+          this.clonarFormGroup.patchValue({Observacion:observacion})
+          this.clonarFormGroup.patchValue({Periodo:periodo.format('MM/Y')})
+          this.planillaFormGroup.patchValue({Periodo:periodo})
+          this.modalService.open(this.modalClonar,{ size: <any>'lg' });
+        }
       }
     }
     

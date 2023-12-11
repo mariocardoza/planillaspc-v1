@@ -116,7 +116,7 @@ export class ClonarPlanillaComponent implements OnInit {
   }
 
   obtenerPlanillas(event: LazyLoadEvent){
-    this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'fechaHoraRegistro').subscribe((result) => {
+    this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,0,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'fechaHoraRegistro').subscribe((result) => {
       this.planillas = result['data'];
       this.totalRecords = result['registros'];
     });

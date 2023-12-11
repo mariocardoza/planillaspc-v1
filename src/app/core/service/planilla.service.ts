@@ -35,14 +35,14 @@ export class PlanillaService {
     }))
   }
 
-  obtenerPlanillas(codigoEmpresa: number,filter:string,page:number,limit:number,sortOrder:number,sortField: string): Observable<any>{
+  obtenerPlanillas(codigoEmpresa: number, estado: number,filter:string,page:number,limit:number,sortOrder:number,sortField: string): Observable<any>{
     let params = new HttpParams();
     params = params.append("skip", page);
     params = params.append("limit", limit);
     params = params.append("filter", filter);
     params = params.append("sortOrder", sortOrder);
     params = params.append("sortField", sortField);
-    const url = endpoint.api.planillas+"/empresa/"+codigoEmpresa;
+    const url = endpoint.api.planillas+"/empresa/"+codigoEmpresa+"/"+estado;
     let headers = new HttpHeaders({'Content-Type':'application/json'});
    // headers = headers.append('Authorization', 'Bearer ' + `${token}`);
     return this.http.get(url,{headers,params}).pipe(tap((result) => {
@@ -221,8 +221,8 @@ export class PlanillaService {
     }))
   }
 
-  verificarDistribucion(idEncabezado:number) : Observable<any>{
-    const url = endpoint.api.planillas+"/verificar-distribucion/"+idEncabezado
+  verificarDistribucion(idEncabezado:number, tipoEmpresa: string) : Observable<any>{
+    const url = endpoint.api.planillas+"/verificar-distribucion/"+idEncabezado+"/"+tipoEmpresa
     let headers = new HttpHeaders({'Content-Type' : 'application/json'})
     return this.http.get(url,{headers: headers}).pipe(tap((result) => {
       return result;

@@ -326,13 +326,13 @@ export class PlanillasPagadasComponent implements OnInit {
               columns: [
                 {
                   table: {
-                    widths: [ '10%','70%','20%'],
+                    widths: [ '10%','68%','22%'],
                     body: [
                       [
                         { image: imagenes.imageTest, width:80, rowSpan:2 },
                         { text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA', alignment:'center', fontSize:'18', style:'headers', bold:true },
                         {
-                          image: this.sello, width:130, rowSpan:2,
+                          image: this.sello, width:160, rowSpan:2,
                         }
                       ],[
                         '',

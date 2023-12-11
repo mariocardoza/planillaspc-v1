@@ -110,14 +110,14 @@ export class HistorialComponent implements OnInit {
   obtenerPlanillas(event: LazyLoadEvent){
     this.lastTableLazyLoadEvent = event;
     console.log(event)
-    this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'fechaHoraRegistro').subscribe((result) => {
+    this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,0,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'fechaHoraRegistro').subscribe((result) => {
       this.planillas = result['data'];
       this.totalRecords = result['registros'];
     });
   }
 
   procesarPlanilla(idEncabezado){
-    this.planillaService.verificarDistribucion(idEncabezado).subscribe((result) => {
+    this.planillaService.verificarDistribucion(idEncabezado,this.data.TipoEmpresa).subscribe((result) => {
       if(result.cuantos > 0){
         this.messageService.add({severity:'error', summary: 'Error', detail:'Verifique la correcta distribucion de las prestaciones'});
         Swal.fire({

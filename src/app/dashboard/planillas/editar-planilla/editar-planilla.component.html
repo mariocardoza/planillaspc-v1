@@ -363,7 +363,7 @@
                 <div class="col-12">
                     <div class="my-4" id="container-table" style="height: 500px; overflow-y: auto;">
                         <p-table #dt [value]="empleados" (onEdit)="onEditInit($event)" (onEditComplete)="onEditComplete($event)" dataKey="idDetalle" editMode="row" styleClass="p-datatable-striped" [tableStyle]="{'min-width': '100%'}"
-                        [globalFilterFields]="['codigoExpediente', 'noTarjeta','duIdemandado','nombresDemandado','nombresDemandante','apellidosDemandado','apellidosDemandante']" [paginator]="false" [rows]="5" 
+                        [globalFilterFields]="['codigoExpediente','monto', 'noTarjeta','duIdemandado','nombresDemandado','nombresDemandante','apellidosDemandado','apellidosDemandante']" [paginator]="false" [rows]="5" 
                         [showCurrentPageReport]="true"  currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros">
                         <ng-template pTemplate="caption">
                             <div style="text-align: right">

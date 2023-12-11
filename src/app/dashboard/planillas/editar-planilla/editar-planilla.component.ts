@@ -398,7 +398,7 @@ export class EditarPlanillaComponent implements OnInit {
   }
 
   procesarPlanilla(idEncabezado: number){
-    this.planillaService.verificarDistribucion(idEncabezado).subscribe((result) => {
+    this.planillaService.verificarDistribucion(idEncabezado,this.data.TipoEmpresa).subscribe((result) => {
       if(result.cuantos > 0){
         this.messageService.add({severity:'error', summary: 'Error', detail:'Verifique la correcta distribucion de las prestaciones'});
         Swal.fire({
@@ -508,7 +508,7 @@ export class EditarPlanillaComponent implements OnInit {
   }
 
   verificarDistribucion(idEncabezado: number){
-    this.planillaService.verificarDistribucion(idEncabezado).subscribe((result) => {
+    this.planillaService.verificarDistribucion(idEncabezado,this.data.TipoEmpresa).subscribe((result) => {
       if(result.cuantos > 0){
         this.messageService.add({severity:'error', summary: 'Error', detail:'Verifique la correcta distribucion de las prestaciones'});
         Swal.fire({

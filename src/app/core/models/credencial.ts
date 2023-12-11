@@ -11,4 +11,5 @@ export interface ICredencial {
     Email: string;
     Token: string;
     CodigoPagaduria: string;
+    TipoEmpresa: string;
 }

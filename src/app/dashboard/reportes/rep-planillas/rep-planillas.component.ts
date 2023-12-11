@@ -61,7 +61,7 @@ export class RepPlanillasComponent implements OnInit {
   obtenerPlanillas(event: LazyLoadEvent){
     this.lastTableLazyLoadEvent = event;
     console.log(event)
-    this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'fechaHoraRegistro').subscribe((result) => {
+    this.planillaService.obtenerPlanillas(this.data.CodigoEmpresa,1,event.globalFilter || '',event.first || 0,event.rows || 10,event.sortOrder || 1,event.sortField || 'fechaHoraRegistro').subscribe((result) => {
       this.planillas = result['data'];
       this.totalRecords = result['registros'];
     });
@@ -273,7 +273,7 @@ export class RepPlanillasComponent implements OnInit {
                         { image: imagenes.imageTest, width:80, rowSpan:2 },
                         { text: 'PROCURADURÍA GENERAL DE LA REPÚBLICA', alignment:'center', fontSize:'18', style:'headers', },
                         {
-                          image: this.sello, width:150, rowSpan:2,
+                          image: this.sello, width:160, rowSpan:2,
                         }
                       ],[
                         '',

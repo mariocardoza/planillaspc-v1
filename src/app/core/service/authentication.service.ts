@@ -157,7 +157,8 @@ export class AuthenticationService {
             Estado: data.estado,
             IdUsuario: data.idUsuario,
             Token: data.token,
-            CodigoPagaduria: data.codigoPagaduria
+            CodigoPagaduria: data.codigoPagaduria,
+            TipoEmpresa: data.tipoEmpresa,
           };
           //console.log(this.datosUsuario);
           localStorage.setItem('PlanillaUser', JSON.stringify(this.datosUsuario));

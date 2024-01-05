@@ -408,7 +408,7 @@
                       </section>
                       <div class="mt-2">
                         <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" matStepperPrevious>Atras</button> | 
-                        <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" *ngIf="accepted" matStepperNext>Siguiente</button>                    
+                        <button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" [disabled]="!accepted" matStepperNext>Siguiente</button>                    
                       </div>
                     </mat-card>
 

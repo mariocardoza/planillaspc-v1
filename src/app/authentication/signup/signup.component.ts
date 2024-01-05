@@ -139,7 +139,7 @@ export class SignupComponent implements OnInit {
     });
 
     this.fourthFormGroup = this.formBuilder.group({
-      Terminos: [0,''],
+      Terminos: ['',Validators.required],
       FechaHoraTerminos: ['',''],
     });
 

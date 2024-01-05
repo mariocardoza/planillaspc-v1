@@ -509,7 +509,7 @@
                                         <button title="Editar expediente" *ngIf="planilla.codigoEstado == 1 && !editing" pButton pRipple type="button"  icon="pi pi-pencil" (click)="onRowEditInit(empleado,agregarEmpleado)" class="p-button-rounded p-button-text"></button>
                                         <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(empleado)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
                                         <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(empleado, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
-                                        <button title="Eliminar expediente" *ngIf="planilla.codigoEstado == 1 && !editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-trash" (click)="onRowDelete(empleado.idDetalle, planilla.idEncabezado)" class="p-button-rounded p-button-text p-button-danger"></button>
+                                        <button title="Eliminar expediente" *ngIf="planilla.codigoEstado == 1 && !editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-trash" (click)="onRowDelete(empleado.idDetalle, planilla.idEncabezado,empleado.nombresDemandado,empleado.apellidosDemandado)" class="p-button-rounded p-button-text p-button-danger"></button>
                                     </td>
                                 </tr>
                             </ng-template>

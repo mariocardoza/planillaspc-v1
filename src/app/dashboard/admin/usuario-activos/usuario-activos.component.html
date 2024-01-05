@@ -47,7 +47,7 @@
                   <ng-template pTemplate="header">
                     <tr>
                       <th>N°</th>
-                      <th>Codigo de la persona</th>
+                      <th>Código PGR</th>
                       <th>Usuario (acceso al sistema)</th>
                       <th>NIT</th>
                       <th>Imagen NIT</th>
@@ -60,7 +60,7 @@
                   <ng-template pTemplate="body" let-usuario let-i="rowIndex">
                     <tr>
                       <td>{{ i+1 }}</td>
-                      <td>{{ usuario.codigoEmpresa }}</td>
+                      <td>{{ usuario.codigoPGR }}</td>
                       <td>{{ usuario.usuario }}</td>
                       <td>{{ usuario.nit }}</td>
                       <td><button pButton pRipple type="button" class="p-button-raised p-button-rounded p-button-outlined p-button-help" label="Ver NIT" icon="pi pi-eye" (click)="descargarArchivo(usuario)"></button></td>

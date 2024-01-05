@@ -23,6 +23,7 @@ export class EditarPlanillaComponent implements OnInit {
   selectAll:boolean = false;
   esDui: boolean = false;
   DuiValido: boolean = false;
+  nombreEliminar:string = '';
   carpetaInstaciada:string;
   documentos: any = [];
   @ViewChild("listaEmpleados") modalEmpleados: ElementRef;
@@ -207,10 +208,10 @@ export class EditarPlanillaComponent implements OnInit {
     
   }
 
-  onRowDelete(idDetalle: number,idEncabezado:number){
+  onRowDelete(idDetalle: number,idEncabezado:number,n:string,a:string){
     Swal.fire({
       title: '¿Esta seguro?',
-      text: "Esta acción eliminará el empleado de la planilla",
+      text: "Esta acción eliminará el empleado "+n+ " "+a+" de la planilla",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

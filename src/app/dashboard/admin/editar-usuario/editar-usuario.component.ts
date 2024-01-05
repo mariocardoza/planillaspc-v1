@@ -17,6 +17,7 @@ export class EditarUsuarioComponent implements OnInit {
   private data: any;
   error= '';
   isSuccess: boolean = false;
+  medioscontacto: any = [];
   a = moment().subtract(18, 'year').format("YYYY-MM-DD");
   token: any;
   persona: any = [];
@@ -74,12 +75,13 @@ export class EditarUsuarioComponent implements OnInit {
     this.dashboardService.searchUser(id,this.token).subscribe((res)=> {
       if(res.success){
         this.persona = res.data
+        this.medioscontacto = res.data.mediosContacto;
         this.editFormGroup.patchValue({NIT: res.data.nit});
         this.editFormGroup.patchValue({RazonSocial: res.data.razonSocial});
         this.editFormGroup.patchValue({NombreComercial: res.data.nombreComercial});
         this.editFormGroup.patchValue({codigoPGR: res.data.codigoPGR});
         this.editFormGroup.patchValue({TipoEmpresa: res.data.tipoEmpresa});
-        this.editFormGroup.patchValue({MedioContactoPersona: res.data.medioContactoPersona});
+        this.editFormGroup.patchValue({MedioContactoPersona: this.isMedios("1")});
         this.editFormGroup.patchValue({CodigoNumeroDui: res.data.codigoNumeroDui});
         this.editFormGroup.patchValue({Nombre1: res.data.nombre1});
         this.editFormGroup.patchValue({Nombre2: res.data.nombre2});
@@ -92,11 +94,20 @@ export class EditarUsuarioComponent implements OnInit {
         this.editFormGroup.patchValue({CodigoPersona:res.data.codigoPersona});
         this.editFormGroup.patchValue({CodigoRepresentante:res.data.codigoRepresentante});
         this.editFormGroup.patchValue({ImagenNIT:res.data.imagenNIT});
-        this.editFormGroup.patchValue({CodigoMedioContacto:res.data.codigoMedioContacto});
+        this.editFormGroup.patchValue({CodigoMedioContacto:1});
         this.editFormGroup.patchValue({Pagaduria:res.data.pagaduria});
         //this.editFormGroup.patchValue({TelefonoContactoPersona: res.data.telefonoContactoPersona});
       }
     })
+  }
+
+  isMedios(tipoMedio) {
+    let medio = this.medioscontacto.find(o => o.codigoTipoMedioContacto === tipoMedio);
+    if(medio){
+      return medio.medioContactoPersona
+    }else{
+      return '';
+    }
   }
 
   listarPagadurias(){

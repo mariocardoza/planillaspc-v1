@@ -37,6 +37,7 @@
                     <th>NIT</th>
                     <th>Imagen NIT</th>
                     <th>Nombre de la empresa</th>
+                    <th>Código PGR</th>
                     <th>Fecha de registro</th>
                     <th>Aceptó términos y cond.</th>
                     <th></th>
@@ -49,6 +50,7 @@
                     <td>{{ usuario.nit }}</td>
                     <td><button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-help" icon="pi pi-eye" label="Ver NIT" (click)="descargarArchivo(usuario.imagenNIT)"></button></td>
                     <td>{{ usuario.nombreComercial }}</td>
+                    <td>{{ usuario.codigoPGR }}</td>
                     <td>{{ usuario.fechaRegistro | date }}</td>
                     <td>{{ usuario.fechaHoraTerminos | date :"dd/MM/yyyy HH:mm:ss" }}</td>
                     <td>

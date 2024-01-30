@@ -10,7 +10,7 @@
             </h3>
             <hr class="mb-4">
             <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-            <h4 class="login-title mt-2">Registro de datos de empresas PGR</h4>
+            <h4 class="login-title mt-2">Registro de datos de empresas en la PGR</h4>
             <p class="text-center">Registre la información que se le pide en cada paso</p>
             <div class="row">
               <mat-stepper [linear]="false" #stepper>
@@ -18,14 +18,14 @@
                   <ng-template matStepLabel>Introducción</ng-template>
                   <mat-card class="mt-4">
                     <mat-card-content>
-                      <p>IMPORTANTE: En el proceso de creación del usuario será necesario que agregue las imágenes de los documentos que son requisitos para la creación del usuario.</p>
-                      <p>Requerirá de información de la empresa como del representante legal </p>
+                      <p>IMPORTANTE: En el proceso de creación del usuario será necesario que agregue la imágene del documento que es requisito para la creación del usuario.</p>
+                      <p>Requerirá de información de la empresa; como del representante legal </p>
                       <div>
                         <p>Datos que serán necesarios</p>
                         <ol>
-                          <li>Foto del NIT de la empresa (150%)</li>
+                          <li>Foto del NIT de la empresa o DUI en caso sea empresa personal</li>
                           <li>Datos generales de la empresa</li>
-                          <li>Datos generales del representante legal</li>
+                          <li>Datos generales del representante legal o dueño</li>
                           <li>Usuario y contraseña a utilizar</li>
                         </ol>
                       </div>
@@ -46,15 +46,26 @@
                     </mat-card>
                     <br>
                     <div class="row">
-                      <div class="col-12 col-md-6">
+                      <div class="col-12 col-md-2">
                         <mat-form-field class="full-width" appearance="fill">
-                          <mat-label>NIT</mat-label>
-                          <input matInput placeholder="NIT" (blur)="findNIT()" formControlName="NIT" [dropSpecialCharacters]="false" mask="0000-000000-000-0" [showMaskTyped]="false" required>
-                          <mat-error *ngIf="personaJuridicaFormGroup.get('NIT')?.hasError('required')">El NIT es requerido</mat-error>
+                          <mat-label>Tipo de Documento</mat-label>
+                          <mat-select formControlName="TipoDocumento" (selectionChange)="onChangeS($event)">
+                            <mat-option value="I">NIT</mat-option>
+                            <mat-option value="D">DUI</mat-option>
+                            <mat-option value="P">Pasaporte</mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="personaJuridicaFormGroup.get('TipoDocumento')?.hasError('required')">El documento es requerido</mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-12 col-md-5">
+                        <mat-form-field class="full-width" appearance="fill">
+                          <mat-label>{{eldocumento}}</mat-label>
+                          <input matInput [placeholder]="eldocumento" (blur)="findNIT()" formControlName="NIT" [dropSpecialCharacters]="false" [mask]="nitMask" [showMaskTyped]="false" required>
+                          <mat-error *ngIf="personaJuridicaFormGroup.get('NIT')?.hasError('required')">El {{eldocumento}} es requerido</mat-error>
                         </mat-form-field>
                       </div>
                     
-                      <div class="col-12 col-md-6">
+                      <div class="col-12 col-md-5">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Nombre comercial</mat-label>
                           <input matInput placeholder="Nombre comercial" maxlength="200" formControlName="NombreComercial" required>
@@ -92,10 +103,10 @@
                       </div>
                       <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
-                          <mat-label>Imagen del NIT</mat-label>
+                          <mat-label>Imagen del {{eldocumento}}</mat-label>
                           <input matInput formControlName="ImagenNIT"  placeholder="Imagen NIT" readonly>
                           <app-upload (onUploadFinished)=uploadFinishedNITEmp($event)></app-upload>
-                          <mat-error *ngIf="personaJuridicaFormGroup.get('ImagenNIT')?.hasError('required')">La imagen del NIT es requerida</mat-error>
+                          <mat-error *ngIf="personaJuridicaFormGroup.get('ImagenNIT')?.hasError('required')">La imagen del {{eldocumento}} es requerida</mat-error>
                         </mat-form-field>
                       </div>
                     </div>

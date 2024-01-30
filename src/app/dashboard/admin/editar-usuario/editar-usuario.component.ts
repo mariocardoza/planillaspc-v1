@@ -26,6 +26,8 @@ export class EditarUsuarioComponent implements OnInit {
     {value:'F', name:'Femenino'},
     {value:'M', name:'Masculino'},
   ];
+  nitMask = '0000-000000-000-0';
+  eldocumento = 'NIT';
   editFormGroup: FormGroup;
   public response: { dbPath: '' }
   constructor(
@@ -47,6 +49,8 @@ export class EditarUsuarioComponent implements OnInit {
     this.listarPagadurias();
     this.editFormGroup = this.formBuilder.group({
       NIT: ['', Validators.required],
+      Usuario: ['', Validators.required],
+      TipoDocumento: ['', Validators.required],
       codigoPGR: ['0'],
       RazonSocial: ['',Validators.required],
       ImagenNIT: ['',''],
@@ -76,6 +80,7 @@ export class EditarUsuarioComponent implements OnInit {
       if(res.success){
         this.persona = res.data
         this.medioscontacto = res.data.mediosContacto;
+        this.editFormGroup.patchValue({Usuario: res.data.usuario});
         this.editFormGroup.patchValue({NIT: res.data.nit});
         this.editFormGroup.patchValue({RazonSocial: res.data.razonSocial});
         this.editFormGroup.patchValue({NombreComercial: res.data.nombreComercial});
@@ -96,9 +101,37 @@ export class EditarUsuarioComponent implements OnInit {
         this.editFormGroup.patchValue({ImagenNIT:res.data.imagenNIT});
         this.editFormGroup.patchValue({CodigoMedioContacto:1});
         this.editFormGroup.patchValue({Pagaduria:res.data.pagaduria});
+        this.editFormGroup.patchValue({TipoDocumento:res.data.tipoDocumento});
+        this.setMask(res.data.tipoDocumento)
         //this.editFormGroup.patchValue({TelefonoContactoPersona: res.data.telefonoContactoPersona});
       }
     })
+  }
+
+  onChangeS(data) {
+    if(data.value == 'D'){
+      this.nitMask = "00000000-0";
+      this.eldocumento = "DUI";
+    }if(data.value == 'P'){
+      this.nitMask = "000000000";
+      this.eldocumento = "Pasaporte"
+    }if(data.value == 'I'){
+      this.nitMask = "0000-000000-000-0";
+      this.eldocumento = "NIT"
+    }
+  }
+
+  setMask(tipo){
+      if(tipo == 'D'){
+        this.nitMask = "00000000-0";
+        this.eldocumento = "DUI";
+      }if(tipo == 'P'){
+        this.nitMask = "000000000";
+        this.eldocumento = "Pasaporte"
+      }if(tipo == 'I'){
+        this.nitMask = "0000-000000-000-0";
+        this.eldocumento = "NIT"
+      }
   }
 
   isMedios(tipoMedio) {
@@ -130,6 +163,7 @@ export class EditarUsuarioComponent implements OnInit {
     const data = {
       ...this.editFormGroup.value,
     };
+    console.log(data)
     if(this.editFormGroup.valid){
       this.dashboardService.editUser(data,this.token).subscribe((res) => {
         console.log(res)

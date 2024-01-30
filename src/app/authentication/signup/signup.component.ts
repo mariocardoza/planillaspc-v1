@@ -51,6 +51,13 @@ export class SignupComponent implements OnInit {
     {value:'F', name:'Femenino'},
     {value:'M', name:'Masculino'},
   ];
+  documentos = [
+    {value:'N', name:'NIT'},
+    {value:'D', name:'DUI'},
+    {value:'P', name:'Pasaporte'},
+  ];
+  nitMask = '0000-000000-000-0';
+  eldocumento = 'NIT';
   unidades = [];
   departments = [];
   private data: any;
@@ -97,6 +104,7 @@ export class SignupComponent implements OnInit {
 
     this.personaJuridicaFormGroup = this.formBuilder.group({
       NIT: ['', Validators.required],
+      TipoDocumento: ['I', Validators.required],
       codigoPGR: ['',Validators.required],
       RazonSocial: ['',Validators.required],
       ImagenNIT: ['',Validators.required],
@@ -144,6 +152,19 @@ export class SignupComponent implements OnInit {
     });
 
     
+  }
+
+  onChangeS(data) {
+    if(data.value == 'D'){
+      this.nitMask = "00000000-0";
+      this.eldocumento = "DUI";
+    }if(data.value == 'P'){
+      this.nitMask = "000000000";
+      this.eldocumento = "Pasaporte"
+    }if(data.value == 'I'){
+      this.nitMask = "0000-000000-000-0";
+      this.eldocumento = "NIT"
+    }
   }
 
   checkValue(event){

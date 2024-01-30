@@ -67,6 +67,8 @@ export class EditarPlanillaComponent implements OnInit {
     {value:'6', name:'Finalizada'},
   ];
 
+  
+
   track: any = [];
 
   editing: boolean = false;

@@ -33,6 +33,8 @@ export class PerfilComponent implements OnInit {
     {value:'F', name:'Femenino'},
     {value:'M', name:'Masculino'},
   ];
+  nitMask = '0000-000000-000-0';
+  eldocumento = 'NIT';
   perfilFormGroup: FormGroup;
   userFormGroup: FormGroup;
   public response: { dbPath: '' }
@@ -102,6 +104,8 @@ export class PerfilComponent implements OnInit {
     this.listarPagadurias();
     this.perfilFormGroup = this.formBuilder.group({
       NIT: ['', Validators.required],
+      IdUsuario: ['', Validators.required],
+      TipoDocumento: ['', Validators.required],
       Pagaduria: ['', Validators.required],
       codigoPGR: ['0'],
       RazonSocial: ['',Validators.required],
@@ -133,7 +137,10 @@ export class PerfilComponent implements OnInit {
         if(res.success){
           this.persona = res.data
           this.medioscontacto = res.data.mediosContacto;
+          this.perfilFormGroup.patchValue({TipoDocumento:res.data.tipoDocumento});
+          this.setMask(res.data.tipoDocumento)
           this.perfilFormGroup.patchValue({NIT: res.data.nit});
+          this.perfilFormGroup.patchValue({IdUsuario: res.data.idUsuario});
           this.perfilFormGroup.patchValue({RazonSocial: res.data.razonSocial});
           this.perfilFormGroup.patchValue({NombreComercial: res.data.nombreComercial});
           this.perfilFormGroup.patchValue({codigoPGR: res.data.codigoPGR});
@@ -154,6 +161,7 @@ export class PerfilComponent implements OnInit {
           this.perfilFormGroup.patchValue({CodigoMedioContacto:res.data.codigoMedioContacto});
           this.perfilFormGroup.patchValue({Pagaduria:res.data.pagaduria});
           this.perfilFormGroup.patchValue({TelefonoContactoPersona:this.isMedios("2")});
+          
           //this.editFormGroup.patchValue({TelefonoContactoPersona: res.data.telefonoContactoPersona});
         }
       })
@@ -186,6 +194,32 @@ export class PerfilComponent implements OnInit {
     }else{
       return '';
     }
+  }
+
+  onChangeS(data) {
+    if(data.value == 'D'){
+      this.nitMask = "00000000-0";
+      this.eldocumento = "DUI";
+    }if(data.value == 'P'){
+      this.nitMask = "000000000";
+      this.eldocumento = "Pasaporte"
+    }if(data.value == 'I'){
+      this.nitMask = "0000-000000-000-0";
+      this.eldocumento = "NIT"
+    }
+  }
+
+  setMask(tipo){
+      if(tipo == 'D'){
+        this.nitMask = "00000000-0";
+        this.eldocumento = "DUI";
+      }if(tipo == 'P'){
+        this.nitMask = "000000000";
+        this.eldocumento = "Pasaporte"
+      }if(tipo == 'I'){
+        this.nitMask = "0000-000000-000-0";
+        this.eldocumento = "NIT"
+      }
   }
 
   onSubmitPassword(){

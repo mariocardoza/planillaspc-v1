@@ -34,9 +34,9 @@
                   <tr>
                     <th>N°</th>
                     <th>Usuario (acceso al sistema)</th>
-                    <th>NIT</th>
-                    <th>Imagen NIT</th>
-                    <th>Nombre de la empresa</th>
+                    <th>N° Documento</th>
+                    <th>Imagen del documento</th>
+                    <th>Nombre de la empresa o institución</th>
                     <th>Código PGR</th>
                     <th>Fecha de registro</th>
                     <th>Aceptó términos y cond.</th>
@@ -48,7 +48,7 @@
                     <td>{{ ri+1 }}</td>
                     <td>{{ usuario.usuario }}</td>
                     <td>{{ usuario.nit }}</td>
-                    <td><button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-help" icon="pi pi-eye" label="Ver NIT" (click)="descargarArchivo(usuario.imagenNIT)"></button></td>
+                    <td><button pButton class="p-button-raised p-button-rounded p-button-outlined p-button-help" icon="pi pi-eye" label="Ver documento" (click)="descargarArchivo(usuario.imagenNIT)"></button></td>
                     <td>{{ usuario.nombreComercial }}</td>
                     <td>{{ usuario.codigoPGR }}</td>
                     <td>{{ usuario.fechaRegistro | date }}</td>

@@ -4,7 +4,7 @@
       <p-panel>
         <div class="row">
           <div class="col-12">
-              <h4>Editar información de la empresa: <strong>{{ persona.nombreComercial }}</strong></h4>
+              <h4>Editar información de la empresa o institución: <strong>{{ persona.nombreComercial }}</strong></h4>
           </div>
       </div>
       <div class="row justify-content-center mt-4">
@@ -14,17 +14,29 @@
           <div class="col-12">
               <form [formGroup]="editFormGroup">
                   <mat-card>
-                      <mat-card-header><h3>Datos de la empresa</h3></mat-card-header>
+                      <mat-card-header><h3>Datos de la empresa o institución</h3></mat-card-header>
                       <mat-card-content>
                           <div class="row">
-                              <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-2">
+                              <mat-form-field class="full-width" appearance="fill">
+                                <mat-label>Tipo de Documento</mat-label>
+                                <input type="hidden" formControlName="Usuario">
+                                <mat-select formControlName="TipoDocumento" (selectionChange)="onChangeS($event)">
+                                  <mat-option value="I">NIT</mat-option>
+                                  <mat-option value="D">DUI</mat-option>
+                                  <mat-option value="P">Pasaporte</mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="editFormGroup.get('TipoDocumento')?.hasError('required')">El documento es requerido</mat-error>
+                              </mat-form-field>
+                            </div>
+                              <div class="col-12 col-md-5">
                                 <mat-form-field class="full-width" appearance="fill">
-                                  <mat-label>NIT</mat-label>
-                                  <input matInput placeholder="NIT" formControlName="NIT" [dropSpecialCharacters]="false" mask="0000-000000-000-0" [showMaskTyped]="false" required>
+                                  <mat-label>{{eldocumento}}</mat-label>
+                                  <input matInput placeholder="Documento" formControlName="NIT" [dropSpecialCharacters]="false" [mask]="nitMask" [showMaskTyped]="false" required>
                                 </mat-form-field>
                               </div>
                             
-                              <div class="col-12 col-md-6">
+                              <div class="col-12 col-md-5">
                                 <mat-form-field class="full-width" appearance="fill">
                                   <mat-label>Nombre comercial</mat-label>
                                   <input matInput placeholder="Nombre comercial" formControlName="NombreComercial" required>
@@ -58,7 +70,7 @@
                               </div>
                               <div class="col-12 col-md-6">
                                   <mat-form-field class="full-width" appearance="fill">
-                                  <mat-label>Imagen del NIT</mat-label>
+                                  <mat-label>Imagen del documento</mat-label>
                                   <input matInput formControlName="ImagenNIT"  placeholder="Imagen NIT" readonly>
                                   <app-upload (onUploadFinished)=uploadFinishedNITEmp($event)></app-upload>
                                   <a href="javascript:void(0)" (click)="descargarArchivo(persona.imagenNIT)">Ver documento</a>

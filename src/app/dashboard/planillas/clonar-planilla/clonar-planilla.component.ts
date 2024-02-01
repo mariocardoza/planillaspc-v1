@@ -17,6 +17,7 @@ export class ClonarPlanillaComponent implements OnInit {
   planillas: any = [];
   data:any;
   token: string;
+  loading: boolean = false;
   cuotas: number = 1;
   clonarForm: FormGroup;
   meses = [
@@ -98,13 +99,17 @@ export class ClonarPlanillaComponent implements OnInit {
     const data = {
       ...this.clonarForm.value
     }
+    this.loading = true;
     this.planillaService.clonarPlanilla(data,this.token).subscribe((res)=>{
       if(res['success']){
+        this.loading = false;
         this.modal.dismissAll();
         this.messageService.add({severity:'success', summary: 'Exito', detail:'Planilla correctamente clonada'});
         const idEncrypt = this.encryptService.encrypt(res['idEncabezado']);
         this.router.navigate(['/dashboard/planillas/'+idEncrypt+'/edit']);
+
       }
+      this.loading = false;
     })
   }
 

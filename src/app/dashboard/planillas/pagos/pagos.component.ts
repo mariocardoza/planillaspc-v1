@@ -106,12 +106,15 @@ export class PagosComponent implements OnInit {
     const data = {
       ...this.comprobanteForm.value
     }
+    this.loading = true;
     this.planillaService.subirComprobante(data).subscribe((result) => {
       if(result.success){
         this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
         this.modalService.dismissAll();
+        this.loading = false;
         this.obtenerComprobantes(this.lastTableLazyLoadEvent)
       }
+      this.loading = false;
     })
   }
 

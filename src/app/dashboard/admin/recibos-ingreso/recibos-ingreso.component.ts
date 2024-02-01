@@ -127,12 +127,15 @@ export class RecibosIngresoComponent implements OnInit {
     const data = {
       ...this.reciboIngresoForm.value
     }
+    this.loading = true;
     this.planillaService.reciboIngreso(data).subscribe((res) => {
       if(res.errorNumber == 0){
+        this.loading = false;
         this.messageService.add({severity:'success', summary: 'Exito', detail:'Se agregó correctamente el recibo de ingreso'})
         this.modalService.dismissAll();
         this.obtenerComprobantes();
       }else{
+        this.loading = false;
         this.messageService.add({sticky: true,severity:'error', summary: 'Error', detail:res.errorMessage})
       }
     });

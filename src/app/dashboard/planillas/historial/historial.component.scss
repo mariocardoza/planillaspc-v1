@@ -18,3 +18,32 @@ hr {
     background: #dee2e6;
     font-weight: bold;
 }
+
+#contenido{
+    h4{
+        color: #000000;
+    }
+    P{
+        margin-bottom: 0;
+        color: #000000;
+    }
+    .hr{
+        margin: 0;
+    }
+    .hr2{
+        margin: 1rem;
+        border-top: 3px dotted #000;
+        opacity: 1;
+    }
+    .colector{
+        text-decoration: overline;
+    }
+}
+
+.lafechasello{
+    text-align: center;
+    font-size: 13px;
+    margin-top: -2.3rem;
+    margin-left: 1.5rem;
+    position: absolute;
+}

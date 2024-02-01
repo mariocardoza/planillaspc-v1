@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 export class HistorialComponent implements OnInit {
   @ViewChild("modalComprobante") modalComprobante: ElementRef;
   @ViewChild("modalEstados") modalEstados: ElementRef;
+  @ViewChild("modalRecibo") modalRecibo: ElementRef;
   planillas: any = [];
   mandamiento: IMandamiento;
   data:any;
@@ -191,6 +192,20 @@ export class HistorialComponent implements OnInit {
         let v = this.mandamiento.npe.match(/.{1,4}/g); 
         this.npe = v.join(" "); 
         this.modalService.open(this.modalComprobante,{ size: <any>'lg' });
+        this.obtenerPlanillas(this.lastTableLazyLoadEvent);
+        //this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
+      }
+    })
+  }
+
+  imprimirRecibo(idEncabezado: number){
+    this.planillaService.imprimirComprobante(idEncabezado).subscribe((result)=>{
+      if(result.success){
+        this.mandamiento = result.data;
+        this.barcode = this.mandamiento.codigoBarra;
+        let v = this.mandamiento.npe.match(/.{1,4}/g); 
+        this.npe = v.join(" "); 
+        this.modalService.open(this.modalRecibo,{ size: <any>'lg' });
         this.obtenerPlanillas(this.lastTableLazyLoadEvent);
         //this.messageService.add({severity:'success', summary: 'Exito', detail:result.message});
       }

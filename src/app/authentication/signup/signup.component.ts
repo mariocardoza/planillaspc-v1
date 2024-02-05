@@ -308,13 +308,22 @@ export class SignupComponent implements OnInit {
           this.error =res.message
         }
       },(error) => {
-        console.log(error.error.errors)
-        this.error ="Ocurrieron uno o más errores de validación al registrar la informacion, revise nuevamente."
+        let val = error.error.errors;
+        this.error ="Ocurrieron uno o más errores de validación al registrar la informacion, revise nuevamente:<br><br>"
+        var errores = Object.values(val);
+        this.error+="<ul>"
+        for(var i=0; i< errores.length; i++){
+          this.error +="<li>"+errores[i]+"</li>"
+        }
+        this.error+="</ul>"
+        /*if(typeof val.Username != 'undefined'){
+          this.error +=val.Username+"<br>"
+        }*/
       },
       );
       
     }else{
-      this.error ="Revise las validaciones e intente nuevamente."
+      this.error ="Revise los campos obligatorios e intente nuevamente."
     }
   }
 

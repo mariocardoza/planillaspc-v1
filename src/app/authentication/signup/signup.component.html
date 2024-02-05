@@ -9,7 +9,7 @@
               <span class="text-gold"></span>
             </h3>
             <hr class="mb-4">
-            <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+            <div *ngIf="error" class="alert alert-danger" [innerHtml]="error"></div>
             <h4 class="login-title mt-2">Registro de datos de empresas en la PGR</h4>
             <p class="text-center">Registre la información que se le pide en cada paso</p>
             <div class="row">

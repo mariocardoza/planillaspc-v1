@@ -61,6 +61,7 @@
     "js-base64": "^3.7.2",
     "jsbarcode": "^3.11.5",
     "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.1",
     "mat-table-exporter": "^10.2.4",
     "mermaid": "^10.0.2",
     "moment": "^2.29.1",

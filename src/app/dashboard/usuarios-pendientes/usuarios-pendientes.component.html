@@ -1,25 +1,47 @@
 <ng-template #buscarnit let-modal>
-    <div class="modal-header">
-      <h4 class="text-center">información de usuario</h4>
-      <button class="close" aria-label="close" type="button" (click)="modal.dismiss()"><span>&times;</span></button>
-    </div>
-    <div class="modal-body">
-      <form class="validate-form">
-        <div class="row">
-          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-            
-          </div>
+  <div class="modal-header">
+    <h4 class="text-center">información de usuario</h4>
+    <button class="close" aria-label="close" type="button" (click)="modal.dismiss()"><span>&times;</span></button>
+  </div>
+  <div class="modal-body">
+    <form class="validate-form">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          
         </div>
-        <div class="mt-2">
-          <div style="text-align:center">
-            <button color="btn btn-primary" class="auth-form-btn" type="button">Cerrar</button>
-          </div>
+      </div>
+      <div class="mt-2">
+        <div style="text-align:center">
+          <button mat-raised-button class="btn btn-primary" type="button">Cerrar</button>
         </div>
-      </form>
-    </div>
-    <div class="modal-footer"></div>
-  </ng-template>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer"></div>
+</ng-template>
+<ng-template #mail let-mail>
+  <div class="modal-header">
+    <h4 class="text-center">Enviar mensaje</h4>
+    <button class="close" aria-label="close" type="button" (click)="mail.dismiss()"><span>&times;</span></button>
+  </div>
+  <div class="modal-body">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <input type="hidden" [(ngModel)]="idUsuario">
+          <ckeditor [editor]="Editor" [(ngModel)]="mensaje"></ckeditor>
+        </div>
+      </div>
+      <div class="mt-2">
+        <div style="text-align:center">
+          <button mat-raised-button class="btn btn-default" [loading]="loading" (click)="mail.dismiss()" type="button">Cerrar</button>
+          <button mat-raised-button class="btn btn-primary" (click)="sendMail()" type="button">Enviar</button>
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer"></div>
+</ng-template>
 <section class="content">
+  <p-toast></p-toast>
     <div class="container-fluid">
         <p-panel>
           <div class="row">
@@ -54,8 +76,9 @@
                     <td>{{ usuario.fechaRegistro | date }}</td>
                     <td>{{ usuario.fechaHoraTerminos | date :"dd/MM/yyyy HH:mm:ss" }}</td>
                     <td>
-                        <button (click)="activarUsuario(usuario.idUsuario)" pButton icon="pi pi-check" class="p-button-raised p-button-rounded p-button-outlined p-button-primary"></button> | 
-                        <button routerLink="/dashboard/editar-usuario/{{ usuario.codigoEmpresa}}" pButton icon="pi pi-user-edit" class="p-button-raised p-button-rounded p-button-outlined p-button-warning"></button>
+                        <button (click)="activarUsuario(usuario.idUsuario)" pButton icon="pi pi-check" title="Aprobar" class="p-button-raised p-button-rounded p-button-outlined p-button-primary"></button> | 
+                        <button (click)="enviarMensaje(usuario.idUsuario)" pButton icon="pi pi-send" title="Enviar mensaje" class="p-button-raised p-button-rounded p-button-outlined p-button-success"></button> | 
+                        <button routerLink="/dashboard/editar-usuario/{{ usuario.codigoEmpresa}}" title="Editar" pButton icon="pi pi-user-edit" class="p-button-raised p-button-rounded p-button-outlined p-button-warning"></button>
                     </td>
                 </tr>
                 </ng-template>

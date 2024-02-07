@@ -68,7 +68,7 @@
                       <div class="col-12 col-md-5">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Nombre comercial</mat-label>
-                          <input matInput placeholder="Nombre comercial" maxlength="200" formControlName="NombreComercial" required>
+                          <input matInput placeholder="Nombre comercial" oninput="this.value = this.value.toUpperCase()" maxlength="200" formControlName="NombreComercial" required>
                           <mat-error *ngIf="personaJuridicaFormGroup.get('NombreComercial')?.hasError('required')">El nombre comercial es requerido</mat-error>
                         </mat-form-field>
                       </div>
@@ -77,7 +77,7 @@
                       <div class="col-12 col-md-6">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Razón social</mat-label>
-                          <input matInput placeholder="Razón social" formControlName="RazonSocial" maxlength="200" required>
+                          <input matInput placeholder="Razón social" oninput="this.value = this.value.toUpperCase()" formControlName="RazonSocial" maxlength="200" required>
                           <mat-error *ngIf="personaJuridicaFormGroup.get('RazonSocial')?.hasError('required')">La razón social es requerido</mat-error>
                         </mat-form-field>
                       </div>
@@ -159,21 +159,21 @@
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Primer nombre</mat-label>
-                          <input matInput placeholder="Nombres" maxlength="20" formControlName="Nombre1"
+                          <input matInput placeholder="Nombres" oninput="this.value = this.value.toUpperCase()" maxlength="20" formControlName="Nombre1"
                                  required>
                         </mat-form-field>
                       </div>
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Segundo nombre</mat-label>
-                          <input matInput placeholder="Nombres" maxlength="20" formControlName="Nombre2"
+                          <input matInput placeholder="Nombres" oninput="this.value = this.value.toUpperCase()" maxlength="20" formControlName="Nombre2"
                                  >
                         </mat-form-field>
                       </div>
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Tercer nombre</mat-label>
-                          <input matInput placeholder="Nombres" maxlength="20" formControlName="Nombre3"
+                          <input matInput placeholder="Nombres" oninput="this.value = this.value.toUpperCase()" maxlength="20" formControlName="Nombre3"
                                  >
                         </mat-form-field>
                       </div>
@@ -182,21 +182,21 @@
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Primer apellido</mat-label>
-                          <input matInput placeholder="Apellidos" maxlength="20" formControlName="Apellido1"
+                          <input matInput placeholder="Apellidos" oninput="this.value = this.value.toUpperCase()" maxlength="20" formControlName="Apellido1"
                                  required>
                         </mat-form-field>
                       </div>
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Segundo apellido</mat-label>
-                          <input matInput placeholder="Apellidos" maxlength="20" formControlName="Apellido2"
+                          <input matInput placeholder="Apellidos" oninput="this.value = this.value.toUpperCase()" maxlength="20" formControlName="Apellido2"
                                  >
                         </mat-form-field>
                       </div>
                       <div class="col-12 col-md-4">
                         <mat-form-field class="full-width" appearance="fill">
                           <mat-label>Apellido de casada</mat-label>
-                          <input matInput placeholder="Apellidos" maxlength="20" formControlName="ApellidoCasada"
+                          <input matInput placeholder="Apellidos" oninput="this.value = this.value.toUpperCase()" maxlength="20" formControlName="ApellidoCasada"
                                  >
                         </mat-form-field>
                       </div>

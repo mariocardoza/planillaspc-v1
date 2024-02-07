@@ -19,6 +19,7 @@ import { ProtectRoutesInterceptor } from './core/interceptors/protect-routes.int
 import { DisableControlDirective } from './core/directives/disable-control.directive';
 import  localeEs from '@angular/common/locales/es-SV';
 import { registerLocaleData } from '@angular/common';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 registerLocaleData(localeEs, 'es');
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ registerLocaleData(localeEs, 'es');
     SharedModule,
     HttpClientModule,
     MatIconModule,
+    CKEditorModule,
     ToastrModule.forRoot()
   ],
   entryComponents: [

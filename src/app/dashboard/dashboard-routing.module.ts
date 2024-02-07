@@ -27,6 +27,8 @@ import { PlanillasPagadasComponent } from './admin/planillas-pagadas/planillas-p
 import { DashPage404Component } from './dash-page404/dash-page404.component';
 import { RecibosIngresoComponent } from './admin/recibos-ingreso/recibos-ingreso.component';
 import { ManttoEmpleadosComponent } from './admin/mantto-empleados/mantto-empleados.component';
+import { ActiveGuard } from '../core/guard/active.guard';
+import { AdminGuard } from '../core/guard/admin.guard';
 
 const routes: Routes = [
   {
@@ -44,79 +46,98 @@ const routes: Routes = [
   },
   {
     path: 'planillas',
+    canActivate: [ActiveGuard],
     component: PlanillaComponent
   },
   {
     path: 'planillas/historial',
+    canActivate: [ActiveGuard],
     component: HistorialComponent
   },
   {
     path: 'planillas/create',
+    canActivate: [ActiveGuard],
     component: CrearComponent
   },
   {
     path: 'planillas/:id/edit',
+    canActivate: [ActiveGuard],
     component: EditarPlanillaComponent
   },
   {
     path: 'planillas/clonar',
+    canActivate: [ActiveGuard],
     component: ClonarPlanillaComponent
   },
   {
     path:'planillas/importar',
+    canActivate: [ActiveGuard],
     component: ImportarPlanillaComponent
   },
   {
     path:'pagos',
+    canActivate: [ActiveGuard],
     component: PagosComponent
   },
   {
     path: 'usuarios-pendientes',
+    canActivate: [AdminGuard,ActiveGuard],
     component: UsuariosPendientesComponent
   },
   {
     path: 'usuarios-activos',
+    canActivate: [AdminGuard,ActiveGuard],
     component: UsuarioActivosComponent
   },
   {
     path: 'bitacora-juridicas',
+    canActivate: [AdminGuard,ActiveGuard],
     component: BitacorapjComponent
   },
   {
     path: 'editar-usuario/:codigopersona',
+    canActivate: [ActiveGuard],
     component: EditarUsuarioComponent
   },
   {
     path:'administradores',
+    canActivate: [ActiveGuard],
     component: AdministradoresComponent
   },
   {
     path:'administradores/create',
+    canActivate: [ActiveGuard],
     component: CrearAdministradorComponent
   },
   {
     path:'administradores/:id/edit',
+    canActivate: [ActiveGuard],
     component: EditarAdministradorComponent
   },
   {
     path:'planillas/presentadas',
+    canActivate: [AdminGuard,ActiveGuard],
     component: PlanillasPagadasComponent
   },
   {
     path:'planillas/recibos',
+    canActivate: [AdminGuard,ActiveGuard],
     component: RecibosIngresoComponent
   },
   //Empleados
   {
     path:'empleados',
+    canActivate: [ActiveGuard],
     component: EmpIndexComponent
   },
   {
     path: 'empleados/inactivos',
+    canActivate: [ActiveGuard],
     component: EmpdIndexComponent
   },
   {
     path: 'empleados/mantenimiento',
+    canActivate: [AdminGuard,ActiveGuard],
     component: ManttoEmpleadosComponent,
   },
   {
@@ -126,10 +147,12 @@ const routes: Routes = [
   //Reportes
   {
     path: 'reportes',
+    canActivate: [ActiveGuard],
     component: RepIndexComponent
   },
   {
     path:'reportes/planillas',
+    canActivate: [ActiveGuard],
     component: RepPlanillasComponent
   },
   {

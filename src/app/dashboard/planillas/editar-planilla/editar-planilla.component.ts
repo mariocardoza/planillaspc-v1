@@ -10,6 +10,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FileDownloadService } from 'src/app/shared/file-download/file-download.service';
 import { saveAs } from 'file-saver';
 import { EncryptService } from 'src/app/core/service/encrypt.service';
+import * as FileSaver from 'file-saver';
+import * as jsPDF from "jspdf";
+import autoTable from 'jspdf-autotable'
 
 @Component({
   selector: 'app-editar-planilla',
@@ -43,6 +46,9 @@ export class EditarPlanillaComponent implements OnInit {
   planillaFormGroup: FormGroup;
   loading: boolean = false;
   loadingDUI: boolean = false;
+  cols: any[];
+  exportpdf: any;
+  exportColumns: any[];
   tipoCuotas = [
     {value:'1', name:'Cuota alimenticia'},
     {value:'2', name:'Bonificaciones'},
@@ -117,6 +123,25 @@ export class EditarPlanillaComponent implements OnInit {
       OrdenDescuento: ['', Validators.required],
       TipoDocumentoI: ['',Validators.required]
     });
+
+    this.cols = [
+      { field: 'idDetalle', header: 'idDetalle' },
+      { field: 'idEncabezado', header: 'idEncabezado' },
+      { field: 'apellidosDemandado', header: 'apellidosDemandado' },
+      { field: 'nombresDemandado', header: 'nombresDemandado' },
+      { field: 'apellidosDemandante', header: 'apellidosDemandante' },
+      { field: 'nombresDemandante', header: 'nombresDemandante' },
+      { field: 'duIdemandado', header: 'duIdemandado' },
+      { field: 'monto', header: 'monto' },
+      { field: 'noBeneficiarios', header: 'noBeneficiarios' },
+      { field: 'noTarjeta', header: 'noTarjeta' },
+      { field: 'noExpediente', header: 'noExpediente' },
+      { field: 'observaciones', header: 'observaciones' },
+      { field: 'codigoExpediente', header: 'codigoExpediente' },
+      { field: 'tipoDocumentoI', header: 'tipoDocumentoI' }
+  ];
+
+  this.exportColumns = this.cols.map(col => ({title: col.header, dataKey: col.field}));
   }
 
   onChangeS(data) {
@@ -233,6 +258,51 @@ export class EditarPlanillaComponent implements OnInit {
       }
     })
   }
+
+  /*exportPdf() {
+    console.log(this.exportpdf)
+    const doc = new jsPDF.default("landscape","pt");
+      const columns = [this.exportColumns];
+      const data = 
+        this.exportpdf
+      ;
+      autoTable(doc, {
+        head: columns,
+        body: this.exportpdf,
+        didDrawPage: dataArg => {
+          doc.setFontSize(20);
+          doc.setTextColor(40);
+          doc.text("previa", dataArg.settings.margin.left, 10);
+        }
+      });
+  
+      doc.save("table.pdf");
+    import("jspdf").then(jsPDF => {
+        import("jspdf-autotable").then(x => {
+            const doc = new jsPDF.default('landscape','pt');
+            doc.autoTable(this.exportColumns, this.empleados);
+            doc.save('products.pdf');
+        })
+    })
+  }*/
+
+  exportExcel() {
+    import("xlsx").then(xlsx => {
+        const worksheet = xlsx.utils.json_to_sheet(this.empleados);
+        const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+        const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+        this.saveAsExcelFile(excelBuffer, "planilla");
+    });
+}
+
+saveAsExcelFile(buffer: any, fileName: string): void {
+    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    let EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE
+    });
+    FileSaver.saveAs(data, fileName + '_vista_previa_' + new Date().getTime() + EXCEL_EXTENSION);
+}
 
   buscarDui(){
     this.loadingDUI = true;
@@ -383,6 +453,7 @@ export class EditarPlanillaComponent implements OnInit {
       if(result['success']){
         this.planilla = result['data']
         this.empleados = this.planilla.detalles
+        this.exportpdf = this.planilla.detalles
         this.codigoEstado = this.planilla.codigoEstado;
         this.track = result['track'];
         this.documentos = result['documentos'];

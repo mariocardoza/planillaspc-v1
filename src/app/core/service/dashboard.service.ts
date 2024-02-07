@@ -161,4 +161,15 @@ export class DashboardService {
       return result;
     }))
   }
+
+  sendMail(idUsuario:number, mensaje: string): Observable<any>{
+    const data = {
+      idUsuario, mensaje
+    }
+    const url = endpoint.api.usuarios+"/sendmail"
+    let headers = new HttpHeaders({'Content-Type' : 'application/json'})
+    return this.http.post(url,data,{headers: headers}).pipe(tap((result) => {
+      return result;
+    }))
+  }
 }

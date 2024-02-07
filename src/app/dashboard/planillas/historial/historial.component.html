@@ -430,6 +430,7 @@
                                         <button *ngIf="planilla.codigoEstado == 2" title="Emitir mandamiento de pago" pButton (click)="generarPlanilla(planilla.idEncabezado)" icon="pi pi-money-bill" class="p-button-raised p-button-rounded p-button-outlined p-button-secondary mx-1"></button>
                                         <button *ngIf="planilla.codigoEstado == 3" title="Imprimir mandamiento de pago" pButton (click)="imprimirComprobante(planilla.idEncabezado)" icon="pi pi-print" class="p-button-raised p-button-rounded p-button-outlined p-button-secondary mx-1"></button>
                                         <button *ngIf="planilla.codigoEstado == 6" title="Imprimir recibo de ingreso" pButton (click)="imprimirRecibo(planilla.idEncabezado)" icon="pi pi-print" class="p-button-raised p-button-rounded p-button-outlined p-button-secondary mx-1"></button>
+                                        <button *ngIf="planilla.codigoEstado == 1" [loading]="loading" title="Imprimir previa" pButton (click)="imprimirPlanilla(planilla.idEncabezado)" icon="pi pi-print" class="p-button-raised p-button-rounded p-button-outlined p-button-secondary mx-1"></button>
                                     </td>
                                 </tr>
                             </ng-template>

@@ -56,7 +56,7 @@ export class AdministradoresComponent implements OnInit {
       if (result.isConfirmed) {
         this.dashboardService.deactiveUser(usuario,this.token).subscribe((res) => {
           if(res){
-            this.toastService.showSuccess("Actualización realizada con éxito","Se envió correctamente el correo electrónico de notificación")
+            this.toastService.showSuccess("Actualización realizada con éxito","Usuario desactivado satisfactoriamente")
             this.buscarUsuarios(this.lastTableLazyLoadEvent);
           }
         });
@@ -82,7 +82,7 @@ export class AdministradoresComponent implements OnInit {
       if (result.isConfirmed) {
         this.dashboardService.activeUser(usuario,this.token).subscribe((res) => {
           if(res){
-            this.toastService.showSuccess("Actualización realizada con éxito","Se envió correctamente el correo electrónico de notificación")
+            this.toastService.showSuccess("Actualización realizada con éxito","Usuario activado satisfactoriamente")
             this.buscarUsuarios(this.lastTableLazyLoadEvent);
           }
         });

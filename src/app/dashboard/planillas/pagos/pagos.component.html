@@ -247,7 +247,7 @@
                                     </td>
                                     <td><p-tag severity="{{claseEstadoPlanilla(mandamiento.codigoEstado)}}" (click)="verTrack(mandamiento.idEncabezado)" value="{{buscarEstadoPlanilla(mandamiento.codigoEstado)}}"></p-tag></td>
                                     <td>
-                                        <button title="Ver comprobante de pago" pButton (click)="imprimirComprobante(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-raised p-button-rounded p-button-outlined p-button-secondary m-1"></button>
+                                        <button [loading]="loading" title="Imprimir previa" pButton (click)="imprimirPlanilla(mandamiento.idEncabezado)" icon="pi pi-print" class="p-button-raised p-button-rounded p-button-outlined p-button-secondary mx-1"></button>
                                         <button *ngIf="mandamiento.rutaImagenComprobante != null && mandamiento.codigoEstado != 5" title="Registrar recibo de pago" pButton (click)="finalizarPlanilla(mandamiento.idEncabezado)" icon="pi pi-check" class="p-button-raised p-button-rounded p-button-outlined p-button-help m-1"></button>
                                     </td>
                                 </tr>

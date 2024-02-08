@@ -78,7 +78,7 @@
                     <td>
                         <button (click)="activarUsuario(usuario.idUsuario)" pButton icon="pi pi-check" title="Aprobar" class="p-button-raised p-button-rounded p-button-outlined p-button-primary"></button> | 
                         <button (click)="enviarMensaje(usuario.idUsuario)" pButton icon="pi pi-send" title="Enviar mensaje" class="p-button-raised p-button-rounded p-button-outlined p-button-success"></button> | 
-                        <button routerLink="/dashboard/editar-usuario/{{ usuario.codigoEmpresa}}" title="Editar" pButton icon="pi pi-user-edit" class="p-button-raised p-button-rounded p-button-outlined p-button-warning"></button>
+                        <button (click)="vistaEditarUsuario(usuario.codigoEmpresa)" title="Editar" pButton icon="pi pi-user-edit" class="p-button-raised p-button-rounded p-button-outlined p-button-warning"></button>
                     </td>
                 </tr>
                 </ng-template>

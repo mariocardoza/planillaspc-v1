@@ -10,6 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from "sweetalert2";
 import { Router } from '@angular/router';
 import { LazyLoadEvent } from 'primeng/api';
+import { EncryptService } from 'src/app/core/service/encrypt.service';
 @Component({
   selector: 'app-usuario-activos',
   templateUrl: './usuario-activos.component.html',
@@ -24,7 +25,8 @@ export class UsuarioActivosComponent implements OnInit {
   token: any;
   carpetaInstaciada: string;
   actualFile:any = '';
-  constructor(http: HttpClient,private router:Router,private dashboardService: DashboardService,private _sanitizer: DomSanitizer,private fileService: FileDownloadService,public toastService: ToastService,public modal: NgbModal) {
+  constructor(http: HttpClient,private router:Router,private dashboardService: DashboardService,
+    private encryptService: EncryptService,private _sanitizer: DomSanitizer,private fileService: FileDownloadService,public toastService: ToastService,public modal: NgbModal) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
@@ -71,7 +73,8 @@ export class UsuarioActivosComponent implements OnInit {
   }
 
   editar(codigoPersona){
-    this.router.navigate(["dashboard/editar-usuario/"+codigoPersona])
+    const idEncrypt = this.encryptService.encrypt(codigoPersona);
+    this.router.navigate(["dashboard/editar-usuario/"+idEncrypt])
   }
 
   desactivarUsuario(codigoEmpresa){

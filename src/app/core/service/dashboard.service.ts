@@ -69,7 +69,7 @@ export class DashboardService {
     }))
   }
 
-  searchUser(codigoPersona: number, token: string): Observable<any>{
+  searchUser(codigoPersona: any, token: string): Observable<any>{
     const url = endpoint.api.usuarios+"/buscar-usuario/"+codigoPersona;
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     headers = headers.append('Authorization', 'Bearer ' + `${token}`);

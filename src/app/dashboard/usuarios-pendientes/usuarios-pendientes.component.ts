@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { ChangeEvent } from "@ckeditor/ckeditor5-angular";
 import { MessageService } from 'primeng/api';
+import { EncryptService } from 'src/app/core/service/encrypt.service';
 @Component({
   selector: 'app-usuarios-pendientes',
   providers: [MessageService],
@@ -31,7 +32,9 @@ export class UsuariosPendientesComponent implements OnInit {
   token: any;
   loading:boolean = false;
   public Editor = ClassicEditor;
-  constructor(http: HttpClient,private messageService: MessageService,public modalService: NgbModal,private router: Router,private primengConfig: PrimeNGConfig,private dashboardService: DashboardService,private _sanitizer: DomSanitizer,private fileService: FileDownloadService,public toastService: ToastService) {
+  constructor(http: HttpClient,private messageService: MessageService,public modalService: NgbModal,private router: Router,
+    private primengConfig: PrimeNGConfig,private dashboardService: DashboardService,private _sanitizer: DomSanitizer,
+    private fileService: FileDownloadService,public toastService: ToastService,private encryptService: EncryptService) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
       this.token = this.data.Token;
@@ -47,6 +50,11 @@ export class UsuariosPendientesComponent implements OnInit {
       this.router.navigate(['/dashboard'])
     }
     //this.buscarUsuarios();
+  }
+
+  vistaEditarUsuario(id){
+    const idEncrypt = this.encryptService.encrypt(id);
+    this.router.navigate(['/dashboard/editar-usuario/'+idEncrypt]);
   }
 
   descargarArchivo(urlImagen) {

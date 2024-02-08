@@ -7,6 +7,7 @@ import { FileDownloadService } from 'src/app/shared/file-download/file-download.
 import { saveAs} from 'file-saver';
 import { AuthenticationService } from 'src/app/core/service/authentication.service';
 import { MessageService } from 'primeng/api';
+import { EncryptService } from 'src/app/core/service/encrypt.service';
 @Component({
   selector: 'app-editar-usuario',
   templateUrl: './editar-usuario.component.html',
@@ -36,7 +37,8 @@ export class EditarUsuarioComponent implements OnInit {
     private formBuilder: FormBuilder,
     private fileService: FileDownloadService,
     private authenticationService: AuthenticationService,
-    private messageService: MessageService 
+    private messageService: MessageService,
+    private encryptService: EncryptService 
     ) {
     this.data = JSON.parse(localStorage.getItem('PlanillaUser'));
     if(this.data != null){
@@ -75,7 +77,8 @@ export class EditarUsuarioComponent implements OnInit {
       Pagaduria: ['0'],
 
     });
-    let id = this.route.snapshot.params.codigopersona;
+    //let id = this.route.snapshot.params.codigopersona;
+    let id = this.encryptService.decrypt(this.route.snapshot.params.codigopersona);
     this.dashboardService.searchUser(id,this.token).subscribe((res)=> {
       if(res.success){
         this.persona = res.data

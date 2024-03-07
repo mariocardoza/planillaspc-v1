@@ -96,7 +96,7 @@ export class ManttoEmpleadosComponent implements OnInit {
 
   obtenerEmpresas(){
     let token = "gdfd";
-    this.dashboardService.usersActiveAsync(token,this.data.CodigoRol,this.data.CodigoPagaduria,1,100).subscribe((res) => {
+    this.dashboardService.usersActiveAsync(token,this.data.CodigoRol,this.data.CodigoPagaduria,0,1000).subscribe((res) => {
       if(res.success){
         this.empresas = res.data;
         this.usuarios = this.empresas.map(e => ({

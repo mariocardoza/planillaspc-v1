@@ -51,16 +51,12 @@
                     <input readonly type="hidden" formControlName="CodigoPagaduria">
                     <input readonly type="hidden" formControlName="CodigoEmpresa">
                     <input readonly type="hidden" formControlName="CodigoPGR">
+                    <input type="hidden" readonly formControlName="NoMandamiento">
                 
                 <div class="row">
-                    <div class="col-12 col-md-9">
+                    <div class="col-12 col-md-8">
                         <div class="row mt-2">
-                            <div class="col-12 col-md-4">
-                                <mat-form-field class="full-width" appearance="fill">
-                                    <mat-label>N° de planilla</mat-label>
-                                    <input matInput type="text" readonly formControlName="NoMandamiento">
-                                </mat-form-field>
-                            </div>
+
                             <div class="col-12 col-md-4">
                                 <mat-form-field class="full-width" appearance="fill">
                                     <mat-label>Periodo</mat-label>
@@ -89,7 +85,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-3">
+                    <div class="col-12 col-md-4">
                         <button (click)="onSubmit()" [loading]="loadingC" [disabled]="loadingC || !planillaFormGroup.valid " pButton class="p-button-raised p-button-rounded p-button-outlined p-button-success" icon="pi pi-save" label="Generar planilla"></button> | 
                         <button routerLink="/dashboard/planillas" pButton class="p-button-raised p-button-rounded p-button-outlined p-button-info" icon="pi pi-angle-left" label="Atrás"></button>
                     </div> 

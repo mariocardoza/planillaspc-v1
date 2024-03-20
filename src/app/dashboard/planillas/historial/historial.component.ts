@@ -455,7 +455,7 @@ export class HistorialComponent implements OnInit {
     }
   }
 
-  anularPlanilla(idEncabezado){
+  anularPlanilla(idEncabezado: number){
     Swal.fire({
       title: '¿Esta seguro?',
       text: "Esta acción anulará la planilla",
@@ -467,12 +467,25 @@ export class HistorialComponent implements OnInit {
       cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.planillaService.anularPlanilla(idEncabezado).subscribe((res)=>{
-          if(res['success']){
-            this.obtenerPlanillas(this.lastTableLazyLoadEvent);
-            this.messageService.add({severity:'success', summary: 'Exito', detail:'Planilla anulada con éxito'});
-          }else{
-            this.messageService.add({severity:'error', summary: 'Error', detail:'Ocurrió un error al anular la planilla'});
+        Swal.fire({
+          title: '¿Esta seguro?',
+          text: "Esta acción anulará la planilla",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí',
+          cancelButtonText: 'No',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.planillaService.anularPlanilla(idEncabezado).subscribe((res)=>{
+              if(res['success']){
+                this.obtenerPlanillas(this.lastTableLazyLoadEvent);
+                this.messageService.add({severity:'success', summary: 'Exito', detail:'Planilla anulada con éxito'});
+              }else{
+                this.messageService.add({severity:'error', summary: 'Error', detail:'Ocurrió un error al anular la planilla'});
+              }
+            })
           }
         })
       }

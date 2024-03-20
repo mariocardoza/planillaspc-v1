@@ -247,12 +247,25 @@ export class EditarPlanillaComponent implements OnInit {
       cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.planillaService.eliminarEmpleadoPlanilla(idDetalle,idEncabezado).subscribe((res)=>{
-          if(res['success']){
-            this.messageService.add({severity:'success', summary: 'Exito', detail:res['message']});
-            this.getPlanilla(idEncabezado)
-          }else{
-            this.messageService.add({severity:'error', summary: 'Error', detail:res['message']});
+        Swal.fire({
+          title: '¿Completamento seguro?',
+          text: "Esta acción eliminará el empleado "+n+ " "+a+" de la actual planilla",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí',
+          cancelButtonText: 'No',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.planillaService.eliminarEmpleadoPlanilla(idDetalle,idEncabezado).subscribe((res)=>{
+              if(res['success']){
+                this.messageService.add({severity:'success', summary: 'Exito', detail:res['message']});
+                this.getPlanilla(idEncabezado)
+              }else{
+                this.messageService.add({severity:'error', summary: 'Error', detail:res['message']});
+              }
+            })
           }
         })
       }
